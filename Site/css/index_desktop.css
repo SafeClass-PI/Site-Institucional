@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+@media (min-width: 1024px) {
+
 * {
     text-decoration: none;
     font-family: Poppins;
@@ -27,10 +29,15 @@ body {
 }
 
 .logo {
-    width: 10%;
-    height: 40%;
-    background-color: black;
+  width: 200px;       
+  height: 200px;      
+  background-image: url('../imgs/Safe_class.png');
+  background-size: contain;  
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-90deg);
 }
+
 
 .links {
     width: 40%;
@@ -41,6 +48,9 @@ body {
     gap: 10%;
 }
 
+.links a {
+    color: black;
+}
 .botao-cadastro {
     width: 12%;
     height: 55%;
@@ -89,9 +99,13 @@ body {
 }
 
 .estudante-imagem {
-    width: 60%;
+    width: 70%;
     height: 100%;
     background-image: url('../imgs/garoto-estudando.jpg');
     background-size: cover;
     object-fit: cover;
 }
+
+
+ } 
+
