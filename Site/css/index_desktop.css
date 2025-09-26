@@ -154,22 +154,41 @@ body {
     
 
 .Texto_Home {
-        width: 80%; 
-        margin-left: 10%; 
-        margin-right: 0; 
-        text-align: left; 
-    }
-
-    .selo_safeclass {    
-  background-image: url('../imgs/SafeClass_logo_png.png');
-  width: 200px;       
-  height: 200px;      
-  background-size: contain;  
-  background-repeat: no-repeat;
-  background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    margin-left: 10%;
+    margin-top: 15%; 
+    gap: 20px;       
 }
 
+.Texto_Home h2 {
+    color: white;
+    font-size: 75px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    margin: 0;      
+    line-height: 1.1;
+}
 
+.Texto_Home p {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;      
+}
+
+.selo {
+    width: 250px;  
+    height: auto;
+}
+
+.selo img {
+    width: 400px;
+    height: auto;
+    object-fit: contain;
+    margin-top: -160px;
+}
 
 }
   
