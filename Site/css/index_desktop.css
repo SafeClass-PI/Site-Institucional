@@ -39,6 +39,7 @@ body {
 }
 
 
+
 .links {
     width: 40%;
     height: 100%;
@@ -63,6 +64,18 @@ body {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.368);
 }
 
+.botao-cadastro a {
+   
+    background: linear-gradient(90deg, #FC6403, #FFDD00) ;
+  
+ 
+  -webkit-background-clip: text;
+  
+  -webkit-text-fill-color: transparent;
+  
+  background-clip: text; 
+}
+
 .home {
     position: relative;
     width: 100%;
@@ -73,17 +86,21 @@ body {
 }
 
 .overlay {
-    align-self: end;
-    position: absolute;
-    width: 62%;
-    height: 90%;
-    background: linear-gradient(to right,
+        align-self: end;
+        position: absolute;
+        width: 62%;
+        height: 90%;
+        background: linear-gradient(to right,
             rgb(252, 100, 3) 0%,
             rgb(252, 100, 3) 0%,
             rgb(255, 100, 3) 10%,
             rgb(255, 176, 0) 65%,
             rgba(255, 102, 0, 0) 100%);
-}
+        
+     
+        display: flex;
+        align-items: center; 
+    }
 
 .lado-direito {
     align-self: end;
@@ -107,5 +124,45 @@ body {
 }
 
 
- } 
+  .Texto_Home h2 {
+        color: white;
+        font-size: 75px; 
+        font-family: 'Poppins', sans-serif;
+        text-align: left; 
+        margin-top: -60px; 
+        line-height: 1.1; 
+    }
+
+ .Texto_Home p {
+        color: white;
+        width: 100%; 
+        margin-left: 0; 
+        margin-right: 0;
+        text-align: left;
+        font-size: 16.6px;
+        font-weight: 500; 
+        margin-top: 25px;
+    }
+
+    
+
+.Texto_Home {
+        width: 80%; 
+        margin-left: 10%; 
+        margin-right: 0; 
+        text-align: left; 
+    }
+
+    .selo_safeclass {    
+  background-image: url('../imgs/SafeClass_logo_png.png');
+  width: 200px;       
+  height: 200px;      
+  background-size: contain;  
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+}
+  
 
