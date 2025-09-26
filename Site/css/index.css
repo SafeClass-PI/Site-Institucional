@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    text-decoration: none;
+    font-family: Poppins;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rebeccapurple;
+}
+
+.nav-bar {
+    position: fixed;
+    width: 100%;
+    height: 10vh;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.logo {
+    width: 10%;
+    height: 40%;
+    background-color: black;
+}
+
+.links {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10%;
+}
+
+.botao-cadastro {
+    width: 12%;
+    height: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid;
+    border-image: linear-gradient(90deg, rgb(252, 100, 3) , rgb(255, 221, 0)) 1;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.368);
+}
+
+.home {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.overlay {
+    align-self: end;
+    position: absolute;
+    width: 62%;
+    height: 90%;
+    background: linear-gradient(to right,
+            rgb(252, 100, 3) 0%,
+            rgb(252, 100, 3) 0%,
+            rgb(255, 100, 3) 10%,
+            rgb(255, 176, 0) 65%,
+            rgba(255, 102, 0, 0) 100%);
+}
+
+.lado-direito {
+    align-self: end;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.auxiliar {
+    width: 40%;
+    height: 100%;
+}
+
+.estudante-imagem {
+    width: 60%;
+    height: 100%;
+    background-image: url('../imgs/garoto-estudando.jpg');
+    background-size: cover;
+    object-fit: cover;
+}
