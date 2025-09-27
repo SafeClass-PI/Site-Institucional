@@ -214,33 +214,48 @@ body {
   line-height: 1.5;
 }
 .imagem-sobre {
-  display: flex;
-  justify-content: space-between; 
-  align-items: flex-end;       
+  position: relative; 
   width: 40%;
-  height: 100%;                  
-      
+  height: 60vh;
   padding: 2vh;
   box-sizing: border-box;
+  margin-left: 8%;
 }
+
 .sobre-quadrado1,
 .sobre-quadrado2 {
+  position: absolute;
   width: 30%;
   height: 20vh;
-      background: linear-gradient(to right,
-            rgb(252, 100, 3) 0%,
-            rgb(252, 100, 3) 0%,
-            rgb(255, 100, 3) 10%,
-            rgb(255, 176, 0) 65%,
-            rgba(255, 102, 0, 0) 100%);     
+  background-color: #F77911;
+background: linear-gradient(to right,
+  rgb(252, 100, 3) 0%,
+  rgb(255, 100, 3) 10%,
+  rgb(255, 176, 0) 65%,
+  rgb(255, 176, 0) 100%);
+  z-index: 1;
 }
+
 .sobre-quadrado1 {
-  background-color: #ff7300;
-  align-self: flex-start; 
+  top: -5vh;
+  left: 0;
 }
+
 .sobre-quadrado2 {
-  background-color: #ff7300;
-  align-self: flex-end; 
+  top: 49vh;
+  right: 0;
+}
+
+.imagem-quadrado-sobre {
+  position: absolute;
+  top: -3vh; 
+  right: 5%;
+  width: 90%;    
+  height: 70vh;
+  background-image: url('../imgs/imagem-sobre.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 2; 
 }
 
 
