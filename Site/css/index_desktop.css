@@ -24,6 +24,7 @@ body {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    z-index: 1000;
 }
 .logo {
   width: 200px;       
@@ -188,6 +189,7 @@ body {
   justify-content: center;
   max-width: 50%;
   text-align: justify;
+  margin-top: 7%;
   
 }
 .titulo-sobre {
@@ -345,6 +347,8 @@ background: linear-gradient(to right,
 }
 
 .evitar-container {
+    position: relative;
+    min-height: 60vh;
     background-color: white;
     padding: 5% 0;
     display: flex;
@@ -353,6 +357,10 @@ background: linear-gradient(to right,
 }
 
 .evitar-titulo {
+    position: relative;
+    z-index: 1;
+    min-height: 290px; 
+    width: 94.1%;
     background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
     color: white;
     padding: 15px 40px;
@@ -362,25 +370,31 @@ background: linear-gradient(to right,
 }
 
 .evitar-titulo h1 {
+    letter-spacing: 0.5vh;
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0;
+   padding-top: 40px; 
 }
 
 .evitar-cards {
+    position: relative;
     display: flex;
-    justify-content: center;
-    gap: 40px; 
-    width: 80%;
-    margin-bottom: 80px;
+    gap: 40px;
+    margin-top: -230px; /* sobrepõe os cards ao fundo laranja */
+    z-index: 10;
 }
 
 .card {
-    flex: 1;
-    max-width: 250px; 
+    position: relative;
+    width: 250px;
+    min-height: 200px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10;
     text-align: center;
-    padding: 20px;
-    border-radius: 10px;
     transition: transform 0.3s;
 }
 
@@ -388,26 +402,31 @@ background: linear-gradient(to right,
     transform: translateY(-5px); 
 }
 
+
 .icon-box {
-    width: 120px; 
-    height: 120px; 
+    width: 120px;
+    height: 100px;
     margin: 0 auto 20px auto;
-    background: linear-gradient(180deg, rgba(255, 120, 0, 0.1), rgba(255, 200, 0, 0.1)); 
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid transparent; 
+    border: 1px solid transparent;
     border-image: linear-gradient(135deg, rgb(252, 100, 3) 0%, rgb(255, 221, 0) 100%) 1;
-    overflow: hidden; 
+    overflow: hidden;
+    background-color: #fff;
 }
 
-.icon-box svg {
-    width: 60px; 
-    height: 60px;
+.icon-box img {
+    width: 60px;         /* tamanho fixo e proporcional */
+    height: 70px;
+    object-fit: contain; /* mantém proporção sem cortar */
 }
+
 
 .card p {
+    position: relative;
+     z-index: 1;
     font-size: 1rem;
     font-weight: 600;
     color: #333;
@@ -417,6 +436,7 @@ background: linear-gradient(to right,
 
 
 .quem-e-safe-class {
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -450,60 +470,49 @@ background: linear-gradient(to right,
 }
 
 .imagem-quem-e {
-    flex: 1;
-    max-width: 45%;
-    height: 400px; 
-    background-image: url('../imgs/alunos-computador.jpg');
-    background-position: center;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-
-.imagem-quem-e {
-   
-    
-   
-    width: 600px; 
-    height: 400px;
-    
-    background-image: url('../imgs/imagem_2356a0_crop_alunos.png'); 
-    
-    
     position: relative;
-    overflow: visible; 
+    width: 600px;
+    height: 400px;
+    border-radius: 8px;
+    overflow: visible;
 }
 
-
-.imagem-quem-e::before, .imagem-quem-e::after {
+/* imagem separada para ficar acima dos quadrados */
+.imagem-fundo {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    background-image: url('../imgs/garoto-estudando.jpg');
+    background-position: center;
+    background-size: cover;
+    border-radius: 8px;
+    z-index: 2;
+    margin-left: 23%;
+}
+/* quadrados atrás */
+.imagem-quem-e::before,
+.imagem-quem-e::after {
     content: '';
     position: absolute;
-    width: 60px; 
-    height: 60px;
-    background: linear-gradient(135deg, rgb(252, 100, 3), rgb(255, 221, 0));
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(to right,
+        rgb(252, 100, 3) 0%,
+        rgb(255, 100, 3) 10%,
+        rgb(255, 176, 0) 65%,
+        rgb(255, 176, 0) 100%);
     z-index: 1;
 }
 
-.imagem-quem-e::before { 
-    top: -20px;
-    right: -20px;
+.imagem-quem-e::before {
+    top: -5vh;
+    left: 18%;
 }
 
 .imagem-quem-e::after {
-    bottom: -20px;
-    left: -20px;
+    bottom: -5vh;
+    right: -8%;
 }
-
-.imagem-quem-e {
-    
-    z-index: 2;
-}
-
-
-.quem-e-safe-class {
-    margin-top: 100px; 
-}
-
 
 
 }
