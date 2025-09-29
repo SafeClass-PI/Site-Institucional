@@ -312,15 +312,28 @@ background: linear-gradient(to right,
 }
 
 .titulo-solucao {
-  font-size: 2.8rem;
-  font-weight: 900;
+  font-size: clamp(3rem, 6vh, 8vh);
   line-height: 1.2;
-  margin-bottom: 2rem;
-  color: #000;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: 5%;
 }
-
-.titulo-solucao .highlight {
-  color: #F77911; 
+#nome-safe-solucao {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+#nome-class-solucao {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+#nome-safe-solucao-pos {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+  margin-right: 8%;
 }
 
 .lista-solucao {
@@ -328,6 +341,7 @@ background: linear-gradient(to right,
   font-size: 1.2rem;
   line-height: 1.8;
   color: #333;
+  margin-top: 5%;
 }
 
 .lista-solucao li {
@@ -361,7 +375,11 @@ background: linear-gradient(to right,
     z-index: 1;
     min-height: 290px; 
     width: 94.1%;
-    background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
+background: linear-gradient(to right,
+  rgb(243, 93, 0) 0%,
+  rgb(255, 100, 3) 10%,
+  rgb(255, 100, 3) 10%,
+  rgb(255, 176, 0) 100%);
     color: white;
     padding: 15px 40px;
     margin-bottom: 50px;
@@ -381,14 +399,14 @@ background: linear-gradient(to right,
     position: relative;
     display: flex;
     gap: 40px;
-    margin-top: -230px; /* sobrepõe os cards ao fundo laranja */
-    z-index: 10;
+    margin-top: -230px; 
+    z-index: 126
 }
 
 .card {
     position: relative;
     width: 250px;
-    min-height: 200px;
+    min-height: 260px;
     padding: 30px 20px;
     border-radius: 20px;
     background-color: #fff;
@@ -396,10 +414,12 @@ background: linear-gradient(to right,
     z-index: 10;
     text-align: center;
     transition: transform 0.3s;
+    
 }
 
 .card:hover {
     transform: translateY(-5px); 
+    
 }
 
 
@@ -415,12 +435,15 @@ background: linear-gradient(to right,
     border-image: linear-gradient(135deg, rgb(252, 100, 3) 0%, rgb(255, 221, 0) 100%) 1;
     overflow: hidden;
     background-color: #fff;
+    margin-top: 40px; 
 }
 
 .icon-box img {
-    width: 60px;         /* tamanho fixo e proporcional */
+    width: 60px;         
     height: 70px;
-    object-fit: contain; /* mantém proporção sem cortar */
+    object-fit: contain; 
+    margin-top: 15px; 
+
 }
 
 
@@ -429,9 +452,10 @@ background: linear-gradient(to right,
      z-index: 1;
     font-size: 1rem;
     font-weight: 600;
-    color: #333;
+    color: #000000;
     line-height: 1.4;
     text-transform: uppercase;
+     margin-bottom: 32%;
 }
 
 
@@ -451,21 +475,30 @@ background: linear-gradient(to right,
     max-width: 45%;
 }
 
-.texto-quem-e h2 {
-    font-size: 3rem;
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    color: #000;
+.titulo-quem {
+  font-size: clamp(3rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: 5%;
+}
+#nome-safe-quem {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
 }
 
-.texto-quem-e .highlight {
-    color: #F77911;
+#nome-class-quem {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
 }
 
 .texto-quem-e p {
+  margin-top: 10%;
     font-size: 1.2rem;
-    color: #555;
+    color: #000000;
     line-height: 1.6;
 }
 
@@ -477,7 +510,7 @@ background: linear-gradient(to right,
     overflow: visible;
 }
 
-/* imagem separada para ficar acima dos quadrados */
+
 .imagem-fundo {
     position: relative;
     width: 80%;
@@ -489,7 +522,7 @@ background: linear-gradient(to right,
     z-index: 2;
     margin-left: 23%;
 }
-/* quadrados atrás */
+
 .imagem-quem-e::before,
 .imagem-quem-e::after {
     content: '';
@@ -499,9 +532,9 @@ background: linear-gradient(to right,
     background: linear-gradient(to right,
         rgb(252, 100, 3) 0%,
         rgb(255, 100, 3) 10%,
-        rgb(255, 176, 0) 65%,
+        rgb(255, 100, 3) 10%,
         rgb(255, 176, 0) 100%);
-    z-index: 1;
+     z-index: 1;
 }
 
 .imagem-quem-e::before {
@@ -513,6 +546,8 @@ background: linear-gradient(to right,
     bottom: -5vh;
     right: -8%;
 }
+
+
 
 
 }
