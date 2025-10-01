@@ -9,10 +9,13 @@
     padding: 0;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
-    background-color: rebeccapurple;
 }
 
 .nav-bar {
@@ -466,7 +469,7 @@ background: linear-gradient(to right,
 
 
 .quem-e-safe-class {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -554,6 +557,116 @@ background: linear-gradient(to right,
 }
 
 
+
+.valores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Imagem decorativa */
+.imagem-valores {
+  position: relative;
+  width: 45%;
+  min-width: 300px;
+  height: 60vh;
+}
+
+.valores-quadrado1,
+.valores-quadrado2 {
+  position: absolute;
+  width: 30%;
+  height: 20vh;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  z-index: 1;
+}
+
+.valores-quadrado1 {
+  top: -5vh;
+  left: 0;
+}
+
+.valores-quadrado2 {
+  top: 44vh;
+  right: 0;
+  
+}
+
+.imagem-quadrado-valores {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: 90%;
+  height: 100%;
+  background-image: url('../imgs/imagem-sobre.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+  border-radius: 12px;
+}
+
+
+
+
+.texto-valores {
+  margin-top: -60px;
+  width: 50%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.70rem;
+  color: #000000;
+}
+
+
+.valores-bloco {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background-color: #fff;
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #111;
+}
+
+
+.titulo-com-icone {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.titulo-com-icone h2 {
+  font-size: 1.5rem;
+  color: #F77911;
+  font-weight: 600;
+  margin: 0;
+}
+
+
+.icone-quadrado {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.icone-quadrado img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+    filter: brightness(1.2) contrast(1.2);
+}
 
 
 }
