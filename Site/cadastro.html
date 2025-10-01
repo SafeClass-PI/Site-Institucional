@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Class | Cadastro</title>
+    <link rel="stylesheet" href="./css/cadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="section">
+        <div class="imagem-esquerda">
+            <img src="./imgs/cadastro_imagem.png" alt="Imagem Cadastro">
+        </div>
+
+        <div class="cadastro">
+
+
+            <div class="voltar-inicio">
+                <a id="link-inicio" href="index.html">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Voltar para o início
+                </a>
+            </div>
+
+
+
+            <div class="saudacao">
+                <h2>Crie sua conta</h2>
+                <p>Preencha todos os dados para continuar</p>
+            </div>
+
+            <div class="formulario">
+
+                <div class="Nome-completo">
+                    <p>Nome completo</p>
+                    <input type="text" id="ipt_nome" placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="email">
+                    <p>E-mail</p>
+                    <input type="text" id="ipt_email" placeholder="Digite seu E-mail">
+                </div>
+
+                <div class="elementos-finais">
+                    <div class="Cod-Ativacao">
+                        <p>Cód. Ativacao</p>
+                        <input type="text" placeholder="Digite o cód. da Escola">
+                    </div>
+
+                    <div class="cargo">
+                        <p>Cargo</p>
+                        <select id="frutas">
+                            <option value="" disabled selected hidden>Selecione um cargo</option>
+                            <option value="gestor">Gestor</option>
+                            <option value="analista">Analista</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="elementos-finais-v2">
+                    <div class="senha">
+                        <p>Senha</p>
+                        <input type="text" id="ipt_senha" placeholder="Digite sua senha">
+                    </div>
+
+                    <div class="confirmar_senha">
+                        <p>Confirme sua senha</p>
+                        <input type="text" id="ipt_confirmar_senha" placeholder="Confirme sua senha">
+                    </div>
+                </div>
+
+                <div class="botao_cadastrar">
+                    <button>Cadastrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

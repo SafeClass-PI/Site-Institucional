@@ -26,6 +26,7 @@ body {
     align-items: center;
     z-index: 1000;
 }
+
 .logo {
   width: 200px;       
   height: 200px;      
@@ -59,8 +60,13 @@ body {
     border-image: linear-gradient(90deg, rgb(252, 100, 3) , rgb(255, 221, 0)) 1;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.368);
 }
+
 .botao-cadastro a {
-  color: #000;
+    background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
+    -webkit-background-clip: text; /* Faz o gradiente aparecer apenas no texto */
+    -webkit-text-fill-color: transparent; /* Deixa o texto transparente para mostrar o gradiente */
+    text-decoration: none; /* Opcional, tira o sublinhado */
+    font-weight: 600;
 }
 
 .home {
