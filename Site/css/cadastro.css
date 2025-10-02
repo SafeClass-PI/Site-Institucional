@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #f7f7f7;
 }
 
@@ -26,7 +26,7 @@ body {
     background:
         linear-gradient(white, white) padding-box,
         linear-gradient(0deg, #FF3700, #ffcc00) border-box;
-         font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .imagem-esquerda {
@@ -45,7 +45,7 @@ body {
 
 .cadastro {
     flex: 2;
-    padding: 30px 30px; 
+    padding: 30px 30px;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -68,7 +68,7 @@ body {
     width: 100%;
     flex-grow: 1;
     margin-top: 20px;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .elementos-finais,
@@ -76,12 +76,19 @@ body {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
-.Cod-Ativacao, .cargo, .senha, .confirmar_senha {
+.Cod-Ativacao, .cargo {
     flex: 1;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* 1. Torna as divs de senha em containers de posicionamento */
+.senha, .confirmar_senha {
+    flex: 1;
+    font-family: 'Poppins', sans-serif;
+    position: relative; /* FUNDAMENTAL para que o ícone seja posicionado absolutamente dentro dele */
 }
 
 .Nome-completo p, .email p, .Cod-Ativacao p, .cargo p, .senha p, .confirmar_senha p {
@@ -103,11 +110,43 @@ select {
     font-family: 'Poppins', sans-serif;
 }
 
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 40px;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    /* 3. Aumenta o padding para o texto não ficar atrás do ícone */
+    padding-right: 40px; 
+}
+
+/* Ajuste para o select, que não é um campo de senha */
+select {
+    padding-right: 10px; 
+}
+
+
+/* 2. Posicionamento do ícone de olho */
+.toggle-olho {
+    position: absolute; /* FUNDAMENTAL para posicionar o ícone */
+    color: #888;
+    cursor: pointer;
+    font-size: 16px;
+    
+    /* Ajuste para posicionar o ícone no meio vertical do campo de input (40px de altura) */
+    right: 15px; /* Distância da borda direita */
+    top: 35px; /* Ajuste manual para alinhar no centro do input */
+}
+
+
 .voltar-inicio {
     display: flex;
-    justify-content: flex-end; 
-    margin-bottom: 20px; 
-     font-family: 'Poppins', sans-serif;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
 #link-inicio {
@@ -121,18 +160,18 @@ select {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-     font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .botao_cadastrar button {
-    width: 30%; 
-    height: 40px; 
+    width: 30%;
+    height: 40px;
     margin-left: 160px;
     border-radius: 20px;
     border: 5px solid;
     border-image: linear-gradient(300deg, rgb(252, 100, 3), rgb(255, 221, 0)) 1;
     background-color: white;
-    color: rgb(252, 100, 3); 
+    color: rgb(252, 100, 3);
     font-weight: 700;
     font-size: 17px;
     display: flex;
@@ -144,7 +183,5 @@ select {
 
 .botao_cadastrar button:hover {
     background: linear-gradient(300deg, rgb(252, 100, 3), rgb(255, 221, 0));
-    color: white; 
+    color: white;
 }
-
-
