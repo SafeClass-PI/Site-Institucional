@@ -13,65 +13,57 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
     background-color: #f7f7f7;
 }
 
 .section {
-    max-width: 1200px;
-    width: 100%;
+    width: 90%;
     height: 90vh;
     display: flex;
+    flex-direction: row-reverse; 
     border: 6px solid transparent;
     background:
         linear-gradient(white, white) padding-box,
         linear-gradient(0deg, #FF3700, #ffcc00) border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
-.imagem-esquerda {
-    flex: 3;
-    max-width: 60%;
+.imagem-direita {
+    width: 50%;
     height: 100%;
     overflow: hidden;
-}
-
-.imagem-esquerda img {
-    width: 80%;
-    height: 100%;
+    background-image: url(../imgs/login_imagem.png);
     object-fit: cover;
-
+    background-size: cover;
 }
 
-.cadastro {
-    flex: 2;
-    padding: 30px 30px;
+.login {
+    width: 50%;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
-    margin-left: -100px;
-    font-family: 'Poppins', sans-serif;
+    gap: 10%;
 }
 
-.cadastro p {
-    font-size: 16px;
+.login p {
+    font-size: 15px;
     font-family: 'Poppins', sans-serif;
 }
 
 .saudacao {
-    margin-bottom: 20px;
-    font-family: 'Poppins', sans-serif;
+    width: 76%;
+    height: 5%;
+    font-size: 22px;
+    margin-left: -9%;
 }
 
 .formulario {
     width: 100%;
-    flex-grow: 1;
-    margin-top: 20px;
     font-family: 'Poppins', sans-serif;
+    margin-left: 180px;
 }
 
-.elementos-finais,
 .elementos-finais-v2 {
     display: flex;
     gap: 20px;
@@ -79,44 +71,41 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-.Cod-Ativacao, .cargo {
-    flex: 1;
-    font-family: 'Poppins', sans-serif;
-}
-
-
-.senha, .confirmar_senha {
+.senha {
     flex: 1;
     font-family: 'Poppins', sans-serif;
     position: relative; 
 }
 
-.Nome-completo p, .email p, .Cod-Ativacao p, .cargo p, .senha p, .confirmar_senha p {
+.email p, .senha p{
     font-weight: bold;
     margin-bottom: 5px;
+     margin-left: -40px;
     font-size: 14px;
     font-family: 'Poppins', sans-serif;
 }
 
 input[type="text"],
 select {
-    width: 100%;
+    width: 80%;
+    margin-left: -40px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    height: 40px;
+    height: 52px;
     margin-bottom: 15px;
     font-family: 'Poppins', sans-serif;
 }
 
 input[type="password"] {
-    width: 100%;
+    width: 80%;
     padding: 10px;
+     margin-left: -40px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    height: 40px;
+    height: 52px;
     margin-bottom: 15px;
     font-family: 'Poppins', sans-serif;
     padding-right: 40px; 
@@ -130,22 +119,24 @@ select {
 
 
 .toggle-olho {
-    position: absolute;
+    position: absolute; 
     color: #888;
     cursor: pointer;
     font-size: 16px;
+    right: 24vh; 
+    top: 45px; 
     
-  
-    right: 15px; 
-    top: 35px; 
 }
 
 
 .voltar-inicio {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-    font-family: 'Poppins', sans-serif;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+    margin-left: 6%;
+    
 }
 
 #link-inicio {
@@ -154,18 +145,19 @@ select {
     border-radius: 20px;
     border: solid 2px gray;
     color: gray;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
     display: inline-flex;
     align-items: center;
+    margin-top: 3rem;
     gap: 5px;
     font-family: 'Poppins', sans-serif;
 }
 
-.botao_cadastrar button {
-    width: 30%;
+.botao_entrar button {
+    width: 25%;
     height: 40px;
-    margin-left: 160px;
+    margin-left: 120px;
     border: 5px solid;
     border-image: linear-gradient(300deg, rgb(252, 100, 3), rgb(255, 221, 0)) 1;
     background-color: white;
@@ -177,13 +169,29 @@ select {
     justify-content: center;
     cursor: pointer;
     transition: 0.3s;
+    margin-top: 80px;
 }
 
-.botao_cadastrar button:hover {
+.botao_entrar button:hover {
     background: linear-gradient(300deg, rgb(252, 100, 3), rgb(255, 221, 0));
     color: white;
 }
-.ja-tem-conta{
+.nao-tem-conta{
     margin-top: 20px;
-    margin-left: 110px;
+    margin-left: 80px;
+}
+.esqueceu-senha {
+    display: block;
+    margin-right: 175px;      
+    margin-bottom: 20px;  
+    text-align: right;   
+    font-size: 12px;
+    color: rgb(252, 100, 3);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.esqueceu-senha:hover {
+    text-decoration: underline;
+    color: rgb(255, 150, 0);
 }
