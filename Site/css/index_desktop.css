@@ -395,6 +395,23 @@ background: linear-gradient(to right,
     margin-bottom: 50px;
     text-align: center;
     border-radius: 5px; 
+    font-size: 7vh;
+}
+
+#nome-safe-evitar {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-weight: 700;
+}
+#nome-class-evitar {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #ffffff;
+}
+#nome2-safe-evitar {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .evitar-titulo h1 {
@@ -416,14 +433,13 @@ background: linear-gradient(to right,
 .card {
     position: relative;
     width: 250px;
-    min-height: 260px;
+    min-height: 100px;
     padding: 30px 20px;
     border-radius: 20px;
     background-color: #fff;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     z-index: 10;
     text-align: center;
-    transition: transform 0.3s;
     
 }
 
@@ -571,7 +587,7 @@ background: linear-gradient(to right,
   box-sizing: border-box;
 }
 
-/* Imagem decorativa */
+
 .imagem-valores {
   position: relative;
   width: 45%;
@@ -698,12 +714,12 @@ background: linear-gradient(to right,
 
 .retangulo-equipe {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-  gap: 40px; 
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); 
+  gap: 60px; 
   padding: 40px; 
   background-color: white;
   border-radius: 15px;
-  max-width: 1400px; 
+  max-width: 1300px; 
   margin: 0 auto;
   height: 50vh;
 }
