@@ -1,62 +1,136 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+-- CREATE DATABASE safeclass;
+USE safeclass;
 
-/*
-comandos para mysql server
-*/
-
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+CREATE TABLE Endereco (
+      idEndereco INT PRIMARY KEY AUTO_INCREMENT,
+    logradouro VARCHAR(45),
+    numero VARCHAR(45),
+    cidade VARCHAR(45),
+    bairro VARCHAR(45),
+    uf CHAR(2)
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+Insert into Endereco (logradouro, numero, cidade, bairro, uf) values
+("Avenida Paulista", 290, "São Paulo", "Bela vista", "SP");
+
+CREATE TABLE Escola (
+      idEscola INT PRIMARY KEY AUTO_INCREMENT,
+    fkEndereco INT,
+    nome VARCHAR(45),
+    email VARCHAR(45),
+      telefone CHAR(11),
+    codigoInep VARCHAR(45),
+    FOREIGN KEY (fkEndereco)
+    REFERENCES Endereco(idEndereco)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+INSERT INTO Escola (idEscola, fkEndereco, nome, email, telefone, codigoInep) VALUES
+(1, 1, "Escola Esperança", "escolaesperanca@gmail.com", 11934891828, 'afs12');
+
+CREATE TABLE CodigoAtivacao (
+      idCodigo INT PRIMARY KEY AUTO_INCREMENT,
+    fkEscola INT,
+    codigo VARCHAR(45),
+    validade DATE,
+    qtdUsos INT,
+    FOREIGN KEY (fkEscola)
+    REFERENCES Escola(idEscola)
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+INSERT INTO CodigoAtivacao (fkEscola, codigo, validade, qtdUsos) VALUES 
+(1, "00j12", "2025-09-11", 10);
+
+CREATE TABLE TipoUsuario (
+      idTipo INT PRIMARY KEY AUTO_INCREMENT, 
+    tipo VARCHAR(45),
+    permissao VARCHAR(100)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
+INSERT INTO TipoUsuario (tipo, permissao) VALUES
+("Administrador", "Ler, escrever, executar e gerenciar usuários e permissões");
 
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+CREATE TABLE Usuario (
+      idUsuario INT AUTO_INCREMENT,
+    fkTipo INT,
+    fkEscola INT,
+    nome VARCHAR(45),
+    email VARCHAR(45),
+    senha VARCHAR(45),
+    PRIMARY KEY (idUsuario, fkTipo),
+    FOREIGN KEY (fkTipo)
+    REFERENCES TipoUsuario(idTipo),
+    FOREIGN KEY (fkEscola)
+    REFERENCES Escola(idEscola)
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+INSERT INTO Usuario (fkTipo, fkEscola, nome, email, senha) VALUES 
+(1, 1, "Ryan Patric", "ryanpina@gmail.com", "urubu100");
+
+CREATE TABLE Maquina (
+      idMaquina INT PRIMARY KEY AUTO_INCREMENT,
+    fkEscola INT,
+    sistemaOperacional VARCHAR(45),
+    marca VARCHAR(45),
+    modelo VARCHAR(45),
+    hostname VARCHAR(45),
+    FOREIGN KEY (fkEscola)
+    REFERENCES Escola(idEscola)
+);
+
+Insert into Maquina (fkEscola, sistemaOperacional, marca, modelo, hostname) values
+(1, "Linux", "Dell", "Inspiron 15", "ryanpina");
+
+CREATE TABLE Componente (
+      idComponente INT auto_increment,
+    fkMaquina INT,
+    nome VARCHAR(45),
+    tipo VARCHAR(45),
+    capacidade VARCHAR(45),
+    PRIMARY KEY (idComponente, fkMaquina),
+    FOREIGN KEY (fkMaquina)
+    REFERENCES Maquina(idMaquina)
+);
+
+INSERT INTO Componente (idComponente, fkMaquina, nome, tipo, capacidade) VALUES 
+(default, 1, 'Memória RAM', 'Hardware', '16GB DDR4'), 
+(default, 1, 'Disco Rígido', 'Hardware', '1TB'),
+(default, 1, 'Processador', 'Hardware', 'Intel i7');
+
+CREATE TABLE Captura (
+    idCaptura INT AUTO_INCREMENT,
+      fkComponente INT,
+    gbLivre FLOAT,
+    gbEmUso FLOAT,
+    porcentagemDeUso FLOAT,
+    dtCaptura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (idCaptura, fkComponente),
+    FOREIGN KEY (fkComponente)
+    REFERENCES Componente(idComponente)
+);
+
+CREATE TABLE Parametro (
+      idParametro INT AUTO_INCREMENT,
+    fkComponente INT, 
+    nivel VARCHAR(45),
+    minimo VARCHAR(45),
+    maximo VARCHAR(45),
+    PRIMARY KEY (idParametro, fkComponente),
+    FOREIGN KEY (fkComponente)
+    REFERENCES Componente(idComponente)
+);
+
+CREATE TABLE Alerta (
+      idAlerta INT AUTO_INCREMENT,
+    fkParametro INT,
+    fkCaptura INT,
+    mensagem VARCHAR(80),
+    status VARCHAR(45),
+    dtEmissao TIMESTAMP,
+    PRIMARY KEY (idAlerta, fkParametro),
+    FOREIGN KEY (fkParametro)
+    REFERENCES Parametro(idParametro),
+    FOREIGN KEY (fkCaptura)
+    REFERENCES Captura(idCaptura)
+);
+
+select * from componente;
