@@ -187,3 +187,20 @@ select {
     margin-top: 20px;
     margin-left: 110px;
 }
+
+.nome-escola {
+    margin-bottom: 20px;
+}
+
+.nome-escola p {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.nome-escola input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}

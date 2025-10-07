@@ -6,36 +6,38 @@
             this.classList.replace('fa-eye', 'fa-eye-slash'); 
         } else {
             senhaInput.type = 'password';
-            this.classList.replace('fa-eye-slash', 'fa-eye'); 
-        }
-    });
-
-    document.getElementById('toggleConfirmarSenha').addEventListener('click', function (e) {
-        const confirmarSenhaInput = document.getElementById('ipt_confirmar_senha');
-     
-        if (confirmarSenhaInput.type === 'password') {
-            confirmarSenhaInput.type = 'text';
-            this.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            confirmarSenhaInput.type = 'password';
             this.classList.replace('fa-eye-slash', 'fa-eye');
         }
     });
 
-       function entrar() {
-        aguardar();
+    // document.getElementById('toggleConfirmarSenha').addEventListener('click', function (e) {
+    //     const confirmarSenhaInput = document.getElementById('ipt_confirmar_senha');
+        
+    //     if (confirmarSenhaInput.type === 'password') {
+    //         confirmarSenhaInput.type = 'text';
+    //         this.classList.replace('fa-eye', 'fa-eye-slash');
+    //     } else {
+    //         confirmarSenhaInput.type = 'password';
+    //         this.classList.replace('fa-eye-slash', 'fa-eye');
+    //     }
+    // });
 
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
+       function entrar() {
+        // aguardar();
+
+        var emailVar = ipt_email.value;
+        var senhaVar = ipt_senha.value;
+        
 
         if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
+            // cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
+            // finalizarAguardar();
             return false;
         }
         else {
-            setInterval(sumirMensagem, 5000)
+            console.log("sumindo")
+            // setInterval(sumirMensagem, 5000)
         }
 
         console.log("FORM LOGIN: ", emailVar);
@@ -60,15 +62,11 @@
                     console.log(json);
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                    sessionStorage.SENHA_USUARIO = json.senha
+                    
 
-                    setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
+                window.location.href = "dashboard.html";
+                 });
 
             } else {
 
@@ -76,18 +74,18 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
-                    finalizarAguardar(texto);
+                    // finalizarAguardar(texto);
                 });
             }
 
         }).catch(function (erro) {
             console.log(erro);
         })
-
+        console.log("Saindo da função")
         return false;
     }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
+    // function sumirMensagem() {
+    //     cardErro.style.display = "none"
+    // }
 

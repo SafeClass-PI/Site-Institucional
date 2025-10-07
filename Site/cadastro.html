@@ -18,15 +18,12 @@
 
         <div class="cadastro">
 
-
             <div class="voltar-inicio">
                 <a id="link-inicio" href="index.html">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     Voltar para o início
                 </a>
             </div>
-
-
 
             <div class="saudacao">
                 <h2>Crie sua conta</h2>
@@ -39,6 +36,7 @@
                     <p>Nome completo</p>
                     <input type="text" id="ipt_nome" placeholder="Digite seu nome completo">
                 </div>
+            
 
                 <div class="email">
                     <p>E-mail</p>
@@ -48,16 +46,16 @@
                 <div class="elementos-finais">
                     <div class="Cod-Ativacao">
                         <p>Cód. Ativacao</p>
-                        <input type="text" placeholder="Digite o cód. da Escola">
+                        <input id="ipt_codigo" type="text" placeholder="Digite o cód. da Escola">
                     </div>
 
                     <div class="cargo">
                         <p>Cargo</p>
-                        <select id="frutas">
+                        <select id="ipt_cargo">
                             <option value="" disabled selected hidden>Selecione um cargo</option>
                             <option value="gestor">Gestor</option>
                             <option value="analista">Analista</option>
-                            <option value="outro">Outro</option>
+                            <option value="professor">Professor</option>
                         </select>
                     </div>
                 </div>
@@ -76,9 +74,8 @@
                     </div>
                 </div>
 
-
                 <div class="botao_cadastrar">
-                    <button>Cadastrar</button>
+                    <button onclick="cadastrar()">Cadastrar</button>
                 </div>
 
                 <div class="ja-tem-conta">
@@ -94,4 +91,3 @@
 </html>
 
 <script src="./js/cadastro.js"></script>
-
