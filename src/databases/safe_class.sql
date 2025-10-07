@@ -20,6 +20,7 @@ CREATE TABLE Escola (
     fkEndereco INT,
     nome VARCHAR(45),
     email VARCHAR(45),
+    cargo VARCHAR(45),
     telefone CHAR(11),
     codigoInep VARCHAR(45),
     FOREIGN KEY (fkEndereco)
@@ -54,9 +55,7 @@ CREATE TABLE Usuario (
     senha VARCHAR(45),
     PRIMARY KEY (idUsuario, fkTipo),
     FOREIGN KEY (fkTipo)
-    REFERENCES TipoUsuario(idTipo),
-    FOREIGN KEY (fkEscola)
-    REFERENCES Escola(idEscola)
+    REFERENCES TipoUsuario(idTipo)
 );
 
 -- 8. Criação da Tabela Maquina (FK Escola)
@@ -138,11 +137,15 @@ INSERT INTO CodigoAtivacao (fkEscola, codigo, validade, qtdUsos) VALUES
 
 -- 4. Inserir em TipoUsuario
 INSERT INTO TipoUsuario (tipo, permissao) VALUES
-("Administrador", "Ler, escrever, executar e gerenciar usuários e permissões");
+("Administrador", "Ler, escrever, executar e gerenciar usuários e permissões"),
+("Comum", "Ler");
+
+
 
 -- 5. Inserir em Usuario (depende de TipoUsuario e Escola)
-INSERT INTO Usuario (fkTipo, fkEscola, nome, email, senha) VALUES 
-(1, 1, "Ryan Patric", "ryanpina@gmail.com", "urubu100");
+INSERT INTO Usuario (fkTipo, nome, email, senha) VALUES 
+(1, "Ryan Patric", "ryanpina@gmail.com", "urubu100");
+
 
 -- 6. Inserir em Maquina (depende de Escola)
 Insert into Maquina (fkEscola, sistemaOperacional, marca, modelo, hostname) values
@@ -153,6 +156,10 @@ INSERT INTO Componente (idComponente, fkMaquina, nome, tipo, capacidade) VALUES
 (default, 1, 'Memória RAM', 'Hardware', '16GB DDR4'), 
 (default, 1, 'Disco Rígido', 'Hardware', '1TB'),
 (default, 1, 'Processador', 'Hardware', 'Intel i7');
+
+
+select * from usuario;
+
 
 -- As tabelas Captura, Parametro e Alerta não tiveram dados de teste fornecidos no script original.
 -- Se houvesse, as inserções em Captura e Parametro viriam antes de Alerta.
