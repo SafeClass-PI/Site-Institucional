@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Painel Geral</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../Site/index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="#" class="activate">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Detalhe</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Dispositivos</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../Site/index.html" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <div class="profile-img">
+                        <img src="imgs/DSC08926.JPEG">
+                    </div>
+                    <p>Ryan Patric</p>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="kpi-field">
+                    <div class="kpi">
+                        <div class="icone" id="maquinas-criticas">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="infos">
+                            <p class="dado-kpi">3/19</p>
+                            <p class="title-kpi">Máquinas Critícas</p>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="icone">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <div class="infos">
+                            <div class="uso-componente">
+                                <p class="dado-kpi" id="valor-kpi">30%</p>
+                                <i class="fa-solid fa-arrow-right" id="seta-uso"></i>
+                            </div>
+                            <p class="title-kpi" id="titulo-kpi">Uso médio de CPU</p>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="icone" id="taxa-uptime">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <div class="infos">
+                            <p class="dado-kpi">76%</p>
+                            <p class="title-kpi">Taxa de Uptime</p>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="icone">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div class="infos">
+                            <p class="dado-kpi">04</p>
+                            <p class="title-kpi">Máquinas Ativas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grafico-cima">
+                    <div class="monitoramento-dia">
+                        <div class="titulo-monitoramento-dia">
+                            <p>Monitoramento ao Longo do Dia</p>
+
+                            <div class="parametros">
+                                <div class="param">
+                                    <div class="quadrado-verde"></div>
+                                    <p>Estável</p>
+                                </div>
+                                <div class="param">
+                                    <div class="quadrado-amarelo"></div>
+                                    <p>Atenção</p>
+                                </div>
+
+                                <div class="param">
+                                    <div class="quadrado-vermelho"></div>
+                                    <p>Crítico</p>
+                                </div>
+                            </div>
+                            <select id="componente-grafico">
+                                <option value="cpu">CPU</option>
+                                <option value="disco">Disco</option>
+                                <option value="memoriaRam">Memória Ram</option>
+                                <option value="rede">Rede</option>
+                            </select>
+                        </div>
+                        <div class="grafico-monitoramento">
+                            <canvas id="monitoramento-ao-longo-dia" width="600" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="painel-alertas">
+                        <div class="titulo-painel-alertas">
+                            <p>Alertas Recentes</p>
+                        </div>
+                        <div class="labelsAlertas">
+                            <h3 id="macaddress">MAC Addr.</h3>
+                            <h3 id="tipo">Tipo</h3>
+                            <h3 id="nivel">Nível</h3>
+                            <h3 id="status">Status</h3>
+                        </div>
+                        <div class="alertas">
+                            <div class="lista-alertas">
+                                <h3 id="numeracao">2e0208538</h3>
+                                <h3 id="local">CPU</h3>
+                                <h3 id="taxa">Crítico</h3>
+                                <h3 id="data">Pendente</h3>
+                            </div>
+                            <div class="lista-alertas">
+                                <h3 id="numeracao">2e0208538</h3>
+                                <h3 id="local">CPU</h3>
+                                <h3 id="taxa">Crítico</h3>
+                                <h3 id="data">Pendente</h3>
+                            </div>
+                            <div class="lista-alertas">
+                                <h3 id="numeracao">2e0208538</h3>
+                                <h3 id="local">CPU</h3>
+                                <h3 id="taxa">Crítico</h3>
+                                <h3 id="data">Pendente</h3>
+                            </div>
+                            <div class="lista-alertas">
+                                <h3 id="numeracao">2e0208538</h3>
+                                <h3 id="local">CPU</h3>
+                                <h3 id="taxa">Crítico</h3>
+                                <h3 id="data">Pendente</h3>
+                            </div>
+                            <div class="lista-alertas">
+                                <h3 id="numeracao">2e0208538</h3>
+                                <h3 id="local">CPU</h3>
+                                <h3 id="taxa">Crítico</h3>
+                                <h3 id="data">Pendente</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grafico-baixo">
+                    <div class="falha-por-componente">
+                        <div class="titulo-falha-componente">
+                            <p>Falhas por Componente</p>
+                        </div>
+                        <div class="grafico-falha-por-componente">
+                            <canvas id="falha-por-componente" width="600" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="disponibilidade-maquinas">
+                        <div class="titulo-disponibilidade-maquinas">
+                            <p>Disponibilidade De Máquinas</p>
+                        </div>
+                        <div class="grafico-disponibilidade-maquinas">
+                            <canvas id="disponibilidade-maquinas" width="600" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="ranking-criticidade">
+                        <div class="titulo-ranking-criticidade">
+                            <p>Ranking de Criticidade</p>
+                        </div>
+                        <div class="grafico-ranking-criticidade">
+                            <canvas id="ranking-criticidade" width="600" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/dashboard.js"></script>
+
+</html>

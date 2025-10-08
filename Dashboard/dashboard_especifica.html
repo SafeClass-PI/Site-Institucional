@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Visão Específica</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../Site/index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="dashboard_especifica.html" class="activate">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Detalhe</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Dispositivos</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../Site/index.html" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <div class="profile-img">
+                        <img src="imgs/DSC08926.JPEG">
+                    </div>
+                    <p>Ryan Patric</p>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="titulo-dashboard">
+                    <div class="texto-titulo-dashboard">
+                        <p>Desempenho Diário</p>
+                    </div>
+                </div>
+                <div class="area-kpis">
+                    <div class="kpi" id="kpi-escolha-e-desempenho-maquina">
+                        <select id="select-escolha-maquina">
+                            <option value="#">Máquina 1</option>
+                            <option value="#">Máquina 2</option>
+                            <option value="#">Máquina 3</option>
+                            <option value="#">Máquina 4</option>
+                        </select>
+                        <div id="desempenho-maquina">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </div>
+                            </div>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p>Estável</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Estado da Máquina</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-taxa-uptime">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-up"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>86%</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Taxa Uptime</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-alerta-critica">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>CPU a 90% - 21:26</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Taxa Mais Crítica</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-qtd-alertas-hoje">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>7</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Alertas Hoje</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="conteudo-principal">
+                    <div class="painel-graficos">
+                        <div class="monitoramento-componentes">
+                            <div class="titulo-monitoramento-dia">
+                                <p>Monitoramento ao Longo do Dia</p>
+
+                                <div class="parametros">
+                                    <div class="param">
+                                        <div class="quadrado-verde"></div>
+                                        <p>Estável</p>
+                                    </div>
+                                    <div class="param">
+                                        <div class="quadrado-amarelo"></div>
+                                        <p>Atenção</p>
+                                    </div>
+
+                                    <div class="param">
+                                        <div class="quadrado-vermelho"></div>
+                                        <p>Crítico</p>
+                                    </div>
+                                </div>
+                                <select id="componente-grafico">
+                                    <option value="cpu">CPU</option>
+                                    <option value="disco">Disco</option>
+                                    <option value="memoriaRam">Memória Ram</option>
+                                    <option value="rede">Rede</option>
+                                </select>
+                            </div>
+                            <div class="grafico-monitoramento">
+                                <canvas id="monitoramento-componente"></canvas>
+                            </div>
+                        </div>
+                        <div class="rede-e-disponibilidade">
+                            <div class="monitoramento-rede">
+                                <div class="titulo-grafico-rede">
+                                    <p>Taxa de Rede ao Longo do Dia</p>
+                                </div>
+                                <div class="grafico-rede">
+                                    <canvas id="monitoramento-rede"></canvas>
+                                </div>
+                            </div>
+                            <div class="disponibilidade-maquina">
+                                <div class="titulo-disponibilidade-maquina">
+                                    <p>Disponibilidade da Máquina</p>
+                                </div>
+                                <div class="grafico-disponibilidade-maquina">
+                                    <canvas id="disponibilidade-maquina"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alertas-e-falhas">
+                        <div class="ultimos-alertas">
+                            <div class="titulo-alertas-maquina">
+                                <p>Últimos Alertas</p>
+                            </div>
+                            <div class="alertas">
+                                <div class="card-alerta">
+                                    <div class="icone-card-alerta">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                    </div>
+                                    <div class="infos-card-alerta">
+                                        <p>Máquina 1</p>
+                                        <p>CPU a 90%</p>
+                                        <p>Sala 5 - Há 5 min</p>
+                                    </div>
+                                </div>
+                                <div class="card-alerta">
+                                    <div class="icone-card-alerta">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                    </div>
+                                    <div class="infos-card-alerta">
+                                        <p>Máquina 1</p>
+                                        <p>CPU a 90%</p>
+                                        <p>Sala 5 - Há 5 min</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="falhas-por-componente">
+                            <div class="titulo-falhas-por-componente">
+                                <p>Falhas por Componente</p>
+                            </div>
+                            <div class="grafico-falhas-por-componente">
+                                <canvas id="falhas-por-componente"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
