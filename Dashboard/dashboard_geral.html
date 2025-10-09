@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Visão Geral</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../Site/index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="activate">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="dashboard_especifica.html" class="icone-links">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Detalhe</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Dispositivos</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../Site/index.html" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <div class="profile-img">
+                        <img src="imgs/DSC08926.JPEG">
+                    </div>
+                    <p>Ryan Patric</p>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="titulo-dashboard">
+                    <div class="texto-titulo-dashboard">
+                        <p>Desempenho Diário</p>
+                    </div>
+                </div>
+                <div class="area-kpis">
+                    <div class="kpi" id="kpi-maquinas-ativas">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>7/10</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Máquinas Ativas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-taxa-uptime">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-up"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>86%</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Taxa de Uptime</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-maquina-critica">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>Máquina 5</p>
+                                <button id="modal-maquina-critica"><i class="fa-solid fa-circle-info"></i></button>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Lider em Criticidade</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-qtd-alertas-hoje">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>7</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Alertas Hoje</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="painel-sala-alertas">
+                    <div class="painel-principal">
+                        <div class="titulo-painel">
+                            <div class="nome-escola" id="nome-escola">
+                                <p>Escola Joaquim 3°</p>
+                            </div>
+                            <div class="area-parametros">
+                                <div class="parametro">
+                                    <div class="icone-parametro" id="parametro-estavel">
+                                    </div>
+                                    <p>Estável</p>
+                                </div>
+                                <div class="parametro">
+                                    <div class="icone-parametro" id="parametro-atencao">
+                                    </div>
+                                    <p>Atenção</p>
+                                </div>
+                                <div class="parametro">
+                                    <div class="icone-parametro" id="parametro-critico">
+                                    </div>
+                                    <p>Crítico</p>
+                                </div>
+                            </div>
+                            <div class="area-filtro">
+                                <select id="filtro-salas">
+                                    <option value="#">Filtrar por</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="painel-salas" id="painel-salas">
+                            <div class="card-sala">
+                                <div class="identificao-sala">
+                                    <div class="numero-sala">
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="parametro-sala">
+                                        <div class="parametro-sala-critico"></div>
+                                    </div>
+                                </div>
+                                <div class="mediana-sala">
+                                    <p>Mediana: <span id="mediana-critico">Crítico</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="quantidade-maquinas-sala">
+                                    <p>Quantidade de Máquinas:</p>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                            <div class="card-sala">
+                                <div class="identificao-sala">
+                                    <div class="numero-sala">
+                                        <p>Sala 2</p>
+                                    </div>
+                                    <div class="parametro-sala">
+                                        <div class="parametro-sala-atencao"></div>
+                                    </div>
+                                </div>
+                                <div class="mediana-sala">
+                                    <p>Mediana: <span id="mediana-atencao">Atenção</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="quantidade-maquinas-sala">
+                                    <p>Quantidade de Máquinas:</p>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                            <div class="card-sala">
+                                <div class="identificao-sala">
+                                    <div class="numero-sala">
+                                        <p>Sala 3</p>
+                                    </div>
+                                    <div class="parametro-sala">
+                                        <div class="parametro-sala-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="mediana-sala">
+                                    <p>Mediana: <span id="mediana-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="quantidade-maquinas-sala">
+                                    <p>Quantidade de Máquinas:</p>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                            <div class="card-sala">
+                                <div class="identificao-sala">
+                                    <div class="numero-sala">
+                                        <p>Sala 4</p>
+                                    </div>
+                                    <div class="parametro-sala">
+                                        <div class="parametro-sala-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="mediana-sala">
+                                    <p>Mediana: <span id="mediana-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="quantidade-maquinas-sala">
+                                    <p>Quantidade de Máquinas:</p>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                            <div class="card-sala">
+                                <div class="identificao-sala">
+                                    <div class="numero-sala">
+                                        <p>Sala 5</p>
+                                    </div>
+                                    <div class="parametro-sala">
+                                        <div class="parametro-sala-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="mediana-sala">
+                                    <p>Mediana: <span id="mediana-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="quantidade-maquinas-sala">
+                                    <p>Quantidade de Máquinas:</p>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                            <div class="card-sala">
+                                <div class="identificao-sala">
+                                    <div class="numero-sala">
+                                        <p>Sala 6</p>
+                                    </div>
+                                    <div class="parametro-sala">
+                                        <div class="parametro-sala-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="mediana-sala">
+                                    <p>Mediana: <span id="mediana-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="quantidade-maquinas-sala">
+                                    <p>Quantidade de Máquinas:</p>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="painel-maquinas" id="painel-maquinas">
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 1</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-critico"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-critico">Crítico</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Alto Uso da CPU (90%)</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 2</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-critico"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-critico">Crítico</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Alto Uso da CPU (90%)</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 3</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-atencao"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-atencao">Atenção</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>RAM chegandos aos 75%</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 4</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-atencao"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-atencao">Atenção</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>RAM chegandos aos 80%</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 5</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Funcionando Regular</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 6</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Funcionando Regular</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 7</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Funcionando Regular</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 8</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Funcionando Regular</p>
+                                </div>
+                            </div>
+                            <div class="card-maquina">
+                                <div class="identificao-maquina">
+                                    <div class="numero-maquina">
+                                        <p>Máquina 9</p>
+                                    </div>
+                                    <div class="parametro-maquina">
+                                        <div class="icone-parametro-maquina" id="parametro-estavel"></div>
+                                    </div>
+                                </div>
+                                <div class="status-maquina">
+                                    <p>Status: <span id="status-estavel">Estável</span></p>
+                                </div>
+                                <div class="silver-line"></div>
+                                <div class="info-maquina">
+                                    <p>Funcionando Regular</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="painel-alertas">
+                        <div class="titulo-ultimos-alertas">
+                            <p>Últimos Alertas</p>
+                        </div>
+                        <div class="alertas">
+                            <div class="card-alerta">
+                                <div class="icone-card-alerta">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                </div>
+                                <div class="infos-card-alerta">
+                                    <p>Máquina 1</p>
+                                    <p>CPU a 90%</p>
+                                    <p>Sala 5 - Há 5 min</p>
+                                </div>
+                            </div>
+                            <div class="card-alerta">
+                                <div class="icone-card-alerta">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                </div>
+                                <div class="infos-card-alerta">
+                                    <p>Máquina 1</p>
+                                    <p>CPU a 90%</p>
+                                    <p>Sala 5 - Há 5 min</p>
+                                </div>
+                            </div>
+                            <div class="card-alerta">
+                                <div class="icone-card-alerta">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div class="infos-card-alerta">
+                                    <p>Máquina 1</p>
+                                    <p>CPU a 90%</p>
+                                    <p>Sala 5 - Há 5 min</p>
+                                </div>
+                            </div>
+                            <div class="card-alerta">
+                                <div class="icone-card-alerta">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div class="infos-card-alerta">
+                                    <p>Máquina 1</p>
+                                    <p>CPU a 90%</p>
+                                    <p>Sala 5 - Há 5 min</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const painelSalas = document.getElementById('painel-salas');
+        const painelMaquinas = document.getElementById('painel-maquinas');
+        const nomeEscola = document.getElementById('nome-escola');
+
+        document.querySelectorAll('.card-sala').forEach(card => {
+            card.addEventListener('click', () => {
+                mostrarMaquinasDaSala();
+            });
+        });
+
+        function mostrarMaquinasDaSala() {
+            nomeEscola.innerHTML = '<p>Escola Joaquim 3°</p>';
+
+            painelSalas.style.display = 'none';
+
+            painelMaquinas.style.display = 'grid';
+
+            nomeEscola.innerHTML += '<button id="voltarSalas"><i class="fa-solid fa-circle-arrow-left"></i></button>';
+
+            document.getElementById('voltarSalas').addEventListener('click', () => {
+                painelMaquinas.style.display = 'none';
+                painelSalas.style.display = 'grid';
+                voltarSalas.style.display = 'none'
+            });
+        }
+
+        const btnModal = document.getElementById('modal-maquina-critica');
+
+        btnModal.addEventListener('click', () => {
+
+        });
+    </script>
+</body>
+
+</html>
