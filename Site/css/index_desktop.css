@@ -50,9 +50,37 @@ body {
     gap: 10%;
     margin-left: 7%;
 }
+
 .links a {
-    color: black;
+  position: relative;
+  text-decoration: none;
+  color: #000000;
+  font-weight: 600;
+  padding: 6px 10px;
+  transition: color 0.3s ease;
 }
+
+.links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: #F77911;
+  transition: width 0.3s ease;
+}
+
+.links a:hover::after {
+  width: 100%;
+}
+
+.links a.active::after {
+  width: 100%;
+  transition: none;
+}
+
+
 .botao-cadastro {
     width: 12%;
     height: 55%;
@@ -182,6 +210,7 @@ body {
 }
 
 .sobre {
+  margin-top: 5%;
   display: flex;
   width: 100%;
   height: 100vh;
@@ -197,18 +226,19 @@ body {
   flex-direction: column;
   align-items: center;          
   justify-content: center;
-  max-width: 50%;
+  max-width: 55%;
   text-align: justify;
   margin-top: 7%;
   
+  
 }
 .titulo-sobre {
-  font-size: clamp(3rem, 6vh, 8vh);
+  font-size: clamp(3.8rem, 6vh, 8vh);
   line-height: 1.2;
   font-weight: 900;
   letter-spacing: 0.5vh;
   text-align: center;
-  margin-top: -20%;
+  margin-top: -30%;
 }
 #nome-safe {
   font-family: 'Poppins', sans-serif;
@@ -221,15 +251,14 @@ body {
   color: #F77911;
 }
 #texto-sobre {
-   margin-top: 2vh;
+  margin-top: 4vh;
   font-size: 3.0vh; 
   color: #000000;
   line-height: 1.5;
 }
 .imagem-sobre {
   position: relative;
-  width: 48%;
-  min-width: 300px;
+  width: 45%;
   height: 70vh;
   margin: auto;
   overflow: visible;
@@ -268,7 +297,7 @@ body {
   background-image: url('../imgs/imagem-sobre.jpg');
   background-size: cover;
   background-position: center;
-  z-index: 2; /* imagem atrás dos quadrados */
+  z-index: 2; 
 }
 
 .solucao {
@@ -340,10 +369,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../imgs/imagem-sobre.jpg');
+  background-image: url('../imgs/alunos-escolas.png');
   background-size: cover;
   background-position: center;
   z-index: 2; /* imagem atrás dos quadrados */
+  
 }
 
 
@@ -597,10 +627,11 @@ background: linear-gradient(to right,
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../imgs/imagem-sobre.jpg');
-  background-size: cover;
-  background-position: center;
-  z-index: 2; /* imagem atrás dos quadrados */
+  background-image: url('../imgs/Gemini_Generated_Image_k39o67k39o67k39o.png');
+  background-size: contain;
+  background-position: top center;
+  z-index: 2;
+  background-repeat: no-repeat;
 }
 
 
@@ -656,7 +687,7 @@ background: linear-gradient(to right,
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../imgs/imagem-sobre.jpg');
+  background-image: url('../imgs/area-espacosa-grupo-de-jovens-com-roupas-casuais-trabalhando-em-um-escritorio-moderno.jpg');
   background-size: cover;
   background-position: center;
   z-index: 2; /* imagem atrás dos quadrados */
@@ -805,20 +836,14 @@ background: linear-gradient(to right,
 
 }
 
-.icone-social {
-  border-radius: 50%;     
-  padding: 10px;           
-  width: 30px;
-  height: 30px;
-  border-radius: 0; 
 
-}
 
 
 .social-icons {
   display: flex;
   gap: 10px;
   margin-top: 3%;
+  z-index: 10;
   justify-content: center;
 }
 
@@ -835,8 +860,11 @@ background: linear-gradient(to right,
 
 .icone-social {
   width: 24px;
+  height: 24px;
+   display: block;
   height: auto;
-  border-radius: 0;           
+  border-radius: 0;
+  pointer-events: auto;           
 }
 
 
