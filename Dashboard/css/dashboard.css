@@ -25,6 +25,15 @@ body {
     overflow-y: hidden;
 }
 
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: #e1e1e138;
+    backdrop-filter: blur(1.5px);
+    display: none;
+}
+
 .dashboard {
     width: 95%;
     height: 95%;
@@ -198,7 +207,6 @@ body {
 
 /* --------------------- CONTEUDO DASHBOARD ----------------------------- */
 
-
 .dashboard-content {
     width: 100%;
     height: 94%;
@@ -211,6 +219,19 @@ body {
 }
 
 .titulo-dashboard {
+    align-self: self-start;
+    width: 55.2%;
+    height: 7%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 3%;
+    margin-top: 0.1%;
+}
+
+.titulo-dashboard-geral {
+    align-self: self-start;
     width: 100%;
     height: 7%;
     display: flex;
@@ -219,8 +240,38 @@ body {
     justify-content: center;
 }
 
-.texto-titulo-dashboard {
-    width: 15.5%;
+.texto-titulo-dashboard-geral {
+    width: 16.5%;
+    height: 60%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
+    margin-top: 0.5%;
+}
+
+.texto-titulo-dashboard-geral p {
+    text-transform: uppercase;
+    font-weight: 550;
+    color: #454545;
+}
+
+.selects-escolha-maquina {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 3%;
+    align-self: self-start;
+}
+
+.selects-escolha-maquina select {
+    width: 40.5%;
     height: 60%;
     border-radius: 10px;
     display: flex;
@@ -230,6 +281,24 @@ body {
     background-color: var(--cor-branco);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
     margin-top: 0.8%;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 550;
+    color: #454545;
+    border: none;
+}
+
+
+.texto-titulo-dashboard {
+    width: 29.8%;
+    height: 60%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
 }
 
 .texto-titulo-dashboard p {
@@ -298,10 +367,10 @@ body {
 }
 
 #kpi-maquina-critica .dado-kpi {
-   display: flex;
-   flex-direction: row;
-   height: 50%;
-   width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 50%;
+    width: 100%;
 }
 
 #kpi-maquina-critica .dado-kpi p {
@@ -328,11 +397,121 @@ body {
     color: #8b8b8b;
 }
 
+#kpi-maquina-critica .dado-kpi button i:hover {
+    color: #262626;
+}
+
 #kpi-maquina-critica .titulo-kpi {
-   display: flex;
-   flex-direction: row;
-   height: 45%;
-   margin-top: 1.2%;
+    display: flex;
+    flex-direction: row;
+    height: 45%;
+    margin-top: 1.2%;
+}
+
+.modal-maquina {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 23%;
+    height: 30%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+}
+
+.area-superior-modal {
+    width: 100%;
+    height: 17%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.area-superior-modal p {
+    align-self: self-start;
+    font-size: 23px;
+    font-weight: 650;
+}
+
+.area-superior-modal button {
+    align-self: start;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    transition: 0.2s ease-in-out all;
+}
+
+.area-superior-modal button:hover {
+    transform: scale(1.01);
+}
+
+
+.area-superior-modal button i {
+    font-size: 25px;
+    color: #737373;
+}
+
+.area-superior-modal button i:hover {
+    color: #262626;
+}
+
+.conteudo-modal {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.infos-maquina-modal {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid #969696;
+    border-bottom: 2px solid #969696;
+}
+
+.infos-maquina-modal p {
+    font-size: 13px;
+}
+
+.situacao-componentes-modal {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5.2%;
+    gap: 6%;
+}
+
+.situacao-componente {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+    gap: 1.3%;
+}
+
+.situacao-componente p {
+    font-size: 15px;
+}
+
+.situacao-componente p:nth-last-of-type(1) {
+    font-weight: 600;
 }
 
 #kpi-qtd-alertas-hoje .icone-kpi {
@@ -858,59 +1037,11 @@ body {
 
 /* --------------- DASHBOARD ESPECÍFICA ------------------------- */
 
-#kpi-escolha-e-desempenho-maquina {
-    background-color: rgba(255, 255, 255, 0);
-    box-shadow: 0px 0px black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 7%;
-}
 
-#kpi-escolha-e-desempenho-maquina select {
-    width: 100%;
-    height: 19%;
-    border: none;
-    background-color: var(--cor-branco);
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    font-weight: 550;
-    color: #484848;
-}
 
-#desempenho-maquina {
-    width: 100%;
-    height: 80%;
-    border-radius: 10px;
-    background-color: #F9FAFB;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
 
-#desempenho-maquina .espaco-icone-kpi {
-    width: 32%;
-    height: 100%;
-}
-
-#desempenho-maquina .espaco-icone-kpi .icone-kpi {
-    width: 70%;
-    height: 67%;
+#desempenho-maquina .icone-kpi {
     background-color: var(--cor-estavel);
-}
-
-#desempenho-maquina .infos-kpi {
-    width: 68%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1%;
-}
-
-#desempenho-maquina .infos-kpi .dado-kpi p {
-    font-size: 21px;
 }
 
 #kpi-alerta-critica .icone-kpi {
@@ -1212,4 +1343,3 @@ body {
     margin-left: 7%;
     margin-bottom: 3%;
 }
-

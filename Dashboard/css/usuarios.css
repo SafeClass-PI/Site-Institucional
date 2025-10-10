@@ -1,0 +1,531 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: Poppins;
+}
+
+:root {
+    --cor-branco: #F9FAFB;
+    --cor-critico: #ea0303;
+    --cor-atencao: #ffd630;
+    --cor-estavel: #00AB03;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(227, 231, 237);
+    overflow-y: hidden;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: #e1e1e138;
+    backdrop-filter: blur(1.5px);
+    display: none;
+}
+
+.dashboard {
+    width: 95%;
+    height: 95%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.16);
+}
+
+/* -------------------------------- SIDE BAR -------------------------------------- */
+
+
+.side-bar {
+    width: 15%;
+    height: 95vh;
+    background-color: var(--cor-branco);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    width: 100%;
+    height: 10%;
+    background-color: var(--cor-branco);
+    border-top-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    margin-top: 3%;
+    width: 80%;
+    height: 55%;
+    margin-right: 3%;
+    object-fit: cover;
+    filter: contrast(1.1) brightness(0.98);
+}
+
+.links {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5%;
+    padding: 25px;
+}
+
+.icone-links {
+    width: 75%;
+    height: 6vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+    gap: 6%;
+    color: rgb(71, 71, 71);
+    cursor: pointer;
+    background: linear-gradient(90deg, #FF3700, #ffcc00);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    background-position: left;
+    transition: background-size 0.5s ease-in-out, color 0.3s ease-in-out;
+}
+
+.links a:hover {
+    background-size: 100% 100%;
+    color: var(--cor-branco);
+}
+
+.links i {
+    margin-left: 7%;
+}
+
+.activate {
+    width: 75%;
+    height: 6vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+    gap: 6%;
+    background: linear-gradient(90deg, #FF3700, #ffcc00);
+}
+
+.activate i {
+    color: var(--cor-branco);
+    margin-left: 7%;
+}
+
+.activate p {
+    color: var(--cor-branco);
+}
+
+
+/* -------------------------------- TOP BAR -------------------------------------- */
+
+.main-content {
+    width: 85%;
+    height: 95vh;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4%;
+}
+
+.perfil-notificacao {
+    width: 100%;
+    height: 6.5vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    background-color: var(--cor-branco);
+    border-top-right-radius: 15px;
+}
+
+.perfil-notificacao i {
+    font-size: 20px;
+    color: rgb(117, 117, 117);
+    margin-right: 1%;
+    cursor: pointer;
+}
+
+.profile-icone {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    height: 90%;
+    gap: 5%;
+    cursor: pointer;
+}
+
+.profile-img {
+    width: 16%;
+    height: 70%;
+    border-radius: 50%;
+    background-color: #454545;
+}
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-icone p {
+    font-weight: 510;
+    font-size: 14px;
+    color: rgb(117, 117, 117);
+    margin-right: 10%;
+}
+
+.painel-usuarios {
+    width: 94%;
+    height: 86.4%;
+    border-radius: 10px;
+    background-color: var(--cor-branco);
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+}
+
+.titulo-painel {
+    width: 100%;
+    height: 17%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#titulo-tela {
+    font-size: 26px;
+    margin-left: 3%;
+    font-weight: 650;
+    color: #3f3f3f;
+    margin-top: 0.5%;
+}
+
+.btns-titulo-painel {
+    height: 40%;
+    width: 30%;
+    margin-right: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 5%;
+}
+
+#adicionarUsuario {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    gap: 4%;
+    background: linear-gradient(90deg, #FFBF00, #FF7700);
+}
+
+#adicionarUsuario p {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#adicionarUsuario i {
+    color: white;
+    font-size: 14px;
+}
+
+#exportarDados {
+    width: 26%;
+    border-radius: 10px;
+    border: 2px solid rgb(231, 231, 231);
+    cursor: pointer;
+    background-color: #ededed;
+}
+
+#exportarDados p {
+    font-weight: 500;
+    color: #454545;
+}
+
+.filtros-usuarios {
+    width: 100%;
+    height: 7%;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+}
+
+.filtros {
+    width: 100%;
+    height: 100%;
+    margin-left: 3%;
+    display: flex;
+    gap: 2%;
+    align-items: center;
+}
+
+.select-com-icone {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 10%;
+    height: 81%;
+}
+
+.select-com-icone i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #3f3f3f;
+}
+
+.select-com-icone select {
+    width: 100%;
+    padding-left: 35px;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgb(237, 237, 237);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    cursor: pointer;
+}
+
+.campo-pesquisa {
+    width: 17%;
+    height: 80%;
+    background-color: rgb(237, 237, 237);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.campo-pesquisa i {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #3f3f3f;
+    font-size: 14px;
+}
+
+.campo-pesquisa input {
+    width: 80%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.campo-pesquisa input::placeholder {
+    color: #3f3f3f;
+}
+
+
+.campo-pesquisa input:focus {
+    outline: none;
+    border-color: #ccc;
+}
+
+
+.lista-usuarios {
+    width: 100%;
+    height: 73%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1%;
+}
+
+.lista-usuarios table {
+    width: 95%;
+    height: 100%;
+    text-align: center;
+}
+
+.lista-usuarios table td,
+.lista-usuarios table th {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 15px;
+}
+
+.lista-usuarios table th {
+    color: #353535;
+    font-weight: 550;
+}
+
+#status-ativo {
+    color: var(--cor-estavel);
+    font-weight: 600;
+}
+
+#status-inativo {
+    color: var(--cor-critico);
+    font-weight: 600;
+}
+
+.lista-usuarios table td {
+    font-size: 13px;
+}
+
+.lista-usuarios table td button {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    color: #787878;
+    transition: 0.2s ease-in-out all;
+}
+
+.lista-usuarios table td button:hover {
+    transform: scale(1.02);
+    color: #282828;
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+    gap: 5px;
+}
+
+.paginacao button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.paginacao button:hover {
+    background-color: #f0f0f0;
+}
+
+.paginacao .ativa {
+    background: linear-gradient(90deg, #ff5100e4, #ff9500);
+    color: #fff;
+    border-color: #ffcc00;
+}
+
+.modal-deletar-usuario {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 23%;
+    height: 30%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+}
+
+.icone-alerta {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.icone-alerta i {
+    font-size: 55px;
+    color: var(--cor-critico);
+}
+
+.mensagem-deletar-modal {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.mensagem-deletar-modal p:nth-of-type(1) {
+    font-size: 17px;
+    font-weight: 650;
+}
+
+.mensagem-deletar-modal p:nth-of-type(2) {
+    font-size: 12px;
+    font-weight: 500;
+    color: #535353;
+}
+
+.btns-deletar-modal {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.btns-deletar-modal button {
+    width: 38%;
+    height: 70%;
+    margin-bottom: 2%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btns-deletar-modal button:nth-of-type(1) {
+    background-color: rgb(228, 228, 228);
+    font-weight: 550;
+    color: #3f3f3f;
+}
+
+.btns-deletar-modal button:nth-of-type(2) {
+    background-color: var(--cor-critico);
+    font-weight: 550;
+    color: white;
+}

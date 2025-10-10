@@ -33,9 +33,9 @@
                 </a>
                 <a href="#" class="icone-links">
                     <i class="fa-solid fa-computer"></i>
-                    <p>Dispositivos</p>
+                    <p>Máquinas</p>
                 </a>
-                <a href="#" class="icone-links">
+                <a href="usuarios.html" class="icone-links">
                     <i class="fa-solid fa-users"></i>
                     <p>Usuários</p>
                 </a>
@@ -58,31 +58,40 @@
             </div>
             <div class="dashboard-content">
                 <div class="titulo-dashboard">
+                    <div class="selects-escolha-maquina">
+                        <select id="escolha-sala">
+                            <option value="">Sala</option>
+                            <option value="">Sala 1</option>
+                            <option value="">Sala 2</option>
+                            <option value="">Sala 3</option>
+                            <option value="">Sala 4</option>
+                        </select>
+                        <select id="escolha-maquina">
+                            <option value="">Máquina</option>
+                            <option value="">Máquina 1</option>
+                            <option value="">Máquina 2</option>
+                            <option value="">Máquina 3</option>
+                            <option value="">Máquina 4</option>
+                            <option value="">Máquina 5</option>
+                        </select>
+                    </div>
                     <div class="texto-titulo-dashboard">
                         <p>Desempenho Diário</p>
                     </div>
                 </div>
                 <div class="area-kpis">
-                    <div class="kpi" id="kpi-escolha-e-desempenho-maquina">
-                        <select id="select-escolha-maquina">
-                            <option value="#">Máquina 1</option>
-                            <option value="#">Máquina 2</option>
-                            <option value="#">Máquina 3</option>
-                            <option value="#">Máquina 4</option>
-                        </select>
-                        <div id="desempenho-maquina">
-                            <div class="espaco-icone-kpi">
-                                <div class="icone-kpi">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                </div>
+                    <div class="kpi" id="desempenho-maquina">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-check"></i>
                             </div>
-                            <div class="infos-kpi">
-                                <div class="dado-kpi">
-                                    <p>Estável</p>
-                                </div>
-                                <div class="titulo-kpi">
-                                    <p>Estado da Máquina</p>
-                                </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>Estável</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Estado da Máquina</p>
                             </div>
                         </div>
                     </div>
@@ -97,7 +106,7 @@
                                 <p>86%</p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Taxa Uptime</p>
+                                <p>Taxa de Uptime</p>
                             </div>
                         </div>
                     </div>
@@ -157,7 +166,6 @@
                                     <option value="cpu">CPU</option>
                                     <option value="disco">Disco</option>
                                     <option value="memoriaRam">Memória Ram</option>
-                                    <option value="rede">Rede</option>
                                 </select>
                             </div>
                             <div class="grafico-monitoramento">
@@ -224,7 +232,7 @@
             </div>
         </div>
     </div>
-    <script src="js/dashboard.js"></script>
+    <script src="js/dashboard_especifica.js"></script>
 </body>
 
 </html>
