@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/index_celular.css">
-  <link rel="stylesheet" href="css/index_desktop.css">
-  <link rel="stylesheet" href="css/index_tablets.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+  
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index_celular.css">
+    <link rel="stylesheet" href="css/index_desktop.css">
+    <link rel="stylesheet" href="css/index_tablets.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
+    <link rel="icon" href="/Site/imgs/logo-icone.png" type="image/x-icon">
 
   <title>Home</title>
 </head>
@@ -249,8 +250,10 @@
           <p>Analista e Desenvolvedor</p>
         </div>
         <div class="social-icons">
-          <a href="https://www.linkedin.com/in/felipe-ferraz-86257b352/" target="_blank"><img src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
-          <a href="https://github.com/felipzp" target="_blank"><img src="imgs/github.png" alt="github" class="icone-social"></a>
+          <a href="https://www.linkedin.com/in/felipe-ferraz-86257b352/" target="_blank"><img
+              src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
+          <a href="https://github.com/felipzp" target="_blank"><img src="imgs/github.png" alt="github"
+              class="icone-social"></a>
         </div>
 
       </div>
@@ -264,8 +267,10 @@
           <p>Desenvolvedor e QA</p>
         </div>
         <div class="social-icons">
-          <a href="https://www.linkedin.com/in/jo%C3%A3o-franco-5a6391256/" target="_blank"><img src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
-          <a href="https://github.com/Joao103001" target="_blank"><img src="imgs/github.png" alt="github" class="icone-social"></a>
+          <a href="https://www.linkedin.com/in/jo%C3%A3o-franco-5a6391256/" target="_blank"><img
+              src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
+          <a href="https://github.com/Joao103001" target="_blank"><img src="imgs/github.png" alt="github"
+              class="icone-social"></a>
         </div>
 
       </div>
@@ -279,8 +284,10 @@
           <p>Desenvolvedor e DevOps </p>
         </div>
         <div class="social-icons">
-          <a href="https://www.linkedin.com/in/matheus-scalabrin/" target="_blank"><img src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
-          <a href="https://github.com/mcsscalabrin" target="_blank""><img src="imgs/github.png" alt="github" class="icone-social"></a>
+          <a href="https://www.linkedin.com/in/matheus-scalabrin/" target="_blank"><img
+              src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
+          <a href="https://github.com/mcsscalabrin" target="_blank""><img src=" imgs/github.png" alt="github"
+            class="icone-social"></a>
         </div>
 
       </div>
@@ -293,9 +300,11 @@
           <h3>Ryan Patric</h3>
           <p>Desenvolvedor e DBA</p>
         </div>
-       <div class="social-icons">
-          <a href="https://www.linkedin.com/in/ryanpinaa/" target="_blank"><img src="imgs/logotipo-do-linkedin.png" alt="LinkedIn" class="icone-social"></a>
-          <a href="https://github.com/ryanservilha" target="_blank"><img src="imgs/github.png" alt="github" class="icone-social"></a>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/ryanpinaa/" target="_blank"><img src="imgs/logotipo-do-linkedin.png"
+              alt="LinkedIn" class="icone-social"></a>
+          <a href="https://github.com/ryanservilha" target="_blank"><img src="imgs/github.png" alt="github"
+              class="icone-social"></a>
         </div>
       </div>
     </div>
@@ -317,18 +326,18 @@
 
     <div class="formulario-ajuda">
       <div class="nome-completo-ajuda">
-        <input type="text" id="ipt_nome-ajuda" placeholder="Digite seu nome completo:">
+        <input type="text" id="ipt_nome_ajuda" placeholder="Digite seu nome completo:">
       </div>
 
       <div class="email-ajuda">
-        <input type="text" id="ipt_email-ajuda" placeholder="Digite seu E-mail:">
+        <input type="text" id="ipt_email_ajuda" placeholder="Digite seu E-mail:">
       </div>
       <div class="mensagem-ajuda">
-        <textarea id="ipt_mensagem-ajuda" placeholder="Descreva a sua mensagem aqui:"></textarea>
+        <textarea id="ipt_mensagem_ajuda" placeholder="Descreva a sua mensagem aqui:"></textarea>
 
       </div>
       <div class="botao-ajuda">
-        <button>Enviar</button>
+        <button onclick="ajudar()">Enviar</button>
       </div>
     </div>
 
@@ -373,35 +382,44 @@
     </div>
   </div>
 
+  <script>
+    function ajudar() {
+      var nomeMensagem = ipt_nome_ajuda.value;
+      var emailMensagem = ipt_email_ajuda.value;
+      var textoMensagem = ipt_mensagem_ajuda.value;
+
+      if (nomeMensagem == "" || emailMensagem == "" || textoMensagem == "") {
+        alert('Por favor, insira os campos corretamente!')
+      }
+      else {
+        alert('Mensagem enviar com sucesso. Safeclass entrará em contato!')
+      }
+    }
+    const sections = document.querySelectorAll("section, div[id]");
+    const navLinks = document.querySelectorAll(".links a");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        if (pageYOffset >= sectionTop - sectionHeight / 3) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+
+
+
+  </script>
 </body>
 
 </html>
-
-<script src="./js/index.js">
-
-
-  const sections = document.querySelectorAll("section, div[id]");
-  const navLinks = document.querySelectorAll(".links a");
-
-  window.addEventListener("scroll", () => {
-    let current = "";
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      if (pageYOffset >= sectionTop - sectionHeight / 3) {
-        current = section.getAttribute("id");
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === "#" + current) {
-        link.classList.add("active");
-      }
-    });
-  });
-
-
-
-</script>

@@ -11,6 +11,7 @@
 
 html, body {
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -923,8 +924,8 @@ background: linear-gradient(to right,
   max-width: 600px;
 }
 
-#ipt_nome-ajuda,
-#ipt_email-ajuda {
+#ipt_nome_ajuda,
+#ipt_email_ajuda {
   width: 100%;
   padding: 14px;
   font-size: 16px;
@@ -932,7 +933,7 @@ background: linear-gradient(to right,
   border-radius: 8px;
 }
 
-#ipt_mensagem-ajuda {
+#ipt_mensagem_ajuda {
   width: 100%;
   height: 120px;
   padding: 14px;
