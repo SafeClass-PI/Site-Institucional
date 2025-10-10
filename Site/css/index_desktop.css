@@ -234,7 +234,7 @@ body {
   
 }
 .titulo-sobre {
-  font-size: clamp(3.8rem, 6vh, 8vh);
+  font-size: clamp(3.4rem, 6vh, 8vh);
   line-height: 1.2;
   font-weight: 900;
   letter-spacing: 0.5vh;
@@ -256,6 +256,7 @@ body {
   font-size: 3.0vh; 
   color: #000000;
   line-height: 1.5;
+  text-align: justify;
 }
 .imagem-sobre {
   position: relative;
@@ -309,7 +310,6 @@ body {
   background-color: #fff;
   gap: 4rem;
 }
-
 
 
 
@@ -380,6 +380,7 @@ body {
 
 .texto-solucao {
   width: 50%;
+  margin-bottom: 0.9%;
 }
 
 .titulo-solucao {
@@ -413,6 +414,7 @@ body {
   line-height: 1.8;
   color: #333;
   margin-top: 5%;
+  margin-left: 9%;
 }
 
 .lista-solucao li {
@@ -563,12 +565,11 @@ background: linear-gradient(to right,
 }
 
 .titulo-quem {
-  font-size: clamp(3rem, 6vh, 8vh);
+  font-size: clamp(3.2rem, 6vh, 8vh);
   line-height: 1.2;
   font-weight: 900;
   letter-spacing: 0.5vh;
-  text-align: center;
-  margin-top: 5%;
+  text-align: center; 
 }
 #nome-safe-quem {
   font-family: 'Poppins', sans-serif;
