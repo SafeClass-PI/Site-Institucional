@@ -26,7 +26,6 @@ function entrar() {
             sessionStorage.SENHA_USUARIO = data.usuario.senha;
             window.location.href = "Dashboard/dashboard_geral.html";
         } else {
-            // Aqui mostra o erro que veio do backend
             alert(data.mensagem);
         }
     })
