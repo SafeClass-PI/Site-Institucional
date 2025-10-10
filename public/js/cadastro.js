@@ -35,11 +35,11 @@
     var cargo_tipo_Var = elementoCargo.value;
     var fkTipo_Var = 0;
     // var codigoVar = ipt_codigo.value;
-    if (cargo_tipo_Var == "gestor" || cargo_tipo_Var == "analista" ){
-      fkTipo_Var = 1;
+    if (cargo_tipo_Var == "professor" || cargo_tipo_Var == "analista" ){
+      fkTipo_Var = 2;
     }
     else {
-      fkTipo_Var = 2;
+      fkTipo_Var = 1;
     }
     var senhaVar = ipt_senha.value;
     var confirmacaoSenhaVar = ipt_confirmar_senha.value;

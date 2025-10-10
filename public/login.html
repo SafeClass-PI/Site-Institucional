@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Class | Login</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" href="/Site/imgs/logo-icone.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="section">
+        <div class="imagem-direita">
+        </div>
+
+        <div class="login">
+
+
+            <div class="voltar-inicio">
+                <a id="link-inicio" href="index.html">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Voltar para o início
+                </a>
+            </div>
+
+
+
+            <div class="saudacao">
+                <h2>Bem-vindo a SafeClass</h2>
+                <p>Insira seus dados e acesse sua conta</p>
+            </div>
+
+            <div class="formulario">
+                <div class="email">
+                    <p>E-mail</p>
+                    <input type="text" id="ipt_email" placeholder="Digite seu E-mail">
+                </div>
+
+                <div class="elementos-finais-v2">
+                    <div class="senha">
+                        <p>Senha</p>
+                        <input type="password" id="ipt_senha" placeholder="Digite sua senha">
+                        <i class="fa-solid fa-eye toggle-olho" id="toggleSenha"></i>
+                        <a href="recuperar_senha.html" class="esqueceu-senha">Esqueceu sua senha?</a>
+                    </div>
+                </div>
+
+
+                <div class="botao_entrar">
+                    <button onclick="entrar()">Entrar</button>
+                </div>
+
+                <div class="nao-tem-conta">
+                    <a href="cadastro.html">Não tem uma conta? Registre-se</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+
+  
+
+
+<script src="./js/login.js"></script>

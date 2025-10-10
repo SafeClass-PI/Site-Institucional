@@ -1,0 +1,1059 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@media (min-width: 1024px) {
+
+* {
+    text-decoration: none;
+    font-family: Poppins;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-bar {
+    position: fixed;
+    width: 100%;
+    height: 10vh;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+}
+
+.logo {
+  width: 200px;       
+  height: 200px;      
+  background-image: url('../imgs/logo-nav.png');
+  background-size: contain;  
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: -4%;
+  margin-left: -5%;
+}
+
+.links {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10%;
+    margin-left: 7%;
+}
+
+.links a {
+  position: relative;
+  text-decoration: none;
+  color: #000000;
+  font-weight: 600;
+  padding: 6px 10px;
+  transition: color 0.3s ease;
+}
+
+.links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: #F77911;
+  transition: width 0.3s ease;
+}
+
+.links a:hover::after {
+  width: 100%;
+}
+
+.links a.active::after {
+  width: 100%;
+  transition: none;
+}
+
+
+.botao-cadastro {
+    width: 12%;
+    height: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid;
+    border-image: linear-gradient(90deg, rgb(252, 100, 3) , rgb(255, 221, 0)) 1;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.368);
+}
+
+.botao-cadastro a {
+    background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
+    -webkit-background-clip: text; /* Faz o gradiente aparecer apenas no texto */
+    -webkit-text-fill-color: transparent; /* Deixa o texto transparente para mostrar o gradiente */
+    text-decoration: none; /* Opcional, tira o sublinhado */
+    font-weight: 600;
+}
+
+.home {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: -1;
+}
+
+.overlay {
+        align-self: end;
+        position: absolute;
+        width: 62%;
+        height: 90%;
+        background: linear-gradient(to right,
+            rgb(252, 100, 3) 0%,
+            rgb(252, 100, 3) 0%,
+            rgb(255, 100, 3) 10%,
+            rgb(255, 176, 0) 65%,
+            rgba(255, 102, 0, 0) 100%);
+        
+     
+        display: flex;
+        align-items: center; 
+    }
+
+.lado-direito {
+    align-self: end;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.auxiliar {
+    width: 40%;
+    height: 100%;
+}
+
+.estudante-imagem {
+    width: 70%;
+    height: 100%;
+    background-image: url('../imgs/garoto-estudando.jpg');
+    background-size: cover;
+    object-fit: cover;
+}
+
+
+  .Texto_Home h2 {
+        color: white;
+        font-size: 75px; 
+        font-family: 'Poppins', sans-serif;
+        text-align: left; 
+        margin-top: -60px; 
+        line-height: 1.1; 
+    }
+
+ .Texto_Home p {
+        color: white;
+        width: 100%; 
+        margin-left: 0; 
+        margin-right: 0;
+        text-align: left;
+        font-size: 16.6px;
+        font-weight: 500; 
+        margin-top: 25px;
+    }
+
+    
+
+.Texto_Home {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    margin-left: 10%;
+    margin-top: 15%; 
+    gap: 20px;       
+}
+
+.Texto_Home h2 {
+    color: white;
+    font-size: 75px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    margin: 0;      
+    line-height: 1.1;
+}
+
+.Texto_Home p {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;      
+}
+
+.selo {
+    width: 250px;  
+    height: auto;
+}
+
+.selo img {
+    width: 400px;
+    height: auto;
+    object-fit: contain;
+    margin-top: -160px;
+}
+
+.sobre {
+  margin-top: 5%;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;     
+  align-items: center;           
+  padding: 0 5%;
+  box-sizing: border-box;
+  gap: 2rem;               
+  background-color: white;
+}
+.texto-sobre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;          
+  justify-content: center;
+  max-width: 55%;
+  text-align: justify;
+  margin-top: 7%;
+  
+  
+}
+.titulo-sobre {
+  font-size: clamp(3.8rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: -30%;
+}
+#nome-safe {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+#nome-class {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+#texto-sobre {
+  margin-top: 4vh;
+  font-size: 3.0vh; 
+  color: #000000;
+  line-height: 1.5;
+}
+.imagem-sobre {
+  position: relative;
+  width: 45%;
+  height: 70vh;
+  margin: auto;
+  overflow: visible;
+  
+}
+
+.sobre-quadrado1,
+.sobre-quadrado2 {
+  position: absolute;
+  width: 30%;
+  height: 20vh;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  z-index: 1; /* quadrados acima da imagem */
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* estilo mais visível */
+}
+
+/* Quadrado superior esquerdo com ponta visível */
+.sobre-quadrado1 {
+  top: -5vh;
+  left: -5%;
+}
+
+
+.sobre-quadrado2 {
+  bottom: -5vh;
+  right: -5%;
+}
+
+.imagem-quadrado-sobre {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../imgs/imagem-sobre.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 2; 
+}
+
+.solucao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5% 10%;
+  background-color: #fff;
+  gap: 4rem;
+}
+
+
+
+
+.quadrado {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+  background: linear-gradient(135deg, rgb(252,100,3), rgb(255,221,0));
+}
+
+.quadrado-top {
+  top: -20px;
+  left: -20px;
+}
+
+.quadrado-bottom {
+  bottom: -20px;
+  right: -20px;
+}
+
+.imagem-solucao {
+  position: relative;
+  width: 48%;
+  min-width: 300px;
+  height: 70vh;
+  margin: auto;
+  overflow: visible;
+  
+}
+
+.solucao-quadrado1,
+.solucao-quadrado2 {
+  position: absolute;
+  width: 30%;
+  height: 20vh;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  z-index: 1; /* quadrados acima da imagem */
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* estilo mais visível */
+}
+
+/* Quadrado superior esquerdo com ponta visível */
+.solucao-quadrado1 {
+  top: -5vh;
+  left: -5%;
+}
+
+
+.solucao-quadrado2 {
+  bottom: -5vh;
+  right: -5%;
+}
+
+.imagem-quadrado-solucao {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../imgs/alunos-escolas.png');
+  background-size: cover;
+  background-position: center;
+  z-index: 2; /* imagem atrás dos quadrados */
+  
+}
+
+
+.texto-solucao {
+  width: 50%;
+}
+
+.titulo-solucao {
+  font-size: clamp(3rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: 5%;
+}
+#nome-safe-solucao {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+#nome-class-solucao {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+#nome-safe-solucao-pos {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+  margin-right: 8%;
+}
+
+.lista-solucao {
+  list-style: none;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+  margin-top: 5%;
+}
+
+.lista-solucao li {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-left: 1.8rem;
+}
+
+
+.lista-solucao li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #F77911;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.evitar-container {
+    position: relative;
+    min-height: 60vh;
+    background-color: white;
+    padding: 5% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.evitar-titulo {
+    position: relative;
+    z-index: 1;
+    min-height: 290px; 
+    width: 100%;
+background: linear-gradient(to right,
+  rgb(243, 93, 0) 0%,
+  rgb(255, 100, 3) 10%,
+  rgb(255, 100, 3) 10%,
+  rgb(255, 176, 0) 100%);
+    color: white;
+    padding: 15px 40px;
+    margin-bottom: 50px;
+    text-align: center;
+    border-radius: 5px; 
+    font-size: 7vh;
+}
+
+#nome-safe-evitar {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-weight: 700;
+}
+#nome-class-evitar {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #ffffff;
+}
+#nome2-safe-evitar {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.evitar-titulo h1 {
+    letter-spacing: 0.5vh;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+   padding-top: 40px; 
+}
+
+.evitar-cards {
+    position: relative;
+    display: flex;
+    gap: 40px;
+    margin-top: -230px; 
+    z-index: 126
+}
+
+.card {
+    position: relative;
+    width: 250px;
+    min-height: 100px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    text-align: center;
+    
+}
+
+.card:hover {
+    transform: translateY(-5px); 
+    
+}
+
+
+.icon-box {
+    width: 120px;
+    height: 100px;
+    margin: 0 auto 20px auto;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-image: linear-gradient(135deg, rgb(252, 100, 3) 0%, rgb(255, 221, 0) 100%) 1;
+    overflow: hidden;
+    background-color: #fff;
+    margin-top: 40px; 
+}
+
+.icon-box img {
+    width: 60px;         
+    height: 70px;
+    object-fit: contain; 
+    margin-top: 15px; 
+
+}
+
+
+.card p {
+    position: relative;
+     z-index: 1;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.4;
+    text-transform: uppercase;
+     margin-bottom: 32%;
+}
+
+
+.quem-e-safe-class {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    gap: 50px;
+    margin-top: 40px;
+    background-color: white; 
+}
+
+.texto-quem-e {
+    flex: 1;
+    max-width: 45%;
+}
+
+.titulo-quem {
+  font-size: clamp(3rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: 5%;
+}
+#nome-safe-quem {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+
+#nome-class-quem {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+
+.texto-quem-e p {
+  margin-top: 10%;
+    font-size: 1.2rem;
+    color: #000000;
+    line-height: 1.6;
+}
+
+.imagem-quem {
+  position: relative;
+  width: 48%;
+  min-width: 300px;
+  height: 60vh;
+  margin: auto;
+  overflow: visible;
+  margin-bottom: 2%;
+}
+
+.quem-quadrado1,
+.quem-quadrado2 {
+  position: absolute;
+  width: 30%;
+  height: 20vh;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  z-index: 1; /* quadrados acima da imagem */
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* estilo mais visível */
+}
+
+/* Quadrado superior esquerdo com ponta visível */
+.quem-quadrado1 {
+  top: -5vh;
+  left: -5%;
+}
+
+
+.quem-quadrado2 {
+  bottom: -5vh;
+  right: -5%;
+}
+
+.imagem-quadrado-quem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../imgs/Gemini_Generated_Image_k39o67k39o67k39o.png');
+  background-size: contain;
+  background-position: top center;
+  z-index: 2;
+  background-repeat: no-repeat;
+}
+
+
+
+.valores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.imagem-valores {
+  position: relative;
+  width: 45%;
+  min-width: 300px;
+  height: 60vh;
+  margin: auto;
+  overflow: visible;
+  margin-top: 1%; 
+}
+
+.valores-quadrado1,
+.valores-quadrado2 {
+  position: absolute;
+  width: 30%;
+  height: 20vh;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  z-index: 1; /* quadrados acima da imagem */
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* estilo mais visível */
+}
+
+/* Quadrado superior esquerdo com ponta visível */
+.valores-quadrado1 {
+  top: -5vh;
+  left: -5%;
+}
+
+
+.valores-quadrado2 {
+  bottom: -5vh;
+  right: -5%;
+}
+
+.imagem-quadrado-valores {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../imgs/area-espacosa-grupo-de-jovens-com-roupas-casuais-trabalhando-em-um-escritorio-moderno.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 2; /* imagem atrás dos quadrados */
+}
+
+
+
+
+.texto-valores {
+  margin-top: -2%;
+  width: 50%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.70rem;
+  color: #000000;
+}
+
+
+.valores-bloco {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background-color: #fff;
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #111;
+}
+
+
+.titulo-com-icone {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.titulo-com-icone h2 {
+  font-size: 1.5rem;
+  color: #F77911;
+  font-weight: 600;
+  margin: 0;
+}
+
+
+.icone-quadrado {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(to right, #fc6403, #ffb000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.icone-quadrado img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+    filter: brightness(1.2) contrast(1.2);
+}
+
+.equipe {
+    position: relative;
+    z-index: 1;
+   height: 100vh;
+    width: 100%;
+    margin-top: 5%;
+  
+}
+
+.titulo-equipe{
+  width: 100%; 
+  text-align: center;
+  font-size: 40px;
+}
+
+#nome-safe-equipe {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+
+#nome-class-equipe {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+
+.retangulo-equipe {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); 
+  gap: 60px; 
+  padding: 40px; 
+  background-color: white;
+  border-radius: 15px;
+  max-width: 1300px; 
+  margin: 0 auto;
+  height: 50vh;
+}
+
+.card-equipe {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+  padding: 0;
+}
+
+.imagem-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.imagem-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+.info-equipe {
+  width: 60%;
+  position: relative;
+  background: linear-gradient( #FFB000, #E75900);
+  border-radius: 20px;
+  margin: -15% auto 0; 
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+.info-equipe h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.info-equipe p {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: #ffffff;
+
+}
+
+
+
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 3%;
+  z-index: 10;
+  justify-content: center;
+}
+
+.social-icons a {
+  background-color: #ccc;      
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;           
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.icone-social {
+  width: 24px;
+  height: 24px;
+   display: block;
+  height: auto;
+  border-radius: 0;
+  pointer-events: auto;           
+}
+
+
+
+
+.ajuda {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px; 
+  width: 100%;
+  height: 80vh;
+  background: linear-gradient(to left, #fc6403, #ffb000);
+  margin-top: -7%;
+  padding: 0 3%;
+  overflow: hidden;
+}
+
+.texto-ajuda {
+  width: 35%; 
+  margin-top: 10%;
+  text-align: center; 
+  color: white;
+  margin-left:10% ;
+}
+
+.texto-ajuda-titulo {
+  font-size: 4vh;
+}
+
+.texto-ajuda-titulo h1 {
+  line-height: 1.2;
+}
+
+.texto-ajuda-contato {
+  margin-top: 2%;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+.formulario-ajuda {
+  width: 60%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 7%;
+}
+
+.nome-completo-ajuda,
+.email-ajuda,
+.mensagem-ajuda,
+.botao-ajuda {
+  width: 100%;
+  max-width: 600px;
+}
+
+#ipt_nome_ajuda,
+#ipt_email_ajuda {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#ipt_mensagem_ajuda {
+  width: 100%;
+  height: 120px;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.botao-ajuda button {
+  padding: 14px 28px;
+
+  border: 4px solid;
+  border-image: linear-gradient(300deg, rgb(252, 45, 3), rgb(255, 85, 0)) 1;
+  background-color: white;
+  color: rgb(252, 100, 3);
+  font-weight: 700;
+  font-size: 17px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.botao-ajuda button:hover {
+  background-color: #f7d48a;
+  color: white;
+}
+
+
+.footer-final {
+  height: 25vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 40px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #333;
+}
+
+/* Cada coluna */
+.footer-final > div {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Logo */
+.logo-footer {
+   flex: 0 0 120px; /* largura fixa menor */
+}
+
+.logo-footer img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.contato-footer {
+  margin-right: 60px;
+  margin-top: -0.6%; 
+}
+
+.termos-footer {
+  margin-right: 60px;
+}
+
+/* Menu */
+.menu-footer b,
+.termos-footer b,
+.contato-footer b {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  display: inline-block;
+  text-align: center;
+}
+
+.menu-footer,
+.termos-footer,
+.contato-footer {
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* Contato */
+.texto-footer {
+  margin-top: 10px;
+}
+
+.direitos{
+  width: 100%;
+  height: 4vh;
+  background-color: #E75900;
+  overflow: hidden;
+}
+
+.texto-direitos{
+  font-size: 2.0vh;
+  text-align: center;
+  margin-top: 0.3%;
+}
+
+#nome-safe-direitos {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+
+}
+
+#nome-class-direitos {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+}
+
+
+}
+
+
+  
+
