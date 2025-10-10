@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Visão Geral</title>
+    <title>Painel Geral</title>
 </head>
 
 <body>
+    <div class="overlay" id="telaOverlay">
+    </div>
     <div class="dashboard">
         <div class="side-bar">
             <div class="logo">
@@ -32,9 +34,9 @@
                 </a>
                 <a href="#" class="icone-links">
                     <i class="fa-solid fa-computer"></i>
-                    <p>Dispositivos</p>
+                    <p>Máquinas</p>
                 </a>
-                <a href="#" class="icone-links">
+                <a href="usuarios.html" class="icone-links">
                     <i class="fa-solid fa-users"></i>
                     <p>Usuários</p>
                 </a>
@@ -45,6 +47,45 @@
             </div>
         </div>
         <div class="main-content">
+            <div class="modal-maquina" id="modalMaquina">
+                <div class="area-superior-modal">
+                    <p>Máquina 5</p>
+                    <button onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></button>
+                </div>
+                <div class="conteudo-modal">
+                    <div class="infos-maquina-modal">
+                        <p>Localização: Sala 5</p>
+                        <p>Mac Address: 00:1A:2B:3C:4D:5E</p>
+                    </div>
+                    <div class="situacao-componentes-modal">
+                        <div class="situacao-componente">
+                            <p>CPU:</p>
+                            <p>80%</p>
+                            <p>-</p>
+                            <p id="status-critico">Crítico</p>
+                        </div>
+                        <div class="situacao-componente">
+                            <p>Memória RAM:</p>
+                            <p>7.6gb</p>
+                            <p>-</p>
+                            <p id="status-atencao">Atenção</p>
+                        </div>
+                        <div class="situacao-componente">
+                            <p>Rede:</p>
+                            <p>1000 mgps</p>
+                            <p>-</p>
+                            <p id="status-estavel">Estável</p>
+                        </div>
+                        <div class="situacao-componente">
+                            <p>Disco:</p>
+                            <p>40%</p>
+                            <p>-</p>
+                            <p id="status-estavel">Estável</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div class="perfil-notificacao">
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-envelope"></i>
@@ -56,8 +97,8 @@
                 </div>
             </div>
             <div class="dashboard-content">
-                <div class="titulo-dashboard">
-                    <div class="texto-titulo-dashboard">
+                <div class="titulo-dashboard-geral">  
+                    <div class="texto-titulo-dashboard-geral">
                         <p>Desempenho Diário</p>
                     </div>
                 </div>
@@ -128,7 +169,7 @@
                     <div class="painel-principal">
                         <div class="titulo-painel">
                             <div class="nome-escola" id="nome-escola">
-                                <p>Escola Joaquim 3°</p>
+                                <p id="texto-painel">Escola Joaquim 3°</p>
                             </div>
                             <div class="area-parametros">
                                 <div class="parametro">
@@ -470,39 +511,7 @@
             </div>
         </div>
     </div>
-    <script>
-        const painelSalas = document.getElementById('painel-salas');
-        const painelMaquinas = document.getElementById('painel-maquinas');
-        const nomeEscola = document.getElementById('nome-escola');
-
-        document.querySelectorAll('.card-sala').forEach(card => {
-            card.addEventListener('click', () => {
-                mostrarMaquinasDaSala();
-            });
-        });
-
-        function mostrarMaquinasDaSala() {
-            nomeEscola.innerHTML = '<p>Escola Joaquim 3°</p>';
-
-            painelSalas.style.display = 'none';
-
-            painelMaquinas.style.display = 'grid';
-
-            nomeEscola.innerHTML += '<button id="voltarSalas"><i class="fa-solid fa-circle-arrow-left"></i></button>';
-
-            document.getElementById('voltarSalas').addEventListener('click', () => {
-                painelMaquinas.style.display = 'none';
-                painelSalas.style.display = 'grid';
-                voltarSalas.style.display = 'none'
-            });
-        }
-
-        const btnModal = document.getElementById('modal-maquina-critica');
-
-        btnModal.addEventListener('click', () => {
-
-        });
-    </script>
+    <script src="js/dashboard_geral.js"></script>
 </body>
 
 </html>

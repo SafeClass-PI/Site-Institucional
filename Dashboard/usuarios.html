@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/usuarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Usuários</title>
+</head>
+
+<body>
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../Site/index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="dashboard_especifica.html" class="icone-links">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Detalhe</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="#" class="activate">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../Site/index.html" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <div class="profile-img">
+                        <img src="imgs/DSC08926.JPEG">
+                    </div>
+                    <p>Ryan Patric</p>
+                </div>
+            </div>
+            <div class="painel-usuarios">
+                <div class="titulo-painel">
+                    <p id="titulo-tela">Membros da Equipe</p>
+                    <div class="btns-titulo-painel">
+                        <button id="exportarDados">
+                            <p>Exportar</p>
+                        </button>
+                        <button id="adicionarUsuario" onclick="adicionarUsuario()"><i class="fa-solid fa-plus"></i>
+                            <p>Adicionar usuário</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="filtros-usuarios">
+                    <div class="filtros">
+                        <div class="select-com-icone">
+                            <i class="fa fa-filter"></i>
+                            <select>
+                                <option value="" disabled selected>
+                                    <p>Filtros</p>
+                                </option>
+                                <option value="2">Ativos</option>
+                                <option value="2">Inativos</option>
+                                <option value="2">Gestores</option>
+                                <option value="2">Técnicos</option>
+                            </select>
+                        </div>
+                        <div class="campo-pesquisa">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Pesquisar..." />
+                        </div>
+                    </div>
+                </div>
+                <div class="lista-usuarios">
+                    <div class="modal-deletar-usuario" id="modalDeletarUsuario">
+                        <div class="icone-alerta">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="mensagem-deletar-modal">
+                            <p>Deletar Usuário</p>
+                            <p>Você tem certeza que quer deletar este usuário?</p>
+                        </div>
+                        <div class="btns-deletar-modal">
+                            <button id="cancelar-deletar" onclick="cancelarExclusaoUser()">
+                                <p>Cancelar</p>
+                            </button>
+                            <button id="confirmar-deletar" onclick="confirmarExclusaoUser()">
+                                <p>Sim</p>
+                            </button>
+                        </div>
+                    </div>
+                    <table>
+                        <colgroup>
+                            <col style="width: 14%;">
+                            <col style="width: 20%;">
+                            <col style="width: 15%;">
+                            <col style="width: 17%;">
+                            <col style="width: 12%;">
+                            <col style="width: 10%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Cargo</th>
+                                <th>Entrada</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ryan Patric</td>
+                                <td>ryan@email.com</td>
+                                <td>Gestor</td>
+                                <td>20/11/2024</td>
+                                <td id="status-ativo">Ativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Maria Joana</td>
+                                <td>maria@email.com</td>
+                                <td>Analista</td>
+                                <td>20/11/2024</td>
+                                <td id="status-inativo">Inativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ryan Patric</td>
+                                <td>ryan@email.com</td>
+                                <td>Gestor</td>
+                                <td>20/11/2024</td>
+                                <td id="status-ativo">Ativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Maria Joana</td>
+                                <td>maria@email.com</td>
+                                <td>Analista</td>
+                                <td>20/11/2024</td>
+                                <td id="status-inativo">Inativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ryan Patric</td>
+                                <td>ryan@email.com</td>
+                                <td>Gestor</td>
+                                <td>20/11/2024</td>
+                                <td id="status-ativo">Ativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Maria Joana</td>
+                                <td>maria@email.com</td>
+                                <td>Analista</td>
+                                <td>20/11/2024</td>
+                                <td id="status-ativo">Ativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Maria Joana</td>
+                                <td>maria@email.com</td>
+                                <td>Analista</td>
+                                <td>20/11/2024</td>
+                                <td id="status-ativo">Ativo</td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="paginacao">
+                        <button class="prev">
+                            < Anterior </button>
+                                <button class="pagina ativa">1</button>
+                                <button class="pagina">2</button>
+                                <button class="pagina">3</button>
+                                <button class="next"> Próximo ></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/usuarios.js"></script>
+</body>
+
+</html>
