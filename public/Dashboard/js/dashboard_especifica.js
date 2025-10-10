@@ -150,7 +150,7 @@ new Chart(ctx1, config1);
 const ctx2 = document.getElementById('disponibilidade-maquina').getContext('2d');
 
 const data2 = {
-    labels: ['Inativo', 'Ativo'],
+    labels: ['Downtime', 'Uptime'],
     datasets: [{
         label: 'Time Admitted',
         data: [50, 115],
