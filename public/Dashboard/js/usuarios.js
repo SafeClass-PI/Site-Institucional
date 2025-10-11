@@ -13,3 +13,13 @@ function confirmarExclusaoUser() {
    telaOverlay.style.display = 'none';
    modalDeletarUsuario.style.display = 'none';
 }
+
+function abrirSolicitacoes() {
+   modalSolicitacoes.style.display = 'block';
+   telaOverlay.style.display = 'block'
+}
+
+function fecharSolicitacoes() {
+   modalSolicitacoes.style.display = 'none';
+   telaOverlay.style.display = 'none';
+}

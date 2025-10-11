@@ -26,7 +26,7 @@
                 </a>
                 <a href="dashboard_especifica.html" class="icone-links">
                     <i class="fa-solid fa-filter"></i>
-                    <p>Detalhe</p>
+                    <p>Análise</p>
                 </a>
                 <a href="#" class="icone-links">
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -87,6 +87,84 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                             <input type="text" placeholder="Pesquisar..." />
                         </div>
+                        <div class="solicitacoes-gestor">
+                            <button onclick="abrirSolicitacoes()">Solicitações <div class="icone-qtd-solicitacoes">
+                                    <p>1</p>
+                                </div> </button>
+                        </div>
+                        <div class="modal-solicitacoes-usuario" id="modalSolicitacoes">
+                            <div class="titulo-modal-solicitacoes">
+                                <p>Solicitações:</p>
+                                <button onclick="fecharSolicitacoes()"><i class="fa-solid fa-circle-xmark"></i></button>
+                            </div>
+                            <div class="lista-solicitacoes">
+
+                                <table>
+                                    <colgroup>
+                                        <col style="width: 16%;">
+                                        <col style="width: 17%;">
+                                        <col style="width: 15%;">
+                                        <col style="width: 15%;">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>E-mail</th>
+                                            <th>Emissão</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Ryan Patric</td>
+                                            <td>ryan@email.com</td>
+                                            <td>20/11/2024</td>
+                                            <td>
+                                                <button><i class="fa-solid fa-check"></i></button>
+                                                <button><i class="fa-solid fa-xmark"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ryan Patric</td>
+                                            <td>ryan@email.com</td>
+                                            <td>20/11/2024</td>
+                                            <td>
+                                                <button><i class="fa-solid fa-check"></i></button>
+                                                <button><i class="fa-solid fa-xmark"></i></button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Ryan Patric</td>
+                                            <td>ryan@email.com</td>
+                                            <td>20/11/2024</td>
+                                            <td>
+                                                <button><i class="fa-solid fa-check"></i></button>
+                                                <button><i class="fa-solid fa-xmark"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ryan Patric</td>
+                                            <td>ryan@email.com</td>
+                                            <td>20/11/2024</td>
+                                            <td>
+                                                <button><i class="fa-solid fa-check"></i></button>
+                                                <button><i class="fa-solid fa-xmark"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ryan Patric</td>
+                                            <td>ryan@email.com</td>
+                                            <td>20/11/2024</td>
+                                            <td>
+                                                <button><i class="fa-solid fa-check"></i></button>
+                                                <button><i class="fa-solid fa-xmark"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="lista-usuarios">
@@ -132,7 +210,8 @@
                                 <td>ryan@email.com</td>
                                 <td>Gestor</td>
                                 <td>20/11/2024</td>
-                                <td id="status-ativo">Ativo</td>
+                                <td><span class="status-ativo">Ativo</span></td>
+                                </td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
@@ -143,7 +222,7 @@
                                 <td>maria@email.com</td>
                                 <td>Analista</td>
                                 <td>20/11/2024</td>
-                                <td id="status-inativo">Inativo</td>
+                                <td><span class="status-inativo">Inativo</span></td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
@@ -154,7 +233,7 @@
                                 <td>ryan@email.com</td>
                                 <td>Gestor</td>
                                 <td>20/11/2024</td>
-                                <td id="status-ativo">Ativo</td>
+                                <td><span class="status-ativo">Ativo</span></td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
@@ -165,7 +244,7 @@
                                 <td>maria@email.com</td>
                                 <td>Analista</td>
                                 <td>20/11/2024</td>
-                                <td id="status-inativo">Inativo</td>
+                                <td><span class="status-inativo">Inativo</span></td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
@@ -176,7 +255,7 @@
                                 <td>ryan@email.com</td>
                                 <td>Gestor</td>
                                 <td>20/11/2024</td>
-                                <td id="status-ativo">Ativo</td>
+                                <td><span class="status-ativo">Ativo</span></td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
@@ -187,7 +266,7 @@
                                 <td>maria@email.com</td>
                                 <td>Analista</td>
                                 <td>20/11/2024</td>
-                                <td id="status-ativo">Ativo</td>
+                                <td><span class="status-ativo">Ativo</span></td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
@@ -198,7 +277,7 @@
                                 <td>maria@email.com</td>
                                 <td>Analista</td>
                                 <td>20/11/2024</td>
-                                <td id="status-ativo">Ativo</td>
+                                <td><span class="status-ativo">Ativo</span></td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>

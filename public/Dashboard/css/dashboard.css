@@ -111,7 +111,6 @@ body {
     background-position: left;
     transition: background-size 0.5s ease-in-out, color 0.3s ease-in-out;
 }
-
 .links a:hover {
     background-size: 100% 100%;
     color: var(--cor-branco);

@@ -214,6 +214,7 @@
     margin-top: -160px;
   }
 
+<<<<<<< HEAD:Site/css/index_desktop.css
   .sobre {
     margin-top: 5%;
     display: flex;
@@ -226,6 +227,63 @@
     gap: 2rem;
     background-color: white;
   }
+=======
+.sobre {
+  margin-top: 5%;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;     
+  align-items: center;           
+  padding: 0 5%;
+  box-sizing: border-box;
+  gap: 2rem;               
+  background-color: white;
+}
+.texto-sobre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;          
+  justify-content: center;
+  max-width: 55%;
+  text-align: justify;
+  margin-top: 7%;
+  
+  
+}
+.titulo-sobre {
+  font-size: clamp(3.8rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: -30%;
+}
+#nome-safe {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+#nome-class {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+#texto-sobre {
+  margin-top: 4vh;
+  font-size: 3.0vh; 
+  color: #000000;
+  line-height: 1.5;
+}
+.imagem-sobre {
+  position: relative;
+  width: 45%;
+  height: 70vh;
+  margin: auto;
+  overflow: visible;
+  
+}
+>>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
 
   .texto-sobre {
     display: flex;
@@ -325,6 +383,7 @@
 
 
 
+<<<<<<< HEAD:Site/css/index_desktop.css
   .quadrado {
     position: absolute;
     width: 120px;
@@ -332,6 +391,16 @@
     z-index: 1;
     background: linear-gradient(135deg, rgb(252, 100, 3), rgb(255, 221, 0));
   }
+=======
+
+.quadrado {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+  background: linear-gradient(135deg, rgb(252,100,3), rgb(255,221,0));
+}
+>>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
 
   .quadrado-top {
     top: -20px;
@@ -393,10 +462,16 @@
   }
 
 
+<<<<<<< HEAD:Site/css/index_desktop.css
   .texto-solucao {
     width: 50%;
     margin-bottom: 0.9%;
   }
+=======
+.texto-solucao {
+  width: 50%;
+}
+>>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
 
   .titulo-solucao {
     font-size: clamp(3rem, 6vh, 8vh);
@@ -407,11 +482,21 @@
     margin-top: 5%;
   }
 
+<<<<<<< HEAD:Site/css/index_desktop.css
   #nome-safe-solucao {
     font-family: 'Poppins', sans-serif;
     color: #000;
     font-weight: 700;
   }
+=======
+.lista-solucao {
+  list-style: none;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+  margin-top: 5%;
+}
+>>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
 
   #nome-class-solucao {
     font-family: 'Poppins', sans-serif;
@@ -584,6 +669,7 @@
     max-width: 45%;
   }
 
+<<<<<<< HEAD:Site/css/index_desktop.css
   .titulo-quem {
     font-size: clamp(3.2rem, 6vh, 8vh);
     line-height: 1.2;
@@ -591,6 +677,21 @@
     letter-spacing: 0.5vh;
     text-align: center;
   }
+=======
+.titulo-quem {
+  font-size: clamp(3rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: 5%;
+}
+#nome-safe-quem {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+>>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
 
   #nome-safe-quem {
     font-family: 'Poppins', sans-serif;

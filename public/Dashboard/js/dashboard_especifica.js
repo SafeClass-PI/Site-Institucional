@@ -9,7 +9,6 @@ let indice = 0;
 // Elementos
 const tituloKpi = document.getElementById("titulo-kpi");
 const valorKpi = document.getElementById("valor-kpi");
-const setaUso = document.getElementById("seta-uso");
 
 function trocarKpi() {
     indice = (indice + 1) % kpis.length;
@@ -17,15 +16,13 @@ function trocarKpi() {
     valorKpi.textContent = kpis[indice].valor;
 }
 
-// Clique manual
-setaUso.addEventListener("click", trocarKpi);
 
 // Troca automática a cada 5 segundos (5000 ms)
 setInterval(trocarKpi, 1800);
 
 /* ------------------------- GRÁFICOS ------------------------------------ */
 
-const ctx = document.getElementById('monitoramento-ao-longo-dia').getContext('2d');
+const ctx = document.getElementById('monitoramento-componente').getContext('2d');
 
 const data = {
     labels: ['07 am', '08 am', '09 am', '10 am', '11 am', '12 pm', '11 am', '12 pm'],
@@ -87,16 +84,15 @@ const config = {
 
 new Chart(ctx, config);
 
-const ctx1 = document.getElementById('falha-por-componente').getContext('2d');
+const ctx1 = document.getElementById('monitoramento-rede').getContext('2d');
 
 const data1 = {
-    labels: ['Memória Ram', 'Disco', 'CPU', 'Rede'],
+    labels: ['100 Mbps', '150 Mbps', '200 Mbps', '250 Mbps'],
     datasets: [{
         label: 'Time Admitted',
         data: [50, 115, 80, 95],
-        borderWidth: 2,
         borderColor: 'orange',
-        backgroundColor: '#ffcc005d',
+        backgroundColor: 'rgba(255,165,0,0.2)',
         fill: true,
         tension: 0.4, // suaviza as curvas
         pointBackgroundColor: 'white', // cor do ponto
@@ -107,7 +103,7 @@ const data1 = {
 };
 
 const config1 = {
-    type: 'bar',
+    type: 'line',
     data: data1,
     options: {
         responsive: true,
@@ -151,10 +147,10 @@ const config1 = {
 new Chart(ctx1, config1);
 
 
-const ctx2 = document.getElementById('disponibilidade-maquinas').getContext('2d');
+const ctx2 = document.getElementById('disponibilidade-maquina').getContext('2d');
 
 const data2 = {
-    labels: ['Inativo', 'Ativo'],
+    labels: ['Downtime', 'Uptime'],
     datasets: [{
         label: 'Time Admitted',
         data: [50, 115],
@@ -200,8 +196,8 @@ const config2 = {
 
 new Chart(ctx2, config2);
 
-const labels = ['Máquina A', 'Máquina B', 'Máquina C', 'Máquina D', 'Máquina E'];
-const dados = [150, 210, 80, 195, 30]; // Ex: Incidência de Falhas
+const labels = ['CPU', 'Disco', 'RAM', 'Rede'];
+const dados = [1, 5, 2, 8]; 
 
 const data3 = {
     labels: labels,
@@ -255,6 +251,6 @@ const config3 = {
 };
 
 const meuGrafico = new Chart(
-    document.getElementById('ranking-criticidade'),
+    document.getElementById('falhas-por-componente'),
     config3
 );

@@ -32,6 +32,7 @@ body {
     background-color: #e1e1e138;
     backdrop-filter: blur(1.5px);
     display: none;
+    z-index: 10;
 }
 
 .dashboard {
@@ -301,6 +302,10 @@ body {
     align-items: center;
     width: 10%;
     height: 81%;
+    border-radius: 10px;
+    border: 2px solid rgb(231, 231, 231);
+    cursor: pointer;
+    background-color: #ededed;
 }
 
 .select-com-icone i {
@@ -317,7 +322,7 @@ body {
     padding-left: 35px;
     height: 100%;
     border-radius: 10px;
-    background-color: rgb(237, 237, 237);
+    background-color: #f0f0f0;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -328,11 +333,13 @@ body {
 .campo-pesquisa {
     width: 17%;
     height: 80%;
-    background-color: rgb(237, 237, 237);
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    border: 2px solid rgb(231, 231, 231);
+    cursor: pointer;
+    background-color: #ededed;
 }
 
 .campo-pesquisa i {
@@ -358,7 +365,7 @@ body {
 }
 
 .campo-pesquisa input::placeholder {
-    color: #3f3f3f;
+    color: #111111;
 }
 
 
@@ -367,6 +374,146 @@ body {
     border-color: #ccc;
 }
 
+.solicitacoes-gestor {
+    width: 13%;
+    height: 89%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.solicitacoes-gestor button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8%;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 2px solid rgb(231, 231, 231);
+    cursor: pointer;
+    background-color: #ededed;
+}
+
+.icone-qtd-solicitacoes {
+    width: 16%;
+    height: 65%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-critico);
+    border-radius: 50%;
+    color: white;
+    font-weight: 600;
+}
+
+.modal-solicitacoes-usuario {
+    position: absolute;
+    display: none;
+    width: 40%;
+    height: 38.5%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+}
+
+.titulo-modal-solicitacoes {
+    width: 100%;
+    height: 14%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titulo-modal-solicitacoes p {
+    font-weight: 650;
+    color: #414141;
+    font-size: 20px;
+    margin-top: 2%;
+    margin-left: 3.4%;
+}
+
+.titulo-modal-solicitacoes button {
+    margin-right: 3%;
+    margin-top: 2%;
+    border: none;
+    background: transparent;
+    transition: 0.2s ease-in-out all;
+    cursor: pointer;
+}
+
+.titulo-modal-solicitacoes button:hover {
+    transform: scale(1.07);
+}
+
+.titulo-modal-solicitacoes button i {
+    font-size: 20px;
+    color: #3f3f3f;
+}
+
+.titulo-modal-solicitacoes button i:hover {
+    color: #111111;
+}
+
+.modal-solicitacoes-usuario table {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+
+.modal-solicitacoes-usuario th {
+    font-size: 14px;
+    color: #353535;
+    font-weight: 550;
+}
+
+.modal-solicitacoes-usuario th,
+.modal-solicitacoes-usuario td {
+    padding-top: 1.2%;
+    padding-bottom: 1.2%;
+}
+
+.modal-solicitacoes-usuario td {
+    font-size: 13px;
+}
+
+.modal-solicitacoes-usuario td button {
+    border: none;
+    padding: 1%;
+    border-radius: 7px;
+    width: 15%;
+    cursor: pointer;
+}
+
+.modal-solicitacoes-usuario td button:nth-of-type(1) {
+    background-color: var(--cor-estavel);
+    color: white;
+    font-weight: 600;
+}
+
+.modal-solicitacoes-usuario td button:nth-of-type(2) {
+    background-color: var(--cor-critico);
+    color: white;
+    font-weight: 600;
+}
+
+
+.modal-solicitacoes-usuario thead {
+    width: 100%;
+    height: 20%;
+}
+
+.modal-solicitacoes-usuario tbody {
+    width: 100%;
+    height: 80%;
+}
 
 .lista-usuarios {
     width: 100%;
@@ -395,14 +542,33 @@ body {
     font-weight: 550;
 }
 
-#status-ativo {
-    color: var(--cor-estavel);
+.status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
     font-weight: 600;
+    font-size: 0.9rem;
+    color: #fff;
+    text-align: center;
+    min-width: 70px;
 }
 
-#status-inativo {
-    color: var(--cor-critico);
-    font-weight: 600;
+.status-ativo {
+    background-color: var(--cor-estavel);
+    color: white;
+    padding-left: 12%;
+    padding-right: 12%;
+    border-radius: 6px;
+    font-weight: 550;
+}
+
+.status-inativo {
+    background-color: var(--cor-critico);
+    color: white;
+    padding-left: 8%;
+    padding-right: 8%;
+    font-weight: 550;
+    border-radius: 6px;
 }
 
 .lista-usuarios table td {
@@ -423,12 +589,19 @@ body {
     color: #282828;
 }
 
+.lista-usuarios table td button:nth-of-type(2):hover {
+    color: var(--cor-critico);
+}
+
 .paginacao {
+    width: 100%;
+    height: 8%;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     margin-top: 1%;
     margin-bottom: 0.5%;
-    gap: 5px;
+    gap: 10px;
 }
 
 .paginacao button {
@@ -438,6 +611,8 @@ body {
     background-color: #fff;
     cursor: pointer;
     transition: all 0.2s;
+    border: none;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
 }
 
 .paginacao button:hover {
@@ -464,6 +639,7 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    z-index: 11;
 }
 
 .icone-alerta {

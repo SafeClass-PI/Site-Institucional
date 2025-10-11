@@ -159,6 +159,20 @@ INSERT INTO Componente (idComponente, fkMaquina, nome, tipo, capacidade) VALUES
 
 
 select * from usuario;
+truncate usuario;
+
+ALTER TABLE Usuario ADD COLUMN status VARCHAR(20) DEFAULT 'pendente';
+UPDATE Usuario set status = "ativo" where idUsuario = 4;
+UPDATE Usuario set status = "pendente" where idUsuario = 2;
+
+
+
+
+
+
+
+
+
 
 
 -- As tabelas Captura, Parametro e Alerta não tiveram dados de teste fornecidos no script original.
