@@ -214,7 +214,7 @@
     margin-top: -160px;
   }
 
-<<<<<<< HEAD:Site/css/index_desktop.css
+
   .sobre {
     margin-top: 5%;
     display: flex;
@@ -227,7 +227,7 @@
     gap: 2rem;
     background-color: white;
   }
-=======
+
 .sobre {
   margin-top: 5%;
   display: flex;
@@ -283,7 +283,7 @@
   overflow: visible;
   
 }
->>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
+
 
   .texto-sobre {
     display: flex;
@@ -381,9 +381,6 @@
     gap: 4rem;
   }
 
-
-
-<<<<<<< HEAD:Site/css/index_desktop.css
   .quadrado {
     position: absolute;
     width: 120px;
@@ -391,7 +388,6 @@
     z-index: 1;
     background: linear-gradient(135deg, rgb(252, 100, 3), rgb(255, 221, 0));
   }
-=======
 
 .quadrado {
   position: absolute;
@@ -400,7 +396,7 @@
   z-index: 1;
   background: linear-gradient(135deg, rgb(252,100,3), rgb(255,221,0));
 }
->>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
+
 
   .quadrado-top {
     top: -20px;
@@ -462,16 +458,16 @@
   }
 
 
-<<<<<<< HEAD:Site/css/index_desktop.css
+
   .texto-solucao {
     width: 50%;
     margin-bottom: 0.9%;
   }
-=======
+
 .texto-solucao {
   width: 50%;
 }
->>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
+
 
   .titulo-solucao {
     font-size: clamp(3rem, 6vh, 8vh);
@@ -482,13 +478,13 @@
     margin-top: 5%;
   }
 
-<<<<<<< HEAD:Site/css/index_desktop.css
+
   #nome-safe-solucao {
     font-family: 'Poppins', sans-serif;
     color: #000;
     font-weight: 700;
   }
-=======
+
 .lista-solucao {
   list-style: none;
   font-size: 1.2rem;
@@ -496,7 +492,7 @@
   color: #333;
   margin-top: 5%;
 }
->>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
+
 
   #nome-class-solucao {
     font-family: 'Poppins', sans-serif;
@@ -669,7 +665,7 @@
     max-width: 45%;
   }
 
-<<<<<<< HEAD:Site/css/index_desktop.css
+
   .titulo-quem {
     font-size: clamp(3.2rem, 6vh, 8vh);
     line-height: 1.2;
@@ -677,7 +673,7 @@
     letter-spacing: 0.5vh;
     text-align: center;
   }
-=======
+
 .titulo-quem {
   font-size: clamp(3rem, 6vh, 8vh);
   line-height: 1.2;
@@ -691,7 +687,7 @@
   color: #000;
   font-weight: 700;
 }
->>>>>>> ebf982fdb6b865c195c3e169f696675ea73f3a3b:public/css/index_desktop.css
+
 
   #nome-safe-quem {
     font-family: 'Poppins', sans-serif;
