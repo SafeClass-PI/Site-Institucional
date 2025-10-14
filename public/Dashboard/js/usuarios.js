@@ -4,39 +4,101 @@
 const telaOverlay = document.getElementById('telaOverlay');
 const modalDeletarUsuario = document.getElementById('modalDeletarUsuario');
 const modalSolicitacoes = document.getElementById('modalSolicitacoes');
+const modalAdicionarUser = document.getElementById('modalAdicionarUser'); // Adicionado
+const modalEditarUsuario = document.getElementById('modalEditarUsuario'); // Adicionado
 
 // Referência ao <tbody> DENTRO do modal de solicitações
 const tbodySolicitacoes = modalSolicitacoes ? modalSolicitacoes.querySelector('tbody') : null;
 
 
 // ======================================================================
-// FUNÇÕES EXISTENTES
+// FUNÇÕES EXISTENTES E DE GESTÃO BÁSICA
 // ======================================================================
 
+function adicionarUsuario() {
+    telaOverlay.style.display = 'block'
+    modalAdicionarUser.style.display = 'flex';
+}
+
+function cancelarAdicionarUser() {
+    telaOverlay.style.display = 'none';
+    modalAdicionarUser.style.display = 'none';
+}
+
+function efetuarCriacaoUser() {
+    alert('Usuário criado com sucesso!');
+    telaOverlay.style.display = 'none';
+    modalAdicionarUser.style.display = 'none';
+
+}
+
 function deletarUsuario() {
-   telaOverlay.style.display = 'block';
-   modalDeletarUsuario.style.display = 'flex';
+    telaOverlay.style.display = 'block';
+    modalDeletarUsuario.style.display = 'flex';
 }
 
 function cancelarExclusaoUser() {
-   telaOverlay.style.display = 'none';
-   modalDeletarUsuario.style.display = 'none';
+    telaOverlay.style.display = 'none';
+    modalDeletarUsuario.style.display = 'none';
 }
 
 function confirmarExclusaoUser() {
-   alert('Usuário deletado com sucesso!');
-   telaOverlay.style.display = 'none';
-   modalDeletarUsuario.style.display = 'none';
+    alert('Usuário deletado com sucesso!');
+    telaOverlay.style.display = 'none';
+    modalDeletarUsuario.style.display = 'none';
 }
 
+function editarUsuario() {
+    telaOverlay.style.display = 'block';
+    modalEditarUsuario.style.display = 'flex';
+}
+
+const editarStatusUsuario = document.getElementById('editarStatusUsuario');
+
+function atualizarCorSelect() {
+    const valor = editarStatusUsuario.value;
+
+    if (valor === "user-ativo") {
+        editarStatusUsuario.style.backgroundColor = " var(--cor-estavel)";
+        editarStatusUsuario.style.color = "white";
+    }
+    else if (valor === "user-inativo") {
+        editarStatusUsuario.style.backgroundColor = "var(--cor-critico)";
+        editarStatusUsuario.style.color = "white";
+    }
+    else {
+        editarStatusUsuario.style.backgroundColor = "";
+        editarStatusUsuario.style.color = "";
+    }
+}
+
+// Verifica se o elemento existe antes de adicionar o listener
+if(editarStatusUsuario) {
+    editarStatusUsuario.addEventListener("change", atualizarCorSelect);
+    atualizarCorSelect();
+}
+
+
+function cancelarEditarUser() {
+    telaOverlay.style.display = 'none';
+    modalEditarUsuario.style.display = 'none';
+}
+
+function efetuarEdicaoUser() {
+    alert('Usuário editado com sucesso!');
+    telaOverlay.style.display = 'none';
+    modalEditarUsuario.style.display = 'none';
+}
+
+
 // ======================================================================
-// FUNÇÕES DE SOLICITAÇÃO (MODIFICADA E NOVAS)
+// FUNÇÕES DE SOLICITAÇÃO (CÓDIGO DE SOLICITAÇÃO CORRIGIDO)
 // ======================================================================
 
 function abrirSolicitacoes() {
     if (modalSolicitacoes) {
-        modalSolicitacoes.style.display = 'block';
-        telaOverlay.style.display = 'block';
+        modalSolicitacoes.style.display = 'block';
+        telaOverlay.style.display = 'block';
         // 🚨 CHAMA A FUNÇÃO QUE BUSCA OS DADOS NO BACKEND
         carregarSolicitacoes(); 
     }
@@ -44,8 +106,8 @@ function abrirSolicitacoes() {
 
 function fecharSolicitacoes() {
     if (modalSolicitacoes) {
-        modalSolicitacoes.style.display = 'none';
-        telaOverlay.style.display = 'none';
+        modalSolicitacoes.style.display = 'none';
+        telaOverlay.style.display = 'none';
     }
 }
 
@@ -144,10 +206,17 @@ function manipularSolicitacao(idUsuario, acao) {
     })
     .then(response => {
         // Trata a resposta do backend
-        if (response.status === 200 || response.status === 404) {
+        if (response.status === 200) { // status 200 é o esperado para sucesso
             return response.json();
         }
-        throw new Error(`Erro ${response.status} ao processar a solicitação.`);
+        // Tenta ler o JSON de erro do backend se o status não for 200
+        return response.json().then(errorData => {
+            // Lança um erro mais detalhado se o backend retornou mensagem
+            throw new Error(errorData.mensagem || `Erro ${response.status} ao processar a solicitação.`);
+        }).catch(() => {
+             // Se não conseguir ler JSON (ex: erro 500 sem corpo)
+            throw new Error(`Erro ${response.status} ao processar a solicitação.`);
+        });
     })
     .then(data => {
         alert(successMessage);
@@ -159,5 +228,3 @@ function manipularSolicitacao(idUsuario, acao) {
         alert(`Falha ao processar a solicitação: ${error.message}`);
     });
 }
-
-// Adicione aqui outras funções como 'adicionarUsuario()' se necessário.

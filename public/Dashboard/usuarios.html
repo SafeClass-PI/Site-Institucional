@@ -17,7 +17,7 @@
     <div class="dashboard">
         <div class="side-bar">
             <div class="logo">
-                <a href="../Site/index.html"><img src="imgs/logo.png"></a>
+                <a href="../index.html"><img src="imgs/logo.png"></a>
             </div>
             <div class="links">
                 <a href="dashboard_geral.html" class="icone-links">
@@ -40,7 +40,7 @@
                     <i class="fa-solid fa-users"></i>
                     <p>Usuários</p>
                 </a>
-                <a href="../Site/index.html" class="icone-links">
+                <a href="../index.html" class="icone-links">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <p>Sair</p>
                 </a>
@@ -67,6 +67,46 @@
                         <button id="adicionarUsuario" onclick="adicionarUsuario()"><i class="fa-solid fa-plus"></i>
                             <p>Adicionar usuário</p>
                         </button>
+                        <div class="modal-adicionar-user" id="modalAdicionarUser">
+                            <div class="titulo-modal-adicionar-user">
+                                <p>Criar Usuário</p>
+                            </div>
+                            <div class="infos-modal-adicionar-user">
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Nome</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input type="text" placeholder="Digite o nome">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>E-mail</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input type="text" placeholder="Digite o e-mail">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Cargo</p>
+                                    </div>
+                                    <div class="select-campo">
+                                        <select>
+                                            <option value="#">Gestor</option>
+                                            <option value="#">Analista</option>
+                                            <option value="#">Técnico de T.I</option>
+                                            <option value="#">Professor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btns-modal-adicionar-user">
+                                <button onclick="cancelarAdicionarUser()">Cancelar</button>
+                                <button onclick="efetuarCriacaoUser()">Criar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="filtros-usuarios">
@@ -94,7 +134,7 @@
                         </div>
                         <div class="modal-solicitacoes-usuario" id="modalSolicitacoes">
                             <div class="titulo-modal-solicitacoes">
-                                <p>Solicitações:</p>
+                                <p>Solicitações</p>
                                 <button onclick="fecharSolicitacoes()"><i class="fa-solid fa-circle-xmark"></i></button>
                             </div>
                             <div class="lista-solicitacoes">
@@ -183,6 +223,57 @@
                             <button id="confirmar-deletar" onclick="confirmarExclusaoUser()">
                                 <p>Sim</p>
                             </button>
+                        </div>
+                    </div>
+                    <div class="modal-editar-usuario" id="modalEditarUsuario">
+                        <div class="titulo-modal-editar-user">
+                            <p>Editar Informações</p>
+                        </div>
+                        <div class="infos-modal-editar-user">
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Nome</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="Ryan Patric">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>E-mail</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="ryanpinaap@gmail.com">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Cargo</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select>
+                                        <option value="#">Gestor</option>
+                                        <option value="#">Analista</option>
+                                        <option value="#">Técnico de T.I</option>
+                                        <option value="#">Professor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Status</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select id="editarStatusUsuario">
+                                        <option value="user-ativo">Ativo</option>
+                                        <option value="user-inativo">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btns-modal-adicionar-user">
+                            <button onclick="cancelarEditarUser()">Cancelar</button>
+                            <button onclick="efetuarEdicaoUser()">Criar</button>
                         </div>
                     </div>
                     <table>
