@@ -225,6 +225,57 @@
                             </button>
                         </div>
                     </div>
+                    <div class="modal-editar-usuario" id="modalEditarUsuario">
+                        <div class="titulo-modal-editar-user">
+                            <p>Editar Informações</p>
+                        </div>
+                        <div class="infos-modal-editar-user">
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Nome</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="Ryan Patric">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>E-mail</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="ryanpinaap@gmail.com">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Cargo</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select>
+                                        <option value="#">Gestor</option>
+                                        <option value="#">Analista</option>
+                                        <option value="#">Técnico de T.I</option>
+                                        <option value="#">Professor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Status</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select id="editarStatusUsuario">
+                                        <option value="user-ativo">Ativo</option>
+                                        <option value="user-inativo">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btns-modal-adicionar-user">
+                            <button onclick="cancelarEditarUser()">Cancelar</button>
+                            <button onclick="efetuarEdicaoUser()">Criar</button>
+                        </div>
+                    </div>
                     <table>
                         <colgroup>
                             <col style="width: 14%;">

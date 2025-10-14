@@ -40,3 +40,41 @@ function confirmarExclusaoUser() {
    telaOverlay.style.display = 'none';
    modalDeletarUsuario.style.display = 'none';
 }
+
+function editarUsuario() {
+   telaOverlay.style.display = 'block';
+   modalEditarUsuario.style.display = 'flex';
+}
+
+const editarStatusUsuario = document.getElementById('editarStatusUsuario');
+
+function atualizarCorSelect() {
+   const valor = editarStatusUsuario.value;
+
+   if (valor === "user-ativo") {
+      editarStatusUsuario.style.backgroundColor = " var(--cor-estavel)";
+      editarStatusUsuario.style.color = "white";
+   }
+   else if (valor === "user-inativo") {
+      editarStatusUsuario.style.backgroundColor = "var(--cor-critico)";
+      editarStatusUsuario.style.color = "white";
+   }
+   else {
+      editarStatusUsuario.style.backgroundColor = "";
+      editarStatusUsuario.style.color = "";
+   }
+}
+
+editarStatusUsuario.addEventListener("change", atualizarCorSelect);
+atualizarCorSelect();
+
+function cancelarEditarUser() {
+   telaOverlay.style.display = 'none';
+   modalEditarUsuario.style.display = 'none';
+}
+
+function efetuarEdicaoUser() {
+   alert('Usuário editado com sucesso!');
+   telaOverlay.style.display = 'none';
+   modalEditarUsuario.style.display = 'none';
+}

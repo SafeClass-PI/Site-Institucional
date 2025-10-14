@@ -322,7 +322,6 @@ body {
     justify-content: center;
     flex-direction: row;
     position: relative;
-    /* necessário */
 }
 
 .infos-input::before {
@@ -380,6 +379,13 @@ body {
     border-radius: 10px;
     border: 2px solid rgb(224, 224, 224);
     text-align: center;
+    font-weight: 500;
+}
+
+.select-campo select:focus {
+    border: none;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 128, 0, 0.3);
 }
 
 .btns-modal-adicionar-user {
@@ -402,8 +408,6 @@ body {
     right: 5%;
     border-top: 2px solid rgb(232, 232, 232);
 }
-
-
 
 .btns-modal-adicionar-user button {
     border: none;
@@ -869,4 +873,58 @@ body {
     background-color: var(--cor-critico);
     font-weight: 550;
     color: white;
+}
+
+.modal-editar-usuario {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 50%;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 11;
+}
+
+.titulo-modal-editar-user {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.titulo-modal-editar-user p {
+    font-weight: 650;
+    color: #414141;
+    font-size: 20px;
+    margin-left: 5.4%;
+}
+
+.infos-modal-editar-user {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+}
+
+.infos-modal-editar-user {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
 }
