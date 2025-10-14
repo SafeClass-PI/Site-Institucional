@@ -10,7 +10,7 @@ function entrar() {
     console.log("FORM LOGIN: ", emailVar);
     console.log("FORM SENHA: ", senhaVar);
 
-    fetch("/usuarios/autenticar", {
+    fetch("/api/usuarios/autenticar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
