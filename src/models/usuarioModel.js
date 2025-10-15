@@ -61,11 +61,27 @@ function rejeitar(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarPorId(idUsuario) {
+    var instrucaoSql = `SELECT nome, email FROM usuario WHERE idUsuario = ${idUsuario}`;
+
+    console.log("Executando a instrução SQL para buscar por ID: \n" + instrucaoSql);
+    return database.executar(instrucaoSql).then(resultado => {
+        if (resultado.length > 0) {
+            return resultado[0]; // Retorna o primeiro (e único) usuário encontrado
+        } else {
+            throw new Error("Usuário não encontrado.");
+        }
+    });
+}
+
+
+
 // Atualização do módulo de exportação
 module.exports = {
     autenticar,
     cadastrar,
     buscarPendentes, // Adicionado
     aprovar,         
-    rejeitar         
+    rejeitar,
+    buscarPorId         
 };

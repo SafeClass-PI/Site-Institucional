@@ -36,4 +36,11 @@ router.delete('/rejeitar/:id', function (req, res) {
 });
 
 
+// 4. Rota para buscar um usuário específico pelo ID
+router.get('/usuario/:id', function (req, res) {
+    usuarioController.buscarUsuarioPorId(req, res);
+});
+
+
+
 module.exports = router;

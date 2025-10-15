@@ -1,5 +1,12 @@
 var usuarioModel = require("../models/usuarioModel");
 
+var { enviarEmailAprovacao } = require("../services/emailService");
+var {enviarEmailRejeicao} = require("../services/emailService");
+
+
+
+
+
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
@@ -66,19 +73,22 @@ function getSolicitacoes(req, res) {
 }
 
 function aprovarUsuario(req, res) {
-    // O ID do usuário vem dos parâmetros da rota (ex: /aprovar/5)
-    var userId = req.params.id; 
-    
+    var userId = req.params.id;
+
     if (!userId) {
         res.status(400).send("ID do usuário está faltando!");
     } else {
         usuarioModel.aprovar(userId)
-            .then(resultado => {
-                // Checa se alguma linha foi realmente alterada (opcional, mas bom)
-                if (resultado.affectedRows > 0) { 
-                    res.json({ success: true, message: "Usuário aprovado com sucesso!" });
+            .then(async resultado => {
+                if (resultado.affectedRows > 0) {
+                    var usuario = await usuarioModel.buscarPorId(userId);
+
+                    // ✅ Envia o e-mail de aprovação
+                    await enviarEmailAprovacao(usuario.email, usuario.nome);
+
+                    res.json({ success: true, message: "Usuário aprovado com sucesso e e-mail enviado!" });
                 } else {
-                     res.status(404).json({ success: false, message: "Usuário não encontrado ou já ativo." });
+                    res.status(404).json({ success: false, message: "Usuário não encontrado ou já ativo." });
                 }
             })
             .catch(erro => {
@@ -88,18 +98,29 @@ function aprovarUsuario(req, res) {
     }
 }
 
+
 function rejeitarUsuario(req, res) {
-    // O ID do usuário vem dos parâmetros da rota (ex: /rejeitar/5)
     var userId = req.params.id;
-    
+
     if (!userId) {
         res.status(400).send("ID do usuário está faltando!");
     } else {
-        usuarioModel.rejeitar(userId)
+        usuarioModel.buscarPorId(userId)
+            .then(usuario => {
+                if (!usuario) {
+                    return res.status(404).json({ success: false, message: "Usuário não encontrado." });
+                }
+
+                // Envia o e-mail de rejeição
+                return enviarEmailRejeicao(usuario.email, usuario.nome)
+                    .then(() => {
+                        // Após enviar o e-mail, exclui o usuário
+                        return usuarioModel.rejeitar(userId);
+                    });
+            })
             .then(resultado => {
                 if (resultado.affectedRows > 0) {
-                    // Se a exclusão foi bem sucedida
-                    res.json({ success: true, message: "Solicitação rejeitada e usuário deletado." });
+                    res.json({ success: true, message: "Solicitação rejeitada, e-mail enviado e usuário deletado." });
                 } else {
                     res.status(404).json({ success: false, message: "Usuário não encontrado." });
                 }
@@ -110,7 +131,6 @@ function rejeitarUsuario(req, res) {
             });
     }
 }
-
 
 module.exports = {
     autenticar,

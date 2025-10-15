@@ -19,7 +19,7 @@ CREATE TABLE Escola (
     idEscola INT PRIMARY KEY AUTO_INCREMENT,
     fkEndereco INT,
     nome VARCHAR(45),
-    email VARCHAR(45),
+    email VARCHAR(45),y
     cargo VARCHAR(45),
     telefone CHAR(11),
     codigoInep VARCHAR(45),
