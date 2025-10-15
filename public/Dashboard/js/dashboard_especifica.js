@@ -150,14 +150,14 @@ new Chart(ctx1, config1);
 const ctx2 = document.getElementById('disponibilidade-maquina').getContext('2d');
 
 const data2 = {
-    labels: ['Downtime', 'Uptime'],
+    labels: ['Uptime', 'Downtime'],
     datasets: [{
         label: 'Time Admitted',
-        data: [50, 115],
+        data: [221, 12],
         borderColor: 'orange',
-        backgroundColor: ['#ffd9a0ff', '#fff76785 '],
-        borderWidth: 2,
-        borderColor: '#ac620047',
+        backgroundColor: ['#0eca117d', '#ea0303ae'],
+        borderWidth: 2.2,
+        borderColor: ['#00d000d4', '#ff0000d7'],
         fill: true,
         tension: 0.4, // suaviza as curvas
         pointBackgroundColor: 'white', // cor do ponto
@@ -205,11 +205,11 @@ const data3 = {
         label: 'Incidência de Falhas no Mês',
         data: dados,
         backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(75, 192, 192, 0.5)',
-            'rgba(153, 102, 255, 0.5)'
+            'rgba(255, 99, 133, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
         ],
         borderColor: [
             'rgba(255, 99, 132, 1)',

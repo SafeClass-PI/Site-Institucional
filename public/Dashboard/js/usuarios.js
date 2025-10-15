@@ -72,7 +72,6 @@ function atualizarCorSelect() {
     }
 }
 
-// Verifica se o elemento existe antes de adicionar o listener
 if(editarStatusUsuario) {
     editarStatusUsuario.addEventListener("change", atualizarCorSelect);
     atualizarCorSelect();

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/usuarios.css">
+    <link rel="stylesheet" href="css/maquinas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Máquinas</title>
+</head>
+
+<body>
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="dashboard_especifica.html" class="icone-links">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Análise</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="maquinas.html" class="activate">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../index.html" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <div class="profile-img">
+                        <img src="imgs/DSC08926.JPEG">
+                    </div>
+                    <p>Ryan Patric</p>
+                </div>
+            </div>
+            <div class="painel-usuarios">
+                <div class="titulo-painel">
+                    <p id="titulo-tela">Máquinas Escola Joaquim 3°</p>
+                    <div class="btns-titulo-painel">
+                        <button id="exportarDados">
+                            <p>Exportar CSV</p>
+                        </button>
+                        <button id="adicionarUsuario" onclick="adicionarUsuario()"><i class="fa-solid fa-plus"></i>
+                            <p>Adicionar Máquina</p>
+                        </button>
+                    </div>
+                    <div class="modal-adicionar-maquina" id="modalAdicionarMaquina">
+                        <div class="titulo-modal-adicionar-maquina">
+                            <p>Adicionar Máquina</p>
+                        </div>
+                        <div class="infos-modal-adicionar-maquina">
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>MAC Address</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="Digite o endereço">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Sistema Operacional</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select>
+                                        <option value="#">Linux</option>
+                                        <option value="#">Windows</option>
+                                        <option value="#">MacOS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Sala</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select>
+                                        <option value="#">Sala 1</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="campos-capacidade-maquina">
+                            <div class="dados-capacidade">
+                                <div class="inserir-capacidade">
+                                    <p>Disco</p>
+                                    <input type="text">
+                                </div>
+                                <div class="inserir-capacidade">
+                                    <p>RAM</p>
+                                    <input type="text">
+                                </div>
+                                <div class="inserir-capacidade">
+                                    <p>CPU</p>
+                                    <input type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btns-modal-adicionar-maquina">
+                            <button onclick="cancelarAdicionarMaquina()">Cancelar</button>
+                            <button onclick="efetuarCriacaoUser()">Criar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="filtros-usuarios">
+                    <div class="filtros">
+                        <div class="select-com-icone">
+                            <i class="fa fa-filter"></i>
+                            <select>
+                                <option value="" disabled selected>
+                                    <p>Filtros</p>
+                                </option>
+                                <option value="2">Ativos</option>
+                                <option value="2">Inativos</option>
+                                <option value="2">Sala</option>
+                                <option value="2">Ordem Númerica</option>
+                            </select>
+                        </div>
+                        <div class="campo-pesquisa">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Pesquisar..." />
+                        </div>
+                    </div>
+                </div>
+                <div class="lista-usuarios">
+                    <div class="modal-editar-maquina" id="modalEditarMaquina">
+                        <div class="titulo-modal-editar-maquina">
+                            <p>Editar Informações</p>
+                        </div>
+                        <div class="infos-modal-editar-maquina">
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Identificação</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="Máquina 1">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Sala</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select>
+                                        <option value="#">Sala 1</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Sistema Operacional</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="Windows 11">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Status</p>
+                                </div>
+                                <div class="select-campo">
+                                    <select id="editarStatusMaquina">
+                                        <option value="user-ativo">Ativo</option>
+                                        <option value="user-inativo">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btns-modal-editar-maquina">
+                            <button onclick="cancelarEdicaoMaquina()">Cancelar</button>
+                            <button onclick="efetuarEdicaoMaquina()">Editar</button>
+                        </div>
+                    </div>
+                    <div class="modal-deletar-maquina" id="modalDeletarMaquina">
+                        <div class="icone-alerta">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="mensagem-deletar-modal">
+                            <p>Deletar Máquina 1</p>
+                            <p>Você tem certeza que quer deletar esta máquina?</p>
+                        </div>
+                        <div class="btns-deletar-modal">
+                            <button id="cancelar-deletar" onclick="cancelarExclusaoMaquina()">
+                                <p>Cancelar</p>
+                            </button>
+                            <button id="confirmar-deletar" onclick="confirmarExclusaoMaquina()">
+                                <p>Sim</p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="painel-maquinas">
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 1</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 2</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 3</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 4</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 5</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 6</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 7</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maquina">
+                            <div class="titulo-maquina">
+                                <p>Máquina 8</p>
+                                <div class="btns-acoes-maquina">
+                                    <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="status-maquina">
+                                <div class="status">
+                                    <p>Status:</p>
+                                    <p id="status-maquina">Ativo</p>
+                                </div>
+                                <div class="line-status">
+                                </div>
+                            </div>
+                            <div class="infos-maquina">
+                                <div class="dados-maquina">
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p>Sala 1</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <i class="fa-solid fa-laptop"></i>
+                                        <p>Linux</p>
+                                    </div>
+                                    <div class="dado-maquina">
+                                        <p>A4:C3:F0:1B:9D:22</p>
+                                    </div>
+                                </div>
+                                <div class="capacidade-maquina">
+                                    <div class="componente-maquina">
+                                        <p>Disco</p>
+                                        <p>250 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>RAM</p>
+                                        <p>8 GB</p>
+                                    </div>
+                                    <div class="componente-maquina">
+                                        <p>CPU</p>
+                                        <p>Intel Core I5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="paginacao">
+                        <button class="prev">
+                            < Anterior </button>
+                                <button class="pagina ativa">1</button>
+                                <button class="pagina">2</button>
+                                <button class="pagina">3</button>
+                                <button class="next"> Próximo ></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/maquinas.js"></script>
+</body>
+
+</html>

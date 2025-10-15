@@ -1,0 +1,638 @@
+.painel-maquinas {
+    width: 96%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 1.7%;
+    gap: 1%;
+}
+
+.maquina {
+    width: 91.8%;
+    height: 85%;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.13);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    transition: 0.2s all ease-in-out;
+    cursor: pointer;
+}
+
+.titulo-maquina {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titulo-maquina p {
+    font-weight: 610;
+    color: #1d1d1d;
+    font-size: 17px;
+    margin-left: 6%;
+}
+
+.btns-acoes-maquina {
+    margin-right: 6%;
+}
+
+.btns-acoes-maquina button {
+    background: transparent;
+    border: none;
+}
+
+.btns-acoes-maquina button i {
+    color: rgb(118, 118, 118);
+    transition: 0.2s ease-in-out all;
+    cursor: pointer;
+}
+
+
+.btns-acoes-maquina button i:hover {
+    transform: scale(1.08);
+    color: rgb(35, 35, 35);
+}
+
+
+.status-maquina {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 450;
+}
+
+.status-maquina p {
+    color: rgb(75, 75, 75);
+    font-size: 12px;
+    margin-left: 8%;
+}
+
+.status {
+    display: flex;
+}
+
+#status-maquina {
+    color: var(--cor-estavel);
+    font-weight: 650;
+}
+
+.line-status {
+    width: 34%;
+    height: 65%;
+    background: var(--cor-estavel);
+    border-radius: 10px;
+    margin-right: 6.6%;
+}
+
+.infos-maquina {
+    width: 100%;
+    height: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dados-maquina {
+    width: 87.8%;
+    height: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1.5px solid rgb(191, 191, 191);
+}
+
+.dado-maquina {
+    width: 24%;
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6%;
+}
+
+.dado-maquina:nth-of-type(1) {
+    width: 23%;
+}
+
+.dado-maquina:nth-of-type(2) {
+    width: 35%;
+}
+
+.dado-maquina:nth-of-type(3) {
+    width: 41%;
+}
+
+.dado-maquina i {
+    font-size: 10px;
+    color: #767676;
+}
+
+.dado-maquina p {
+    font-size: 11px;
+    color: #515151;
+}
+
+.capacidade-maquina {
+    width: 100%;
+    height: 55%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.componente-maquina {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.componente-maquina:nth-of-type(1) {
+    width: 35%;
+}
+
+.componente-maquina:nth-of-type(2) {
+    width: 30%;
+}
+
+.componente-maquina:nth-of-type(3) {
+    width: 45%;
+}
+
+.componente-maquina p:nth-of-type(1) {
+    font-weight: 500;
+    color: #545454;
+    font-size: 12px;
+}
+
+.componente-maquina p:nth-of-type(2) {
+    font-weight: 650;
+    font-size: 12px;
+    color: #3b3b3b;
+}
+
+.modal-adicionar-maquina {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 63%;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 11;
+}
+
+.titulo-modal-adicionar-maquina {
+    width: 100%;
+    height: 12%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.titulo-modal-adicionar-maquina p {
+    font-weight: 650;
+    color: #414141;
+    font-size: 20px;
+    margin-left: 5.4%;
+}
+
+.infos-modal-adicionar-maquina {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+}
+
+.infos-input {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    position: relative;
+}
+
+.infos-input::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    border-top: 2px solid rgb(232, 232, 232);
+}
+
+.titulo-campo {
+    width: 30%;
+    height: 67%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.titulo-campo p {
+    font-weight: 550;
+    font-size: 12px;
+    margin-left: 19%;
+    color: #282828;
+}
+
+.titulo-campo p,
+.input-campo,
+.select-campo {
+    margin-top: 3%;
+}
+
+.input-campo,
+.select-campo {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1%;
+}
+
+.input-campo input {
+    width: 90%;
+    height: 55%;
+    border-radius: 10px;
+    border: 2px solid rgb(224, 224, 224);
+    text-align: center;
+}
+
+.select-campo select {
+    width: 90%;
+    height: 55%;
+    border-radius: 10px;
+    border: 2px solid rgb(224, 224, 224);
+    text-align: center;
+    font-weight: 500;
+}
+
+.campos-capacidade-maquina {
+    margin-top: 3%;
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8%;
+}
+
+.dados-capacidade {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.dados-capacidade::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    border-top: 2px solid rgb(232, 232, 232);
+}
+
+.inserir-capacidade {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inserir-capacidade p {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.inserir-capacidade input {
+    width: 80%;
+    height: 36%;
+    border: 2px solid rgb(224, 224, 224);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.btns-modal-adicionar-maquina {
+    width: 100%;
+    height: 18%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    margin-top: 2.3%;
+    position: relative;
+}
+
+.btns-modal-adicionar-maquina::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    border-top: 2px solid rgb(232, 232, 232);
+}
+
+.btns-modal-adicionar-maquina button {
+    border: none;
+    border-radius: 8px;
+    width: 40%;
+    height: 55%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out all;
+    font-weight: 500;
+}
+
+.btns-modal-adicionar-maquina button:hover {
+    transform: scale(1.02);
+}
+
+.btns-modal-adicionar-maquina button:nth-of-type(1) {
+    border: 2px solid rgb(222, 222, 222);
+    background-color: #f1f1f1;
+}
+
+.btns-modal-adicionar-maquina button:nth-of-type(2) {
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.modal-editar-maquina {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 63%;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 11;
+}
+
+.titulo-modal-editar-maquina {
+    width: 100%;
+    height: 12%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.titulo-modal-editar-maquina p {
+    font-weight: 650;
+    color: #414141;
+    font-size: 20px;
+    margin-left: 5.4%;
+}
+
+.infos-modal-editar-maquina {
+    width: 100%;
+    height: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+}
+
+.infos-input {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    position: relative;
+}
+
+.infos-input::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    border-top: 2px solid rgb(232, 232, 232);
+}
+
+.titulo-campo {
+    width: 30%;
+    height: 67%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.titulo-campo p {
+    font-weight: 550;
+    font-size: 12px;
+    margin-left: 19%;
+    color: #282828;
+}
+
+.titulo-campo p,
+.input-campo,
+.select-campo {
+    margin-top: 3%;
+}
+
+.input-campo,
+.select-campo {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1%;
+}
+
+.input-campo input {
+    width: 90%;
+    height: 55%;
+    border-radius: 10px;
+    border: 2px solid rgb(224, 224, 224);
+    text-align: center;
+}
+
+.select-campo select {
+    width: 90%;
+    height: 55%;
+    border-radius: 10px;
+    border: 2px solid rgb(224, 224, 224);
+    text-align: center;
+    font-weight: 500;
+}
+
+.btns-modal-editar-maquina {
+    width: 100%;
+    height: 18%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    margin-top: 2.3%;
+    position: relative;
+}
+
+.btns-modal-editar-maquina::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    border-top: 2px solid rgb(232, 232, 232);
+}
+
+.btns-modal-editar-maquina button {
+    border: none;
+    border-radius: 8px;
+    width: 40%;
+    height: 60%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out all;
+    font-weight: 500;
+}
+
+.btns-modal-editar-maquina button:hover {
+    transform: scale(1.02);
+}
+
+.btns-modal-editar-maquina button:nth-of-type(1) {
+    border: 2px solid rgb(222, 222, 222);
+    background-color: #f1f1f1;
+}
+
+.btns-modal-editar-maquina button:nth-of-type(2) {
+    background-color: #2a2a2a;
+    color: white;
+}
+
+
+.modal-deletar-maquina {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 23%;
+    height: 30%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    z-index: 11;
+}
+
+.icone-alerta {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.icone-alerta i {
+    font-size: 55px;
+    color: var(--cor-critico);
+}
+
+.mensagem-deletar-modal {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.mensagem-deletar-modal p:nth-of-type(1) {
+    font-size: 17px;
+    font-weight: 650;
+}
+
+.mensagem-deletar-modal p:nth-of-type(2) {
+    font-size: 12px;
+    font-weight: 500;
+    color: #535353;
+}
+
+.btns-deletar-modal {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.btns-deletar-modal button {
+    width: 38%;
+    height: 70%;
+    margin-bottom: 2%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btns-deletar-modal button:nth-of-type(1) {
+    background-color: rgb(233, 233, 233);
+    font-weight: 550;
+    color: #3f3f3f;
+    border: 2px solid rgb(222, 222, 222);
+
+}
+
+.btns-deletar-modal button:nth-of-type(2) {
+    background-color: var(--cor-critico);
+    font-weight: 550;
+    color: white;
+}

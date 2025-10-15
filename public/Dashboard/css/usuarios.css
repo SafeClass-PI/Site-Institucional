@@ -416,6 +416,7 @@ body {
     height: 64%;
     cursor: pointer;
     transition: 0.2s ease-in-out all;
+    font-weight: 500;
 }
 
 .btns-modal-adicionar-user button:hover {
@@ -433,7 +434,7 @@ body {
 }
 
 #exportarDados {
-    width: 26%;
+    width: 34%;
     border-radius: 10px;
     border: 2px solid rgb(231, 231, 231);
     cursor: pointer;
