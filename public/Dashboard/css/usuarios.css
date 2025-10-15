@@ -168,22 +168,23 @@ body {
     z-index: 11;
 }
 
-.icone-alerta {
+.icone-logout {
     width: 100%;
     height: 40%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
-.icone-alerta i {
+.icone-logout i {
     font-size: 55px;
     background: linear-gradient(90deg, #FF3700, #ffcc00);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     transform: rotate(180deg);
+
     margin: 0;
 }
 
@@ -962,6 +963,7 @@ body {
 
 .btns-deletar-modal button:nth-of-type(1) {
     background-color: rgb(228, 228, 228);
+    border: 2px solid rgb(215, 215, 215);
     font-weight: 550;
     color: #3f3f3f;
 }
