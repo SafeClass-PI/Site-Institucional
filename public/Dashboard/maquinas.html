@@ -41,10 +41,27 @@
                     <i class="fa-solid fa-users"></i>
                     <p>Usuários</p>
                 </a>
-                <a href="../index.html" class="icone-links">
+                <button onclick="sairDaPagina()" class="icone-links">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <p>Sair</p>
-                </a>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-alerta">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="main-content">

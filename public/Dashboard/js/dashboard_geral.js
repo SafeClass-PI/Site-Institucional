@@ -1,3 +1,18 @@
+function sairDaPagina() {
+    modalLogout.style.display = 'flex';
+    telaOverlay.style.display = 'block';
+}
+
+function cancelarSairDaPagina() {
+    modalLogout.style.display = 'none';
+    telaOverlay.style.display = 'none';
+}
+
+function confirmarSairDaPagina() {
+    window.location.href = '../index.html'
+}
+
+
 const painelSalas = document.getElementById('painel-salas');
 const painelMaquinas = document.getElementById('painel-maquinas');
 const nomeEscola = document.getElementById('nome-escola');

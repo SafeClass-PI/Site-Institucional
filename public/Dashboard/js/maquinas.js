@@ -1,3 +1,18 @@
+function sairDaPagina() {
+    modalLogout.style.display = 'flex';
+    telaOverlay.style.display = 'block';
+}
+
+function cancelarSairDaPagina() {
+    modalLogout.style.display = 'none';
+    telaOverlay.style.display = 'none';
+}
+
+function confirmarSairDaPagina() {
+    window.location.href = '../index.html'
+}
+
+
 function adicionarUsuario() {
     telaOverlay.style.display = 'block'
     modalAdicionarMaquina.style.display = 'flex';

@@ -1,3 +1,17 @@
+function sairDaPagina() {
+    modalLogout.style.display = 'flex';
+    telaOverlay.style.display = 'block';
+}
+
+function cancelarSairDaPagina() {
+    modalLogout.style.display = 'none';
+    telaOverlay.style.display = 'none';
+}
+
+function confirmarSairDaPagina() {
+    window.location.href = '../index.html'
+}
+
 const kpis = [
     { titulo: "Uso médio de CPU", valor: "30%" },
     { titulo: "Uso médio de RAM", valor: "65%" },
@@ -197,7 +211,7 @@ const config2 = {
 new Chart(ctx2, config2);
 
 const labels = ['CPU', 'Disco', 'RAM', 'Rede'];
-const dados = [1, 5, 2, 8]; 
+const dados = [1, 5, 2, 8];
 
 const data3 = {
     labels: labels,

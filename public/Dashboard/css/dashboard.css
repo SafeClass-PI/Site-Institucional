@@ -110,8 +110,15 @@ body {
     background-repeat: no-repeat;
     background-position: left;
     transition: background-size 0.5s ease-in-out, color 0.3s ease-in-out;
+    border: none;
 }
-.links a:hover {
+
+.links button:nth-of-type(1) {
+    font-size: 16px;
+}
+
+.links a:hover,
+.links button:hover {
     background-size: 100% 100%;
     color: var(--cor-branco);
 }
@@ -141,6 +148,95 @@ body {
     color: var(--cor-branco);
 }
 
+
+.modal-logout {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 23%;
+    height: 30%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    z-index: 11;
+}
+
+.icone-alerta {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.icone-alerta i {
+    font-size: 55px;
+    background: linear-gradient(90deg, #FF3700, #ffcc00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: rotate(180deg);
+    margin: 0;
+}
+
+.mensagem-logout {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.mensagem-logout p:nth-of-type(1) {
+    font-size: 17px;
+    font-weight: 650;
+}
+
+.mensagem-logout p:nth-of-type(2) {
+    font-size: 12px;
+    font-weight: 500;
+    color: #535353;
+}
+
+.btns-logout-modal {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.btns-logout-modal button {
+    width: 38%;
+    height: 70%;
+    margin-bottom: 2%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btns-logout-modal button:nth-of-type(1) {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(215, 215, 215);
+    font-weight: 550;
+    color: #3f3f3f;
+    font-size: 14px;
+}
+
+.btns-logout-modal button:nth-of-type(2) {
+    background: linear-gradient(90deg, #FF3700, #ffa200);
+    font-weight: 550;
+    color: white;
+    font-size: 14px;
+}
 
 /* -------------------------------- TOP BAR -------------------------------------- */
 
