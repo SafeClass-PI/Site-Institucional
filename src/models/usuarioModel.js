@@ -57,7 +57,7 @@ function cadastrar(cargo_tipo, nome, email, senha) {
     var status = cargo_tipo == 2 ? 'pendente' : 'ativo';
 
     // 🚨 AQUI: Remova as aspas simples em volta de ${cargo_tipo}
-    var instrucaoSql = `INSERT INTO usuario (fkTipo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
+    var instrucaoSql = `INSERT INTO usuario (fkCargo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
 
     return database.executar(instrucaoSql);
 }
