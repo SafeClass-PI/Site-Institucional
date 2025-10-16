@@ -17,6 +17,10 @@ router.post("/autenticar", function (req, res) {
 // NOVAS ROTAS PARA O MODAL DE SOLICITAÇÕES
 // ------------------------------------------------------------------
 
+router.get("/qtdSolicitacoes/", function (req, res) {
+    usuarioController.buscarqtdSolicitacoes(req, res);
+});
+
 // 1. Rota para carregar os dados no modal (GET)
 // Chama a função que busca todos os usuários com status 'pendente'
 router.get('/solicitacoes', function (req, res) {

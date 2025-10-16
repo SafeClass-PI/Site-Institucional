@@ -11,7 +11,7 @@
     <title>Usuários</title>
 </head>
 
-<body>
+<body onload="quantidadeSolicitacoes()">
     <div class="overlay" id="telaOverlay">
     </div>
     <div class="dashboard">
@@ -146,7 +146,7 @@
                         </div>
                         <div class="solicitacoes-gestor">
                             <button onclick="abrirSolicitacoes()">Solicitações <div class="icone-qtd-solicitacoes">
-                                    <p>1</p>
+                                    <p id="qtdSolicitacoes"></p>
                                 </div> </button>
                         </div>
                         <div class="modal-solicitacoes-usuario" id="modalSolicitacoes">

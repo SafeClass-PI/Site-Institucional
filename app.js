@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public",)));
 app.use(cors());
 
 // 🚨 LINHA CORRIGIDA: Adicionando '/api' para bater com o Frontend
-app.use("/api/usuarios", usuarioRouter); 
+app.use("/api/usuarios", usuarioRouter);
 // app.use("/avisos", avisosRouter);
 // app.use("/medidas", medidasRouter);
 // app.use("/aquarios", aquariosRouter);
