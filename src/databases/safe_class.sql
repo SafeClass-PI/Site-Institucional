@@ -1,3 +1,5 @@
+drop database safeclass;
+
 -- 1. Criação do Banco de Dados
 CREATE DATABASE safeclass;
 
@@ -19,7 +21,7 @@ CREATE TABLE Escola (
     idEscola INT PRIMARY KEY AUTO_INCREMENT,
     fkEndereco INT,
     nome VARCHAR(45),
-    email VARCHAR(45),y
+    email VARCHAR(45),
     cargo VARCHAR(45),
     telefone CHAR(11),
     codigoInep VARCHAR(45),
@@ -162,20 +164,28 @@ select * from usuario;
 truncate usuario;
 
 ALTER TABLE Usuario ADD COLUMN status VARCHAR(20) DEFAULT 'pendente';
-UPDATE Usuario set status = "ativo" where idUsuario = 4;
-UPDATE Usuario set status = "pendente" where idUsuario = 2;
+
+UPDATE Usuario set status = "pendente" where idUsuario = 1;
+
+
+
+ALTER TABLE usuario
+ADD COLUMN dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+-- O "DEFAULT CURRENT_TIMESTAMP" garante que a data e hora
+-- serão preenchidas automaticamente em todos os novos cadastros.
+
+ALTER TABLE Usuario
+MODIFY COLUMN fkEscola INT NULL;
 
 
 
 
+select * from usuario;
 
-
-
-
+ALTER TABLE usuario ADD COLUMN senha_temporaria_expira DATETIME;
 
 
 
 -- As tabelas Captura, Parametro e Alerta não tiveram dados de teste fornecidos no script original.
 -- Se houvesse, as inserções em Captura e Parametro viriam antes de Alerta.
-
-

@@ -101,64 +101,60 @@
                             <div class="infos-dupla">
                                 <div class="informacao">
                                     <p>Nome:</p>
-                                    <div class="captura-info">
-                                        Ryan Patric
-                                    </div>
+                                    <div class="captura-info" id="campoNome"></div>
                                 </div>
                                 <div class="informacao">
                                     <p>Cargo:</p>
-                                    <div class="captura-info">
-                                        Analista
-                                    </div>
+                                    <div class="captura-info" id="campoCargo"></div>
                                 </div>
                             </div>
                             <div class="info-sozinha">
                                 <div class="informacao">
                                     <p>E-mail:</p>
-                                    <div class="captura-info">
-                                        ryan@gmail.com
-                                    </div>
+                                    <div class="captura-info" id="campoEmail"></div>
                                 </div>
                             </div>
                             <div class="infos-dupla">
                                 <div class="informacao">
                                     <p>Data de Entrada:</p>
-                                    <div class="captura-info">
-                                        20/10/2025
-                                    </div>
+                                    <div class="captura-info" id="campoDataEntrada"></div>
                                 </div>
                                 <div class="informacao">
                                     <p>Status:</p>
-                                    <div class="captura-info">
-                                        Ativo
-                                    </div>
+                                    <div class="captura-info" id="campoStatus"></div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="painel-alterar-senha">
                         <div class="titulo-alterar-senha">
                             <p>Alterar senha?</p>
                         </div>
+
                         <div class="inputs-alterar-senha">
                             <div class="input">
                                 <p>Digite a senha atual:</p>
-                                <input type="text">
+                                <input type="password" id="senha_atual" placeholder="Senha atual">
                             </div>
                             <div class="input">
                                 <p>Digite a nova senha:</p>
-                                <input type="text">
+                                <input type="password" id="nova_senha" placeholder="Nova senha">
                             </div>
                             <div class="input">
                                 <p>Confirme a nova senha:</p>
-                                <input type="text">
+                                <input type="password" id="confirmar_senha" placeholder="Confirmar nova senha">
                             </div>
                         </div>
+
                         <div class="btns-alterar-senha">
                             <button onclick="limparInputsAlterarSenha()">Cancelar</button>
                             <button onclick="alterarSenhaPerfil()">Alterar</button>
                         </div>
+
+                        <div id="mensagem-atualizacao" class="mensagem-feedback"></div>
                     </div>
+
                 </div>
             </div>
         </div>

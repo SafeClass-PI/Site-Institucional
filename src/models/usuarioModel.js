@@ -3,9 +3,23 @@ var database = require("../../src/databases/config");
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n function autenticar():", email, senha);
 
-    var instrucaoSql = `SELECT idUsuario, email, senha, status, senha_temporaria_expira FROM usuario WHERE email = '${email}'`;
+var instrucaoSql = `
+  SELECT 
+    u.idUsuario, 
+    u.nome, 
+    u.email, 
+    u.senha, 
+    u.status, 
+    u.senha_temporaria_expira, 
+    u.dtCadastro,
+    tu.tipo AS cargo
+  FROM Usuario u
+  JOIN TipoUsuario tu ON u.fkTipo = tu.idTipo
+  WHERE u.email = '${email}'
+`;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
     return database.executar(instrucaoSql).then(listaDeUsuarios => {
         if (listaDeUsuarios.length > 0) {
@@ -82,17 +96,22 @@ function rejeitar(idUsuario) {
 }
 
 function buscarPorId(idUsuario) {
-    var instrucaoSql = `SELECT nome, email FROM usuario WHERE idUsuario = ${idUsuario}`;
+    var instrucaoSql = `
+        SELECT idUsuario, nome, email, senha, senha_temporaria_expira 
+        FROM usuario 
+        WHERE idUsuario = ${idUsuario}
+    `;
 
     console.log("Executando a instrução SQL para buscar por ID: \n" + instrucaoSql);
     return database.executar(instrucaoSql).then(resultado => {
         if (resultado.length > 0) {
-            return resultado[0]; // Retorna o primeiro (e único) usuário encontrado
+            return resultado[0];
         } else {
             throw new Error("Usuário não encontrado.");
         }
     });
 }
+
 
 
 function buscarPorEmail(email) {
@@ -110,6 +129,16 @@ function atualizarSenhaTemporaria(idUsuario, novaSenha, expiraEm) {
     return database.executar(sql);
 }
 
+function atualizarSenha(idUsuario, novaSenha) {
+    const sql = `
+    UPDATE usuario 
+    SET senha = '${novaSenha}', senha_temporaria_expira = NULL 
+    WHERE idUsuario = ${idUsuario}
+  `;
+    return database.executar(sql);
+}
+
+
 
 
 // Atualização do módulo de exportação
@@ -117,10 +146,11 @@ module.exports = {
     autenticar,
     cadastrar,
     buscarqtdSolicitacoes,
-    buscarPendentes, 
+    buscarPendentes,
     aprovar,
     rejeitar,
     buscarPorId,
     buscarPorEmail,
-    atualizarSenhaTemporaria      
+    atualizarSenhaTemporaria,
+    atualizarSenha
 };

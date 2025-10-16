@@ -49,6 +49,11 @@ router.post("/recuperar-senha", function (req, res) {
     usuarioController.recuperarSenha(req, res);
 });
 
+router.put("/alterar-senha/:id", function (req, res) {
+  usuarioController.alterarSenhaPerfil(req, res);
+});
+
+
 
 
 

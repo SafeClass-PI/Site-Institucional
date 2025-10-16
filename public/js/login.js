@@ -18,21 +18,33 @@ function entrar() {
             senhaServer: senhaVar
         })
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("Login realizado com sucesso!");
-            sessionStorage.EMAIL_USUARIO = data.usuario.email;
-            sessionStorage.SENHA_USUARIO = data.usuario.senha;
-            window.location.href = "Dashboard/dashboard_geral.html";
-        } else {
-            alert(data.mensagem);
-        }
-    })
-    .catch(erro => {
-        console.log("Erro no fetch:", erro);
-        alert("Houve um erro ao tentar realizar o login!");
-    });
+        .then(res => res.json())
+        .then(data => {
+            console.log("🔍 Dados recebidos do backend:", data.usuario);
+
+            if (data.success) {
+                alert("Login realizado com sucesso!");
+                sessionStorage.ID_USUARIO = data.usuario.idUsuario;
+                sessionStorage.NOME_USUARIO = data.usuario.nome;
+                sessionStorage.EMAIL_USUARIO = data.usuario.email;
+                sessionStorage.CARGO_USUARIO = data.usuario.cargo;
+                sessionStorage.STATUS_USUARIO = data.usuario.status;
+                sessionStorage.DATA_ENTRADA = data.usuario.dtCadastro;
+
+                console.log(sessionStorage.NOME_USUARIO);
+                console.log(sessionStorage.CARGO_USUARIO);
+                console.log(sessionStorage.DATA_ENTRADA);
+
+
+                window.location.href = "Dashboard/dashboard_geral.html";
+            } else {
+                alert(data.mensagem);
+            }
+        })
+        .catch(erro => {
+            console.log("Erro no fetch:", erro);
+            alert("Houve um erro ao tentar realizar o login!");
+        });
 
     return false;
 }

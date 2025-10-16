@@ -18,9 +18,19 @@ function autenticar(req, res) {
     } else {
         usuarioModel.autenticar(email, senha)
             .then(usuario => {
-                // Login permitido
-                res.json({ success: true, usuario: usuario });
+                res.json({
+                    success: true,
+                    usuario: {
+                        idUsuario: usuario.idUsuario,
+                        nome: usuario.nome,
+                        email: usuario.email,
+                        cargo: usuario.cargo, 
+                        status: usuario.status,
+                        dtCadastro: usuario.dtCadastro
+                    }
+                });
             })
+
             .catch(erro => {
                 // Aqui envia a mensagem de erro para o frontend
                 console.log("Erro no login:", erro.message);
@@ -162,7 +172,7 @@ async function recuperarSenha(req, res) {
         }
 
         const novaSenha = gerarSenhaTemporaria();
-        console.log("Senha gerada e enviada:", novaSenha); 
+        console.log("Senha gerada e enviada:", novaSenha);
 
 
         const expiraEm = new Date(Date.now() + 10 * 60000); // 10 minutos
@@ -178,6 +188,39 @@ async function recuperarSenha(req, res) {
 }
 
 
+async function alterarSenhaPerfil(req, res) {
+    const idUsuario = req.params.id;
+    const { senhaAtual, novaSenha } = req.body;
+
+    if (!senhaAtual || !novaSenha) {
+        return res.status(400).json({ success: false, message: "Campos obrigatórios não preenchidos." });
+    }
+
+    try {
+        const usuario = await usuarioModel.buscarPorId(idUsuario);
+
+        if (!usuario) {
+            return res.status(404).json({ success: false, message: "Usuário não encontrado." });
+        }
+
+        if (usuario.senha !== senhaAtual) {
+            console.log("Senha digitada:", senhaAtual);
+            console.log("Senha no banco:", usuario.senha);
+
+            return res.status(401).json({ success: false, message: "Senha atual incorreta." });
+        }
+
+        await usuarioModel.atualizarSenha(idUsuario, novaSenha);
+        res.json({ success: true, message: "Senha atualizada com sucesso." });
+    } catch (erro) {
+        console.error("Erro ao alterar senha:", erro.message);
+        res.status(500).json({ success: false, message: "Erro interno ao alterar senha." });
+    }
+}
+
+
+
+
 
 module.exports = {
     autenticar,
@@ -185,5 +228,6 @@ module.exports = {
     getSolicitacoes,    // Adicionado
     aprovarUsuario,     // Adicionado
     rejeitarUsuario,
-    recuperarSenha    // Adicionado
+    recuperarSenha,
+    alterarSenhaPerfil   // Adicionado
 };
