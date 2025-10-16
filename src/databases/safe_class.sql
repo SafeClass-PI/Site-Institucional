@@ -47,6 +47,7 @@ CREATE TABLE TipoUsuario (
     permissao VARCHAR(100)
 );
 
+select * from TipoUsuario;
 -- 7. Criação da Tabela Usuario (FK TipoUsuario, FK Escola)
 CREATE TABLE Usuario (
     idUsuario INT AUTO_INCREMENT,
@@ -182,6 +183,8 @@ MODIFY COLUMN fkEscola INT NULL;
 
 
 select * from usuario;
+
+delete from usuario where idUsuario = 3;
 
 ALTER TABLE usuario ADD COLUMN senha_temporaria_expira DATETIME;
 
