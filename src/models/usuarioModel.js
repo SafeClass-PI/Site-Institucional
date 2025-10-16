@@ -1,25 +1,37 @@
 var database = require("../../src/databases/config");
 
 function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n function autenticar():", email, senha);
+    console.log("ACESSEI O USUARIO MODEL \n function autenticar():", email, senha);
 
-     var instrucaoSql = `SELECT idUsuario, email, senha, status FROM usuario WHERE email = '${email}' AND senha = '${senha}'`;
+    var instrucaoSql = `SELECT idUsuario, email, senha, status, senha_temporaria_expira FROM usuario WHERE email = '${email}'`;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
-    return database.executar(instrucaoSql).then(listaDeUsuarios => {
-        if (listaDeUsuarios.length > 0) {
-            var usuario = listaDeUsuarios[0];
-            // Se o usuário ainda não estiver ativo, lançamos um erro
-            if (usuario.status !== "ativo") {
-               throw new Error('Aguardando liberação do gestor.');
-            }
-            return usuario; 
-        } else {
-            throw new Error('Email ou senha incorretos.');
-        }
-    });
+    return database.executar(instrucaoSql).then(listaDeUsuarios => {
+        if (listaDeUsuarios.length > 0) {
+            var usuario = listaDeUsuarios[0];
+
+            if (usuario.status !== "ativo") {
+                throw new Error('Aguardando liberação do gestor.');
+            }
+
+            const agora = new Date();
+            const expira = usuario.senha_temporaria_expira ? new Date(usuario.senha_temporaria_expira) : null;
+
+            if (usuario.senha === senha) {
+                if (expira && agora > expira) {
+                    throw new Error("Senha temporária expirada. Solicite nova recuperação.");
+                }
+                return usuario;
+            } else {
+                throw new Error('Email ou senha incorretos.');
+            }
+        } else {
+            throw new Error('Email ou senha incorretos.');
+        }
+    });
 }
+
 
 // Remova as aspas simples de ${cargo_tipo} se fkTipo for INT
 function cadastrar(cargo_tipo, nome, email, senha) {
@@ -75,6 +87,22 @@ function buscarPorId(idUsuario) {
 }
 
 
+function buscarPorEmail(email) {
+    const sql = `SELECT idUsuario, nome FROM usuario WHERE email = '${email}'`;
+    return database.executar(sql).then(resultado => resultado[0] || null);
+}
+
+function atualizarSenhaTemporaria(idUsuario, novaSenha, expiraEm) {
+    const expiraFormatada = expiraEm.toISOString().slice(0, 19).replace('T', ' ');
+    const sql = `
+        UPDATE usuario 
+        SET senha = '${novaSenha}', senha_temporaria_expira = '${expiraFormatada}' 
+        WHERE idUsuario = ${idUsuario}
+    `;
+    return database.executar(sql);
+}
+
+
 
 // Atualização do módulo de exportação
 module.exports = {
@@ -83,5 +111,7 @@ module.exports = {
     buscarPendentes, // Adicionado
     aprovar,         
     rejeitar,
-    buscarPorId         
+    buscarPorId,
+    buscarPorEmail,
+    atualizarSenhaTemporaria      
 };

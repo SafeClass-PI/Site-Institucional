@@ -1,13 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Safe Class | Login</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" href="/Site/imgs/logo-icone.png" type="image/x-icon">
 </head>
+
 <body>
 
-    <h2>RECUPERE SUA SENHA!!!! SAFE CLASS</h2>
-    
+    <div class="section">
+        <div class="imagem-direita">
+        </div>
+
+        <div class="login">
+
+
+            <div class="voltar-inicio">
+                <a id="link-inicio" href="index.html">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Voltar para o início
+                </a>
+            </div>
+
+
+
+            <div class="saudacao">
+                <h2>Recupere a sua senha com a SafeClass</h2>
+                <p>Insira seus dados para recuperar sua conta</p>
+            </div>
+
+            <div class="formulario">
+                <div class="email">
+                    <p>E-mail</p>
+                    <input type="text" id="ipt_email" placeholder="Digite seu E-mail">
+                </div>
+
+                <div class="botao_entrar">
+                    <button onclick="enviar()">Enviar nova senha</button>
+
+
+                      <div id="mensagem-recuperacao"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>
+
+
+  
+
+
+<script src="./js/recuperar.js"></script>

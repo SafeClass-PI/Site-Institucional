@@ -1,58 +1,58 @@
 var usuarioModel = require("../models/usuarioModel");
 
 var { enviarEmailAprovacao } = require("../services/emailService");
-var {enviarEmailRejeicao} = require("../services/emailService");
-
+var { enviarEmailRejeicao } = require("../services/emailService");
+var { enviarEmailRecuperacao } = require("../services/emailService");
 
 
 
 
 function autenticar(req, res) {
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
 
-    if (!email) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (!senha) {
-        res.status(400).send("Sua senha está undefined!");
-    } else {
-        usuarioModel.autenticar(email, senha)
-            .then(usuario => {
-                // Login permitido
-                res.json({ success: true, usuario: usuario });
-            })
-            .catch(erro => {
-                // Aqui envia a mensagem de erro para o frontend
-                console.log("Erro no login:", erro.message);
-                res.json({ success: false, mensagem: erro.message });
-            });
-    }
+    if (!email) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (!senha) {
+        res.status(400).send("Sua senha está undefined!");
+    } else {
+        usuarioModel.autenticar(email, senha)
+            .then(usuario => {
+                // Login permitido
+                res.json({ success: true, usuario: usuario });
+            })
+            .catch(erro => {
+                // Aqui envia a mensagem de erro para o frontend
+                console.log("Erro no login:", erro.message);
+                res.json({ success: false, mensagem: erro.message });
+            });
+    }
 }
 
 function cadastrar(req, res) {
-    var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
-    var cargo_tipo = req.body.tipo_cargoServer;
+    var nome = req.body.nomeServer;
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
+    var cargo_tipo = req.body.tipo_cargoServer;
 
-    if (!nome) {
-        res.status(400).send("Seu nome está undefined!");
-    } else if (!email) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (!senha) {
-        res.status(400).send("Sua senha está undefined!");
-    } else if (!cargo_tipo) {
-        res.status(400).send("Seu cargo está undefined!");
-    } else {
-        usuarioModel.cadastrar(cargo_tipo, nome, email, senha)
-            .then(resultado => {
-                res.json({ success: true });
-            })
-            .catch(erro => {
-                console.log("Erro no cadastro:", erro.message);
-                res.json({ success: false, mensagem: erro.message });
-            });
-    }
+    if (!nome) {
+        res.status(400).send("Seu nome está undefined!");
+    } else if (!email) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (!senha) {
+        res.status(400).send("Sua senha está undefined!");
+    } else if (!cargo_tipo) {
+        res.status(400).send("Seu cargo está undefined!");
+    } else {
+        usuarioModel.cadastrar(cargo_tipo, nome, email, senha)
+            .then(resultado => {
+                res.json({ success: true });
+            })
+            .catch(erro => {
+                console.log("Erro no cadastro:", erro.message);
+                res.json({ success: false, mensagem: erro.message });
+            });
+    }
 }
 
 // ------------------------------------------------------------------
@@ -64,7 +64,7 @@ function getSolicitacoes(req, res) {
     usuarioModel.buscarPendentes()
         .then(solicitacoes => {
             // Retorna a lista de usuários pendentes como um JSON Array
-            res.status(200).json(solicitacoes); 
+            res.status(200).json(solicitacoes);
         })
         .catch(erro => {
             console.error("Erro ao buscar solicitações:", erro.message);
@@ -132,10 +132,48 @@ function rejeitarUsuario(req, res) {
     }
 }
 
+
+function gerarSenhaTemporaria() {
+    return Math.random().toString(36).slice(-8); // Ex: "a9xk2b1z"
+}
+
+async function recuperarSenha(req, res) {
+    const email = req.body.emailServer;
+
+    if (!email) {
+        return res.status(400).json({ success: false, message: "E-mail não fornecido." });
+    }
+
+    try {
+        const usuario = await usuarioModel.buscarPorEmail(email);
+
+        if (!usuario) {
+            return res.status(404).json({ success: false, message: "Usuário não encontrado." });
+        }
+
+        const novaSenha = gerarSenhaTemporaria();
+        console.log("Senha gerada e enviada:", novaSenha); 
+
+
+        const expiraEm = new Date(Date.now() + 10 * 60000); // 10 minutos
+
+        await usuarioModel.atualizarSenhaTemporaria(usuario.idUsuario, novaSenha, expiraEm);
+        await enviarEmailRecuperacao(email, usuario.nome, novaSenha);
+
+        res.json({ success: true, message: "Nova senha enviada para o e-mail." });
+    } catch (erro) {
+        console.error("Erro na recuperação de senha:", erro.message);
+        res.status(500).json({ success: false, message: "Erro interno ao recuperar senha." });
+    }
+}
+
+
+
 module.exports = {
-    autenticar,
-    cadastrar,
+    autenticar,
+    cadastrar,
     getSolicitacoes,    // Adicionado
     aprovarUsuario,     // Adicionado
-    rejeitarUsuario     // Adicionado
+    rejeitarUsuario,
+    recuperarSenha    // Adicionado
 };

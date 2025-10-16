@@ -41,6 +41,11 @@ router.get('/usuario/:id', function (req, res) {
     usuarioController.buscarUsuarioPorId(req, res);
 });
 
+router.post("/recuperar-senha", function (req, res) {
+    usuarioController.recuperarSenha(req, res);
+});
+
+
 
 
 module.exports = router;
