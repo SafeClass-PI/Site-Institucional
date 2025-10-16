@@ -59,6 +59,15 @@ function cadastrar(req, res) {
 // NOVAS FUNÇÕES PARA O MODAL DE SOLICITAÇÕES
 // ------------------------------------------------------------------
 
+
+function buscarqtdSolicitacoes(req, res) {
+    usuarioModel.buscarqtdSolicitacoes().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 function getSolicitacoes(req, res) {
     // Não precisamos de validação aqui, apenas buscar
     usuarioModel.buscarPendentes()
@@ -71,6 +80,7 @@ function getSolicitacoes(req, res) {
             res.status(500).json({ success: false, mensagem: "Erro interno ao buscar solicitações." });
         });
 }
+
 
 function aprovarUsuario(req, res) {
     var userId = req.params.id;

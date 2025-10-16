@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/usuarios.css">
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Meu perfil</title>
+</head>
+
+<body>
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="dashboard_especifica.html" class="icone-links">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Análise</p>
+                </a>
+                <a href="#" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="perfil.html" class="activate">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
+                </a>
+                <button onclick="sairDaPagina()" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <a href="perfil.html">
+                        <div class="profile-img">
+                            <img src="imgs/DSC08926.JPEG">
+                        </div>
+                        <p>Ryan Patric</p>
+                    </a>
+                </div>
+            </div>
+            <div class="painel-perfil">
+                <div class="titulo-painel-perfil">
+                    <p>Meu perfil</p>
+                </div>
+                <div class="painel-informacoes">
+                    <div class="informacoes-perfil">
+                        <div class="foto-perfil">
+                            <div class="imagem-foto-perfil">
+                                <img src="../imgs/DSC08926.JPEG">
+                                <button onclick="editarImagem()"><i class="fa-solid fa-pencil"></i></button>
+                            </div>
+                            <p>Ryan Patric</p>
+                            <p>Analista</p>
+                        </div>
+                        <div class="silver-line">
+                        </div>
+                        <div class="informacoes-pessoais">
+                            <div class="infos-dupla">
+                                <div class="informacao">
+                                    <p>Nome:</p>
+                                    <div class="captura-info">
+                                        Ryan Patric
+                                    </div>
+                                </div>
+                                <div class="informacao">
+                                    <p>Cargo:</p>
+                                    <div class="captura-info">
+                                        Analista
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-sozinha">
+                                <div class="informacao">
+                                    <p>E-mail:</p>
+                                    <div class="captura-info">
+                                        ryan@gmail.com
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="infos-dupla">
+                                <div class="informacao">
+                                    <p>Data de Entrada:</p>
+                                    <div class="captura-info">
+                                        20/10/2025
+                                    </div>
+                                </div>
+                                <div class="informacao">
+                                    <p>Status:</p>
+                                    <div class="captura-info">
+                                        Ativo
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="painel-alterar-senha">
+                        <div class="titulo-alterar-senha">
+                            <p>Alterar senha?</p>
+                        </div>
+                        <div class="inputs-alterar-senha">
+                            <div class="input">
+                                <p>Digite a senha atual:</p>
+                                <input type="text">
+                            </div>
+                            <div class="input">
+                                <p>Digite a nova senha:</p>
+                                <input type="text">
+                            </div>
+                            <div class="input">
+                                <p>Confirme a nova senha:</p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="btns-alterar-senha">
+                            <button onclick="limparInputsAlterarSenha()">Cancelar</button>
+                            <button onclick="alterarSenhaPerfil()">Alterar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/perfil.js"></script>
+</body>
+
+</html>

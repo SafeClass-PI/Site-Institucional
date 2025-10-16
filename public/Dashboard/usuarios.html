@@ -11,7 +11,7 @@
     <title>Usuários</title>
 </head>
 
-<body>
+<body onload="quantidadeSolicitacoes()">
     <div class="overlay" id="telaOverlay">
     </div>
     <div class="dashboard">
@@ -32,13 +32,17 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <p>Alertas</p>
                 </a>
+                <a href="usuarios.html" class="activate">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
                 <a href="maquinas.html" class="icone-links">
                     <i class="fa-solid fa-computer"></i>
                     <p>Máquinas</p>
                 </a>
-                <a href="usuarios.html" class="activate">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Usuários</p>
+                <a href="perfil.html" class="icone-links">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
                 </a>
                 <button onclick="sairDaPagina()" class="icone-links">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -68,10 +72,12 @@
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-envelope"></i>
                 <div class="profile-icone">
-                    <div class="profile-img">
-                        <img src="imgs/DSC08926.JPEG">
-                    </div>
-                    <p>Ryan Patric</p>
+                    <a href="perfil.html">
+                        <div class="profile-img">
+                            <img src="imgs/DSC08926.JPEG">
+                        </div>
+                        <p>Ryan Patric</p>
+                    </a>
                 </div>
             </div>
             <div class="painel-usuarios">
@@ -146,7 +152,7 @@
                         </div>
                         <div class="solicitacoes-gestor">
                             <button onclick="abrirSolicitacoes()">Solicitações <div class="icone-qtd-solicitacoes">
-                                    <p>1</p>
+                                    <p id="qtdSolicitacoes"></p>
                                 </div> </button>
                         </div>
                         <div class="modal-solicitacoes-usuario" id="modalSolicitacoes">
@@ -295,9 +301,9 @@
                     </div>
                     <table>
                         <colgroup>
-                            <col style="width: 14%;">
+                            <col style="width: 16%;">
                             <col style="width: 20%;">
-                            <col style="width: 15%;">
+                            <col style="width: 12%;">
                             <col style="width: 17%;">
                             <col style="width: 12%;">
                             <col style="width: 10%;">
@@ -314,10 +320,12 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Ryan Patric</td>
-                                <td>ryan@email.com</td>
-                                <td>Gestor</td>
-                                <td>20/11/2024</td>
+                                <td>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                </td>
+                                <td><p>ryan@email.com</p></td>
+                                <td><p>Gestor</p></td>
+                                <td><p>20/11/2024</p></td>
                                 <td><span class="status-ativo">Ativo</span></td>
                                 </td>
                                 <td>
@@ -326,66 +334,70 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Maria Joana</td>
-                                <td>maria@email.com</td>
-                                <td>Analista</td>
-                                <td>20/11/2024</td>
+                                <td>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                </td>
+                                <td><p>ryan@email.com</p></td>
+                                <td><p>Gestor</p></td>
+                                <td><p>20/11/2024</p></td>
+                                <td><span class="status-ativo">Ativo</span></td>
+                                </td>
+                                <td>
+                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
+                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                </td>
+                                <td><p>ryan@email.com</p></td>
+                                <td><p>Gestor</p></td>
+                                <td><p>20/11/2024</p></td>
                                 <td><span class="status-inativo">Inativo</span></td>
+                                </td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Ryan Patric</td>
-                                <td>ryan@email.com</td>
-                                <td>Gestor</td>
-                                <td>20/11/2024</td>
+                                <td>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                </td>
+                                <td><p>ryan@email.com</p></td>
+                                <td><p>Gestor</p></td>
+                                <td><p>20/11/2024</p></td>
                                 <td><span class="status-ativo">Ativo</span></td>
+                                </td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Maria Joana</td>
-                                <td>maria@email.com</td>
-                                <td>Analista</td>
-                                <td>20/11/2024</td>
-                                <td><span class="status-inativo">Inativo</span></td>
                                 <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Ryan Patric</td>
-                                <td>ryan@email.com</td>
-                                <td>Gestor</td>
-                                <td>20/11/2024</td>
+                                <td><p>ryan@email.com</p></td>
+                                <td><p>Gestor</p></td>
+                                <td><p>20/11/2024</p></td>
                                 <td><span class="status-ativo">Ativo</span></td>
+                                </td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Maria Joana</td>
-                                <td>maria@email.com</td>
-                                <td>Analista</td>
-                                <td>20/11/2024</td>
-                                <td><span class="status-ativo">Ativo</span></td>
                                 <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Maria Joana</td>
-                                <td>maria@email.com</td>
-                                <td>Analista</td>
-                                <td>20/11/2024</td>
+                                <td><p>ryan@email.com</p></td>
+                                <td><p>Gestor</p></td>
+                                <td><p>20/11/2024</p></td>
                                 <td><span class="status-ativo">Ativo</span></td>
+                                </td>
                                 <td>
                                     <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
                                     <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>

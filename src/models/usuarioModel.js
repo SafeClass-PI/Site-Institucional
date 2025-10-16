@@ -35,7 +35,7 @@ function autenticar(email, senha) {
 
 // Remova as aspas simples de ${cargo_tipo} se fkTipo for INT
 function cadastrar(cargo_tipo, nome, email, senha) {
-    var status = cargo_tipo == 2 ? 'pendente' : 'ativo'; 
+    var status = cargo_tipo == 2 ? 'pendente' : 'ativo';
 
     // 🚨 AQUI: Remova as aspas simples em volta de ${cargo_tipo}
     var instrucaoSql = `INSERT INTO usuario (fkTipo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
@@ -48,29 +48,37 @@ function cadastrar(cargo_tipo, nome, email, senha) {
 // NOVAS FUNÇÕES PARA O MODAL DE SOLICITAÇÕES
 // ------------------------------------------------------------------
 
+function buscarqtdSolicitacoes() {
+    var instrucaoSql = `SELECT count(status) AS qtdSolicitacoes FROM Usuario
+    WHERE status LIKE 'pendente';`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function buscarPendentes() {
     // É importante selecionar o idUsuario para que possamos aprovar/rejeitar
-    var instrucaoSql = `SELECT idUsuario, nome, email, DATE_FORMAT(dtCadastro, '%d/%m/%Y') AS emissao FROM usuario WHERE status = 'pendente' ORDER BY idUsuario ASC`;
+    var instrucaoSql = `SELECT idUsuario, nome, email, DATE_FORMAT(dtCadastro, '%d/%m/%Y') AS emissao FROM usuario WHERE status = 'pendente' ORDER BY idUsuario ASC`;
 
 
-    console.log("Executando a instrução SQL para buscar pendentes: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    console.log("Executando a instrução SQL para buscar pendentes: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 function aprovar(idUsuario) {
-    // 🚨 CORREÇÃO: Remova quebras de linha e espaços antes/depois do comando
-    var instrucaoSql = `UPDATE usuario SET status = 'ativo' WHERE idUsuario = ${idUsuario}`;
+    // 🚨 CORREÇÃO: Remova quebras de linha e espaços antes/depois do comando
+    var instrucaoSql = `UPDATE usuario SET status = 'ativo' WHERE idUsuario = ${idUsuario}`;
 
-    console.log("Executando a instrução SQL para aprovação: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    console.log("Executando a instrução SQL para aprovação: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 function rejeitar(idUsuario) {
-    // 🚨 CORREÇÃO: Remova quebras de linha e espaços antes/depois do comando
-    var instrucaoSql = `DELETE FROM usuario WHERE idUsuario = ${idUsuario}`;
+    // 🚨 CORREÇÃO: Remova quebras de linha e espaços antes/depois do comando
+    var instrucaoSql = `DELETE FROM usuario WHERE idUsuario = ${idUsuario}`;
 
-    console.log("Executando a instrução SQL para rejeição: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    console.log("Executando a instrução SQL para rejeição: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 function buscarPorId(idUsuario) {
@@ -106,10 +114,11 @@ function atualizarSenhaTemporaria(idUsuario, novaSenha, expiraEm) {
 
 // Atualização do módulo de exportação
 module.exports = {
-    autenticar,
-    cadastrar,
-    buscarPendentes, // Adicionado
-    aprovar,         
+    autenticar,
+    cadastrar,
+    buscarqtdSolicitacoes,
+    buscarPendentes, 
+    aprovar,
     rejeitar,
     buscarPorId,
     buscarPorEmail,
