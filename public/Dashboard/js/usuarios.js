@@ -266,3 +266,64 @@ function manipularSolicitacao(idUsuario, acao) {
             alert(`Falha ao processar a solicitação: ${error.message}`);
         });
 }
+
+
+
+/* --------------------- GESTOR ADICIONAR NOVO USER -------------------------------------- */
+
+function efetuarCriacaoUserGestor() {
+    var emailUsuario = emailNovoUser.value;
+    var senhaUsuario = senhaNovoUser.value;
+    var nomeUsuario = nomeNovoUser.value;
+    var cargoUser = cargoNovoUser.value;
+    var statusUser = "ativo";
+
+    if (emailUsuario == "" || senhaUsuario == "" || nomeUsuario == "" || cargoUser == "") {
+        alert('Insira todos os dados pedidos!')
+    }
+    else {
+        fetch("/api/usuarios/cadastrarPorGestor", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeServer: nomeUsuario,
+                emailServer: emailUsuario,
+                senhaServer: senhaUsuario,
+                tipo_cargoServer: cargoUser,
+                statusServer: statusUser
+            }),
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    // Captura erros HTTP (400, 500)
+                    resposta.json().then(error => {
+                        alert("Erro ao cadastrar: " + (error.mensagem || 'Erro desconhecido.'));
+                        throw new Error('Erro ao cadastrar. Status: ' + resposta.status);
+                    });
+                }
+            })
+            .then(resposta => {
+                if (resposta.success) {
+                    alert("Cadastro realizado com sucesso!");
+
+                    emailNovoUser.value = "";
+                    senhaNovoUser.value = "";
+                    nomeNovoUser.value = "";
+                    cargoNovoUser.value = "";
+
+                    cancelarAdicionarUser();
+                } else {
+                    alert("Erro ao cadastrar: " + resposta.mensagem);
+                }
+            })
+
+            .catch(function (erro) {
+                console.error("Erro no fetch de cadastro:", erro);
+            });
+    }
+}
+

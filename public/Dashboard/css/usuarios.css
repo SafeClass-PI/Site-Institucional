@@ -387,7 +387,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 25%;
-    height: 50%;
+    height: 65%;
     background-color: var(--cor-branco);
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
     border-radius: 10px;
@@ -522,7 +522,7 @@ body {
     border: none;
     border-radius: 8px;
     width: 40%;
-    height: 64%;
+    height: 55%;
     cursor: pointer;
     transition: 0.2s ease-in-out all;
     font-weight: 500;
@@ -699,6 +699,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 11;
+    overflow-y: auto;
 }
 
 .titulo-modal-solicitacoes {

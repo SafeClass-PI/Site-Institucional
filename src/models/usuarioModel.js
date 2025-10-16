@@ -9,15 +9,20 @@ var instrucaoSql = `
     u.nome, 
     u.email, 
     u.senha, 
-    u.status, 
-    u.senha_temporaria_expira, 
+    u.status,  
     u.dtCadastro,
-    tu.tipo AS cargo
+    tu.nome AS cargo
   FROM Usuario u
-  JOIN TipoUsuario tu ON u.fkTipo = tu.idTipo
-  WHERE u.email = '${email}'
+  JOIN Cargo tu ON u.fkCargo = tu.idCargo  WHERE u.email = '${email}'
 `;
 
+/* ------- PARTE BIA ---------- 
+var instrucaoSql = ` SELECT u.idUsuario, u.nome, u.email, u.senha, u.status, u.senha_temporaria_expira, 
+u.dtCadastro, tu.tipo AS cargo
+ FROM Usuario 
+ u JOIN Cargo tu ON u.fkTipo = tu.idTipo 
+WHERE u.email = '${email}' `;
+*/
 
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
@@ -53,6 +58,13 @@ function cadastrar(cargo_tipo, nome, email, senha) {
 
     // 🚨 AQUI: Remova as aspas simples em volta de ${cargo_tipo}
     var instrucaoSql = `INSERT INTO usuario (fkTipo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
+
+    return database.executar(instrucaoSql);
+}
+
+
+function cadastrarGestor(cargo_tipo, nome, email, senha, status) {
+    var instrucaoSql = `INSERT INTO usuario (fkCargo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
 
     return database.executar(instrucaoSql);
 }
@@ -139,12 +151,11 @@ function atualizarSenha(idUsuario, novaSenha) {
 }
 
 
-
-
 // Atualização do módulo de exportação
 module.exports = {
     autenticar,
     cadastrar,
+    cadastrarGestor,
     buscarqtdSolicitacoes,
     buscarPendentes,
     aprovar,

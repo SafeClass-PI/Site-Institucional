@@ -1,14 +1,9 @@
-drop database safeclass;
-
--- 1. Criação do Banco de Dados
+DROP DATABASE safeclass;
 CREATE DATABASE safeclass;
-
--- 2. Seleção do Banco de Dados
 USE safeclass;
 
--- 3. Criação da Tabela Endereco (Não possui FKs)
 CREATE TABLE Endereco (
-    idEndereco INT PRIMARY KEY AUTO_INCREMENT,
+	idEndereco INT PRIMARY KEY AUTO_INCREMENT,
     logradouro VARCHAR(45),
     numero VARCHAR(45),
     cidade VARCHAR(45),
@@ -16,22 +11,25 @@ CREATE TABLE Endereco (
     uf CHAR(2)
 );
 
--- 4. Criação da Tabela Escola (FK Endereco)
+Insert into Endereco (logradouro, numero, cidade, bairro, uf) values
+("Avenida Paulista", 290, "São Paulo", "Bela vista", "SP");
+
 CREATE TABLE Escola (
-    idEscola INT PRIMARY KEY AUTO_INCREMENT,
+	idEscola INT PRIMARY KEY AUTO_INCREMENT,
     fkEndereco INT,
     nome VARCHAR(45),
     email VARCHAR(45),
-    cargo VARCHAR(45),
-    telefone CHAR(11),
+	telefone CHAR(11),
     codigoInep VARCHAR(45),
     FOREIGN KEY (fkEndereco)
     REFERENCES Endereco(idEndereco)
 );
 
--- 5. Criação da Tabela CodigoAtivacao (FK Escola)
+INSERT INTO Escola (idEscola, fkEndereco, nome, email, telefone, codigoInep) VALUES
+(1, 1, "Escola Esperança", "escolaesperanca@gmail.com", 11934891828, 'afs12');
+
 CREATE TABLE CodigoAtivacao (
-    idCodigo INT PRIMARY KEY AUTO_INCREMENT,
+	idCodigo INT PRIMARY KEY AUTO_INCREMENT,
     fkEscola INT,
     codigo VARCHAR(45),
     validade DATE,
@@ -40,42 +38,76 @@ CREATE TABLE CodigoAtivacao (
     REFERENCES Escola(idEscola)
 );
 
--- 6. Criação da Tabela TipoUsuario (Não possui FKs)
-CREATE TABLE TipoUsuario (
-    idTipo INT PRIMARY KEY AUTO_INCREMENT, 
-    tipo VARCHAR(45),
-    permissao VARCHAR(100)
-);
+INSERT INTO CodigoAtivacao (fkEscola, codigo, validade, qtdUsos) VALUES 
+(1, "00j12", "2025-09-11", 10);
 
-select * from TipoUsuario;
--- 7. Criação da Tabela Usuario (FK TipoUsuario, FK Escola)
-CREATE TABLE Usuario (
-    idUsuario INT AUTO_INCREMENT,
-    fkTipo INT,
+CREATE TABLE Sala (
+	idSala INT PRIMARY KEY AUTO_INCREMENT,
     fkEscola INT,
     nome VARCHAR(45),
-    email VARCHAR(45),
-    senha VARCHAR(45),
-    PRIMARY KEY (idUsuario, fkTipo),
-    FOREIGN KEY (fkTipo)
-    REFERENCES TipoUsuario(idTipo)
-);
-
--- 8. Criação da Tabela Maquina (FK Escola)
-CREATE TABLE Maquina (
-    idMaquina INT PRIMARY KEY AUTO_INCREMENT,
-    fkEscola INT,
-    sistemaOperacional VARCHAR(45),
-    marca VARCHAR(45),
-    modelo VARCHAR(45),
-    hostname VARCHAR(45),
+    localizacao VARCHAR(45),
+    capacidade INT,
     FOREIGN KEY (fkEscola)
     REFERENCES Escola(idEscola)
 );
 
--- 9. Criação da Tabela Componente (FK Maquina)
+INSERT INTO Sala (nome, fkEscola, localizacao, capacidade) VALUES
+("Sala de Português", 1, "2° andar, lado direito", 100);
+
+CREATE TABLE Cargo (
+	idCargo INT PRIMARY KEY AUTO_INCREMENT, 
+	nome VARCHAR(45),
+    permissao VARCHAR(100)
+);
+
+INSERT INTO Cargo (nome, permissao) VALUES
+("Gestor", "Visualizar métricas, visualizar/editar/remover/inserir usuários e máquinas"),
+("Técnico de T.I", "Visualizar métricas, visualizar/editar/remover/inserir máquinas"),
+("Professor", "Visualizar métricas");
+
+select * from usuario;
+
+CREATE TABLE Usuario (
+	idUsuario INT AUTO_INCREMENT,
+    fkCargo INT,
+    fkEscola INT,
+    nome VARCHAR(45),
+    email VARCHAR(45),
+    senha VARCHAR(45),
+    dtCadastro DATE,
+    status VARCHAR(45),
+    PRIMARY KEY (idUsuario),
+    FOREIGN KEY (fkCargo)
+    REFERENCES Cargo(idCargo),
+    FOREIGN KEY (fkEscola)
+    REFERENCES Escola(idEscola)
+);
+
+INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status) VALUES 
+(1, 1, "Ryan Patric", "ryanpina@gmail.com", "urubu100", "2025-09-10", "ativo"),
+(1, 1, "Felipe Ferraz", "felipegmail.com", "urubu100", "2025-09-10", "pendente");
+
+-- Quantidade de solicitações de entrada
+	SELECT count(status) FROM Usuario
+	WHERE status LIKE 'pendente';
+
+CREATE TABLE Maquina (
+	idMaquina INT PRIMARY KEY AUTO_INCREMENT,
+    fkSala INT,
+    sistemaOperacional VARCHAR(45),
+    marca VARCHAR(45),
+    modelo VARCHAR(45),
+    macaddress VARCHAR(45),
+    status VARCHAR(45),
+    FOREIGN KEY (fkSala)
+    REFERENCES Sala(idSala)
+);
+
+Insert into Maquina (fkSala, sistemaOperacional, marca, modelo, macaddress) values
+(1, "Linux", "Dell", "Inspiron 15", "A4:C3:F0:9B:2D:67");
+
 CREATE TABLE Componente (
-    idComponente INT auto_increment,
+	idComponente INT auto_increment,
     fkMaquina INT,
     nome VARCHAR(45),
     tipo VARCHAR(45),
@@ -85,10 +117,14 @@ CREATE TABLE Componente (
     REFERENCES Maquina(idMaquina)
 );
 
--- 10. Criação da Tabela Captura (FK Componente)
+INSERT INTO Componente (idComponente, fkMaquina, nome, tipo, capacidade) VALUES 
+(default, 1, 'Memória RAM', 'Hardware', '16GB DDR4'), 
+(default, 1, 'Disco Rígido', 'Hardware', '1TB'),
+(default, 1, 'Processador', 'Hardware', 'Intel i7');
+
 CREATE TABLE Captura (
     idCaptura INT AUTO_INCREMENT,
-    fkComponente INT,
+	fkComponente INT,
     gbLivre FLOAT,
     gbEmUso FLOAT,
     porcentagemDeUso FLOAT,
@@ -98,9 +134,8 @@ CREATE TABLE Captura (
     REFERENCES Componente(idComponente)
 );
 
--- 11. Criação da Tabela Parametro (FK Componente)
 CREATE TABLE Parametro (
-    idParametro INT AUTO_INCREMENT,
+	idParametro INT AUTO_INCREMENT,
     fkComponente INT, 
     nivel VARCHAR(45),
     minimo VARCHAR(45),
@@ -110,9 +145,8 @@ CREATE TABLE Parametro (
     REFERENCES Componente(idComponente)
 );
 
--- 12. Criação da Tabela Alerta (FK Parametro, FK Captura)
 CREATE TABLE Alerta (
-    idAlerta INT AUTO_INCREMENT,
+	idAlerta INT AUTO_INCREMENT,
     fkParametro INT,
     fkCaptura INT,
     mensagem VARCHAR(80),
@@ -124,71 +158,3 @@ CREATE TABLE Alerta (
     FOREIGN KEY (fkCaptura)
     REFERENCES Captura(idCaptura)
 );
-
-
--- 1. Inserir em Endereco
-Insert into Endereco (logradouro, numero, cidade, bairro, uf) values
-("Avenida Paulista", 290, "São Paulo", "Bela vista", "SP");
-
--- 2. Inserir em Escola (depende de Endereco)
-INSERT INTO Escola (idEscola, fkEndereco, nome, email, telefone, codigoInep) VALUES
-(1, 1, "Escola Esperança", "escolaesperanca@gmail.com", 11934891828, 'afs12');
-
--- 3. Inserir em CodigoAtivacao (depende de Escola)
-INSERT INTO CodigoAtivacao (fkEscola, codigo, validade, qtdUsos) VALUES 
-(1, "00j12", "2025-09-11", 10);
-
--- 4. Inserir em TipoUsuario
-INSERT INTO TipoUsuario (tipo, permissao) VALUES
-("Administrador", "Ler, escrever, executar e gerenciar usuários e permissões"),
-("Comum", "Ler");
-
-
-
--- 5. Inserir em Usuario (depende de TipoUsuario e Escola)
-INSERT INTO Usuario (fkTipo, nome, email, senha) VALUES 
-(1, "Ryan Patric", "ryanpina@gmail.com", "urubu100");
-
-
--- 6. Inserir em Maquina (depende de Escola)
-Insert into Maquina (fkEscola, sistemaOperacional, marca, modelo, hostname) values
-(1, "Linux", "Dell", "Inspiron 15", "ryanpina");
-
--- 7. Inserir em Componente (depende de Maquina)
-INSERT INTO Componente (idComponente, fkMaquina, nome, tipo, capacidade) VALUES 
-(default, 1, 'Memória RAM', 'Hardware', '16GB DDR4'), 
-(default, 1, 'Disco Rígido', 'Hardware', '1TB'),
-(default, 1, 'Processador', 'Hardware', 'Intel i7');
-
-
-select * from usuario;
-truncate usuario;
-
-ALTER TABLE Usuario ADD COLUMN status VARCHAR(20) DEFAULT 'pendente';
-
-UPDATE Usuario set status = "pendente" where idUsuario = 1;
-
-
-
-ALTER TABLE usuario
-ADD COLUMN dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP;
-
--- O "DEFAULT CURRENT_TIMESTAMP" garante que a data e hora
--- serão preenchidas automaticamente em todos os novos cadastros.
-
-ALTER TABLE Usuario
-MODIFY COLUMN fkEscola INT NULL;
-
-
-
-
-select * from usuario;
-
-delete from usuario where idUsuario = 3;
-
-ALTER TABLE usuario ADD COLUMN senha_temporaria_expira DATETIME;
-
-
-
--- As tabelas Captura, Parametro e Alerta não tiveram dados de teste fornecidos no script original.
--- Se houvesse, as inserções em Captura e Parametro viriam antes de Alerta.

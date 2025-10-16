@@ -12,6 +12,9 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
+router.post("/cadastrarPorGestor", function (req, res) {
+    usuarioController.cadastrarGestor(req, res);
+})
 
 // ------------------------------------------------------------------
 // NOVAS ROTAS PARA O MODAL DE SOLICITAÇÕES

@@ -100,7 +100,7 @@
                                         <p>Nome</p>
                                     </div>
                                     <div class="input-campo">
-                                        <input type="text" placeholder="Digite o nome">
+                                        <input type="text" placeholder="Digite o nome" id="nomeNovoUser">
                                     </div>
                                 </div>
                                 <div class="infos-input">
@@ -108,7 +108,15 @@
                                         <p>E-mail</p>
                                     </div>
                                     <div class="input-campo">
-                                        <input type="text" placeholder="Digite o e-mail">
+                                        <input type="text" placeholder="Digite o e-mail" id="emailNovoUser">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Senha</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input type="text" placeholder="Crie uma senha" id="senhaNovoUser">
                                     </div>
                                 </div>
                                 <div class="infos-input">
@@ -116,18 +124,17 @@
                                         <p>Cargo</p>
                                     </div>
                                     <div class="select-campo">
-                                        <select>
-                                            <option value="#">Gestor</option>
-                                            <option value="#">Analista</option>
-                                            <option value="#">Técnico de T.I</option>
-                                            <option value="#">Professor</option>
+                                        <select id="cargoNovoUser">
+                                            <option value="1">Gestor</option>
+                                            <option value="2">Técnico de T.I</option>
+                                            <option value="3">Professor</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="btns-modal-adicionar-user">
                                 <button onclick="cancelarAdicionarUser()">Cancelar</button>
-                                <button onclick="efetuarCriacaoUser()">Criar</button>
+                                <button onclick="efetuarCriacaoUserGestor()">Criar</button>
                             </div>
                         </div>
                     </div>
@@ -321,11 +328,18 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div>
+                                    <p>Ryan Patric</p>
                                 </td>
-                                <td><p>ryan@email.com</p></td>
-                                <td><p>Gestor</p></td>
-                                <td><p>20/11/2024</p></td>
+                                <td>
+                                    <p>ryan@email.com</p>
+                                </td>
+                                <td>
+                                    <p>Gestor</p>
+                                </td>
+                                <td>
+                                    <p>20/11/2024</p>
+                                </td>
                                 <td><span class="status-ativo">Ativo</span></td>
                                 </td>
                                 <td>
@@ -335,11 +349,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div>
+                                    <p>Ryan Patric</p>
                                 </td>
-                                <td><p>ryan@email.com</p></td>
-                                <td><p>Gestor</p></td>
-                                <td><p>20/11/2024</p></td>
+                                <td>
+                                    <p>ryan@email.com</p>
+                                </td>
+                                <td>
+                                    <p>Gestor</p>
+                                </td>
+                                <td>
+                                    <p>20/11/2024</p>
+                                </td>
                                 <td><span class="status-ativo">Ativo</span></td>
                                 </td>
                                 <td>
@@ -349,11 +370,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div>
+                                    <p>Ryan Patric</p>
                                 </td>
-                                <td><p>ryan@email.com</p></td>
-                                <td><p>Gestor</p></td>
-                                <td><p>20/11/2024</p></td>
+                                <td>
+                                    <p>ryan@email.com</p>
+                                </td>
+                                <td>
+                                    <p>Gestor</p>
+                                </td>
+                                <td>
+                                    <p>20/11/2024</p>
+                                </td>
                                 <td><span class="status-inativo">Inativo</span></td>
                                 </td>
                                 <td>
@@ -363,11 +391,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div>
+                                    <p>Ryan Patric</p>
                                 </td>
-                                <td><p>ryan@email.com</p></td>
-                                <td><p>Gestor</p></td>
-                                <td><p>20/11/2024</p></td>
+                                <td>
+                                    <p>ryan@email.com</p>
+                                </td>
+                                <td>
+                                    <p>Gestor</p>
+                                </td>
+                                <td>
+                                    <p>20/11/2024</p>
+                                </td>
                                 <td><span class="status-ativo">Ativo</span></td>
                                 </td>
                                 <td>
@@ -377,11 +412,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div>
+                                    <p>Ryan Patric</p>
                                 </td>
-                                <td><p>ryan@email.com</p></td>
-                                <td><p>Gestor</p></td>
-                                <td><p>20/11/2024</p></td>
+                                <td>
+                                    <p>ryan@email.com</p>
+                                </td>
+                                <td>
+                                    <p>Gestor</p>
+                                </td>
+                                <td>
+                                    <p>20/11/2024</p>
+                                </td>
                                 <td><span class="status-ativo">Ativo</span></td>
                                 </td>
                                 <td>
@@ -391,11 +433,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div><p>Ryan Patric</p>
+                                    <div class="imagem-perfil"><img src="./imgs/DSC08926.JPEG" alt=""></div>
+                                    <p>Ryan Patric</p>
                                 </td>
-                                <td><p>ryan@email.com</p></td>
-                                <td><p>Gestor</p></td>
-                                <td><p>20/11/2024</p></td>
+                                <td>
+                                    <p>ryan@email.com</p>
+                                </td>
+                                <td>
+                                    <p>Gestor</p>
+                                </td>
+                                <td>
+                                    <p>20/11/2024</p>
+                                </td>
                                 <td><span class="status-ativo">Ativo</span></td>
                                 </td>
                                 <td>
