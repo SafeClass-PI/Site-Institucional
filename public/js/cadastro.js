@@ -46,7 +46,7 @@ function cadastrar() {
     var fkTipo_Var = 0; // Valor padrão 0
 
     // A lógica de tipo (fkTipo) do seu Model
-    if (cargo_tipo_Var == "professor" || cargo_tipo_Var == "analista") {
+    if (cargo_tipo_Var == "professor" || cargo_tipo_Var == "tecnico") {
         fkTipo_Var = 2; // Tipo 2 (Comum/Pendente)
     }
     else if (cargo_tipo_Var == "gestor") {
