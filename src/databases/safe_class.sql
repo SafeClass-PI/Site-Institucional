@@ -158,3 +158,7 @@ CREATE TABLE Alerta (
     FOREIGN KEY (fkCaptura)
     REFERENCES Captura(idCaptura)
 );
+
+select * from Usuario;
+
+ALTER TABLE usuario ADD COLUMN senha_temporaria_expira DATETIME;
