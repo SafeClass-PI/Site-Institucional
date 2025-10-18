@@ -11,9 +11,10 @@ var instrucaoSql = `
     u.senha, 
     u.status,  
     u.dtCadastro,
-    tu.tipo AS cargo
+    c.nome AS cargo
   FROM Usuario u
-  JOIN tipoUsuario tu ON u.fkTipo = tu.idTipo WHERE u.email = '${email}'
+  JOIN Cargo c ON u.fkCargo = c.idCargo
+  WHERE u.email = '${email}'
 `;
 
 /* ------- PARTE BIA ---------- 
@@ -56,18 +57,30 @@ console.log("Executando a instrução SQL: \n" + instrucaoSql);
 function cadastrar(cargo_tipo, nome, email, senha) {
     var status = cargo_tipo == 2 ? 'pendente' : 'ativo';
 
-    // 🚨 AQUI: Remova as aspas simples em volta de ${cargo_tipo}
-    var instrucaoSql = `INSERT INTO usuario (fkTipo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
+    // Garante que dtCadastro tenha valor padrão
+    var instrucaoSql = `
+        INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status) 
+        VALUES (${cargo_tipo}, 1, '${nome}', '${email}', '${senha}', CURDATE(), '${status}')
+    `;
 
+    console.log("Executando INSERT de cadastro:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 
 function cadastrarGestor(cargo_tipo, nome, email, senha, status) {
-    var instrucaoSql = `INSERT INTO usuario (fkTipo, nome, email, senha, status) VALUES (${cargo_tipo}, '${nome}', '${email}', '${senha}', '${status}')`;
+    // Se quiser, pode definir status padrão aqui também
+    if (!status) status = 'ativo'; 
 
+    var instrucaoSql = `
+        INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status)
+        VALUES (${cargo_tipo}, 1, '${nome}', '${email}', '${senha}', CURDATE(), '${status}')
+    `;
+
+    console.log("Executando a instrução SQL de cadastro de gestor: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
 
 
 // ------------------------------------------------------------------
