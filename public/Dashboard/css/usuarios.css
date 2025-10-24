@@ -811,6 +811,20 @@ body {
     text-align: center;
 }
 
+.usuario-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding-left: 8%;
+    gap: 2%;
+}
+
+.usuario-info p {
+  margin: 0;
+  font-size: 13px;
+}
+
 .lista-usuarios table td,
 .lista-usuarios table th {
     border-bottom: 1px solid #ccc;

@@ -98,6 +98,9 @@ const config = {
 
 new Chart(ctx, config);
 
+
+
+
 const ctx1 = document.getElementById('monitoramento-rede').getContext('2d');
 
 const data1 = {

@@ -1,24 +1,37 @@
 function editarImagem() {
-    // Cria um input temporário
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
 
-    // Quando o usuário escolher uma imagem
     input.onchange = () => {
         const file = input.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                // Atualiza a imagem do perfil
                 document.getElementById('previewFoto').src = e.target.result;
             }
             reader.readAsDataURL(file);
+
+            salvarImagem(file);
         }
-    }
+    };
     input.click();
 }
 
+function salvarImagem(file) {
+    const formData = new FormData();
+    formData.append('foto', file);
+
+    fetch('/api/usuarios/uploadFoto', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Imagem salva com sucesso:', data.caminhoImagem);
+        })
+        .catch(err => console.error('Erro ao salvar imagem:', err));
+}
 
 function alterarSenhaPerfil() {
     const senhaAtual = document.getElementById("senha_atual").value;
@@ -67,7 +80,7 @@ function limparInputsAlterarSenha() {
 }
 
 window.onload = function () {
-  preencherDadosPerfil();
+    preencherDadosPerfil();
 };
 
 function preencherDadosPerfil() {
@@ -75,9 +88,9 @@ function preencherDadosPerfil() {
     document.getElementById("campoCargo").innerText = sessionStorage.CARGO_USUARIO;
     document.getElementById("campoEmail").innerText = sessionStorage.EMAIL_USUARIO;
 
- 
+
     const dataEntrada = new Date(sessionStorage.DATA_ENTRADA);
-    const dataFormatada = dataEntrada.toLocaleDateString('pt-BR'); 
+    const dataFormatada = dataEntrada.toLocaleDateString('pt-BR');
     document.getElementById("campoDataEntrada").innerText = dataFormatada;
 
     document.getElementById("campoStatus").innerText = sessionStorage.STATUS_USUARIO;
