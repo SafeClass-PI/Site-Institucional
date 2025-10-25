@@ -247,7 +247,9 @@
     border: none;
     background-color: #f3f3f3;
     border: 2px solid #e2e2e2;
+    text-align: center;
 }
+
 
 .btns-alterar-senha {
     width: 100%;

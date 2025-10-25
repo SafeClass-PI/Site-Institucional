@@ -8,12 +8,32 @@ function editarImagem() {
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        document.getElementById('previewFoto').src = e.target.result;
+        const preview = document.getElementById('previewFoto');
+        if (preview) {
+          preview.src = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
+
+      salvarImagem(file); // ✅ envia para o backend
     }
   };
   input.click();
+}
+
+function salvarImagem(file) {
+  const formData = new FormData();
+  formData.append('foto', file);
+
+  fetch('/api/usuarios/uploadFoto', {
+    method: 'POST',
+    body: formData
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log('Imagem salva com sucesso:', data.caminhoImagem);
+    })
+    .catch(err => console.error('Erro ao salvar imagem:', err));
 }
 
 function alterarSenhaPerfil() {
@@ -21,7 +41,6 @@ function alterarSenhaPerfil() {
   const novaSenha = document.getElementById("nova_senha").value;
   const confirmarSenha = document.getElementById("confirmar_senha").value;
   const idUsuario = sessionStorage.ID_USUARIO;
-
   const msg = document.getElementById("mensagem-atualizacao");
 
   if (!senhaAtual || !novaSenha || !confirmarSenha) {
@@ -48,7 +67,6 @@ function alterarSenhaPerfil() {
         // ✅ Libera acesso após alteração de senha
         const bloqueio = document.querySelector('#bloqueio-interacao');
         if (bloqueio) bloqueio.remove();
-
         sessionStorage.PRECISA_ALTERAR_SENHA = 'false';
       } else {
         msg.innerHTML = `<p style="color: red;">${resposta.message}</p>`;
@@ -66,26 +84,35 @@ function limparInputsAlterarSenha() {
   document.getElementById("confirmar_senha").value = "";
 }
 
+function preencherDadosPerfil() {
+  const campoNome = document.getElementById("campoNome");
+  const campoCargo = document.getElementById("campoCargo");
+  const campoEmail = document.getElementById("campoEmail");
+  const campoDataEntrada = document.getElementById("campoDataEntrada");
+  const campoStatus = document.getElementById("campoStatus");
+
+  if (campoNome) campoNome.innerText = sessionStorage.NOME_USUARIO;
+  if (campoCargo) campoCargo.innerText = sessionStorage.CARGO_USUARIO;
+  if (campoEmail) campoEmail.innerText = sessionStorage.EMAIL_USUARIO;
+
+  if (campoDataEntrada) {
+    const dataEntrada = new Date(sessionStorage.DATA_ENTRADA);
+    campoDataEntrada.innerText = dataEntrada.toLocaleDateString('pt-BR');
+  }
+
+  if (campoStatus) campoStatus.innerText = sessionStorage.STATUS_USUARIO;
+}
+
 window.onload = function () {
   preencherDadosPerfil();
 };
 
-function preencherDadosPerfil() {
-  document.getElementById("campoNome").innerText = sessionStorage.NOME_USUARIO;
-  document.getElementById("campoCargo").innerText = sessionStorage.CARGO_USUARIO;
-  document.getElementById("campoEmail").innerText = sessionStorage.EMAIL_USUARIO;
-
-  const dataEntrada = new Date(sessionStorage.DATA_ENTRADA);
-  const dataFormatada = dataEntrada.toLocaleDateString('pt-BR');
-  document.getElementById("campoDataEntrada").innerText = dataFormatada;
-
-  document.getElementById("campoStatus").innerText = sessionStorage.STATUS_USUARIO;
-}
-
+// ✅ Bloqueio de interação na tela de perfil
 window.addEventListener('DOMContentLoaded', () => {
   const precisaAlterarSenha = sessionStorage.PRECISA_ALTERAR_SENHA === 'true';
+  const estaNaTelaDePerfil = window.location.pathname.includes('perfil.html');
 
-  if (precisaAlterarSenha) {
+  if (precisaAlterarSenha && estaNaTelaDePerfil) {
     const bloqueio = document.createElement('div');
     bloqueio.id = 'bloqueio-interacao';
     bloqueio.style.position = 'fixed';
@@ -105,4 +132,3 @@ window.addEventListener('DOMContentLoaded', () => {
     painelSenha.style.position = 'relative';
   }
 });
-
