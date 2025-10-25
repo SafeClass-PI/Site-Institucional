@@ -65,12 +65,13 @@ INSERT INTO Cargo (nome, permissao) VALUES
 ("Técnico de T.I", "Visualizar métricas, visualizar/editar/remover/inserir máquinas"),
 ("Professor", "Visualizar métricas");
 
-select * from usuario;
+
 
 CREATE TABLE Usuario (
 	idUsuario INT AUTO_INCREMENT,
     fkCargo INT,
     fkEscola INT,
+    fkGestor INT Null,
     nome VARCHAR(45),
     email VARCHAR(45),
     senha VARCHAR(45),
@@ -80,7 +81,8 @@ CREATE TABLE Usuario (
     FOREIGN KEY (fkCargo)
     REFERENCES Cargo(idCargo),
     FOREIGN KEY (fkEscola)
-    REFERENCES Escola(idEscola)
+    REFERENCES Escola(idEscola),
+    foreign key (fkGestor) references Usuario(idUsuario)
 );
 
 INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status) VALUES 
@@ -159,6 +161,32 @@ CREATE TABLE Alerta (
     REFERENCES Captura(idCaptura)
 );
 
-select * from Usuario;
 
 ALTER TABLE usuario ADD COLUMN senha_temporaria_expira DATETIME;
+
+select * from usuario;
+
+update usuario set status = "ativo" where idUsuario = 11;
+
+
+
+
+SELECT 
+    u.idUsuario AS ID_Usuario,
+    u.nome AS Usuario,
+    c.nome AS Cargo,
+    COALESCE(g.nome, 'Gestor Principal') AS Gestor
+FROM Usuario u
+LEFT JOIN Usuario g ON u.fkGestor = g.idUsuario
+JOIN Cargo c ON u.fkCargo = c.idCargo;
+
+
+
+SELECT 
+    u.nome AS "Nome",
+    t.nome AS "Nome Gestor"
+FROM usuario u
+LEFT JOIN usuario t 
+    ON u.fkGestor = t.idUsuario;
+
+

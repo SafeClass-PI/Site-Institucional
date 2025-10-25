@@ -93,3 +93,56 @@ export async function enviarEmailRecuperacao(destinatario, nomeUsuario, novaSenh
 }
 
 
+
+
+// cadastro email
+
+
+
+// Função de envio de e-mail de cadastro pendente
+export async function enviarEmailCadastroPendente(destinatario, nomeUsuario, nomeGestor) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: `"Sistema de Monitoramento" <${process.env.EMAIL_USER}>`,
+    to: destinatario,
+    subject: "Cadastro Recebido – Aguardando Aprovação do Gestor",
+    html: `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f8; padding: 30px;">
+        <div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+          <h2 style="color: #0a3d62; margin-bottom: 20px; font-size: 24px;">Cadastro Recebido!</h2>
+          <p style="font-size: 16px; color: #333333;">Olá <strong>${nomeUsuario}</strong>,</p>
+          <p style="font-size: 16px; color: #333333; line-height: 1.6;">
+            Seu cadastro foi efetuado com sucesso. Ele está <strong>aguardando aprovação</strong> do gestor <strong>${nomeGestor}</strong>. 
+            Assim que aprovado, você poderá acessar o sistema normalmente.
+          </p>
+          <p style="font-size: 16px; color: #333333; line-height: 1.6;">
+            Se tiver dúvidas ou precisar de suporte, entre em contato com nossa equipe.
+          </p>
+          <div style="margin-top: 30px; font-size: 14px; color: #888888; border-top: 1px solid #e0e0e0; padding-top: 15px;">
+            Atenciosamente,<br/>
+            Equipe de Monitoramento
+          </div>
+        </div>
+      </div>
+    `
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
+
+
+
+
+
+
+
+
+

@@ -59,8 +59,8 @@ function cadastrar(cargo_tipo, nome, email, senha) {
 
     // Garante que dtCadastro tenha valor padrão
     var instrucaoSql = `
-        INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status) 
-        VALUES (${cargo_tipo}, 1, '${nome}', '${email}', '${senha}', CURDATE(), '${status}')
+        INSERT INTO Usuario (fkCargo, fkEscola, fkGestor, nome, email, senha, dtCadastro, status) 
+        VALUES (${cargo_tipo}, 1, 1, '${nome}', '${email}', '${senha}', CURDATE(), '${status}')
     `;
 
     console.log("Executando INSERT de cadastro:\n" + instrucaoSql);
@@ -163,6 +163,26 @@ function atualizarSenha(idUsuario, novaSenha) {
     return database.executar(sql);
 }
 
+function buscarGestorPorUsuario(idUsuario) {
+    // Seleciona o nome do gestor baseado no fkGestor do usuário
+    const instrucaoSql = `
+        SELECT g.nome AS nomeGestor
+        FROM usuario u
+        JOIN usuario g ON u.fkGestor = g.idUsuario
+        WHERE u.idUsuario = ${idUsuario};
+    `;
+
+    console.log("Executando SQL para buscar gestor: \n" + instrucaoSql);
+
+    return database.executar(instrucaoSql).then(resultado => {
+        if (resultado.length > 0) {
+            return resultado[0].nomeGestor;
+        } else {
+            return "Gestor"; // fallback se não encontrar
+        }
+    });
+}
+
 
 // Atualização do módulo de exportação
 module.exports = {
@@ -176,5 +196,6 @@ module.exports = {
     buscarPorId,
     buscarPorEmail,
     atualizarSenhaTemporaria,
-    atualizarSenha
+    atualizarSenha,
+    buscarGestorPorUsuario
 };

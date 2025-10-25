@@ -1,8 +1,6 @@
-var usuarioModel = require("../models/usuarioModel");
+import usuarioModel from "../models/usuarioModel.js";  // ⚠ lembre do .js
+import { enviarEmailAprovacao, enviarEmailRejeicao, enviarEmailRecuperacao, enviarEmailCadastroPendente } from "../services/emailService.js";
 
-var { enviarEmailAprovacao } = require("../services/emailService");
-var { enviarEmailRejeicao } = require("../services/emailService");
-var { enviarEmailRecuperacao } = require("../services/emailService");
 
 
 
@@ -24,7 +22,7 @@ function autenticar(req, res) {
                         idUsuario: usuario.idUsuario,
                         nome: usuario.nome,
                         email: usuario.email,
-                        cargo: usuario.cargo, 
+                        cargo: usuario.cargo,
                         status: usuario.status,
                         dtCadastro: usuario.dtCadastro
                     }
@@ -39,7 +37,7 @@ function autenticar(req, res) {
     }
 }
 
-function cadastrar(req, res) {
+async function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
@@ -47,23 +45,44 @@ function cadastrar(req, res) {
 
     if (!nome) {
         res.status(400).send("Seu nome está undefined!");
-    } else if (!email) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (!senha) {
-        res.status(400).send("Sua senha está undefined!");
-    } else if (!cargo_tipo) {
-        res.status(400).send("Seu cargo está undefined!");
-    } else {
-        usuarioModel.cadastrar(cargo_tipo, nome, email, senha)
-            .then(resultado => {
-                res.json({ success: true });
-            })
-            .catch(erro => {
-                console.log("Erro no cadastro:", erro.message);
-                res.json({ success: false, mensagem: erro.message });
-            });
+        return;
     }
+    if (!email) {
+        res.status(400).send("Seu email está undefined!");
+        return;
+    }
+    if (!senha) {
+        res.status(400).send("Sua senha está undefined!");
+        return;
+    }
+    if (!cargo_tipo) {
+        res.status(400).send("Seu cargo está undefined!");
+        return;
+    }
+
+    try {
+        const resultado = await usuarioModel.cadastrar(cargo_tipo, nome, email, senha);
+
+        // Depois pega o id do usuário recém cadastrado
+        const idUsuario = resultado.insertId; // ou como retorna do seu INSERT
+
+        // Pega o nome do gestor
+        const nomeGestor = await usuarioModel.buscarGestorPorUsuario(idUsuario);
+
+        // Envia o e-mail com o nome do gestor
+        await enviarEmailCadastroPendente(email, nome, nomeGestor);
+
+
+
+        res.json({ success: true, message: "Cadastro realizado! Aguarde a aprovação do gestor." });
+
+    } catch (erro) {
+        console.error("Erro no cadastro:", erro.message);
+        res.json({ success: false, mensagem: erro.message });
+    }
+
 }
+
 
 function cadastrarGestor(req, res) {
     var nome = req.body.nomeServer;
@@ -208,9 +227,8 @@ async function recuperarSenha(req, res) {
         await enviarEmailRecuperacao(email, usuario.nome, novaSenha);
 
         res.json({ success: true, message: "Nova senha enviada para o e-mail." });
-    } catch (erro) {
-        console.error("Erro na recuperação de senha:", erro.message);
-        res.status(500).json({ success: false, message: "Erro interno ao recuperar senha." });
+    } catch  {
+       console.log("Erro na recuperação de senha")
     }
 }
 
@@ -249,14 +267,15 @@ async function alterarSenhaPerfil(req, res) {
 
 
 
-module.exports = {
+export {
     autenticar,
     cadastrar,
     cadastrarGestor,
     buscarqtdSolicitacoes,
-    getSolicitacoes,    // Adicionado
-    aprovarUsuario,     // Adicionado
+    getSolicitacoes,
+    aprovarUsuario,
     rejeitarUsuario,
     recuperarSenha,
-    alterarSenhaPerfil   // Adicionado
+    alterarSenhaPerfil
 };
+
