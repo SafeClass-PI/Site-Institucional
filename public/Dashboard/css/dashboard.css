@@ -38,7 +38,7 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.16);
 }
 
@@ -251,7 +251,7 @@ body {
 
 .perfil-notificacao {
     width: 100%;
-    height: 6.5vh;
+    height: 6.9vh;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -324,14 +324,12 @@ body {
 
 .titulo-dashboard {
     align-self: self-start;
-    width: 55.2%;
+    width: 100%;
     height: 7%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-left: 3%;
-    margin-top: 0.1%;
 }
 
 .titulo-dashboard-geral {
@@ -341,11 +339,11 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-.texto-titulo-dashboard-geral {
-    width: 16.5%;
+.texto-titulo-nome-empresa {
+    width: 16%;
     height: 60%;
     border-radius: 10px;
     display: flex;
@@ -355,27 +353,75 @@ body {
     background-color: var(--cor-branco);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
     margin-top: 0.5%;
+    margin-left: 3%;
+}
+
+.texto-titulo-nome-empresa p {
+    text-transform: uppercase;
+    font-weight: 550;
+    color: #454545;
+}
+
+
+.texto-titulo-dashboard-geral {
+    width: 25%;
+    height: 60%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(45, 45, 45);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
+    margin-top: 0.5%;
+    margin-right: 40%;
 }
 
 .texto-titulo-dashboard-geral p {
+    text-transform: uppercase;
+    font-weight: 550;
+    color: #f4f4f4;
+}
+
+.texto-titulo-nome-empresa-especifico {
+    width: 16%;
+    height: 60%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
+    margin-top: 0.5%;
+    margin-left: 3%;
+}
+
+.texto-titulo-nome-empresa-especifico p {
     text-transform: uppercase;
     font-weight: 550;
     color: #454545;
 }
 
 .selects-escolha-maquina {
-    width: 40%;
+    width: 30%;
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
+    justify-content: end;
+    margin-right: 3.1%;
     gap: 3%;
     align-self: self-start;
+    margin-top: 0.5%;
+}
+
+.selects-escolha-maquina select:nth-of-type(1) {
+    width: 20%;
 }
 
 .selects-escolha-maquina select {
-    width: 40.5%;
+    width: 28%;
     height: 60%;
     border-radius: 10px;
     display: flex;
@@ -392,23 +438,24 @@ body {
     border: none;
 }
 
-
 .texto-titulo-dashboard {
-    width: 29.8%;
+    width: 25%;
     height: 60%;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: var(--cor-branco);
+    background-color: rgb(45, 45, 45);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
+    margin-top: 0.5%;
+    margin-left: 9.1%;
 }
 
 .texto-titulo-dashboard p {
     text-transform: uppercase;
     font-weight: 550;
-    color: #454545;
+    color: #f4f4f4;
 }
 
 .area-kpis {
@@ -686,23 +733,24 @@ body {
     justify-content: space-between;
 }
 
-.nome-escola {
+.titulo-todas-as-salas {
     width: 30%;
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: start;
+    margin-left: 2.8%;
 }
 
-.nome-escola button {
+.titulo-todas-as-salas button {
     cursor: pointer;
     width: 10%;
     height: 50%;
     border: none;
     margin-top: 4.8%;
     background: transparent;
-    margin-left: 2%;
+    margin-left: 4%;
 }
 
 .fa-circle-arrow-left {
@@ -710,12 +758,11 @@ body {
     font-size: 20px;
 }
 
-.nome-escola p {
+.titulo-todas-as-salas p {
     font-size: 20px;
     font-weight: 600;
     color: #383838;
     margin-top: 4.5%;
-    margin-left: 11%;
 }
 
 .area-parametros {
@@ -808,7 +855,8 @@ body {
 }
 
 .card-sala:hover {
-    transform: scale(1.01);
+    transform: scale(1.03);
+    box-shadow: 0px 2px 10px 2px #26262641;
 }
 
 .identificao-sala {
@@ -955,8 +1003,8 @@ body {
 }
 
 .card-maquina:hover {
-    transform: scale(1.01);
-}
+   transform: scale(1.03);
+    box-shadow: 0px 2px 10px 2px #26262641;}
 
 .identificao-maquina {
     width: 100%;

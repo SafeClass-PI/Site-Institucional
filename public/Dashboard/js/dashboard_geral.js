@@ -24,7 +24,7 @@ document.querySelectorAll('.card-sala').forEach(card => {
 });
 
 function mostrarMaquinasDaSala() {
-    nomeEscola.innerHTML = '<p>Sala 1</p>';
+    nomeEscola.innerHTML += '<p>/Sala 1</p>';
 
     painelSalas.style.display = 'none';
 
@@ -33,7 +33,7 @@ function mostrarMaquinasDaSala() {
     nomeEscola.innerHTML += '<button id="voltarSalas"><i class="fa-solid fa-circle-arrow-left"></i></button>';
 
     document.getElementById('voltarSalas').addEventListener('click', () => {
-        nomeEscola.innerHTML = '<p>Escola Joaquim 3°</p>';
+        nomeEscola.innerHTML = '<p>Todas as Salas</p>';
         painelMaquinas.style.display = 'none';
         painelSalas.style.display = 'grid';
         voltarSalas.style.display = 'none'
