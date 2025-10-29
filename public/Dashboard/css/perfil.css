@@ -149,6 +149,10 @@
     color: #3f3f3f;
 }
 
+.campo-status-user {
+    background-color: red;
+}
+
 .captura-info {
     width: 90%;
     height: 45%;

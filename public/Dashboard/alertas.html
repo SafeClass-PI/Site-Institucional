@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/alertas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Usuários</title>
+</head>
+
+<body onload="quantidadeSolicitacoes()">
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../index.html"><img src="imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <a href="dashboard_especifica.html" class="icone-links">
+                    <i class="fa-solid fa-filter"></i>
+                    <p>Análise</p>
+                </a>
+                <a href="alertas.html" class="activate">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="perfil.html" class="icone-links">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
+                </a>
+                <button onclick="sairDaPagina()" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <a href="perfil.html">
+                        <div class="profile-img">
+                            <img src="imgs/DSC08926.JPEG">
+                        </div>
+                        <p>Ryan Patric</p>
+                    </a>
+                </div>
+            </div>
+            <div class="painel-usuarios">
+                <div class="titulo-painel">
+                    <p id="titulo-tela">Histórico de Alertas</p>
+                    <div class="btns-titulo-painel">
+                        <button id="exportarDados">
+                            <p>Exportar CSV</p>
+                        </button>
+                        <button id="adicionarUsuario" onclick="adicionarUsuario()"><i class="fa-solid fa-plus"></i>
+                            <p>Adicionar Alerta</p>
+                        </button>
+                        <div class="modal-adicionar-user" id="modalAdicionarUser">
+                            <div class="titulo-modal-adicionar-user">
+                                <p>Criar Alerta</p>
+                            </div>
+                            <div class="infos-modal-adicionar-user">
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Identificação</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input type="text" placeholder="Digite o número" id="nomeNovoUser">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Componente</p>
+                                    </div>
+                                    <div class="select-campo">
+                                        <select>
+                                            <option value="ativo">CPU</option>
+                                            <option value="ativo">Memória RAM</option>
+                                            <option value="ativo">Disco</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Descrição</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input type="text" placeholder="Descreva o alerta">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Status</p>
+                                    </div>
+                                    <div class="select-campo">
+                                        <select>
+                                            <option value="ativo">Crítico</option>
+                                            <option value="ativo">Atenção</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Localização</p>
+                                    </div>
+                                    <div class="select-campo">
+                                        <select id="cargoNovoUser">
+                                            <option value="1">Sala 1</option>
+                                            <option value="2">Sala 2</option>
+                                            <option value="3">Sala 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Data/Hora</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input type="datetime-local" name="dataHoraAlerta" required>    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btns-modal-adicionar-user">
+                                <button onclick="cancelarAdicionarUser()">Cancelar</button>
+                                <button onclick="efetuarCriacaoUserGestor()">Criar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filtros-usuarios">
+                    <div class="filtros">
+                        <div class="select-com-icone">
+                            <i class="fa fa-filter"></i>
+                            <select>
+                                <option value="" disabled selected>
+                                    <p>Filtros</p>
+                                </option>
+                                <option value="2">Ativos</option>
+                                <option value="2">Inativos</option>
+                                <option value="2">Gestores</option>
+                                <option value="2">Técnicos</option>
+                            </select>
+                        </div>
+                        <div class="campo-pesquisa">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Pesquisar..." />
+                        </div>
+                    </div>
+                </div>
+                <div class="lista-usuarios">
+                    <table>
+                        <colgroup>
+                            <col style="width: 16%;">
+                            <col style="width: 16%;">
+                            <col style="width: 16%;">
+                            <col style="width: 16%;">
+                            <col style="width: 14%;">
+                            <col style="width: 16%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Identificação</th>
+                                <th>Componente</th>
+                                <th>Descrição</th>
+                                <th>Nível</th>
+                                <th>Localização</th>
+                                <th>Data/Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p>Máquina 1</p>
+                                </td>
+                                <td>
+                                    <p>Disco</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 93%</p>
+                                </td>
+                                <td><span class="status-inativo">Crítico</span></td>
+                                <td>
+                                    <p>Sala 1</p>
+                                </td>
+                                <td>
+                                    <p>25/10/2025 17:30</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Máquina 4</p>
+                                </td>
+                                <td>
+                                    <p>CPU</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 90%</p>
+                                </td>
+                                <td><span class="status-inativo">Crítico</span></td>
+                                <td>
+                                    <p>Sala 7</p>
+                                </td>
+                                <td>
+                                    <p>24/10/2025 11:40</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Máquina 5</p>
+                                </td>
+                                <td>
+                                    <p>Memória RAM</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 75%</p>
+                                </td>
+                                <td><span class="status-inativo">Crítico</span></td>
+                                <td>
+                                    <p>Sala 6</p>
+                                </td>
+                                <td>
+                                    <p>10/09/2025 09:00</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Máquina 10</p>
+                                </td>
+                                <td>
+                                    <p>Disco</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 80%</p>
+                                </td>
+                                <td><span class="status-atencao">Atenção</span></td>
+                                <td>
+                                    <p>Sala 14</p>
+                                </td>
+                                <td>
+                                    <p>08/09/2025 06:30</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Máquina 3</p>
+                                </td>
+                                <td>
+                                    <p>CPU</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 90%</p>
+                                </td>
+                                <td><span class="status-atencao">Atenção</span></td>
+                                <td>
+                                    <p>Sala 1</p>
+                                </td>
+                                <td>
+                                    <p>30/08/2025 21:00</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Máquina 15</p>
+                                </td>
+                                <td>
+                                    <p>Memória RAM</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 75%</p>
+                                </td>
+                                <td><span class="status-atencao">Atenção</span></td>
+                                <td>
+                                    <p>Sala 2</p>
+                                </td>
+                                <td>
+                                    <p>27/08/2025 17:20</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="paginacao">
+                        <button class="prev" disabled>
+                            < Anterior </button>
+                                <button class="pagina ativa">1</button>
+                                <button class="pagina">2</button>
+                                <button class="pagina">3</button>
+                                <button class="next"> Próximo ></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/usuarios.js"></script>
+</body>
+
+</html>
