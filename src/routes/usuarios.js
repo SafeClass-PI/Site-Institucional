@@ -56,6 +56,28 @@ router.put("/alterar-senha/:id", function (req, res) {
   usuarioController.alterarSenhaPerfil(req, res);
 });
 
+router.get("/usuarios", function (req, res) {
+    usuarioController.buscarTodos(req, res);
+});
+
+router.get("/", function (req, res) {
+    usuarioController.buscarTodos(req, res);
+});
+
+router.delete("/usuario/:id", function (req, res) {
+    usuarioController.deletarUsuario(req, res);
+});
+
+router.put("/usuario/:id", function (req, res) {
+    usuarioController.atualizarUsuario(req, res);
+});
+router.get('/usuario/:id', function (req, res) {
+    usuarioController.buscarUsuarioPorId(req, res);
+});
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@ var database = require("../../src/databases/config");
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n function autenticar():", email, senha);
 
-var instrucaoSql = `
+    var instrucaoSql = `
   SELECT 
     u.idUsuario, 
     u.nome, 
@@ -17,15 +17,8 @@ var instrucaoSql = `
   WHERE u.email = '${email}'
 `;
 
-/* ------- PARTE BIA ---------- 
-var instrucaoSql = ` SELECT u.idUsuario, u.nome, u.email, u.senha, u.status, u.senha_temporaria_expira, 
-u.dtCadastro, tu.tipo AS cargo
- FROM Usuario 
- u JOIN Cargo tu ON u.fkTipo = tu.idTipo 
-WHERE u.email = '${email}' `;
-*/
 
-console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
     return database.executar(instrucaoSql).then(listaDeUsuarios => {
         if (listaDeUsuarios.length > 0) {
@@ -70,7 +63,7 @@ function cadastrar(cargo_tipo, nome, email, senha) {
 
 function cadastrarGestor(cargo_tipo, nome, email, senha, status) {
     // Se quiser, pode definir status padrão aqui também
-    if (!status) status = 'ativo'; 
+    if (!status) status = 'ativo';
 
     var instrucaoSql = `
         INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status)
@@ -122,9 +115,10 @@ function rejeitar(idUsuario) {
 
 function buscarPorId(idUsuario) {
     var instrucaoSql = `
-        SELECT idUsuario, nome, email, senha, senha_temporaria_expira 
-        FROM usuario 
-        WHERE idUsuario = ${idUsuario}
+        SELECT idUsuario, nome, email, fkCargo, status
+FROM usuario
+WHERE idUsuario = ${idUsuario}
+
     `;
 
     console.log("Executando a instrução SQL para buscar por ID: \n" + instrucaoSql);
@@ -136,6 +130,7 @@ function buscarPorId(idUsuario) {
         }
     });
 }
+
 
 
 
@@ -183,8 +178,49 @@ function buscarGestorPorUsuario(idUsuario) {
     });
 }
 
+function buscarTodos() {
+    var instrucaoSql = `
+        SELECT 
+            u.idUsuario,
+            u.nome AS nomeUsuario,
+            u.email,
+            c.nome AS cargo,
+            u.dtCadastro,
+            UPPER(u.status) AS status
+        FROM usuario AS u
+        JOIN cargo AS c ON u.fkCargo = c.idCargo
+        ORDER BY u.dtCadastro DESC;
+    `;
 
-// Atualização do módulo de exportação
+    console.log("Executando SQL para buscar todos os usuários:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function deletar(idUsuario) {
+    const instrucaoSql = `DELETE FROM usuario WHERE idUsuario = ${idUsuario}`;
+    console.log("Executando SQL para deletar usuário:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function atualizarUsuario(idUsuario, nome, email, cargo, status) {
+    const instrucaoSql = `
+        UPDATE usuario
+        SET nome = '${nome}',
+            email = '${email}',
+            fkCargo = ${cargo},
+            status = '${status}'
+        WHERE idUsuario = ${idUsuario};
+    `;
+    console.log("Executando SQL para atualizar usuário:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+
+
+
+
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -197,5 +233,8 @@ module.exports = {
     buscarPorEmail,
     atualizarSenhaTemporaria,
     atualizarSenha,
-    buscarGestorPorUsuario
+    buscarGestorPorUsuario,
+    buscarTodos,
+    deletar,
+    atualizarUsuario
 };

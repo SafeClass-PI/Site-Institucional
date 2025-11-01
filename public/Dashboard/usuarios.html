@@ -275,7 +275,7 @@
                                     <p>Nome</p>
                                 </div>
                                 <div class="input-campo">
-                                    <input type="text" placeholder="Ryan Patric">
+                                <input type="text" id="editarNomeUsuario" placeholder="Novo nome">
                                 </div>
                             </div>
                             <div class="infos-input">
@@ -283,7 +283,7 @@
                                     <p>E-mail</p>
                                 </div>
                                 <div class="input-campo">
-                                    <input type="text" placeholder="ryanpinaap@gmail.com">
+                                    <input type="text" id="editarEmailUsuario" placeholder="Novo E-mail">
                                 </div>
                             </div>
                             <div class="infos-input">
@@ -291,11 +291,10 @@
                                     <p>Cargo</p>
                                 </div>
                                 <div class="select-campo">
-                                    <select>
-                                        <option value="#">Gestor</option>
-                                        <option value="#">Analista</option>
-                                        <option value="#">Técnico de T.I</option>
-                                        <option value="#">Professor</option>
+                                    <select id="editarCargoUsuario">
+                                        <option value="1">Gestor</option>
+                                        <option value="2">Técnico de T.I</option>
+                                        <option value="3">Professor</option>
                                     </select>
                                 </div>
                             </div>
@@ -335,128 +334,10 @@
                                 <th>Ação</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="usuario-info">
-                                        <div class="imagem-perfil">
-                                            <img src="./imgs/beatriz.png" alt="">
-                                        </div>
-                                        <p>Beatriz Carvalho</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>beatriz@email.com</p>
-                                </td>
-                                <td>
-                                    <p>Analista</p>
-                                </td>
-                                <td>
-                                    <p>08/10/2025</p>
-                                </td>
-                                <td><span class="status-ativo">Ativo</span></td>
-                                <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="usuario-info">
-                                        <div class="imagem-perfil">
-                                            <img src="./imgs/DSC08926.JPEG" alt="">
-                                        </div>
-                                        <p>Ryan Patric</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>ryan@email.com</p>
-                                </td>
-                                <td>
-                                    <p>Professor</p>
-                                </td>
-                                <td>
-                                    <p>30/02/2025</p>
-                                </td>
-                                <td><span class="status-ativo">Ativo</span></td>
-                                <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="usuario-info">
-                                        <div class="imagem-perfil">
-                                            <img src="./imgs/matheus.png" alt="">
-                                        </div>
-                                        <p>Matheus Scalabrin</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>matheus@email.com</p>
-                                </td>
-                                <td>
-                                    <p>Professor</p>
-                                </td>
-                                <td>
-                                    <p>21/09/2024</p>
-                                </td>
-                                <td><span class="status-ativo">Ativo</span></td>
-                                <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="usuario-info">
-                                        <div class="imagem-perfil">
-                                            <img src="./imgs/felipe.jpg" alt="">
-                                        </div>
-                                        <p>Felipe de Carvalho</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>felipe@email.com</p>
-                                </td>
-                                <td>
-                                    <p>Analista</p>
-                                </td>
-                                <td>
-                                    <p>18/08/2024</p>
-                                </td>
-                                <td><span class="status-ativo">Ativo</span></td>
-                                <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="usuario-info">
-                                        <div class="imagem-perfil">
-                                            <img src="./imgs/joao.jpg" alt="">
-                                        </div>
-                                        <p>João Franco</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>joao@email.com</p>
-                                </td>
-                                <td>
-                                    <p>Gestor</p>
-                                </td>
-                                <td>
-                                    <p>12/07/2024</p>
-                                </td>
-                                <td><span class="status-ativo">Ativo</span></td>
-                                <td>
-                                    <button onclick="editarUsuario()"><i class="fa-solid fa-pencil"></i></button>
-                                    <button onclick="deletarUsuario()"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
+                        <tbody id="tabelaUsuarios">
+
                         </tbody>
+
                     </table>
                     <div class="paginacao">
                         <button class="prev" disabled>

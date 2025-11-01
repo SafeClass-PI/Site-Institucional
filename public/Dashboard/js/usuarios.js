@@ -1,3 +1,7 @@
+
+let usuarioEditandoId = null;
+
+
 function sairDaPagina() {
     modalLogout.style.display = 'flex';
     telaOverlay.style.display = 'block';
@@ -325,5 +329,132 @@ function efetuarCriacaoUserGestor() {
                 console.error("Erro no fetch de cadastro:", erro);
             });
     }
+}
+
+        async function listarUsuarios() {
+            try {
+                const resposta = await fetch("/api/usuarios", { cache: "no-store" });
+                const usuarios = await resposta.json();
+
+                const tbody = document.getElementById("tabelaUsuarios");
+                tbody.innerHTML = "";
+
+                usuarios.forEach(u => {
+                    const tr = document.createElement("tr");
+                    const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
+
+                    tr.innerHTML = `
+                        <td>
+                            <div class="usuario-info">
+                                <div class="imagem-perfil">
+                                    <img src="./imgs/profile-default.webp" alt="Foto de ${u.nome}">
+                                </div>
+                                <p>${u.nomeUsuario}</p>
+                            </div>
+                        </td>
+                        <td><p>${u.email}</p></td>
+                        <td><p>${u.cargo}</p></td>
+                        <td><p>${formatarData(u.dtCadastro)}</p></td>
+                        <td><span class="${statusClass}">${u.status}</span></td>
+                        <td>
+                            <button onclick="editarUsuario(${u.idUsuario})"><i class="fa-solid fa-pencil"></i></button>
+                            <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    `;
+
+                    tbody.appendChild(tr);
+                });
+            } catch (erro) {
+                console.error("Erro ao listar usuários:", erro);
+            }
+        }
+
+        function formatarData(dataISO) {
+            const data = new Date(dataISO);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        window.onload = listarUsuarios;
+
+    function deletarUsuario(idUsuario) {
+    if (!confirm("Tem certeza que deseja deletar este usuário?")) return;
+
+    fetch(`/api/usuarios/usuario/${idUsuario}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(resposta => {
+        if (resposta.success) {
+            alert("Usuário deletado com sucesso!");
+            listarUsuarios(); // Atualiza a tabela
+        } else {
+            alert("Erro ao deletar: " + resposta.message);
+        }
+    })
+    .catch(erro => {
+        console.error("Erro ao deletar usuário:", erro);
+        alert("Erro interno ao deletar.");
+    });
+}
+
+function efetuarEdicaoUser() {
+    const idUsuario = usuarioEditandoId; // você precisa armazenar esse ID ao abrir o modal
+    const nome = document.getElementById("editarNomeUsuario").value;
+    const email = document.getElementById("editarEmailUsuario").value;
+    const cargo = document.getElementById("editarCargoUsuario").value;
+
+    const status = document.getElementById("editarStatusUsuario").value === "user-ativo" ? "ativo" : "inativo";
+
+    fetch(`/api/usuarios/usuario/${idUsuario}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ nome, email, cargo, status })
+    })
+    .then(res => res.json())
+    .then(resposta => {
+        if (resposta.success) {
+            alert("Usuário atualizado com sucesso!");
+            cancelarEditarUser();
+            listarUsuarios();
+        } else {
+            alert("Erro ao atualizar: " + resposta.message);
+        }
+    })
+    .catch(erro => {
+        console.error("Erro ao atualizar usuário:", erro);
+        alert("Erro interno ao atualizar.");
+    });
+}
+
+function editarUsuario(idUsuario) {
+    usuarioEditandoId = idUsuario;
+
+    // Busca os dados do usuário pelo ID
+    fetch(`/api/usuarios/usuario/${idUsuario}`)
+        .then(res => res.json())
+       .then(usuario => {
+    // Preenche os campos do modal
+    document.getElementById("editarNomeUsuario").value = usuario.nome;
+    document.getElementById("editarEmailUsuario").value = usuario.email;
+    document.getElementById("editarCargoUsuario").value = usuario.fkCargo;
+    document.getElementById("editarStatusUsuario").value = usuario.status === "ativo" ? "user-ativo" : "user-inativo";
+
+
+            // Abre o modal
+            telaOverlay.style.display = 'block';
+            modalEditarUsuario.style.display = 'flex';
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar dados do usuário:", erro);
+            alert("Não foi possível carregar os dados do usuário.");
+        });
 }
 

@@ -265,6 +265,109 @@ async function alterarSenhaPerfil(req, res) {
 
 
 
+function buscarTodos(req, res) {
+    usuarioModel.buscarTodos()
+        .then(resultado => {
+            res.status(200).json(resultado);
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar todos os usuários:", erro);
+            res.status(500).json(erro);
+        });
+}
+
+function deletarUsuario(req, res) {
+    const idUsuario = req.params.id;
+
+    if (!idUsuario) {
+        return res.status(400).json({ success: false, message: "ID do usuário não informado." });
+    }
+
+    usuarioModel.deletar(idUsuario)
+        .then(resultado => {
+            if (resultado.affectedRows > 0) {
+                res.json({ success: true, message: "Usuário deletado com sucesso." });
+            } else {
+                res.status(404).json({ success: false, message: "Usuário não encontrado." });
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao deletar usuário:", erro.message);
+            res.status(500).json({ success: false, message: "Erro interno ao deletar usuário." });
+        });
+}
+
+
+function efetuarEdicaoUser() {
+    const nome = document.querySelector("#modalEditarUsuario input[placeholder='Novo nome']").value;
+    const email = document.querySelector("#modalEditarUsuario input[placeholder='Novo E-mail']").value;
+    const cargo = document.querySelector("#modalEditarUsuario select").value;
+    const status = document.getElementById("editarStatusUsuario").value === "user-ativo" ? "ativo" : "inativo";
+
+    fetch(`/api/usuarios/usuario/${usuarioEditandoId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ nome, email, cargo, status })
+    })
+    .then(res => res.json())
+    .then(resposta => {
+        if (resposta.success) {
+            alert("Usuário atualizado com sucesso!");
+            cancelarEditarUser();
+            listarUsuarios();
+        } else {
+            alert("Erro ao atualizar: " + resposta.message);
+        }
+    })
+    .catch(erro => {
+        console.error("Erro ao atualizar usuário:", erro);
+        alert("Erro interno ao atualizar.");
+    });
+}
+
+function atualizarUsuario(req, res) {
+    const idUsuario = req.params.id;
+    const { nome, email, cargo, status } = req.body;
+
+    if (!nome || !email || !cargo || !status) {
+        return res.status(400).json({ success: false, message: "Todos os campos são obrigatórios." });
+    }
+
+    usuarioModel.atualizarUsuario(idUsuario, nome, email, cargo, status)
+        .then(resultado => {
+            if (resultado.affectedRows > 0) {
+                res.json({ success: true, message: "Usuário atualizado com sucesso." });
+            } else {
+                res.status(404).json({ success: false, message: "Usuário não encontrado." });
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao atualizar usuário:", erro.message);
+            res.status(500).json({ success: false, message: "Erro interno ao atualizar usuário." });
+        });
+}
+function buscarUsuarioPorId(req, res) {
+    const idUsuario = req.params.id;
+
+    usuarioModel.buscarPorId(idUsuario)
+        .then(usuario => {
+            if (usuario) {
+                res.status(200).json(usuario);
+            } else {
+                res.status(404).json({ success: false, message: "Usuário não encontrado." });
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar usuário por ID:", erro.message);
+            res.status(500).json({ success: false, message: "Erro interno ao buscar usuário." });
+        });
+}
+
+
+
+
 
 
 export {
@@ -276,6 +379,11 @@ export {
     aprovarUsuario,
     rejeitarUsuario,
     recuperarSenha,
-    alterarSenhaPerfil
+    alterarSenhaPerfil,
+    buscarTodos,
+    deletarUsuario,
+    atualizarUsuario,
+    efetuarEdicaoUser,
+    buscarUsuarioPorId
 };
 
