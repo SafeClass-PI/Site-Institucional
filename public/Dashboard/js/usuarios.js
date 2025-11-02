@@ -422,7 +422,6 @@ function efetuarEdicaoUser() {
         .then(resposta => {
             if (resposta.success) {
                 alert("Usuário atualizado com sucesso!");
-                window.location.reload();
                 cancelarEditarUser();
                 listarUsuarios();
             } else {
