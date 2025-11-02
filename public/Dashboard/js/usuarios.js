@@ -143,7 +143,7 @@ function quantidadeSolicitacoes() {
 
                 vt_alertas = resposta;
                 var msg = document.getElementById("qtdSolicitacoes")
-                
+
                 msg.innerHTML = `${vt_alertas[0].qtdSolicitacoes}`;
             });
         } else {
@@ -313,7 +313,7 @@ function efetuarCriacaoUserGestor() {
             .then(resposta => {
                 if (resposta.success) {
                     alert("Cadastro realizado com sucesso!");
-
+                    window.location.reload();
                     emailNovoUser.value = "";
                     senhaNovoUser.value = "";
                     nomeNovoUser.value = "";
@@ -331,19 +331,19 @@ function efetuarCriacaoUserGestor() {
     }
 }
 
-        async function listarUsuarios() {
-            try {
-                const resposta = await fetch("/api/usuarios", { cache: "no-store" });
-                const usuarios = await resposta.json();
+async function listarUsuarios() {
+    try {
+        const resposta = await fetch("/api/usuarios", { cache: "no-store" });
+        const usuarios = await resposta.json();
 
-                const tbody = document.getElementById("tabelaUsuarios");
-                tbody.innerHTML = "";
+        const tbody = document.getElementById("tabelaUsuarios");
+        tbody.innerHTML = "";
 
-                usuarios.forEach(u => {
-                    const tr = document.createElement("tr");
-                    const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
+        usuarios.forEach(u => {
+            const tr = document.createElement("tr");
+            const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
 
-                    tr.innerHTML = `
+            tr.innerHTML = `
                         <td>
                             <div class="usuario-info">
                                 <div class="imagem-perfil">
@@ -362,24 +362,24 @@ function efetuarCriacaoUserGestor() {
                         </td>
                     `;
 
-                    tbody.appendChild(tr);
-                });
-            } catch (erro) {
-                console.error("Erro ao listar usuários:", erro);
-            }
-        }
+            tbody.appendChild(tr);
+        });
+    } catch (erro) {
+        console.error("Erro ao listar usuários:", erro);
+    }
+}
 
-        function formatarData(dataISO) {
-            const data = new Date(dataISO);
-            const dia = String(data.getDate()).padStart(2, '0');
-            const mes = String(data.getMonth() + 1).padStart(2, '0');
-            const ano = data.getFullYear();
-            return `${dia}/${mes}/${ano}`;
-        }
+function formatarData(dataISO) {
+    const data = new Date(dataISO);
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+}
 
-        window.onload = listarUsuarios;
+window.onload = listarUsuarios;
 
-    function deletarUsuario(idUsuario) {
+function deletarUsuario(idUsuario) {
     if (!confirm("Tem certeza que deseja deletar este usuário?")) return;
 
     fetch(`/api/usuarios/usuario/${idUsuario}`, {
@@ -388,19 +388,19 @@ function efetuarCriacaoUserGestor() {
             "Content-Type": "application/json"
         }
     })
-    .then(res => res.json())
-    .then(resposta => {
-        if (resposta.success) {
-            alert("Usuário deletado com sucesso!");
-            listarUsuarios(); // Atualiza a tabela
-        } else {
-            alert("Erro ao deletar: " + resposta.message);
-        }
-    })
-    .catch(erro => {
-        console.error("Erro ao deletar usuário:", erro);
-        alert("Erro interno ao deletar.");
-    });
+        .then(res => res.json())
+        .then(resposta => {
+            if (resposta.success) {
+                alert("Usuário deletado com sucesso!");
+                listarUsuarios(); // Atualiza a tabela
+            } else {
+                alert("Erro ao deletar: " + resposta.message);
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao deletar usuário:", erro);
+            alert("Erro interno ao deletar.");
+        });
 }
 
 function efetuarEdicaoUser() {
@@ -418,20 +418,21 @@ function efetuarEdicaoUser() {
         },
         body: JSON.stringify({ nome, email, cargo, status })
     })
-    .then(res => res.json())
-    .then(resposta => {
-        if (resposta.success) {
-            alert("Usuário atualizado com sucesso!");
-            cancelarEditarUser();
-            listarUsuarios();
-        } else {
-            alert("Erro ao atualizar: " + resposta.message);
-        }
-    })
-    .catch(erro => {
-        console.error("Erro ao atualizar usuário:", erro);
-        alert("Erro interno ao atualizar.");
-    });
+        .then(res => res.json())
+        .then(resposta => {
+            if (resposta.success) {
+                alert("Usuário atualizado com sucesso!");
+                window.location.reload();
+                cancelarEditarUser();
+                listarUsuarios();
+            } else {
+                alert("Erro ao atualizar: " + resposta.message);
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao atualizar usuário:", erro);
+            alert("Erro interno ao atualizar.");
+        });
 }
 
 function editarUsuario(idUsuario) {
@@ -440,12 +441,12 @@ function editarUsuario(idUsuario) {
     // Busca os dados do usuário pelo ID
     fetch(`/api/usuarios/usuario/${idUsuario}`)
         .then(res => res.json())
-       .then(usuario => {
-    // Preenche os campos do modal
-    document.getElementById("editarNomeUsuario").value = usuario.nome;
-    document.getElementById("editarEmailUsuario").value = usuario.email;
-    document.getElementById("editarCargoUsuario").value = usuario.fkCargo;
-    document.getElementById("editarStatusUsuario").value = usuario.status === "ativo" ? "user-ativo" : "user-inativo";
+        .then(usuario => {
+            // Preenche os campos do modal
+            document.getElementById("editarNomeUsuario").value = usuario.nome;
+            document.getElementById("editarEmailUsuario").value = usuario.email;
+            document.getElementById("editarCargoUsuario").value = usuario.fkCargo;
+            document.getElementById("editarStatusUsuario").value = usuario.status === "ativo" ? "user-ativo" : "user-inativo";
 
 
             // Abre o modal
