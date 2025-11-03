@@ -1,3 +1,20 @@
+function atualizarDataHora() {
+    const agora = new Date();
+
+    const data = agora.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+
+    document.getElementById('dataHora').textContent = `${data}`;
+}
+
+atualizarDataHora();
+setInterval(atualizarDataHora, 1000);
+
+
 function sairDaPagina() {
     modalLogout.style.display = 'flex';
     telaOverlay.style.display = 'block';

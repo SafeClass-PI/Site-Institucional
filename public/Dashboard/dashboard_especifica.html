@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -75,7 +76,7 @@
                 <div class="profile-icone">
                     <a href="perfil.html">
                         <div class="profile-img">
-                            <img src="imgs/DSC08926.JPEG">
+                            <img src="imgs/profile-default.webp">
                         </div>
                         <p>Ryan Patric</p>
                     </a>
@@ -87,7 +88,8 @@
                         <p>Escola Joaquim 3°</p>
                     </div>
                     <div class="texto-titulo-dashboard">
-                        <p>Desempenho Diário - 27/10/2025</p>
+                        <p>Desempenho Diário -</p>
+                        <p id="dataHora"></p>
                     </div>
                     <div class="selects-escolha-maquina">
                         <select id="escolha-sala">
@@ -161,7 +163,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>7</p>
+                                <p>2</p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Alertas Hoje</p>
@@ -241,8 +243,8 @@
                                     </div>
                                     <div class="infos-card-alerta">
                                         <p>Máquina 1</p>
-                                        <p>CPU a 90%</p>
-                                        <p>Sala 5 - Há 5 min</p>
+                                        <p>Disco a 95%</p>
+                                        <p>Sala 5 - Há 6 min</p>
                                     </div>
                                 </div>
                             </div>

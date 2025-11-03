@@ -75,7 +75,7 @@
                 <div class="profile-icone">
                     <a href="perfil.html">
                         <div class="profile-img">
-                            <img src="imgs/DSC08926.JPEG">
+                            <img src="imgs/profile-default.webp">
                         </div>
                         <p>Ryan Patric</p>
                     </a>
@@ -109,12 +109,8 @@
                                 <div class="titulo-campo">
                                     <p>Sistema Operacional</p>
                                 </div>
-                                <div class="select-campo">
-                                    <select>
-                                        <option value="#">Linux</option>
-                                        <option value="#">Windows</option>
-                                        <option value="#">MacOS</option>
-                                    </select>
+                                <div class="input-campo">
+                                    <input type="text" placeholder="Digite o S.O">
                                 </div>
                             </div>
                             <div class="infos-input">
@@ -124,16 +120,6 @@
                                 <div class="select-campo">
                                     <select>
                                         <option value="#">Sala 1</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Status</p>
-                                </div>
-                                <div class="select-campo">
-                                    <select id="statusNovoUser" disabled>
-                                        <option value="ativo">Ativo</option>
                                     </select>
                                 </div>
                             </div>
@@ -178,6 +164,26 @@
                         <div class="campo-pesquisa">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             <input type="text" placeholder="Pesquisar..." />
+                        </div>
+                        <button class="desligar-maquinas" onclick="abrirModalDesligarMaquinas()">
+                            <p>Desligar Máquinas</p>
+                        </button>
+                    </div>
+                    <div class="modal-maquinas-ligadas" id="modalDesligarMaquinas">
+                        <div class="title-maquinas-ligadas">
+                            <p>Qual máquina você deseja desligar?</p>
+                        </div>
+                        <div class="select-maquina-desligar">
+                            <select>
+                                <option value="1">Máquina 1</option>
+                                <option value="2">Máquina 2</option>
+                                <option value="3">Máquina 3</option>
+                                <option value="4">Máquina 4</option>
+                            </select>
+                        </div>
+                        <div class="btns-desligar-maquina">
+                            <button onclick="cancelarDesligamento()">Cancelar</button>
+                            <button onclick="efetuarDesligamento()">Desligar</button>
                         </div>
                     </div>
                 </div>
@@ -259,7 +265,7 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina">Ligada</p>
                                 </div>
                                 <div class="line-status">
                                 </div>
@@ -305,9 +311,9 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="maquina-1">Ligada</p>
                                 </div>
-                                <div class="line-status">
+                                <div class="line-maquina-1" id="line-1">
                                 </div>
                             </div>
                             <div class="infos-maquina">
@@ -351,7 +357,7 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina">Ligada</p>
                                 </div>
                                 <div class="line-status">
                                 </div>
@@ -397,7 +403,7 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina">Ligada</p>
                                 </div>
                                 <div class="line-status">
                                 </div>
@@ -443,7 +449,7 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina">Ligada</p>
                                 </div>
                                 <div class="line-status">
                                 </div>
@@ -489,7 +495,7 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina">Ligada</p>
                                 </div>
                                 <div class="line-status">
                                 </div>
@@ -535,9 +541,9 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina-critico">Desligada</p>
                                 </div>
-                                <div class="line-status">
+                                <div class="line-status-critico">
                                 </div>
                             </div>
                             <div class="infos-maquina">
@@ -581,9 +587,9 @@
                             <div class="status-maquina">
                                 <div class="status">
                                     <p>Status:</p>
-                                    <p id="status-maquina">Ativo</p>
+                                    <p id="status-maquina-critico">Desligada</p>
                                 </div>
-                                <div class="line-status">
+                                <div class="line-status-critico">
                                 </div>
                             </div>
                             <div class="infos-maquina">

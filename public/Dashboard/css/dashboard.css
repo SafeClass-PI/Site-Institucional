@@ -180,7 +180,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    transform: rotate(180deg);
     margin: 0;
 }
 
@@ -307,6 +306,7 @@ body {
     font-size: 14px;
     color: rgb(117, 117, 117);
     margin-right: 10%;
+    margin-top: 0.5%;
 }
 
 /* --------------------- CONTEUDO DASHBOARD ----------------------------- */
@@ -375,6 +375,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
     margin-top: 0.5%;
     margin-right: 40%;
+    gap: 1.2%;
 }
 
 .texto-titulo-dashboard-geral p {
@@ -450,6 +451,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.062);
     margin-top: 0.5%;
     margin-left: 9.1%;
+    gap: 1.2%;
 }
 
 .texto-titulo-dashboard p {

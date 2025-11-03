@@ -9,6 +9,30 @@
     gap: 1%;
 }
 
+
+.desligar-maquinas {
+    width: 13%;
+    height: 80%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid rgb(212, 0, 32);
+    cursor: pointer;
+    background-color: var(--cor-critico);
+    transition: 0.2s all ease-in-out;
+}
+
+.desligar-maquinas:hover {
+    transform: scale(1.02);
+}
+
+.desligar-maquinas p {
+    margin-left: 8%;
+    font-size: 14px;
+    color: white;
+}
+
 .maquina {
     width: 91.8%;
     height: 85%;
@@ -61,7 +85,7 @@
 }
 
 
-.status-maquina {
+.status-maquina{
     width: 100%;
     height: 5%;
     display: flex;
@@ -81,18 +105,32 @@
     display: flex;
 }
 
-#status-maquina {
+#status-maquina, #maquina-1 {
     color: var(--cor-estavel);
     font-weight: 650;
 }
 
-.line-status {
+#status-maquina-critico {
+    color: var(--cor-critico);
+    font-weight: 650;
+}
+
+.line-status, .line-maquina-1 {
     width: 34%;
     height: 65%;
     background: var(--cor-estavel);
     border-radius: 10px;
     margin-right: 6.6%;
 }
+
+.line-status-critico {
+    width: 34%;
+    height: 65%;
+    background: var(--cor-critico);
+    border-radius: 10px;
+    margin-right: 6.6%;
+}
+
 
 .infos-maquina {
     width: 100%;
@@ -651,6 +689,94 @@
 }
 
 .btns-deletar-modal button:nth-of-type(2) {
+    background-color: var(--cor-critico);
+    font-weight: 550;
+    color: white;
+}
+
+
+.modal-maquinas-ligadas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 27%;
+    height: 30%;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.158);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 11;
+}
+
+.title-maquinas-ligadas {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-maquinas-ligadas p {
+    font-weight: 610;
+    color: #393939;
+    font-size: 20px;
+    margin-top: 3%;
+}
+
+.select-maquina-desligar {
+    width: 100%;
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select-maquina-desligar select {
+    width: 91%;
+    height: 60%;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: white;
+    border: 2.3px solid rgb(226, 226, 226);
+    cursor: pointer;
+    font-weight: 600;
+    color: #393939;
+}
+
+.btns-desligar-maquina {
+    width: 100%;
+    height: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+}
+
+.btns-desligar-maquina button {
+    width: 43%;
+    height: 70%;
+    margin-bottom: 2%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btns-desligar-maquina button:nth-of-type(1) {
+    background-color: rgb(228, 228, 228);
+    border: 2px solid rgb(215, 215, 215);
+    font-weight: 550;
+    color: #3f3f3f;
+}
+
+.btns-desligar-maquina button:nth-of-type(2) {
     background-color: var(--cor-critico);
     font-weight: 550;
     color: white;

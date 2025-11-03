@@ -78,3 +78,26 @@ function confirmarExclusaoMaquina() {
     telaOverlay.style.display = 'none';
     modalDeletarMaquina.style.display = 'none';
 }
+
+function abrirModalDesligarMaquinas() {
+    telaOverlay.style.display = 'block';
+    modalDesligarMaquinas.style.display = 'flex';
+}
+
+function cancelarDesligamento() {
+    telaOverlay.style.display = 'none';
+    modalDesligarMaquinas.style.display = 'none';
+}
+
+function efetuarDesligamento() {
+    telaOverlay.style.display = 'none';
+    modalDesligarMaquinas.style.display = 'none';
+    alert('Máquina desligada!')
+
+    var maquina = document.getElementById('maquina-1');
+    var line = document.getElementById('line-1');
+
+    maquina.style.color = '#ea0303';
+    maquina.innerHTML = 'Desligada';
+    line.style.backgroundColor = '#ea0303';
+}

@@ -1,3 +1,21 @@
+function atualizarDataHora() {
+    const agora = new Date();
+
+    const data = agora.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+
+    document.getElementById('dataHora').textContent = `${data}`;
+}
+
+atualizarDataHora();
+setInterval(atualizarDataHora, 1000);
+
+
+
 function sairDaPagina() {
     modalLogout.style.display = 'flex';
     telaOverlay.style.display = 'block';
@@ -39,7 +57,7 @@ setInterval(trocarKpi, 1800);
 const ctx = document.getElementById('monitoramento-componente').getContext('2d');
 
 const data = {
-    labels: ['07 am', '08 am', '09 am', '10 am', '11 am', '12 pm', '11 am', '12 pm'],
+    labels: ['14:00:00', '14:00:10', '14:00:20', '14:00:30', '14:00:40', '14:00:50', '14:00:60', '14:00:70'],
     datasets: [{
         label: 'Time Admitted',
         data: [50, 115, 80, 95, 120, 110, 50, 115],
@@ -66,12 +84,48 @@ const config = {
             },
             tooltip: {
                 enabled: true,
-                backgroundColor: 'black',
+                backgroundColor: 'rgba(255, 166, 0, 0.93)',
                 titleColor: 'white',
                 bodyColor: 'white',
                 callbacks: {
                     label: function (context) {
                         return context.dataset.label + ': ' + context.raw;
+                    }
+                }
+            },
+            annotation: {
+                annotations: {
+                    yMinLine: {
+                        type: 'line',
+                        yMin: 90,
+                        yMax: 90,
+                        borderColor: '#f3c200ff',
+                        borderWidth: 1.8,
+                        borderDash: [5],
+                        label: {
+                            display: true,
+                            content: ['Atenção'],
+                            backgroundColor: '#ffd21dff',
+                            color: 'rgba(255, 255, 255, 1)',
+                            font: { size: 9, family: 'Poppins' },
+                            position: 'start'
+                        }
+                    },
+                    yMaxLine: {
+                        type: 'line',
+                        yMin: 135,
+                        yMax: 135,
+                        borderColor: '#ea0303',
+                        borderWidth: 1.8,
+                        borderDash: [5],
+                        label: {
+                            display: true,
+                            content: ['Crítico'],
+                            backgroundColor: '#ea0303',
+                            color: 'white',
+                            font: { size: 9, family: 'Poppins' },
+                            position: 'end'
+                        }
                     }
                 }
             }
@@ -95,6 +149,7 @@ const config = {
         }
     }
 };
+
 
 new Chart(ctx, config);
 
@@ -170,7 +225,7 @@ const data2 = {
     labels: ['Uptime', 'Downtime'],
     datasets: [{
         label: 'Time Admitted',
-        data: [221, 12],
+        data: [86, 14],
         borderColor: 'orange',
         backgroundColor: ['#0eca117d', '#ea0303ae'],
         borderWidth: 2.2,
@@ -214,7 +269,7 @@ const config2 = {
 new Chart(ctx2, config2);
 
 const labels = ['CPU', 'Disco', 'RAM', 'Rede'];
-const dados = [1, 5, 2, 8];
+const dados = [1, 1, 0, 0];
 
 const data3 = {
     labels: labels,
@@ -259,6 +314,8 @@ const config3 = {
         },
         scales: {
             x: {
+                min: 0,
+                max: 3,
                 beginAtZero: true
             },
             y: {
