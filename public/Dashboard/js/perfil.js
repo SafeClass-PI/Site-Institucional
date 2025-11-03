@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", function () {
+    carregarInfos();
+});
+
+function carregarInfos() {
+    var usuario = document.getElementById('nome-usuario-pagina');
+    usuario.innerText = sessionStorage.NOME_USUARIO;
+}
+
 function sairDaPagina() {
   modalLogout.style.display = 'flex';
   telaOverlay.style.display = 'block';
@@ -30,7 +39,7 @@ function editarImagem() {
       };
       reader.readAsDataURL(file);
 
-      salvarImagem(file); // ✅ envia para o backend
+      salvarImagem(file); 
     }
   };
   input.click();
@@ -79,7 +88,6 @@ function alterarSenhaPerfil() {
         msg.innerHTML = `<p style="color: green;">${resposta.message}</p>`;
         limparInputsAlterarSenha();
 
-        // ✅ Libera acesso após alteração de senha
         const bloqueio = document.querySelector('#bloqueio-interacao');
         if (bloqueio) bloqueio.remove();
         sessionStorage.PRECISA_ALTERAR_SENHA = 'false';
@@ -101,13 +109,17 @@ function limparInputsAlterarSenha() {
 
 function preencherDadosPerfil() {
   const campoNome = document.getElementById("campoNome");
-  const campoCargo = document.getElementById("campoCargo");
+  const campoNome2 = document.getElementById("campoNome2");
+  const campoCargo= document.getElementById("campoCargo");
+  const campoCargo2 = document.getElementById("campoCargo2");
   const campoEmail = document.getElementById("campoEmail");
   const campoDataEntrada = document.getElementById("campoDataEntrada");
   const campoStatus = document.getElementById("campoStatus");
 
   if (campoNome) campoNome.innerText = sessionStorage.NOME_USUARIO;
+  if (campoNome2) campoNome2.innerText = sessionStorage.NOME_USUARIO;
   if (campoCargo) campoCargo.innerText = sessionStorage.CARGO_USUARIO;
+  if (campoCargo2) campoCargo2.innerText = sessionStorage.CARGO_USUARIO;
   if (campoEmail) campoEmail.innerText = sessionStorage.EMAIL_USUARIO;
 
   if (campoDataEntrada) {

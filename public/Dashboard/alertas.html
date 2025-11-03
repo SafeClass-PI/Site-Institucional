@@ -11,7 +11,7 @@
     <title>Usuários</title>
 </head>
 
-<body onload="quantidadeSolicitacoes()">
+<body onload="carregarInfos()">
     <div class="overlay" id="telaOverlay">
     </div>
     <div class="dashboard">
@@ -76,7 +76,7 @@
                         <div class="profile-img">
                             <img src="imgs/profile-default.webp">
                         </div>
-                        <p>Ryan Patric</p>
+                        <p id="nome-usuario-pagina"></p>
                     </a>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                                         <p>Data/Hora</p>
                                     </div>
                                     <div class="input-campo">
-                                        <input type="datetime-local" name="dataHoraAlerta" required>    
+                                        <input type="datetime-local" name="dataHoraAlerta" required>
                                     </div>
                                 </div>
                             </div>
@@ -322,7 +322,7 @@
             </div>
         </div>
     </div>
-    <script src="js/usuarios.js"></script>
+    <script src="js/alertas.js"></script>
 </body>
 
 </html>
