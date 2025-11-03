@@ -29,7 +29,7 @@ function autenticar(email, senha) {
             }
 
             const agora = new Date();
-            const expira = usuario.senha_temporaria_expira ? new Date(usuario.senha_temporaria_expira) : null;
+            const expira = usuario.senhaTemporaria ? new Date(usuario.senhaTemporaria) : null;
 
             if (usuario.senha === senha) {
                 if (expira && agora > expira) {
@@ -143,7 +143,7 @@ function atualizarSenhaTemporaria(idUsuario, novaSenha, expiraEm) {
     const expiraFormatada = expiraEm.toISOString().slice(0, 19).replace('T', ' ');
     const sql = `
         UPDATE usuario 
-        SET senha = '${novaSenha}', senha_temporaria_expira = '${expiraFormatada}' 
+        SET senha = '${novaSenha}', senhaTemporaria = '${expiraFormatada}' 
         WHERE idUsuario = ${idUsuario}
     `;
     return database.executar(sql);
@@ -152,7 +152,7 @@ function atualizarSenhaTemporaria(idUsuario, novaSenha, expiraEm) {
 function atualizarSenha(idUsuario, novaSenha) {
     const sql = `
     UPDATE usuario 
-    SET senha = '${novaSenha}', senha_temporaria_expira = NULL 
+    SET senha = '${novaSenha}', senhaTemporaria = NULL 
     WHERE idUsuario = ${idUsuario}
   `;
     return database.executar(sql);
