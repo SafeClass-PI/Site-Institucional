@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
+
+    quantidadeSolicitacoes();
 }
 
 let usuarioEditandoId = null;
