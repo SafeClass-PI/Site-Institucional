@@ -189,6 +189,7 @@ function buscarTodos() {
             UPPER(u.status) AS status
         FROM usuario AS u
         JOIN cargo AS c ON u.fkCargo = c.idCargo
+        WHERE status NOT LIKE 'PENDENTE'
         ORDER BY u.dtCadastro DESC;
     `;
 
