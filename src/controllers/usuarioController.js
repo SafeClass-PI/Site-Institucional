@@ -153,6 +153,7 @@ function aprovarUsuario(req, res) {
                     await enviarEmailAprovacao(usuario.email, usuario.nome);
 
                     res.json({ success: true, message: "Usuário aprovado com sucesso e e-mail enviado!" });
+
                 } else {
                     res.status(404).json({ success: false, message: "Usuário não encontrado ou já ativo." });
                 }

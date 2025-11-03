@@ -237,6 +237,7 @@ function manipularSolicitacao(idUsuario, acao) {
         url = `/api/usuarios/aprovar/${idUsuario}`;
         confirmMessage = 'Confirma a aprovação deste usuário? Ele terá acesso imediato.';
         successMessage = 'Usuário APROVADO com sucesso!';
+        window.location.reload();
     } else if (acao === 'rejeitar') {
         method = 'DELETE';
         url = `/api/usuarios/rejeitar/${idUsuario}`;
