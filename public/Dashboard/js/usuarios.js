@@ -278,7 +278,6 @@ function manipularSolicitacao(idUsuario, acao) {
         })
         .catch(error => {
             console.error(`Erro ao ${acao} usuário:`, error);
-            alert(`Falha ao processar a solicitação: ${error.message}`);
         });
 }
 
