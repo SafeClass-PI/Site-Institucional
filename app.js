@@ -22,6 +22,11 @@ var usuarioRouter = require("./src/routes/usuarios");
 // var aquariosRouter = require("./src/routes/aquarios");
 // var empresasRouter = require("./src/routes/empresas");
 
+app.use((req, res, next) => {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public",)));
@@ -38,7 +43,7 @@ app.use("/api/usuarios", usuarioRouter);
 // app.use("/empresas", empresasRouter);
 
 app.listen(PORTA_APP, function () {
-    console.log(`
+    console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
     ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
