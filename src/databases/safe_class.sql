@@ -1,4 +1,4 @@
-DROP DATABASE safeclass;
+DROP DATABASE IF EXISTS safeclass;
 CREATE DATABASE safeclass;
 USE safeclass;
 
@@ -65,33 +65,29 @@ INSERT INTO Cargo (nome, permissao) VALUES
 ("Técnico de T.I", "Visualizar métricas, visualizar/editar/remover/inserir máquinas"),
 ("Professor", "Visualizar métricas");
 
-
-
 CREATE TABLE Usuario (
 	idUsuario INT AUTO_INCREMENT,
     fkCargo INT,
     fkEscola INT,
-    fkGestor INT Null,
+    fkGestor INT,
     nome VARCHAR(45),
     email VARCHAR(45),
     senha VARCHAR(45),
+    senhaTemporaria DATETIME NULL,
     dtCadastro DATE,
     status VARCHAR(45),
+    imagemPerfil VARCHAR(255),
     PRIMARY KEY (idUsuario),
     FOREIGN KEY (fkCargo)
     REFERENCES Cargo(idCargo),
     FOREIGN KEY (fkEscola)
     REFERENCES Escola(idEscola),
-    foreign key (fkGestor) references Usuario(idUsuario)
+    FOREIGN KEY (fkGestor) REFERENCES Usuario(idUsuario)
 );
 
 INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status) VALUES 
 (1, 1, "Ryan Patric", "ryanpina@gmail.com", "urubu100", "2025-09-10", "ativo"),
 (1, 1, "Felipe Ferraz", "felipegmail.com", "urubu100", "2025-09-10", "pendente");
-
--- Quantidade de solicitações de entrada
-	SELECT count(status) FROM Usuario
-	WHERE status LIKE 'pendente';
 
 CREATE TABLE Maquina (
 	idMaquina INT PRIMARY KEY AUTO_INCREMENT,
@@ -105,8 +101,8 @@ CREATE TABLE Maquina (
     REFERENCES Sala(idSala)
 );
 
-Insert into Maquina (fkSala, sistemaOperacional, marca, modelo, macaddress) values
-(1, "Linux", "Dell", "Inspiron 15", "A4:C3:F0:9B:2D:67");
+Insert into Maquina (fkSala, sistemaOperacional, marca, modelo, macaddress, status) values
+(1, "Linux", "Dell", "Inspiron 15", "A4:C3:F0:9B:2D:67", "Ligada");
 
 CREATE TABLE Componente (
 	idComponente INT auto_increment,
@@ -122,7 +118,8 @@ CREATE TABLE Componente (
 INSERT INTO Componente (idComponente, fkMaquina, nome, tipo, capacidade) VALUES 
 (default, 1, 'Memória RAM', 'Hardware', '16GB DDR4'), 
 (default, 1, 'Disco Rígido', 'Hardware', '1TB'),
-(default, 1, 'Processador', 'Hardware', 'Intel i7');
+(default, 1, 'Processador', 'Hardware', 'Intel i7'),
+(default, 1, 'Rede', 'Hardware', 'Intelbras');
 
 CREATE TABLE Captura (
     idCaptura INT AUTO_INCREMENT,
@@ -130,6 +127,8 @@ CREATE TABLE Captura (
     gbLivre FLOAT,
     gbEmUso FLOAT,
     porcentagemDeUso FLOAT,
+	velocidadeDownload FLOAT,
+	velocidadeUpload FLOAT,
     dtCaptura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (idCaptura, fkComponente),
     FOREIGN KEY (fkComponente)
@@ -161,32 +160,9 @@ CREATE TABLE Alerta (
     REFERENCES Captura(idCaptura)
 );
 
-
-ALTER TABLE usuario ADD COLUMN senha_temporaria_expira DATETIME;
-
-select * from usuario;
-
-update usuario set status = "ativo" where idUsuario = 11;
-
-
-
-
-SELECT 
-    u.idUsuario AS ID_Usuario,
-    u.nome AS Usuario,
-    c.nome AS Cargo,
-    COALESCE(g.nome, 'Gestor Principal') AS Gestor
-FROM Usuario u
-LEFT JOIN Usuario g ON u.fkGestor = g.idUsuario
-JOIN Cargo c ON u.fkCargo = c.idCargo;
-
-
-
-SELECT 
-    u.nome AS "Nome",
-    t.nome AS "Nome Gestor"
-FROM usuario u
-LEFT JOIN usuario t 
-    ON u.fkGestor = t.idUsuario;
+-- -------------------------- SELECTS DASHBOARD ---------------------------------------
+-- Quantidade de solicitações de entrada
+SELECT count(status) FROM Usuario
+WHERE status LIKE 'pendente';
 
 
