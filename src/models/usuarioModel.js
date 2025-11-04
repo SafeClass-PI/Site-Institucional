@@ -12,8 +12,8 @@ function autenticar(email, senha) {
     u.status,  
     u.dtCadastro,
     c.nome AS cargo
-  FROM Usuario u
-  JOIN Cargo c ON u.fkCargo = c.idCargo
+  FROM usuario u
+  JOIN cargo c ON u.fkCargo = c.idCargo
   WHERE u.email = '${email}'
 `;
 
@@ -52,7 +52,7 @@ function cadastrar(cargo_tipo, nome, email, senha) {
 
     // Garante que dtCadastro tenha valor padrão
     var instrucaoSql = `
-        INSERT INTO Usuario (fkCargo, fkEscola, fkGestor, nome, email, senha, dtCadastro, status) 
+        INSERT INTO usuario (fkCargo, fkEscola, fkGestor, nome, email, senha, dtCadastro, status) 
         VALUES (${cargo_tipo}, 1, 1, '${nome}', '${email}', '${senha}', CURDATE(), '${status}')
     `;
 
@@ -66,7 +66,7 @@ function cadastrarGestor(cargo_tipo, nome, email, senha, status) {
     if (!status) status = 'ativo';
 
     var instrucaoSql = `
-        INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status)
+        INSERT INTO usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status)
         VALUES (${cargo_tipo}, 1, '${nome}', '${email}', '${senha}', CURDATE(), '${status}')
     `;
 
@@ -81,7 +81,7 @@ function cadastrarGestor(cargo_tipo, nome, email, senha, status) {
 // ------------------------------------------------------------------
 
 function buscarqtdSolicitacoes() {
-    var instrucaoSql = `SELECT count(status) AS qtdSolicitacoes FROM Usuario
+    var instrucaoSql = `SELECT count(status) AS qtdSolicitacoes FROM usuario
     WHERE status LIKE 'pendente';`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
