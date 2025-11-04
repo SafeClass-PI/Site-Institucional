@@ -199,6 +199,42 @@ const config1 = {
                         return context.dataset.label + ': ' + context.raw;
                     }
                 }
+            },
+             annotation: {
+                annotations: {
+                    yMinLine: {
+                        type: 'line',
+                        yMin: 90,
+                        yMax: 90,
+                        borderColor: '#f3c200ff',
+                        borderWidth: 1.8,
+                        borderDash: [5],
+                        label: {
+                            display: true,
+                            content: ['Atenção'],
+                            backgroundColor: '#ffd21dff',
+                            color: 'rgba(255, 255, 255, 1)',
+                            font: { size: 9, family: 'Poppins' },
+                            position: 'start'
+                        }
+                    },
+                    yMaxLine: {
+                        type: 'line',
+                        yMin: 135,
+                        yMax: 135,
+                        borderColor: '#ea0303',
+                        borderWidth: 1.8,
+                        borderDash: [5],
+                        label: {
+                            display: true,
+                            content: ['Crítico'],
+                            backgroundColor: '#ea0303',
+                            color: 'white',
+                            font: { size: 9, family: 'Poppins' },
+                            position: 'end'
+                        }
+                    }
+                }
             }
         },
         scales: {
