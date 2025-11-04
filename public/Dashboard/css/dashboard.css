@@ -567,7 +567,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 23%;
-    height: 30%;
+    height: 25%;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
@@ -580,7 +580,7 @@ body {
 
 .area-superior-modal {
     width: 100%;
-    height: 17%;
+    height: 20%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
