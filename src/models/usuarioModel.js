@@ -216,12 +216,6 @@ function atualizarUsuario(idUsuario, nome, email, cargo, status) {
     return database.executar(instrucaoSql);
 }
 
-
-
-
-
-
-
 module.exports = {
     autenticar,
     cadastrar,

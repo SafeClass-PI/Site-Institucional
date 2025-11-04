@@ -6,7 +6,8 @@ var mySqlConfig = {
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    charset: 'utf8mb4'
 };
 
 function executar(instrucao) {
@@ -19,6 +20,8 @@ function executar(instrucao) {
     return new Promise(function (resolve, reject) {
         var conexao = mysql.createConnection(mySqlConfig);
         conexao.connect();
+        conexao.query("SET NAMES utf8mb4;")
+        
         conexao.query(instrucao, function (erro, resultados) {
             conexao.end();
             if (erro) {
