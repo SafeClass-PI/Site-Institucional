@@ -1005,8 +1005,9 @@ body {
 }
 
 .card-maquina:hover {
-   transform: scale(1.03);
-    box-shadow: 0px 2px 10px 2px #26262641;}
+    transform: scale(1.03);
+    box-shadow: 0px 2px 10px 2px #26262641;
+}
 
 .identificao-maquina {
     width: 100%;
@@ -1353,8 +1354,23 @@ body {
     height: 17%;
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
+}
+
+.titulo-grafico-rede select {
+    width: 17%;
+    background-color: #f1a500;
+    border-radius: 10px;
+    border: none;
+    color: var(--cor-branco);
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 540;
+    font-size: 12px;
+    margin-top: 3%;
+    margin-right: 4.1%;
 }
 
 .titulo-grafico-rede p {
