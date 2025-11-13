@@ -195,50 +195,51 @@ select {
     font-size: 1.8vh;
 }
 /* para tablet*/
-@media (max-width: 80em){
+@media (max-width: 80em) {
     .section {
         flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 95vw;
-        height: 90vh;
+        height: auto;
+        padding: 2vh 0;
     }
-    .imagem-esquerda{
+    .imagem-esquerda {
         max-width: 100%;
-        height: 40%;
+        height: 35vh;
     }
-    .cadastro{
+    .cadastro {
         width: 90%;
         margin: 0;
-        height: 60%;
+        height: auto;
         justify-content: center;
         align-items: center;
     }
-
-     .botao_cadastrar button {
+    .botao_cadastrar button {
         width: 40%;
         margin: 2vh auto 0 auto;
     }
-    .ja-tem-conta{
+    .ja-tem-conta {
         margin-left: 0;
         text-align: center;
     }
 }
-/* para celular*/
-@media(max-width: 37.5em){
-    html,body{
+
+/* ----------- CELULAR ----------- */
+@media (max-width: 37.5em) {
+    html, body {
         overflow: hidden;
     }
-    .section{
+    .section {
         width: 100vw;
         height: 100vh;
         flex-direction: column;
-        border-width: 0,3vh;
+        border-width: 0.3vh;
     }
-    .imagem-esquerda{
+    .imagem-esquerda {
         display: none;
     }
-    .cadastro{
+    .cadastro {
         width: 100%;
         margin: 0;
         padding: 4vw;
@@ -248,17 +249,58 @@ select {
     .cadastro p {
         font-size: 2vh;
     }
-
     input, select {
         font-size: 1.5vh;
     }
-    .botao_cadastrar button{
+
+    
+    .elementos-finais,
+    .elementos-finais-v2 {
+        flex-direction: column;
+        gap: 1vh;
+    }
+
+    .botao_cadastrar button {
         width: 70%;
         margin: 2vh auto;
     }
-    .ja-tem-conta{
+    .ja-tem-conta {
         text-align: center;
         margin: 0;
     }
 }
 
+/* ----------- INTERMEDIÁRIOS ----------- */
+@media (max-width: 100em) {
+    .section {
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .cadastro {
+        margin-left: 0;
+    }
+    .imagem-esquerda img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 60em) {
+    .section {
+        flex-direction: column;
+        height: auto;
+    }
+    .imagem-esquerda {
+        max-width: 100%;
+        height: auto;
+    }
+    .cadastro {
+        width: 90%;
+        margin: 0 auto;
+        padding: 3vh 4vw;
+    }
+    .botao_cadastrar button {
+        margin: 2vh auto;
+    }
+}
