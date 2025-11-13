@@ -1,7 +1,52 @@
 function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
+
+    qtdMaquinasLigadas();
+    qtdAlertas();
 }
+
+
+/* --------------------- DADOS DA DASHBOARD ------------------------------------- */
+
+function qtdMaquinasLigadas() {
+    fetch(`/api/dashboard/qtdMaquinasLigadas`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+                kpiQtdMaquinasLigadas.innerHTML = `${vt_dados[0].maquinasLigadas}/${vt_dados[0].totalMaquinas}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function qtdAlertas() {
+    fetch(`/api/dashboard/qtdAlertas`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+                kpiQtdAlertas.innerHTML = `${vt_dados[0].qtdAlertas}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
 
 function atualizarDataHora() {
     const agora = new Date();
