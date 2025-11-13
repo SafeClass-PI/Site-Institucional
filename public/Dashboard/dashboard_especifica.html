@@ -148,7 +148,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>CPU a 90% - 21:26</p>
+                                <p>CPU a 90% - 14:00</p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Taxa Mais Crítica</p>
@@ -205,7 +205,11 @@
                         <div class="rede-e-disponibilidade">
                             <div class="monitoramento-rede">
                                 <div class="titulo-grafico-rede">
-                                    <p>Taxa de Rede</p>
+                                    <p>Velocidade de Download</p>
+                                    <select id="componente-grafico">
+                                        <option value="cpu">Download</option>
+                                        <option value="disco">Upload</option>
+                                    </select>
                                 </div>
                                 <div class="grafico-rede">
                                     <canvas id="monitoramento-rede"></canvas>
@@ -234,7 +238,7 @@
                                     <div class="infos-card-alerta">
                                         <p>Máquina 1</p>
                                         <p>CPU a 90%</p>
-                                        <p>Sala 5 - Há 5 min</p>
+                                        <p>Sala 5 - Há 1 min</p>
                                     </div>
                                 </div>
                                 <div class="card-alerta">
@@ -243,8 +247,8 @@
                                     </div>
                                     <div class="infos-card-alerta">
                                         <p>Máquina 1</p>
-                                        <p>Disco a 95%</p>
-                                        <p>Sala 5 - Há 6 min</p>
+                                        <p>Taxa Download a 24%</p>
+                                        <p>Sala 5 - Há 2 min</p>
                                     </div>
                                 </div>
                             </div>

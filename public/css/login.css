@@ -178,3 +178,253 @@ select {
     margin-top: 2vh;
     margin-left: 7vw;
 }
+
+/* para tablet*/
+@media (max-width: 80em) {
+    .section {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 95vw;
+        height: auto;
+        padding: 2vh 0;
+    }
+    .imagem-direita {
+        max-width: 100%;
+        height: 35vh;
+    }
+    .login {
+        width: 90%;
+        margin: 0;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+    .botao_entrar button {
+        width: 40%;
+        margin: 2vh auto 0 auto;
+    }
+    .ja-tem-conta {
+        margin-left: 0;
+        text-align: center;
+    }
+    .nao-tem-conta{
+        margin-left: 0;
+        text-align: center;
+    }
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+}
+
+.section {
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: row-reverse;
+    border: 1vh solid transparent;
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(0deg, #FF3700, #ffcc00) border-box;
+}
+
+.imagem-direita {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    background-image: url(../imgs/login_imagem.png);
+    object-fit: cover;
+    background-size: cover;
+}
+
+.login {
+    width: 50%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10vh;
+}
+
+.login p {
+    font-size: 1.9vh;
+}
+
+.saudacao {
+    width: 76%;
+    height: 5vh;
+    font-size: 2.2vh;
+    margin-left: -5vw;
+    margin-top: 2%;
+}
+
+.formulario {
+    width: 100%;
+    margin-left: 12vw;
+}
+
+.elementos-finais-v2 {
+    display: flex;
+    gap: 2vw;
+    margin-bottom: 2vh;
+}
+
+.senha {
+    flex: 1;
+    position: relative;
+}
+
+.email p, .senha p {
+    font-weight: bold;
+    margin-bottom: 0.5vh;
+    margin-left: -3vw;
+    font-size: 1.8vh;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 80%;
+    margin-left: -3vw;
+    padding: 1vh;
+    border: 0.1vh solid #ccc;
+    border-radius: 0.4vh;
+    font-size: 1.6vh;
+    height: 5.2vh;
+    margin-bottom: 1.5vh;
+    padding-right: 4vw;
+}
+
+select {
+    padding-right: 1vw;
+}
+
+.toggle-olho {
+    position: absolute;
+    color: #888;
+    cursor: pointer;
+    font-size: 1.6vh;
+    right: 13vw;
+    top: 5.1vh;
+}
+
+.voltar-inicio {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: 5vh;
+    margin-left: 6vw;
+}
+
+#link-inicio {
+    text-decoration: none;
+    padding: 1.8vh 2vw;
+    border-radius: 2vh;
+    border: solid 0.2vh gray;
+    color: gray;
+    font-size: 1.5vh;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    margin-top:10vh;
+    gap: 0.5vw;
+}
+
+.botao_entrar button {
+    width: 25%;
+    height: 5vh;
+    margin-left: 10vw;
+    border: 0.5vh solid;
+    border-image: linear-gradient(300deg, rgb(252, 100, 3), rgb(255, 221, 0)) 1;
+    background-color: white;
+    color: rgb(252, 100, 3);
+    font-weight: 700;
+    font-size: 1.7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 4%;
+}
+
+.botao_entrar button:hover {
+    background: linear-gradient(300deg, rgb(252, 100, 3), rgb(255, 221, 0));
+    color: white;
+}
+
+.nao-tem-conta {
+    margin-top: 2vh;
+    margin-left: 7vw;
+}
+
+.esqueceu-senha {
+    display: block;
+    margin-right: 12vw;
+    margin-bottom: 2vh;
+    text-align: right;
+    font-size: 1.6vh;
+    color: rgb(252, 100, 3);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.esqueceu-senha:hover {
+    text-decoration: underline;
+    color: rgb(255, 150, 0);
+}
+
+.ja-tem-conta{
+    margin-top: 2vh;
+    margin-left: 7vw;
+}
+
+/* para tablet*/
+@media (max-width: 80em) {
+    .section {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 95vw;
+        height: auto;
+        padding: 2vh 0;
+    }
+    /* .imagem-direita {
+        max-width: 100%;
+        height: 35vh;
+    } */
+    .login {
+        width: 90%;
+        margin: 0;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+    .botao_entrar button {
+        width: 40%;
+        margin: 2vh auto 0 auto;
+    }
+    .ja-tem-conta {
+        margin-left: 0;
+        text-align: center;
+    }
+    .nao-tem-conta{
+        margin-left: 0;
+        text-align: center;
+    }
+}
