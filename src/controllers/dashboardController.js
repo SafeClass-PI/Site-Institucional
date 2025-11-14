@@ -18,11 +18,33 @@ function qtdAlertas(req, res) {
     })
 }
 
-/* ------------------------------ MÁQUINA ESPECÍFICA --------------------------------------- */
+function listarSalas(req, res) {
+    dashboardModel.listarSalas().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
 
+function mostrarMaquinas(req, res) {
+    const idSala = req.query.idSala;
+
+    dashboardModel.mostrarMaquinas(idSala)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.log("Erro ao listar máquinas:", erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+/* ------------------------------ MÁQUINA ESPECÍFICA --------------------------------------- */
 
 
 module.exports = {
     qtdMaquinasLigadas,
-    qtdAlertas
+    qtdAlertas,
+    listarSalas,
+    mostrarMaquinas
 }

@@ -4,6 +4,7 @@ function carregarInfos() {
 
     qtdMaquinasLigadas();
     qtdAlertas();
+    listarSalas();
 }
 
 
@@ -47,6 +48,156 @@ function qtdAlertas() {
         });
 }
 
+async function listarSalas() {
+    try {
+        const resposta = await fetch("/api/dashboard/listarSalas", { cache: "no-store" });
+        const salas = await resposta.json();
+
+        const painel = document.getElementById("painel-salas");
+        painel.innerHTML = "";
+
+        salas.forEach(sala => {
+
+            const classeParametro =
+                sala.mediana === "Crítico"
+                    ? "parametro-sala-critico"
+                    : sala.mediana === "Atenção"
+                        ? "parametro-sala-atencao"
+                        : "parametro-sala-estavel";
+
+            const idParametro =
+                sala.mediana === "Crítico"
+                    ? "mediana-critico"
+                    : sala.mediana === "Atenção"
+                        ? "mediana-atencao"
+                        : "mediana-estavel";
+
+            const card = document.createElement("div");
+            card.classList.add("card-sala");
+
+            card.innerHTML = `
+                <div class="identificao-sala">
+                    <div class="numero-sala">
+                        <p>${sala.nome}</p>
+                    </div>
+                    <div class="parametro-sala">
+                        <div class="${classeParametro}"></div>
+                    </div>
+                </div>
+
+                <div class="mediana-sala">
+                    <p>Mediana: <span id="${idParametro}">${sala.mediana}</span></p>
+                </div>
+
+                <div class="silver-line"></div>
+
+                <div class="quantidade-maquinas-sala">
+                    <p>Quantidade de Máquinas:</p>
+                    <p>${sala.qtdMaquinas}</p>
+                </div>
+            `;
+
+            card.addEventListener("click", () => {
+                mostrarMaquinasDaSala(sala.idSala);
+            });
+
+
+            painel.appendChild(card);
+        });
+    } catch (erro) {
+        console.error("Erro ao listar salas:", erro);
+    }
+}
+
+
+const painelSalas = document.getElementById('painel-salas');
+const painelMaquinas = document.getElementById('painel-maquinas');
+const nomeEscola = document.getElementById('nome-escola');
+
+async function mostrarMaquinasDaSala(idSala) {
+    nomeEscola.innerHTML += `<p>/Sala ${idSala}</p>`;
+
+    painelSalas.style.display = 'none';
+
+    painelMaquinas.style.display = 'grid';
+
+
+    nomeEscola.innerHTML += '<button id="voltarSalas"><i class="fa-solid fa-circle-arrow-left"></i></button>';
+
+    document.getElementById('voltarSalas').addEventListener('click', () => {
+        nomeEscola.innerHTML = '<p>Todas as Salas</p>';
+        painelMaquinas.style.display = 'none';
+        painelSalas.style.display = 'grid';
+        voltarSalas.style.display = 'none'
+    });
+
+    painelMaquinas.innerHTML = "";
+    
+    try {
+        const resposta = await fetch(`/api/dashboard/mostrarMaquinas?idSala=${idSala}`);
+        const maquinas = await resposta.json();
+
+        maquinas.forEach(maquina => {
+
+            const classeParametro =
+                maquina.status === "Crítico"
+                    ? "parametro-critico"
+                    : maquina.status === "Atenção"
+                        ? "parametro-atencao"
+                        : "parametro-estavel";
+
+            const idStatus =
+                maquina.status === "Crítico"
+                    ? "status-critico"
+                    : maquina.status === "Atenção"
+                        ? "status-atencao"
+                        : "status-estavel";
+
+            const card = document.createElement("div");
+            card.classList.add("card-maquina");
+
+            card.innerHTML = `
+                <div class="identificao-maquina">
+                    <div class="numero-maquina">
+                        <p>${maquina.identificacao}</p>
+                    </div>
+                    <div class="parametro-maquina">
+                        <div class="icone-parametro-maquina" id="${classeParametro}"></div>
+                    </div>
+                </div>
+
+                <div class="status-maquina">
+                    <p>Status: <span id="${idStatus}">${maquina.status}</span></p>
+                </div>
+
+                <div class="silver-line"></div>
+
+                <div class="info-maquina">
+                    <p>${maquina.descricao}</p>
+                </div>
+            `;
+
+            painelMaquinas.appendChild(card);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar máquinas:", erro);
+    }
+}
+
+const btnModal = document.getElementById('modal-maquina-critica');
+
+btnModal.addEventListener('click', () => {
+    telaOverlay.style.display = 'block';
+    modalMaquina.style.display = 'flex';
+});
+
+function closeModal() {
+    telaOverlay.style.display = 'none';
+    modalMaquina.style.display = 'none';
+}
+
+/* ---------- IRRELEVANTE ------------------ */
 
 function atualizarDataHora() {
     const agora = new Date();
@@ -77,44 +228,4 @@ function cancelarSairDaPagina() {
 
 function confirmarSairDaPagina() {
     window.location.href = '../index.html'
-}
-
-
-const painelSalas = document.getElementById('painel-salas');
-const painelMaquinas = document.getElementById('painel-maquinas');
-const nomeEscola = document.getElementById('nome-escola');
-
-document.querySelectorAll('.card-sala').forEach(card => {
-    card.addEventListener('click', () => {
-        mostrarMaquinasDaSala();
-    });
-});
-
-function mostrarMaquinasDaSala() {
-    nomeEscola.innerHTML += '<p>/Sala 1</p>';
-
-    painelSalas.style.display = 'none';
-
-    painelMaquinas.style.display = 'grid';
-
-    nomeEscola.innerHTML += '<button id="voltarSalas"><i class="fa-solid fa-circle-arrow-left"></i></button>';
-
-    document.getElementById('voltarSalas').addEventListener('click', () => {
-        nomeEscola.innerHTML = '<p>Todas as Salas</p>';
-        painelMaquinas.style.display = 'none';
-        painelSalas.style.display = 'grid';
-        voltarSalas.style.display = 'none'
-    });
-}
-
-const btnModal = document.getElementById('modal-maquina-critica');
-
-btnModal.addEventListener('click', () => {
-    telaOverlay.style.display = 'block';
-    modalMaquina.style.display = 'flex';
-});
-
-function closeModal() {
-    telaOverlay.style.display = 'none';
-    modalMaquina.style.display = 'none';
 }
