@@ -1,5 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+* {
+  text-decoration: none;
+  font-family: Poppins;
+  margin: 0;
+  padding: 0;
+}
+
+/* HTML/BODY GLOBAL */
+html,
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* AQUI: FUNDO EM DEGRADÊ PARA TODAS AS TELAS */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #ffe4c2 25%,
+    #ffd1a1 50%,
+    #ffb86b 75%,
+    #ff9b3d 100%
+  );
+  background-attachment: fixed;
+}
 @media (min-width: 1024px) {
 
   * {
@@ -114,6 +144,16 @@
     flex-direction: row;
     justify-content: space-between;
     z-index: -1;
+        background: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffe4c2 25%,
+      #ffd1a1 50%,
+      #ffb86b 75%,
+      #ff9b3d 100%
+    );
+
+
   }
 
   .overlay {
@@ -1198,7 +1238,7 @@
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Classe que ativa a transição */
+
 .modal-deletar-usuario.mostrar {
   display: flex;
   opacity: 1;
@@ -1229,4 +1269,317 @@
     font-size: 4vh;
   }
 
+}
+/* 
+   TABLET (até 1024px)*/
+@media (max-width: 1024px) {
+
+  .evitar-cards,
+  .retangulo-equipe,
+  .valores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .evitar-cards .card,
+  .retangulo-equipe .card-equipe,
+  .valores-bloco {
+    flex: 0 0 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .icon-box {
+    width: 90px;
+    height: 80px;
+    margin-top: 20px;
+  }
+
+  .icon-box img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .imagem-quadrado-sobre,
+  .imagem-quadrado-solucao,
+  .imagem-quadrado-quem,
+  .imagem-quadrado-valores {
+    background-size: contain !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 100%;
+  }
+
+  .sobre-quadrado1,
+  .sobre-quadrado2,
+  .solucao-quadrado1,
+  .solucao-quadrado2,
+  .quem-quadrado1,
+  .quem-quadrado2,
+  .valores-quadrado1,
+  .valores-quadrado2 {
+    display: none;
+  }
+
+  .titulo-sobre,
+  .titulo-solucao,
+  .titulo-quem {
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  }
+}
+
+/* =========================
+   CELULAR (até 768px) — força 2 por linha com imagens ainda menores
+========================= */
+@media (max-width: 768px) {
+
+  .evitar-cards,
+  .retangulo-equipe,
+  .valores {
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .evitar-cards .card,
+  .retangulo-equipe .card-equipe,
+  .valores-bloco {
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+    padding: 18px 12px;
+    min-height: 160px;
+  }
+
+  .icon-box {
+    width: 72px;
+    height: 60px;
+    margin-top: 12px;
+  }
+
+  .icon-box img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .imagem-quadrado-sobre,
+  .imagem-quadrado-solucao,
+  .imagem-quadrado-quem,
+  .imagem-quadrado-valores {
+    height: 130px;
+    background-size: contain !important;
+    background-position: center !important;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .sobre-quadrado1, .sobre-quadrado2,
+  .solucao-quadrado1, .solucao-quadrado2,
+  .quem-quadrado1, .quem-quadrado2,
+  .valores-quadrado1, .valores-quadrado2,
+  .quadrado, .quadrado-top, .quadrado-bottom {
+    display: none !important;
+  }
+
+  .Texto_Home h2 { font-size: 28px; }
+  .Texto_Home p { font-size: 14px; }
+  .lista-solucao { font-size: 0.95rem; margin-left: 0.6rem; }
+
+  .home .overlay,
+  .lado-direito,
+  .estudante-imagem {
+    max-height: none;
+  }
+}
+
+@media (max-width: 1023px) {
+
+  .overlay {
+    background: none;
+    padding-top: 16px;
+  }
+
+  .auxiliar,
+  .estudante-imagem,
+  .selo,
+  .selo img {
+    display: none !important;
+  }
+
+  .Texto_Home {
+    margin: 0 auto;
+    max-width: 450px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .Texto_Home h2 {
+    font-size: 26px;
+    color: #000;
+  }
+
+  .Texto_Home p {
+    font-size: 14px;
+    color: #000;
+  }
+
+  .imagem-sobre,
+  .imagem-quadrado-sobre,
+  .sobre-quadrado1,
+  .sobre-quadrado2 {
+    display: none !important;
+  }
+
+  .sobre {
+    flex-direction: column;
+    height: auto;
+    padding: 24px 16px;
+    gap: 16px;
+  }
+
+  .texto-sobre {
+    max-width: 100%;
+    margin-top: 0;
+    text-align: justify;
+  }
+
+  .titulo-sobre {
+    font-size: 22px;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  #texto-sobre {
+    font-size: 14px;
+  }
+
+  .imagem-solucao,
+  .imagem-quadrado-solucao,
+  .solucao-quadrado1,
+  .solucao-quadrado2 {
+    display: none !important;
+  }
+
+  .solucao {
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 16px;
+  }
+
+  .texto-solucao {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .titulo-solucao {
+    font-size: 22px;
+    text-align: left;
+    margin-top: 0;
+  }
+
+  .lista-solucao {
+    margin-left: 16px;
+    font-size: 14px;
+  }
+
+  .imagem-quem,
+  .imagem-quadrado-quem,
+  .quem-quadrado1,
+  .quem-quadrado2 {
+    display: none !important;
+  }
+
+  .quem-e-safe-class {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 24px 16px;
+    gap: 16px;
+    /* mantém fundo agradável também no mobile */
+    background: linear-gradient(180deg, #ffffff 0%, #fff7f0 100%);
+  }
+
+  .texto-quem-e {
+    max-width: 100%;
+  }
+
+  .titulo-quem {
+    font-size: 22px;
+    text-align: left;
+    margin-top: 0;
+  }
+
+  .texto-quem-e p {
+    font-size: 14px;
+  }
+
+  .imagem-valores,
+  .imagem-quadrado-valores,
+  .valores-quadrado1,
+  .valores-quadrado2 {
+    display: none !important;
+  }
+
+  .valores {
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 16px;
+    background: linear-gradient(180deg, #fff7f0 0%, #ffffff 100%);
+  }
+
+  .texto-valores {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .valores-bloco {
+    padding: 12px 10px;
+  }
+
+  .titulo-com-icone h2 {
+    font-size: 18px;
+  }
+
+  .icone-quadrado {
+    display: none;
+  }
+
+  .icon-box {
+    display: none !important;
+  }
+
+  .evitar-cards {
+    margin-top: 16px;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .card {
+    width: 46%;
+    min-width: 150px;
+    padding: 16px 10px;
+  }
+
+  .card p {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+
+  .imagem-container {
+    display: none !important;
+  }
+
+  .info-equipe {
+    position: static;
+    margin: 8px auto 0;
+    width: 100%;
+  }
 }
