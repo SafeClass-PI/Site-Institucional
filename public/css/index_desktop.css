@@ -1,46 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-* {
-  text-decoration: none;
-  font-family: Poppins;
-  margin: 0;
-  padding: 0;
-}
-
-/* HTML/BODY GLOBAL */
-html,
-body {
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-/* FUNDO EM DEGRADÊ PARA TODAS AS TELAS */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #ffe4c2 25%,
-    #ffd1a1 50%,
-    #ffb86b 75%,
-    #ff9b3d 100%
-  );
-  background-attachment: fixed;
-}
-
-/* Imagens padrão pequenas e responsivas */
-img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-}
-
-/* =========================
-   DESKTOP (a partir de 1024px)
-========================= */
 @media (min-width: 1024px) {
 
   * {
@@ -74,8 +33,8 @@ img {
   }
 
   .logo {
-    width: 140px;
-    height: 140px;
+    width: 200px;
+    height: 200px;
     background-image: url('../imgs/logo-nav.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -123,6 +82,7 @@ img {
     transition: none;
   }
 
+
   .botao-cadastro {
     width: 12%;
     height: 55%;
@@ -138,8 +98,11 @@ img {
   .botao-cadastro a {
     background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
     -webkit-background-clip: text;
+    /* Faz o gradiente aparecer apenas no texto */
     -webkit-text-fill-color: transparent;
+    /* Deixa o texto transparente para mostrar o gradiente */
     text-decoration: none;
+    /* Opcional, tira o sublinhado */
     font-weight: 600;
   }
 
@@ -151,14 +114,6 @@ img {
     flex-direction: row;
     justify-content: space-between;
     z-index: -1;
-    background: linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #ffe4c2 25%,
-      #ffd1a1 50%,
-      #ffb86b 75%,
-      #ff9b3d 100%
-    );
   }
 
   .overlay {
@@ -172,6 +127,8 @@ img {
         rgb(255, 100, 3) 10%,
         rgb(255, 176, 0) 65%,
         rgba(255, 102, 0, 0) 100%);
+
+
     display: flex;
     align-items: center;
   }
@@ -190,12 +147,35 @@ img {
   }
 
   .estudante-imagem {
-    width: 60%;
+    width: 70%;
     height: 100%;
     background-image: url('../imgs/garoto-estudando.jpg');
     background-size: cover;
-    background-position: center;
+    object-fit: cover;
   }
+
+
+  .Texto_Home h2 {
+    color: white;
+    font-size: 75px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    margin-top: -60px;
+    line-height: 1.1;
+  }
+
+  .Texto_Home p {
+    color: white;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+    font-size: 16.6px;
+    font-weight: 500;
+    margin-top: 25px;
+  }
+
+
 
   .Texto_Home {
     display: flex;
@@ -204,12 +184,11 @@ img {
     margin-left: 10%;
     margin-top: 15%;
     gap: 20px;
-    max-width: 40%;
   }
 
   .Texto_Home h2 {
     color: white;
-    font-size: 60px;
+    font-size: 75px;
     font-family: 'Poppins', sans-serif;
     text-align: left;
     margin: 0;
@@ -224,16 +203,17 @@ img {
   }
 
   .selo {
-    width: 140px;
+    width: 250px;
     height: auto;
   }
 
   .selo img {
-    width: 140px;
+    width: 400px;
     height: auto;
     object-fit: contain;
-    margin-top: -40px;
+    margin-top: -160px;
   }
+
 
   .sobre {
     margin-top: 5%;
@@ -248,6 +228,63 @@ img {
     background-color: white;
   }
 
+.sobre {
+  margin-top: 5%;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;     
+  align-items: center;           
+  padding: 0 5%;
+  box-sizing: border-box;
+  gap: 2rem;               
+  background-color: white;
+}
+.texto-sobre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;          
+  justify-content: center;
+  max-width: 55%;
+  text-align: justify;
+  margin-top: 7%;
+  
+  
+}
+.titulo-sobre {
+  font-size: clamp(3.8rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: -30%;
+}
+#nome-safe {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+#nome-class {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #F77911;
+}
+#texto-sobre {
+  margin-top: 4vh;
+  font-size: 3.0vh; 
+  color: #000000;
+  line-height: 1.5;
+}
+.imagem-sobre {
+  position: relative;
+  width: 45%;
+  height: 70vh;
+  margin: auto;
+  overflow: visible;
+  
+}
+
+
   .texto-sobre {
     display: flex;
     flex-direction: column;
@@ -256,6 +293,8 @@ img {
     max-width: 55%;
     text-align: justify;
     margin-top: 7%;
+
+
   }
 
   .titulo-sobre {
@@ -281,7 +320,7 @@ img {
 
   #texto-sobre {
     margin-top: 4vh;
-    font-size: 2.6vh;
+    font-size: 3.0vh;
     color: #000000;
     line-height: 1.5;
     text-align: justify;
@@ -289,30 +328,35 @@ img {
 
   .imagem-sobre {
     position: relative;
-    width: 40%;
-    height: 55vh;
+    width: 45%;
+    height: 70vh;
     margin: auto;
     overflow: visible;
+
   }
 
   .sobre-quadrado1,
   .sobre-quadrado2 {
     position: absolute;
-    width: 26%;
-    height: 18vh;
+    width: 30%;
+    height: 20vh;
     background: linear-gradient(to right, #fc6403, #ffb000);
     z-index: 1;
+    /* quadrados acima da imagem */
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* estilo mais visível */
   }
 
+  /* Quadrado superior esquerdo com ponta visível */
   .sobre-quadrado1 {
-    top: -4vh;
+    top: -5vh;
     left: -5%;
   }
 
+
   .sobre-quadrado2 {
-    bottom: -4vh;
+    bottom: -5vh;
     right: -5%;
   }
 
@@ -345,6 +389,15 @@ img {
     background: linear-gradient(135deg, rgb(252, 100, 3), rgb(255, 221, 0));
   }
 
+.quadrado {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+  background: linear-gradient(135deg, rgb(252,100,3), rgb(255,221,0));
+}
+
+
   .quadrado-top {
     top: -20px;
     left: -20px;
@@ -357,31 +410,36 @@ img {
 
   .imagem-solucao {
     position: relative;
-    width: 40%;
-    min-width: 280px;
-    height: 55vh;
+    width: 48%;
+    min-width: 300px;
+    height: 70vh;
     margin: auto;
     overflow: visible;
+
   }
 
   .solucao-quadrado1,
   .solucao-quadrado2 {
     position: absolute;
-    width: 26%;
-    height: 18vh;
+    width: 30%;
+    height: 20vh;
     background: linear-gradient(to right, #fc6403, #ffb000);
     z-index: 1;
+    /* quadrados acima da imagem */
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* estilo mais visível */
   }
 
+  /* Quadrado superior esquerdo com ponta visível */
   .solucao-quadrado1 {
-    top: -4vh;
+    top: -5vh;
     left: -5%;
   }
 
+
   .solucao-quadrado2 {
-    bottom: -4vh;
+    bottom: -5vh;
     right: -5%;
   }
 
@@ -395,12 +453,21 @@ img {
     background-size: cover;
     background-position: center;
     z-index: 2;
+    /* imagem atrás dos quadrados */
+
   }
+
+
 
   .texto-solucao {
     width: 50%;
     margin-bottom: 0.9%;
   }
+
+.texto-solucao {
+  width: 50%;
+}
+
 
   .titulo-solucao {
     font-size: clamp(3rem, 6vh, 8vh);
@@ -411,11 +478,21 @@ img {
     margin-top: 5%;
   }
 
+
   #nome-safe-solucao {
     font-family: 'Poppins', sans-serif;
     color: #000;
     font-weight: 700;
   }
+
+.lista-solucao {
+  list-style: none;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+  margin-top: 5%;
+}
+
 
   #nome-class-solucao {
     font-family: 'Poppins', sans-serif;
@@ -432,7 +509,7 @@ img {
 
   .lista-solucao {
     list-style: none;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.8;
     color: #333;
     margin-top: 5%;
@@ -444,6 +521,7 @@ img {
     margin-bottom: 1rem;
     padding-left: 1.8rem;
   }
+
 
   .lista-solucao li::before {
     content: "•";
@@ -513,29 +591,32 @@ img {
     display: flex;
     gap: 40px;
     margin-top: -230px;
-    z-index: 126;
+    z-index: 126
   }
 
   .card {
     position: relative;
-    width: 230px;
+    width: 250px;
     min-height: 100px;
-    padding: 24px 18px;
+    padding: 30px 20px;
     border-radius: 20px;
     background-color: #fff;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     z-index: 10;
     text-align: center;
+
   }
 
   .card:hover {
     transform: translateY(-5px);
+
   }
 
+
   .icon-box {
-    width: 90px;
-    height: 80px;
-    margin: 0 auto 16px auto;
+    width: 120px;
+    height: 100px;
+    margin: 0 auto 20px auto;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -544,26 +625,29 @@ img {
     border-image: linear-gradient(135deg, rgb(252, 100, 3) 0%, rgb(255, 221, 0) 100%) 1;
     overflow: hidden;
     background-color: #fff;
-    margin-top: 24px;
+    margin-top: 40px;
   }
 
   .icon-box img {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 70px;
     object-fit: contain;
-    margin-top: 4px;
+    margin-top: 15px;
+
   }
+
 
   .card p {
     position: relative;
     z-index: 1;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #000000;
     line-height: 1.4;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: 32%;
   }
+
 
   .quem-e-safe-class {
     height: 90vh;
@@ -581,14 +665,29 @@ img {
     max-width: 45%;
   }
 
+
   .titulo-quem {
-    font-size: clamp(3rem, 6vh, 8vh);
+    font-size: clamp(3.2rem, 6vh, 8vh);
     line-height: 1.2;
     font-weight: 900;
     letter-spacing: 0.5vh;
     text-align: center;
-    margin-top: 5%;
   }
+
+.titulo-quem {
+  font-size: clamp(3rem, 6vh, 8vh);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.5vh;
+  text-align: center;
+  margin-top: 5%;
+}
+#nome-safe-quem {
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+  font-weight: 700;
+}
+
 
   #nome-safe-quem {
     font-family: 'Poppins', sans-serif;
@@ -604,16 +703,16 @@ img {
 
   .texto-quem-e p {
     margin-top: 10%;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #000000;
     line-height: 1.6;
   }
 
   .imagem-quem {
     position: relative;
-    width: 40%;
-    min-width: 280px;
-    height: 55vh;
+    width: 48%;
+    min-width: 300px;
+    height: 60vh;
     margin: auto;
     overflow: visible;
     margin-bottom: 2%;
@@ -622,21 +721,25 @@ img {
   .quem-quadrado1,
   .quem-quadrado2 {
     position: absolute;
-    width: 26%;
-    height: 18vh;
+    width: 30%;
+    height: 20vh;
     background: linear-gradient(to right, #fc6403, #ffb000);
     z-index: 1;
+    /* quadrados acima da imagem */
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* estilo mais visível */
   }
 
+  /* Quadrado superior esquerdo com ponta visível */
   .quem-quadrado1 {
-    top: -4vh;
+    top: -5vh;
     left: -5%;
   }
 
+
   .quem-quadrado2 {
-    bottom: -4vh;
+    bottom: -5vh;
     right: -5%;
   }
 
@@ -649,9 +752,11 @@ img {
     background-image: url('../imgs/Gemini_Generated_Image_k39o67k39o67k39o.png');
     background-size: contain;
     background-position: top center;
-    background-repeat: no-repeat;
     z-index: 2;
+    background-repeat: no-repeat;
   }
+
+
 
   .valores {
     display: flex;
@@ -667,9 +772,9 @@ img {
 
   .imagem-valores {
     position: relative;
-    width: 40%;
-    min-width: 280px;
-    height: 55vh;
+    width: 45%;
+    min-width: 300px;
+    height: 60vh;
     margin: auto;
     overflow: visible;
     margin-top: 1%;
@@ -678,21 +783,25 @@ img {
   .valores-quadrado1,
   .valores-quadrado2 {
     position: absolute;
-    width: 26%;
-    height: 18vh;
+    width: 30%;
+    height: 20vh;
     background: linear-gradient(to right, #fc6403, #ffb000);
     z-index: 1;
+    /* quadrados acima da imagem */
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* estilo mais visível */
   }
 
+  /* Quadrado superior esquerdo com ponta visível */
   .valores-quadrado1 {
-    top: -4vh;
+    top: -5vh;
     left: -5%;
   }
 
+
   .valores-quadrado2 {
-    bottom: -4vh;
+    bottom: -5vh;
     right: -5%;
   }
 
@@ -706,7 +815,11 @@ img {
     background-size: cover;
     background-position: center;
     z-index: 2;
+    /* imagem atrás dos quadrados */
   }
+
+
+
 
   .texto-valores {
     margin-top: -2%;
@@ -714,17 +827,21 @@ img {
     min-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 0.70rem;
     color: #000000;
   }
+
 
   .valores-bloco {
     font-size: 0.9rem;
     line-height: 1.4;
     background-color: #fff;
     padding: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
     color: #111;
   }
+
 
   .titulo-com-icone {
     display: flex;
@@ -739,6 +856,7 @@ img {
     font-weight: 600;
     margin: 0;
   }
+
 
   .icone-quadrado {
     width: 60px;
@@ -760,10 +878,10 @@ img {
   .equipe {
     position: relative;
     z-index: 1;
-    min-height: 90vh;
+    height: 100vh;
     width: 100%;
     margin-top: 5%;
-    background-color: white;
+
   }
 
   .titulo-equipe {
@@ -784,35 +902,31 @@ img {
     color: #F77911;
   }
 
-   .retangulo-equipe {
-    display: flex;                 
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 32px;
+  .retangulo-equipe {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 60px;
     padding: 40px;
     background-color: white;
     border-radius: 15px;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
+    height: 50vh;
   }
 
-   .card-equipe {
-    flex: 0 0 210px;           
-    max-width: 210px;         
+  .card-equipe {
+    width: 100%;
     background-color: #ffffff;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 0 0 16px 0;
+    padding: 0;
   }
 
   .imagem-container {
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 12px;
   }
 
   .imagem-container img {
@@ -820,14 +934,15 @@ img {
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 10px;
   }
 
   .info-equipe {
-    width: 70%;
+    width: 60%;
     position: relative;
     background: linear-gradient(#FFB000, #E75900);
-    border-radius: 16px;
-    margin: -18% auto 0;
+    border-radius: 20px;
+    margin: -15% auto 0;
     padding: 10px;
     text-align: center;
     color: white;
@@ -843,20 +958,24 @@ img {
     margin: 4px 0 0;
     font-size: 10px;
     color: #ffffff;
+
   }
 
-  /* Ícones sociais menores */
+
+
+
   .social-icons {
     display: flex;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 3%;
+    z-index: 10;
     justify-content: center;
   }
 
   .social-icons a {
     background-color: #ccc;
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -865,11 +984,16 @@ img {
   }
 
   .icone-social {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     display: block;
-    object-fit: contain;
+    height: auto;
+    border-radius: 0;
+    pointer-events: auto;
   }
+
+
+
 
   .ajuda {
     display: flex;
@@ -921,27 +1045,31 @@ img {
   .mensagem-ajuda,
   .botao-ajuda {
     width: 100%;
-    max-width: 650px;
+    max-width: 600px;
   }
 
   #ipt_nome_ajuda,
-  #ipt_email_ajuda 
-  #ipt_mensagem_ajuda{
+  #ipt_email_ajuda {
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-sizing: border-box;
   }
 
   #ipt_mensagem_ajuda {
-    height: 56px;
-    resize: none;
+    width: 100%;
+    height: 120px;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
   }
 
   .botao-ajuda button {
     padding: 14px 28px;
+
     border: 4px solid;
     border-image: linear-gradient(300deg, rgb(252, 45, 3), rgb(255, 85, 0)) 1;
     background-color: white;
@@ -962,24 +1090,29 @@ img {
     color: white;
   }
 
+
   .footer-final {
-    min-height: 20vh;
+    height: 25vh;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 10px;
     padding: 40px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     color: #333;
   }
 
-  .footer-final > div {
+  /* Cada coluna */
+  .footer-final>div {
     flex: 1;
     min-width: 200px;
   }
 
+  /* Logo */
   .logo-footer {
     flex: 0 0 120px;
+    /* largura fixa menor */
   }
 
   .logo-footer img {
@@ -997,6 +1130,7 @@ img {
     margin-right: 60px;
   }
 
+  /* Menu */
   .menu-footer b,
   .termos-footer b,
   .contato-footer b {
@@ -1013,6 +1147,7 @@ img {
     text-align: center;
   }
 
+  /* Contato */
   .texto-footer {
     margin-top: 10px;
   }
@@ -1033,6 +1168,7 @@ img {
   #nome-safe-direitos {
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
+
   }
 
   #nome-class-direitos {
@@ -1040,32 +1176,36 @@ img {
     color: #ffffff;
   }
 
-  .modal-deletar-usuario {
-    display: none;
-    position: fixed;
-    margin-top: -25%;
-    margin-right: 30%;
-    transform: translate(-50%, -50%) scale(0.95);
-    width: 60%;
-    height: 60%;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    padding: 30px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    opacity: 0;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
 
-  .modal-deletar-usuario.mostrar {
-    display: flex;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+.modal-deletar-usuario {
+  display: none;
+  position: fixed;
+  margin-top: -25%;
+  margin-right: 30%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 60%;
+  height: 60%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  padding: 30px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Classe que ativa a transição */
+.modal-deletar-usuario.mostrar {
+  display: flex;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+
 
   .fechar-modal-topo {
     position: absolute;
@@ -1088,7 +1228,7 @@ img {
     text-align: center;
     font-size: 4vh;
   }
-}
+} 
 
 /* =========================
    TABLET (até 1024px)
@@ -1157,22 +1297,13 @@ img {
 ========================= */
 @media (max-width: 768px) {
 
- 
+  * {
+    font-family: Poppins;
+  }
+
  .nav-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    padding: 8px 16px;
-    background-color: #ffffff;
     display: flex;
-    flex-direction: column;      /* empilha logo e links */
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    z-index: 1000;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    font-size: 15px;
   }
 
   .logo {
@@ -1708,5 +1839,9 @@ img {
 
   .icon-box {
     display: flex;
+  }
+
+  .logo-footer {
+    display: none;
   }
 }
