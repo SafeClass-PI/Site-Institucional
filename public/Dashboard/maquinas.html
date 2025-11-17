@@ -174,11 +174,11 @@
                             <p>Qual máquina você deseja desligar?</p>
                         </div>
                         <div class="select-maquina-desligar">
-                            <select>
-                                <option value="1">Máquina 1</option>
-                                <option value="2">Máquina 2</option>
-                                <option value="3">Máquina 3</option>
-                                <option value="4">Máquina 4</option>
+                            <select id="selectMaquina">
+                                <option value="Máquina 1">Máquina 1</option>
+                                <option value="Máquina 2">Máquina 2</option>
+                                <option value="Máquina 3">Máquina 3</option>
+                                <option value="Máquina 4">Máquina 4</option>
                             </select>
                         </div>
                         <div class="btns-desligar-maquina">
@@ -626,7 +626,7 @@
                     </div>
                     <div class="paginacao">
                         <button class="prev" disabled>
-                            < Anterior </button>
+                            Anterior </button>
                                 <button class="pagina ativa">1</button>
                                 <button class="pagina">2</button>
                                 <button class="pagina">3</button>
@@ -644,52 +644,38 @@ async function desligarMaquinaSelecionada() {
   const select = document.getElementById("selectMaquina");
   const nome = select.value;
 
-  //maquinas do sistema, aqui no caso eu teria que arrumar um jeito de listar as máquinas puxando do banco de dados
   const maquinas = {
-    "Máquina 1": { ip: "10.18.32.167", usuario: "Felipe", senha: "euamoajulia2025", sistema: "windows" },
-    "Máquina 2": { ip: "10.18.32.105", usuario: "sshuser", senha: "urubu100", sistema: "windows" },
+    "Máquina 1": { ip: "10.18.32.50", usuario: "Felipe", senha: "euamoajulia2025", sistema: "windows" },
+    "Máquina 2": { ip: "10.18.32.9", usuario: "sshuser", senha: "urubu100", sistema: "windows" },
   };
 
-  // verificar se maquina existe
   const maquina = maquinas[nome];
   if (!maquina) {
     alert("Máquina não configurada!");
     return;
   }
 
-  // enviada os dado da maquina selecionada em JSON
   try {
     const resp = await fetch("http://localhost:5000/desligar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(maquina),
     });
+
     const data = await resp.json();
 
-    if (data.status === "ok") {
-      alert(data.mensagem);
-
-      // Fecha a modal
-      document.getElementById("modalDesligarMaquinas").style.display = "none";
-
-      // Atualiza o status visual 
-      const maquinasHTML = document.querySelectorAll(".maquina");
-      maquinasHTML.forEach(mq => {
-        const titulo = mq.querySelector(".titulo-maquina p");
-        if (titulo && titulo.textContent.trim() === nome) {
-          const status = mq.querySelector(".status p:last-child");
-          status.textContent = "Desligada";
-          status.style.color = "red";
-        }
-      });
-
+    if (resp.ok) {
+      alert("Máquina desligada com sucesso!");
     } else {
-      alert("Erro: " + data.mensagem);
+      alert("Erro ao desligar: " + data.mensagem);
     }
-  } catch (e) {
-    alert("Falha ao conectar ao servidor: " + e);
+
+  } catch (err) {
+    alert("Falha ao conectar com o servidor!");
+    console.error(err);
   }
 }
+
 </script>
 
 
