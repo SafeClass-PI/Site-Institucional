@@ -3,8 +3,20 @@ function carregarInfos() {
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
     qtdMaquinasLigadas();
+    TaxaUptimeEscola();
     qtdAlertas();
     listarSalas();
+    listarUltimosAlertas();
+    maquinaMaisCritica();
+
+    setInterval(() => {
+        qtdMaquinasLigadas();
+        TaxaUptimeEscola();
+        qtdAlertas();
+        listarSalas();
+        listarUltimosAlertas();
+        maquinaMaisCritica();
+    }, 2000);
 }
 
 
@@ -19,6 +31,54 @@ function qtdMaquinasLigadas() {
 
                 vt_dados = resposta;
                 kpiQtdMaquinasLigadas.innerHTML = `${vt_dados[0].maquinasLigadas}/${vt_dados[0].totalMaquinas}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function TaxaUptimeEscola() {
+    fetch(`/api/dashboard/taxaUptimeEscola`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+                var icone = document.querySelector('#kpi-taxa-uptime .icone-kpi i');
+
+                if (parseFloat(vt_dados[0].uptimePercentual) < 60) {
+                    icone.style.transform = "rotate(180deg)";
+                    icone.style.color = '#ea0303';
+                }
+
+                kpiTaxaUptimeEscola.innerHTML = `${vt_dados[0].uptimePercentual}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function maquinaMaisCritica() {
+    fetch(`/api/dashboard/maquinaMaisCritica`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+                kpiMaquinaMaisCritica.innerHTML = `${vt_dados[0].maquina}`;
+                modalNomeMaquinaMaisCritica.innerHTML = `${vt_dados[0].maquina}`;
+                modalLocalizacaoMaquinaMaisCritica.innerHTML = `${vt_dados[0].localizacao}`;
+                modalMacAddressMaquinaMaisCritica.innerHTML = `${vt_dados[0].macaddress}`;
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -132,7 +192,7 @@ async function mostrarMaquinasDaSala(idSala) {
     });
 
     painelMaquinas.innerHTML = "";
-    
+
     try {
         const resposta = await fetch(`/api/dashboard/mostrarMaquinas?idSala=${idSala}`);
         const maquinas = await resposta.json();
@@ -183,6 +243,57 @@ async function mostrarMaquinasDaSala(idSala) {
     } catch (erro) {
         console.error("Erro ao carregar máquinas:", erro);
     }
+}
+
+async function listarUltimosAlertas() {
+    try {
+        const resposta = await fetch("/api/dashboard/listarUltimosAlertas", { cache: "no-store" });
+        const alertas = await resposta.json();
+
+        const painel = document.getElementById("alertas");
+        painel.innerHTML = "";
+
+        alertas.forEach(alerta => {
+            const card = document.createElement("div");
+            card.classList.add("card-alerta");
+
+            const parametro =
+                alerta.parametro === "Crítico"
+                    ? "fa-solid fa-circle-exclamation"
+                    : alerta.parametro === "Atenção"
+                        ? "fa-solid fa-triangle-exclamation"
+                        : "";
+
+            card.innerHTML = `
+        <div class="icone-card-alerta">
+            <i class="${parametro}"></i>
+        </div>
+        <div class="infos-card-alerta">
+            <p>${alerta.identificacao}</p>
+            <p>${alerta.mensagem}</p>
+            <p>${alerta.localizacao} - ${tempoRelativo(alerta.hora)}</p>
+        </div>
+    `;
+
+            painel.appendChild(card);
+        });
+    } catch (erro) {
+        console.error("Erro ao listar salas:", erro);
+    }
+}
+
+function tempoRelativo(dataStr) {
+    const agora = new Date();
+    const captura = new Date(dataStr);
+    const diffMs = agora - captura;
+    const diffMin = Math.floor(diffMs / 60000);
+
+    if (diffMin < 1) return "Agora";
+    if (diffMin < 60) return `há ${diffMin} min`;
+    const diffHoras = Math.floor(diffMin / 60);
+    if (diffHoras < 24) return `há ${diffHoras} h`;
+    const diffDias = Math.floor(diffHoras / 24);
+    return `há ${diffDias} d`;
 }
 
 const btnModal = document.getElementById('modal-maquina-critica');

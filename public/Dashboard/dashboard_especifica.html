@@ -192,10 +192,10 @@
                                         <p>Crítico</p>
                                     </div>
                                 </div>
-                                <select id="componente-grafico">
-                                    <option value="cpu">CPU</option>
-                                    <option value="disco">Disco</option>
-                                    <option value="memoriaRam">Memória Ram</option>
+                                <select id="componente-grafico" onchange="trocarComponente()">
+                                    <option value="3">CPU</option>
+                                    <option value="2">Disco</option>
+                                    <option value="1">Memória Ram</option>
                                 </select>
                             </div>
                             <div class="grafico-monitoramento">
@@ -206,9 +206,9 @@
                             <div class="monitoramento-rede">
                                 <div class="titulo-grafico-rede">
                                     <p>Velocidade de Download</p>
-                                    <select id="componente-grafico">
-                                        <option value="cpu">Download</option>
-                                        <option value="disco">Upload</option>
+                                    <select id="componente-grafico-rede" onchange="trocarComponenteRede()">
+                                        <option value="5">Download</option>
+                                        <option value="4">Upload</option>
                                     </select>
                                 </div>
                                 <div class="grafico-rede">

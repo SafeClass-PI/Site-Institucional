@@ -1,265 +1,340 @@
+let proximaAtualizacao = null;
+let myChart = null;
+let idComponente = 3;
+
+let proximaAtualizacaoRede = null;
+let myChartRede = null;
+let idComponenteRede = 5;
+
 function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
+
+    obterDadosGraficoComponente(idComponente);
+    obterDadosGraficoRede(idComponenteRede);
 }
-
-function atualizarDataHora() {
-    const agora = new Date();
-
-    const data = agora.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
-
-
-    document.getElementById('dataHora').textContent = `${data}`;
-}
-
-atualizarDataHora();
-setInterval(atualizarDataHora, 1000);
-
-
-
-function sairDaPagina() {
-    modalLogout.style.display = 'flex';
-    telaOverlay.style.display = 'block';
-}
-
-function cancelarSairDaPagina() {
-    modalLogout.style.display = 'none';
-    telaOverlay.style.display = 'none';
-}
-
-function confirmarSairDaPagina() {
-    window.location.href = '../index.html'
-}
-
-const kpis = [
-    { titulo: "Uso médio de CPU", valor: "30%" },
-    { titulo: "Uso médio de RAM", valor: "65%" },
-    { titulo: "Uso médio de Disco", valor: "72%" }
-];
-
-let indice = 0;
-
-// Elementos
-const tituloKpi = document.getElementById("titulo-kpi");
-const valorKpi = document.getElementById("valor-kpi");
-
-function trocarKpi() {
-    indice = (indice + 1) % kpis.length;
-    tituloKpi.textContent = kpis[indice].titulo;
-    valorKpi.textContent = kpis[indice].valor;
-}
-
-
-// Troca automática a cada 5 segundos (5000 ms)
-setInterval(trocarKpi, 1800);
 
 /* ------------------------- GRÁFICOS ------------------------------------ */
 
-const ctx = document.getElementById('monitoramento-componente').getContext('2d');
+function trocarComponente() {
+    idComponente = document.getElementById("componente-grafico").value;
+    obterDadosGraficoComponente(idComponente);
+}
 
-const data = {
-    labels: ['14:00:00', '14:00:10', '14:00:20', '14:00:30', '14:00:40', '14:00:50', '14:00:60', '14:00:70'],
-    datasets: [{
-        label: 'Time Admitted',
-        data: [21, 25, 24, 23, 24, 34, 46, 95],
-        borderColor: 'orange',
-        backgroundColor: 'rgba(255,165,0,0.2)',
-        fill: true,
-        tension: 0.4, // suaviza as curvas
-        pointBackgroundColor: 'white', // cor do ponto
-        pointBorderColor: 'orange',
-        pointHoverRadius: 7,
-        pointRadius: 5
-    }]
-};
+function trocarComponenteRede() {
+    idComponenteRede = document.getElementById("componente-grafico-rede").value;
+    obterDadosGraficoRede(idComponenteRede);
+}
 
-const config = {
-    type: 'line',
-    data: data,
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false // esconde legenda
-            },
-            tooltip: {
-                enabled: true,
-                backgroundColor: 'rgba(255, 166, 0, 0.93)',
-                titleColor: 'white',
-                bodyColor: 'white',
-                callbacks: {
-                    label: function (context) {
-                        return context.dataset.label + ': ' + context.raw;
-                    }
-                }
-            },
-            annotation: {
-                annotations: {
-                    yMinLine: {
-                        type: 'line',
-                        yMin: 52.7,
-                        yMax: 52.7,
-                        borderColor: '#f3c200ff',
-                        borderWidth: 1.8,
-                        borderDash: [5],
-                        label: {
-                            display: true,
-                            content: ['Atenção'],
-                            backgroundColor: '#ffd21dff',
-                            color: 'rgba(255, 255, 255, 1)',
-                            font: { size: 8, family: 'Poppins' },
-                            position: 'start'
-                        }
-                    },
-                    yMaxLine: {
-                        type: 'line',
-                        yMin: 65.3,
-                        yMax: 65.3,
-                        borderColor: '#ea0303',
-                        borderWidth: 1.8,
-                        borderDash: [5],
-                        label: {
-                            display: true,
-                            content: ['Crítico'],
-                            backgroundColor: '#ea0303',
-                            color: 'white',
-                            font: { size: 8, family: 'Poppins' },
-                            position: 'end'
-                        }
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: { stepSize: 50 },
-                grid: {
-                    display: true,
-                    color: 'rgba(0, 0, 0, 0.1)',
-                    lineWidth: 1,
-                    drawBorder: false
+
+function obterDadosGraficoComponente(idComponente) {
+    if (proximaAtualizacao != undefined) {
+        clearTimeout(proximaAtualizacao);
+    }
+
+    fetch(`/api/dashboard/monitoramentoComponente/${idComponente}`, { cache: 'no-store' })
+        .then(response => response.json())
+        .then(resposta => {
+            resposta.reverse();
+            plotarGrafico(resposta);
+        })
+        .catch(err => console.error(err));
+}
+
+function plotarGrafico(resposta) {
+    let labels = [];
+    let dados = {
+        labels: labels,
+        datasets: [{
+            label: 'CPU',
+            data: [],
+            borderColor: 'orange',
+            backgroundColor: 'rgba(255,165,0,0.2)',
+            fill: true,
+            tension: 0.4, // suaviza as curvas
+            pointBackgroundColor: 'white', // cor do ponto
+            pointBorderColor: 'orange',
+            pointHoverRadius: 7,
+            pointRadius: 5
+        }]
+    };
+
+    for (let i = 0; i < resposta.length; i++) {
+        labels.push(resposta[i].horacaptura);
+        dados.datasets[0].data.push(resposta[i].registro);
+    }
+
+    const config = {
+        type: 'line',
+        data: dados,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false // esconde legenda
                 },
-                max: 100
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(255, 166, 0, 0.93)',
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    callbacks: {
+                        label: function (context) {
+                            return context.dataset.label + ': ' + context.raw;
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: {
+                        yMinLine: {
+                            type: 'line',
+                            yMin: 52.7,
+                            yMax: 52.7,
+                            borderColor: '#f3c200ff',
+                            borderWidth: 1.8,
+                            borderDash: [5],
+                            label: {
+                                display: true,
+                                content: ['Atenção'],
+                                backgroundColor: '#ffd21dff',
+                                color: 'rgba(255, 255, 255, 1)',
+                                font: { size: 8, family: 'Poppins' },
+                                position: 'start'
+                            }
+                        },
+                        yMaxLine: {
+                            type: 'line',
+                            yMin: 65.3,
+                            yMax: 65.3,
+                            borderColor: '#ea0303',
+                            borderWidth: 1.8,
+                            borderDash: [5],
+                            label: {
+                                display: true,
+                                content: ['Crítico'],
+                                backgroundColor: '#ea0303',
+                                color: 'white',
+                                font: { size: 8, family: 'Poppins' },
+                                position: 'end'
+                            }
+                        }
+                    }
+                }
             },
-            x: {
-                grid: {
-                    display: false
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 50 },
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1,
+                        drawBorder: false
+                    },
+                    min: 0,
+                    max: 100
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
                 }
             }
         }
-    }
-};
+    };
 
+    // destruir gráfico anterior antes de criar outro
+    if (myChart != null) myChart.destroy();
 
-new Chart(ctx, config);
+    myChart = new Chart(
+        document.getElementById(`monitoramento-componente`),
+        config
+    );
 
+    proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
+}
 
+function atualizarGrafico(dados, myChart) {
 
+    fetch(`/api/dashboard/monitoramentoComponenteTempoReal/${idComponente}`, { cache: 'no-store' })
+        .then(response => response.json())
+        .then(novoRegistro => {
 
-const ctx1 = document.getElementById('monitoramento-rede').getContext('2d');
+            if (novoRegistro[0].horacaptura == dados.labels[dados.labels.length - 1]) {
 
-const data1 = {
-    labels: ['14:00:00', '14:00:10', '14:00:20', '14:00:30', '14:00:40', '14:00:50'],
-    datasets: [{
-        label: 'Time Admitted',
-        data: [60, 55, 60, 55, 24, 89],
-        borderColor: 'orange',
-        backgroundColor: 'rgba(255,165,0,0.2)',
-        fill: true,
-        tension: 0.4, // suaviza as curvas
-        pointBackgroundColor: 'white', // cor do ponto
-        pointBorderColor: 'orange',
-        pointHoverRadius: 7,
-        pointRadius: 5
-    }]
-};
+                console.log("Sem novos dados.");
 
-const config1 = {
-    type: 'line',
-    data: data1,
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false // esconde legenda
-            },
-            tooltip: {
-                enabled: true,
-                backgroundColor: 'black',
-                titleColor: 'white',
-                bodyColor: 'white',
-                callbacks: {
-                    label: function (context) {
-                        return context.dataset.label + ': ' + context.raw;
-                    }
-                }
-            },
-            annotation: {
-                annotations: {
-                    yMinLine: {
-                        type: 'line',
-                        yMin: 70,
-                        yMax: 70,
-                        borderColor: '#f3c200ff',
-                        borderWidth: 1.8,
-                        borderDash: [5],
-                        label: {
-                            display: true,
-                            content: ['Atenção'],
-                            backgroundColor: '#ffd21dff',
-                            color: 'rgba(255, 255, 255, 1)',
-                            font: { size: 9, family: 'Poppins' },
-                            position: 'start'
-                        }
-                    },
-                    yMaxLine: {
-                        type: 'line',
-                        yMin: 30,
-                        yMax: 30,
-                        borderColor: '#ea0303',
-                        borderWidth: 1.8,
-                        borderDash: [5],
-                        label: {
-                            display: true,
-                            content: ['Crítico'],
-                            backgroundColor: '#ea0303',
-                            color: 'white',
-                            font: { size: 9, family: 'Poppins' },
-                            position: 'end'
-                        }
-                    }
-                }
+            } else {
+
+                dados.labels.shift();
+                dados.labels.push(novoRegistro[0].horacaptura);
+
+                dados.datasets[0].data.shift();
+                dados.datasets[0].data.push(novoRegistro[0].registro);
+
+                myChart.update();
             }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: { stepSize: 50 },
-                grid: {
-                    display: true,
-                    color: 'rgba(0, 0, 0, 0.1)',
-                    lineWidth: 1,
-                    drawBorder: false
+
+            proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
+
+        }).catch(err => console.error(err));
+}
+
+
+function obterDadosGraficoRede(idComponenteRede) {
+    if (proximaAtualizacaoRede != undefined) {
+        clearTimeout(proximaAtualizacaoRede);
+    }
+
+    fetch(`/api/dashboard/monitoramentoComponenteRede/${idComponenteRede}`, { cache: 'no-store' })
+        .then(response => response.json())
+        .then(resposta => {
+            resposta.reverse();
+            plotarGraficoRede(resposta);
+        })
+        .catch(err => console.error(err));
+}
+
+function plotarGraficoRede(resposta) {
+    let labels = [];
+    let dados = {
+        labels: labels,
+        datasets: [{
+            label: 'Download',
+            data: [],
+            borderColor: 'orange',
+            backgroundColor: 'rgba(255,165,0,0.2)',
+            fill: true,
+            tension: 0.4, // suaviza as curvas
+            pointBackgroundColor: 'white', // cor do ponto
+            pointBorderColor: 'orange',
+            pointHoverRadius: 7,
+            pointRadius: 5
+        }]
+    };
+
+    for (let i = 0; i < resposta.length; i++) {
+        labels.push(resposta[i].horacaptura);
+        dados.datasets[0].data.push(resposta[i].registro);
+    }
+
+    const config = {
+        type: 'line',
+        data: dados,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false // esconde legenda
                 },
-                max: 100
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(255, 166, 0, 0.93)',
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    callbacks: {
+                        label: function (context) {
+                            return context.dataset.label + ': ' + context.raw;
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: {
+                        yMinLine: {
+                            type: 'line',
+                            yMin: 52.7,
+                            yMax: 52.7,
+                            borderColor: '#f3c200ff',
+                            borderWidth: 1.8,
+                            borderDash: [5],
+                            label: {
+                                display: true,
+                                content: ['Atenção'],
+                                backgroundColor: '#ffd21dff',
+                                color: 'rgba(255, 255, 255, 1)',
+                                font: { size: 8, family: 'Poppins' },
+                                position: 'start'
+                            }
+                        },
+                        yMaxLine: {
+                            type: 'line',
+                            yMin: 65.3,
+                            yMax: 65.3,
+                            borderColor: '#ea0303',
+                            borderWidth: 1.8,
+                            borderDash: [5],
+                            label: {
+                                display: true,
+                                content: ['Crítico'],
+                                backgroundColor: '#ea0303',
+                                color: 'white',
+                                font: { size: 8, family: 'Poppins' },
+                                position: 'end'
+                            }
+                        }
+                    }
+                }
             },
-            x: {
-                grid: {
-                    display: false
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 50 },
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1,
+                        drawBorder: false
+                    },
+                    min: 0,
+                    max: 100
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
                 }
             }
         }
-    }
-};
+    };
 
-new Chart(ctx1, config1);
+    // destruir gráfico anterior antes de criar outro
+    if (myChartRede != null) myChartRede.destroy();
+
+    myChartRede = new Chart(
+        document.getElementById(`monitoramento-rede`),
+        config
+    );
+
+    proximaAtualizacaoRede = setTimeout(() => atualizarGraficoRede(dados, myChartRede), 2000);
+}
+
+function atualizarGraficoRede(dados, myChartRede) {
+
+    fetch(`/api/dashboard/monitoramentoComponenteRedeTempoReal/${idComponenteRede}`, { cache: 'no-store' })
+        .then(response => response.json())
+        .then(novoRegistro => {
+
+            if (novoRegistro[0].horacaptura == dados.labels[dados.labels.length - 1]) {
+
+                console.log("Sem novos dados.");
+
+            } else {
+
+                dados.labels.shift();
+                dados.labels.push(novoRegistro[0].horacaptura);
+
+                dados.datasets[0].data.shift();
+                dados.datasets[0].data.push(novoRegistro[0].registro);
+
+                myChartRede.update();
+            }
+
+            proximaAtualizacaoRede = setTimeout(() => atualizarGraficoRede(dados, myChartRede), 2000);
+
+        }).catch(err => console.error(err));
+}
 
 
 const ctx2 = document.getElementById('disponibilidade-maquina').getContext('2d');
@@ -371,3 +446,33 @@ const meuGrafico = new Chart(
     document.getElementById('falhas-por-componente'),
     config3
 );
+
+function atualizarDataHora() {
+    const agora = new Date();
+
+    const data = agora.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+    document.getElementById('dataHora').textContent = `${data}`;
+}
+
+atualizarDataHora();
+setInterval(atualizarDataHora, 1000);
+
+
+function sairDaPagina() {
+    modalLogout.style.display = 'flex';
+    telaOverlay.style.display = 'block';
+}
+
+function cancelarSairDaPagina() {
+    modalLogout.style.display = 'none';
+    telaOverlay.style.display = 'none';
+}
+
+function confirmarSairDaPagina() {
+    window.location.href = '../index.html'
+}

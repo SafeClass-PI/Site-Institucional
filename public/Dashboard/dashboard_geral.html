@@ -70,13 +70,13 @@
         <div class="main-content">
             <div class="modal-maquina" id="modalMaquina">
                 <div class="area-superior-modal">
-                    <p>Máquina 5</p>
+                    <p id="modalNomeMaquinaMaisCritica"></p>
                     <button onclick="closeModal()"><i class="fa-solid fa-circle-xmark"></i></button>
                 </div>
                 <div class="conteudo-modal">
                     <div class="infos-maquina-modal">
-                        <p>Localização: Sala 5</p>
-                        <p>Mac Address: 00:1A:2B:3C:4D:5E</p>
+                        <p id="modalLocalizacaoMaquinaMaisCritica"></p>
+                        <p id="modalMacAddressMaquinaMaisCritica"></p>
                     </div>
                     <div class="situacao-componentes-modal">
                         <div class="situacao-componente">
@@ -146,7 +146,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>92%</p>
+                                <p id="kpiTaxaUptimeEscola"></p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Taxa de Uptime</p>
@@ -161,7 +161,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>Máquina 5</p>
+                                <p id="kpiMaquinaMaisCritica"></p>
                                 <button id="modal-maquina-critica"><i class="fa-solid fa-circle-info"></i></button>
                             </div>
                             <div class="titulo-kpi">
@@ -227,47 +227,7 @@
                         <div class="titulo-ultimos-alertas">
                             <p>Últimos Alertas</p>
                         </div>
-                        <div class="alertas">
-                            <div class="card-alerta">
-                                <div class="icone-card-alerta">
-                                    <i class="fa-solid fa-circle-exclamation"></i>
-                                </div>
-                                <div class="infos-card-alerta">
-                                    <p>Máquina 1</p>
-                                    <p>CPU a 90%</p>
-                                    <p>Sala 5 - Há 1 min</p>
-                                </div>
-                            </div>
-                            <div class="card-alerta">
-                                <div class="icone-card-alerta">
-                                    <i class="fa-solid fa-circle-exclamation"></i>
-                                </div>
-                                <div class="infos-card-alerta">
-                                    <p>Máquina 1</p>
-                                    <p>Disco a 95%</p>
-                                    <p>Sala 3 - Há 2 min</p>
-                                </div>
-                            </div>
-                            <div class="card-alerta">
-                                <div class="icone-card-alerta">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                </div>
-                                <div class="infos-card-alerta">
-                                    <p>Máquina 1</p>
-                                    <p>RAM a 82%</p>
-                                    <p>Sala 2 - Há 3 min</p>
-                                </div>
-                            </div>
-                            <div class="card-alerta">
-                                <div class="icone-card-alerta">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                </div>
-                                <div class="infos-card-alerta">
-                                    <p>Máquina 1</p>
-                                    <p>Disco a 88%</p>
-                                    <p>Sala 3 - Há 3 min</p>
-                                </div>
-                            </div>
+                        <div class="alertas" id="alertas">
                         </div>
                     </div>
                 </div>
