@@ -1,38 +1,65 @@
-from flask import Flask, request, jsonify #framework para criação de apis,
-#request usado para acessar dados que chegam via HTTP
-#jsonify dicts = json
-from flask_cors import CORS # requisições de diferentes origens, pois o front esta em outro dominio(porta)
-import paramiko # biblioteca para conexao ssh e para executar comandos em outra maquina
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import paramiko
+import mysql.connector
 
-app = Flask(__name__) #cria app flask
-CORS(app) # permite que qualquer front end possa enviar requisições para essa API
+# conexão com o banco
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Felipzp123@",  # ajuste conforme sua senha
+        database="safeclass"
+    )
 
-@app.route('/desligar', methods=['POST']) #definir rota
+app = Flask(__name__)
+CORS(app)
+
+# rota para listar máquinas (para popular o select no front)
+@app.route('/maquinas', methods=['GET'])
+def listar_maquinas():
+    conexao = get_db_connection()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("SELECT idMaquina, modelo, sistemaOperacional FROM Maquina")
+    maquinas = cursor.fetchall()
+    cursor.close()
+    conexao.close()
+    return jsonify(maquinas)
+
+# rota para desligar máquina
+@app.route('/desligar', methods=['POST'])
 def desligar():
-    data = request.json # dados gerados do fetch do JS
-    ip = data.get('ip')
-    usuario = data.get('usuario')
-    senha = data.get('senha') # get paraextrair informação
-    sistema = data.get('sistema')
+    data = request.json
+    id_maquina = data.get('idMaquina')
+
+    conexao = get_db_connection()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("SELECT ip, username, senha, sistemaOperacional FROM Maquina WHERE idMaquina = %s", (id_maquina,))
+    maquina = cursor.fetchone()
+    cursor.close()
+    conexao.close()
+
+    if not maquina:
+        return jsonify({"status": "erro", "mensagem": "Máquina não encontrada"}), 404
+
+    ip = maquina['ip']
+    usuario = maquina['username']
+    senha = maquina['senha']
+    sistema = maquina['sistemaOperacional']
 
     try:
-        # parte que ele abre o CLIENT SSH, conexão SSH
         ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) #ignora verificação de chaves SSH desconhecidas
-        #(para não travar se a máquina não estiver na lista de hosts confiáveis).
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(ip, username=usuario, password=senha)
 
-       # filtra por SO qual o comando certo para jogar naquele terminal
-        comando = "shutdown /s /t 0" if sistema == "windows" else "sudo shutdown -h now"
-        ssh.exec_command(comando) #executa o comando
-        ssh.close() # fecha a conexão
+        comando = "shutdown /s /t 0" if sistema.lower() == "windows" else "sudo shutdown -h now"
+        ssh.exec_command(comando)
+        ssh.close()
 
         return jsonify({"status": "ok", "mensagem": f"{ip} desligada com sucesso!"})
 
     except Exception as e:
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
-
-# inicia a aplicação flask e define a porta
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

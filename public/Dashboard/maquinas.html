@@ -174,19 +174,15 @@
                             <p>Qual máquina você deseja desligar?</p>
                         </div>
                         <div class="select-maquina-desligar">
-                            <select id="selectMaquina">
-                                <option value="Máquina 1">Máquina 1</option>
-                                <option value="Máquina 2">Máquina 2</option>
-                                <option value="Máquina 3">Máquina 3</option>
-                                <option value="Máquina 4">Máquina 4</option>
-                            </select>
+                            <!-- antes tinha opções fixas -->
+                            <select id="selectMaquina"></select>
                         </div>
                         <div class="btns-desligar-maquina">
                             <button onclick="cancelarDesligamento()">Cancelar</button>
                             <button onclick="desligarMaquinaSelecionada()">Desligar</button>
-
                         </div>
                     </div>
+
                 </div>
                 <div class="lista-usuarios">
                     <div class="modal-editar-maquina" id="modalEditarMaquina">
@@ -627,10 +623,10 @@
                     <div class="paginacao">
                         <button class="prev" disabled>
                             Anterior </button>
-                                <button class="pagina ativa">1</button>
-                                <button class="pagina">2</button>
-                                <button class="pagina">3</button>
-                                <button class="next"> Próximo ></button>
+                        <button class="pagina ativa">1</button>
+                        <button class="pagina">2</button>
+                        <button class="pagina">3</button>
+                        <button class="next"> Próximo ></button>
                     </div>
                 </div>
             </div>
@@ -638,28 +634,35 @@
     </div>
     <script src="js/maquinas.js"></script>
 
-<script>
-async function desligarMaquinaSelecionada() {
+   <script>
+async function carregarMaquinas() {
+  try {
+    const resp = await fetch("http://localhost:5000/maquinas");
+    const maquinas = await resp.json();
 
-  const select = document.getElementById("selectMaquina");
-  const nome = select.value;
+    const select = document.getElementById("selectMaquina");
+    select.innerHTML = "";
 
-  const maquinas = {
-    "Máquina 1": { ip: "10.18.32.50", usuario: "Felipe", senha: "euamoajulia2025", sistema: "windows" },
-    "Máquina 2": { ip: "10.18.32.9", usuario: "sshuser", senha: "urubu100", sistema: "windows" },
-  };
-
-  const maquina = maquinas[nome];
-  if (!maquina) {
-    alert("Máquina não configurada!");
-    return;
+    maquinas.forEach(m => {
+      const option = document.createElement("option");
+      option.value = m.idMaquina; // id do banco
+      option.textContent = `Máquina ${m.idMaquina} - ${m.modelo} (${m.sistemaOperacional})`;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar máquinas:", err);
   }
+}
+
+async function desligarMaquinaSelecionada() {
+  const select = document.getElementById("selectMaquina");
+  const idMaquina = select.value;
 
   try {
     const resp = await fetch("http://localhost:5000/desligar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(maquina),
+      body: JSON.stringify({ idMaquina }),
     });
 
     const data = await resp.json();
@@ -669,19 +672,18 @@ async function desligarMaquinaSelecionada() {
     } else {
       alert("Erro ao desligar: " + data.mensagem);
     }
-
   } catch (err) {
     alert("Falha ao conectar com o servidor!");
     console.error(err);
   }
 }
 
+// chama ao carregar a página
+window.onload = carregarMaquinas;
 </script>
-
 
 
 
 </body>
 
 </html>
-
