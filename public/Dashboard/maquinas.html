@@ -692,114 +692,114 @@
 
 
 
-
         function cadastrarMaquina() {
 
-    var UsernameVar = ipt_user.value.trim();
-    var IPVar = ipt_ip.value.trim();
-    var SenhaVar = ipt_senha.value.trim();
-    var SalaVar = document.getElementById("select_salas").value;
-    var DiscoVar = ipt_disco.value.trim();
-    var RamVar = ipt_ram.value.trim();
-    var CpuVar = ipt_cpu.value.trim();
+            var UsernameVar = ipt_user.value.trim();
+            var IPVar = ipt_ip.value.trim();
+            var SOVar = ipt_so.value.trim();
+            var SenhaVar = ipt_senha.value.trim();
+            var SalaVar = document.getElementById("select_salas").value;
+            var DiscoVar = ipt_disco.value.trim();
+            var RamVar = ipt_ram.value.trim();
+            var CpuVar = ipt_cpu.value.trim();
 
-    // --- VALIDAÇÕES ---
-    if (!UsernameVar) return alert("Username inválido!");
-    if (!IPVar) return alert("IP inválido!");
-    if (!SOVar) return alert("Sistema operacional inválido!");
-    if (!SenhaVar) return alert("Senha inválida!");
-    if (!SalaVar) return alert("Seleciona uma sala!");
-    if (!DiscoVar) return alert("Informe o disco da máquina!");
-    if (!RamVar) return alert("Informe a memória RAM!");
-    if (!CpuVar) return alert("Informe o tipo de CPU!");
+            // --- VALIDAÇÕES ---
+            if (!UsernameVar) return alert("Username inválido!");
+            if (!IPVar) return alert("IP inválido!");
+            if (!SOVar) return alert("Sistema operacional inválido!");
+            if (!SenhaVar) return alert("Senha inválida!");
+            if (!SalaVar) return alert("Seleciona uma sala!");
+            if (!DiscoVar) return alert("Informe o disco da máquina!");
+            if (!RamVar) return alert("Informe a memória RAM!");
+            if (!CpuVar) return alert("Informe o tipo de CPU!");
 
-    const dados = {
-        username: UsernameVar,
-        ip: IPVar,
-        so: SOVar,
-        senha: SenhaVar,
-        sala: SalaVar,
-        disco: DiscoVar,
-        ram: RamVar,
-        cpu: CpuVar
-    };
+            const dadosMaquina = {
+                username: UsernameVar,
+                ip: IPVar,
+                so: SOVar,
+                senha: SenhaVar,
+                sala: SalaVar,
+                disco: DiscoVar,
+                ram: RamVar,
+                cpu: CpuVar
+            };
 
-    console.log("Enviando para o backend:", dados);
+            console.log("Enviando dados da máquina para o backend:", dadosMaquina);
 
-    fetch("/maquinas/cadastrarMaquina", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados)
-    })
-    .then(res => {
-        if (!res.ok) throw "Erro no cadastro!";
-        return res.json();
-    })
-    .then(json => {
-        alert("Máquina cadastrada com sucesso!");
-        location.reload();
-    })
-    .catch(err => {
-        console.error("Erro:", err);
-        alert("Erro ao cadastrar a máquina.");
-    });
-}
-
-
-function carregarMaquinas() {
-    fetch("/maquinas/listar")
-        .then(resposta => resposta.json())
-        .then(maquinas => {
-            console.log("Máquinas recebidas:", maquinas);
-
-            let select = document.getElementById("selectMaquina");
-            select.innerHTML = ""; // limpa opções antigas
-
-            // Adiciona cada máquina como opção
-            maquinas.forEach(m => {
-                let option = document.createElement("option");
-                option.value = m.idMaquina; // id usado para desligar
-                option.textContent = `Máquina: ${m.idMaquina} `; // texto visível
-                select.appendChild(option);
-            });
-        })
-        .catch(erro => {
-            console.error("Erro ao carregar máquinas:", erro);
-        });
-}
-
-function desligarMaquinaSelecionada() {
-    const select = document.getElementById("selectMaquina");
-    const idMaquina = select.value;
-
-    if (!idMaquina) return alert("Selecione uma máquina para desligar!");
-
-    fetch("http://localhost:5000/desligar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idMaquina: idMaquina })
-    })
-    .then(res => {
-        if (!res.ok) throw "Erro ao desligar!";
-        return res.json();
-    })
-    .then(json => {
-        alert(json.mensagem);
-        // atualizar lista de máquinas se quiser
-        carregarMaquinas();
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Erro ao desligar a máquina.");
-    });
-}
+            fetch("/maquinas/cadastrarMaquina", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dadosMaquina)
+            })
+                .then(res => {
+                    if (!res.ok) throw "Erro ao cadastrar a máquina!";
+                    return res.json();
+                })
+                .then(json => {
+                    alert("Máquina e componentes cadastrados com sucesso!");
+                    location.reload();
+                })
+                .catch(err => {
+                    console.error("Erro:", err);
+                    alert("Erro ao cadastrar máquina ou componentes.");
+                });
 
 
+            }
+            function carregarMaquinas() {
+                fetch("/maquinas/listar")
+                    .then(resposta => resposta.json())
+                    .then(maquinas => {
+                        console.log("Máquinas recebidas:", maquinas);
 
-function abrirModalDesligarMaquinas() {
-    carregarMaquinas(); // carrega as máquinas no select
-    document.getElementById("modalDesligarMaquinas").style.display = "block";
-}
+                        let select = document.getElementById("selectMaquina");
+                        select.innerHTML = ""; // limpa opções antigas
+
+                        // Adiciona cada máquina como opção
+                        maquinas.forEach(m => {
+                            let option = document.createElement("option");
+                            option.value = m.idMaquina; // id usado para desligar
+                            option.textContent = `Máquina: ${m.idMaquina} `; // texto visível
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(erro => {
+                        console.error("Erro ao carregar máquinas:", erro);
+                    });
+            }
+
+            function desligarMaquinaSelecionada() {
+                const select = document.getElementById("selectMaquina");
+                const idMaquina = select.value;
+
+                if (!idMaquina) return alert("Selecione uma máquina para desligar!");
+
+                fetch("http://localhost:5000/desligar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idMaquina: idMaquina })
+                })
+                    .then(res => {
+                        if (!res.ok) throw "Erro ao desligar!";
+                        return res.json();
+                    })
+                    .then(json => {
+                        alert(json.mensagem);
+                        // atualizar lista de máquinas se quiser
+                        carregarMaquinas();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Erro ao desligar a máquina.");
+                    });
+            }
+
+
+
+            function abrirModalDesligarMaquinas() {
+                carregarMaquinas(); // carrega as máquinas no select
+                document.getElementById("modalDesligarMaquinas").style.display = "block";
+            }
 
 
 

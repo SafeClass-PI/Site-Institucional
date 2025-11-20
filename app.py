@@ -41,17 +41,28 @@ def desligar():
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(ip, username=usuario, password=senha)
 
-        comando = "shutdown /s /t 0" if sistema.lower() == "windows" else "sudo shutdown -h now"
-        ssh.exec_command(comando)
+        # Comando conforme o sistema
+        if sistema.lower() == "windows":
+            comando = "shutdown /s /t 0"
+            ssh.exec_command(comando)
+        else:
+            comando = "sudo systemctl poweroff --force --no-wall"
+            stdin, stdout, stderr = ssh.exec_command(comando)
+            # captura erros do Linux
+            erro = stderr.read().decode()
+            if erro:
+                ssh.close()
+                return jsonify({"status": "erro", "mensagem": erro}), 500
+
         ssh.close()
         
+        # Atualiza status no banco
         conexao = get_db_connection()
         cursor = conexao.cursor()
         cursor.execute("UPDATE Maquina SET status = %s WHERE idMaquina = %s", ("desligada", id_maquina))
         conexao.commit()
         cursor.close()
         conexao.close()
-
 
         return jsonify({"status": "ok", "mensagem": f"{ip} desligada com sucesso!"})
 
