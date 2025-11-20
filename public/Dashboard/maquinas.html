@@ -88,7 +88,8 @@
                         <button id="exportarDados">
                             <p>Exportar CSV</p>
                         </button>
-                        <button id="adicionarUsuario" onclick="adicionarUsuario()"><i class="fa-solid fa-plus"></i>
+                        <button id="adicionarUsuario" onclick="abrirModalCadastrar()">
+
                             <p>Adicionar Máquina</p>
                         </button>
                     </div>
@@ -99,10 +100,18 @@
                         <div class="infos-modal-adicionar-maquina">
                             <div class="infos-input">
                                 <div class="titulo-campo">
-                                    <p>MAC Address</p>
+                                    <p>Username</p>
                                 </div>
                                 <div class="input-campo">
-                                    <input type="text" placeholder="Digite o endereço">
+                                    <input id="ipt_user" type="text" placeholder="Digite o username">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>IP</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input id="ipt_ip" type="text" placeholder="Digite o endereço de IP">
                                 </div>
                             </div>
                             <div class="infos-input">
@@ -110,18 +119,25 @@
                                     <p>Sistema Operacional</p>
                                 </div>
                                 <div class="input-campo">
-                                    <input type="text" placeholder="Digite o S.O">
+                                    <input id="ipt_so" type="text" placeholder="Digite o S.O">
+                                </div>
+                            </div>
+                            <div class="infos-input">
+                                <div class="titulo-campo">
+                                    <p>Senha da máquina</p>
+                                </div>
+                                <div class="input-campo">
+                                    <input id="ipt_senha" type="text" placeholder="Digite sua senha">
                                 </div>
                             </div>
                             <div class="infos-input">
                                 <div class="titulo-campo">
                                     <p>Sala</p>
                                 </div>
-                                <div class="select-campo">
-                                    <select>
-                                        <option value="#">Sala 1</option>
-                                    </select>
-                                </div>
+                                <select id="select_salas">
+                                    <option>Carregando salas...</option>
+                                </select>
+
                             </div>
                         </div>
                         <div class="campos-capacidade-maquina">
@@ -129,21 +145,22 @@
                             <div class="dados-capacidade">
                                 <div class="inserir-capacidade">
                                     <p>Disco</p>
-                                    <input type="text" placeholder="GB">
+                                    <input id="ipt_disco" type="text" placeholder="GB">
                                 </div>
                                 <div class="inserir-capacidade">
                                     <p>RAM</p>
-                                    <input type="text" placeholder="GB">
+                                    <input id="ipt_ram" type="text" placeholder="GB">
                                 </div>
                                 <div class="inserir-capacidade">
                                     <p>CPU</p>
-                                    <input type="text" placeholder="Tipo">
+                                    <input id="ipt_cpu" type="text" placeholder="Tipo">
                                 </div>
                             </div>
                         </div>
                         <div class="btns-modal-adicionar-maquina">
                             <button onclick="cancelarAdicionarMaquina()">Cancelar</button>
-                            <button onclick="efetuarCriacaoUser()">Criar</button>
+                            <button onclick="cadastrarMaquina()">Criar</button>
+
                         </div>
                     </div>
                 </div>
@@ -278,7 +295,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -324,7 +341,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -370,7 +387,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -416,7 +433,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -462,7 +479,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -508,7 +525,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -554,7 +571,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -600,7 +617,7 @@
                                         <p>Linux</p>
                                     </div>
                                     <div class="dado-maquina">
-                                        <p>A4:C3:F0:1B:9D:22</p>
+                                        <p>IP: 10.18.18.32</p>
                                     </div>
                                 </div>
                                 <div class="capacidade-maquina">
@@ -634,53 +651,169 @@
     </div>
     <script src="js/maquinas.js"></script>
 
-   <script>
-async function carregarMaquinas() {
-  try {
-    const resp = await fetch("http://localhost:5000/maquinas");
-    const maquinas = await resp.json();
+    <script>
 
+        function carregarSalas() {
+            fetch("/salas/listar")
+                .then(resposta => resposta.json())
+                .then(salas => {
+                    console.log("Salas recebidas:", salas);
+
+                    let select = document.getElementById("select_salas");
+                    select.innerHTML = ""; // limpa
+
+                    salas.forEach(s => {
+                        let option = document.createElement("option");
+                        option.value = s.idSala;
+                        option.textContent = s.nome;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(erro => {
+                    console.error("Erro ao carregar salas:", erro);
+                });
+        }
+
+        function adicionarUsuario() {
+            abrirModalCadastrar();
+        }
+
+
+
+        function abrirModalCadastrar() {
+
+            carregarSalas();
+            document.getElementById("modalAdicionarMaquina").style.display = "block";
+        }
+
+
+
+
+
+
+
+
+        function cadastrarMaquina() {
+
+    var UsernameVar = ipt_user.value.trim();
+    var IPVar = ipt_ip.value.trim();
+    var SenhaVar = ipt_senha.value.trim();
+    var SalaVar = document.getElementById("select_salas").value;
+    var DiscoVar = ipt_disco.value.trim();
+    var RamVar = ipt_ram.value.trim();
+    var CpuVar = ipt_cpu.value.trim();
+
+    // --- VALIDAÇÕES ---
+    if (!UsernameVar) return alert("Username inválido!");
+    if (!IPVar) return alert("IP inválido!");
+    if (!SOVar) return alert("Sistema operacional inválido!");
+    if (!SenhaVar) return alert("Senha inválida!");
+    if (!SalaVar) return alert("Seleciona uma sala!");
+    if (!DiscoVar) return alert("Informe o disco da máquina!");
+    if (!RamVar) return alert("Informe a memória RAM!");
+    if (!CpuVar) return alert("Informe o tipo de CPU!");
+
+    const dados = {
+        username: UsernameVar,
+        ip: IPVar,
+        so: SOVar,
+        senha: SenhaVar,
+        sala: SalaVar,
+        disco: DiscoVar,
+        ram: RamVar,
+        cpu: CpuVar
+    };
+
+    console.log("Enviando para o backend:", dados);
+
+    fetch("/maquinas/cadastrarMaquina", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados)
+    })
+    .then(res => {
+        if (!res.ok) throw "Erro no cadastro!";
+        return res.json();
+    })
+    .then(json => {
+        alert("Máquina cadastrada com sucesso!");
+        location.reload();
+    })
+    .catch(err => {
+        console.error("Erro:", err);
+        alert("Erro ao cadastrar a máquina.");
+    });
+}
+
+
+function carregarMaquinas() {
+    fetch("/maquinas/listar")
+        .then(resposta => resposta.json())
+        .then(maquinas => {
+            console.log("Máquinas recebidas:", maquinas);
+
+            let select = document.getElementById("selectMaquina");
+            select.innerHTML = ""; // limpa opções antigas
+
+            // Adiciona cada máquina como opção
+            maquinas.forEach(m => {
+                let option = document.createElement("option");
+                option.value = m.idMaquina; // id usado para desligar
+                option.textContent = `Máquina: ${m.idMaquina} `; // texto visível
+                select.appendChild(option);
+            });
+        })
+        .catch(erro => {
+            console.error("Erro ao carregar máquinas:", erro);
+        });
+}
+
+function desligarMaquinaSelecionada() {
     const select = document.getElementById("selectMaquina");
-    select.innerHTML = "";
+    const idMaquina = select.value;
 
-    maquinas.forEach(m => {
-      const option = document.createElement("option");
-      option.value = m.idMaquina; // id do banco
-      option.textContent = `Máquina ${m.idMaquina} - ${m.modelo} (${m.sistemaOperacional})`;
-      select.appendChild(option);
+    if (!idMaquina) return alert("Selecione uma máquina para desligar!");
+
+    fetch("http://localhost:5000/desligar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idMaquina: idMaquina })
+    })
+    .then(res => {
+        if (!res.ok) throw "Erro ao desligar!";
+        return res.json();
+    })
+    .then(json => {
+        alert(json.mensagem);
+        // atualizar lista de máquinas se quiser
+        carregarMaquinas();
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Erro ao desligar a máquina.");
     });
-  } catch (err) {
-    console.error("Erro ao carregar máquinas:", err);
-  }
 }
 
-async function desligarMaquinaSelecionada() {
-  const select = document.getElementById("selectMaquina");
-  const idMaquina = select.value;
 
-  try {
-    const resp = await fetch("http://localhost:5000/desligar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idMaquina }),
-    });
 
-    const data = await resp.json();
-
-    if (resp.ok) {
-      alert("Máquina desligada com sucesso!");
-    } else {
-      alert("Erro ao desligar: " + data.mensagem);
-    }
-  } catch (err) {
-    alert("Falha ao conectar com o servidor!");
-    console.error(err);
-  }
+function abrirModalDesligarMaquinas() {
+    carregarMaquinas(); // carrega as máquinas no select
+    document.getElementById("modalDesligarMaquinas").style.display = "block";
 }
 
-// chama ao carregar a página
-window.onload = carregarMaquinas;
-</script>
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+    </script>
 
 
 

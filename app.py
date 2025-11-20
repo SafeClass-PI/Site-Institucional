@@ -8,23 +8,12 @@ def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Felipzp123@",  # ajuste conforme sua senha
+        password="Felipzp123@",  
         database="safeclass"
     )
 
 app = Flask(__name__)
 CORS(app)
-
-# rota para listar máquinas (para popular o select no front)
-@app.route('/maquinas', methods=['GET'])
-def listar_maquinas():
-    conexao = get_db_connection()
-    cursor = conexao.cursor(dictionary=True)
-    cursor.execute("SELECT idMaquina, modelo, sistemaOperacional FROM Maquina")
-    maquinas = cursor.fetchall()
-    cursor.close()
-    conexao.close()
-    return jsonify(maquinas)
 
 # rota para desligar máquina
 @app.route('/desligar', methods=['POST'])
@@ -55,6 +44,14 @@ def desligar():
         comando = "shutdown /s /t 0" if sistema.lower() == "windows" else "sudo shutdown -h now"
         ssh.exec_command(comando)
         ssh.close()
+        
+        conexao = get_db_connection()
+        cursor = conexao.cursor()
+        cursor.execute("UPDATE Maquina SET status = %s WHERE idMaquina = %s", ("desligada", id_maquina))
+        conexao.commit()
+        cursor.close()
+        conexao.close()
+
 
         return jsonify({"status": "ok", "mensagem": f"{ip} desligada com sucesso!"})
 
