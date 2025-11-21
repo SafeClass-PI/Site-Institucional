@@ -112,13 +112,13 @@
                 <div class="area-kpis">
                     <div class="kpi" id="desempenho-maquina">
                         <div class="espaco-icone-kpi">
-                            <div class="icone-kpi">
+                            <div class="icone-kpi" id="iconeStatusMaquina">
                                 <i class="fa-solid fa-circle-check"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>Estável</p>
+                                <p id="kpiStatusMaquinaEscola"></p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Estado da Máquina</p>
@@ -133,7 +133,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>86%</p>
+                                <p id="kpiUptimeMaquinaSala"></p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Taxa de Uptime</p>
@@ -148,7 +148,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>CPU a 90% - 14:00</p>
+                                <p id="kpiTaxaMaisCriticaMaquina"></p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Taxa Mais Crítica</p>
@@ -163,7 +163,7 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p>2</p>
+                                <p id="kpiQtdAlertasMaquinaSala"></p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Alertas Hoje</p>
@@ -230,27 +230,8 @@
                             <div class="titulo-alertas-maquina">
                                 <p>Últimos Alertas</p>
                             </div>
-                            <div class="alertas">
-                                <div class="card-alerta">
-                                    <div class="icone-card-alerta">
-                                        <i class="fa-solid fa-circle-exclamation"></i>
-                                    </div>
-                                    <div class="infos-card-alerta">
-                                        <p>Máquina 1</p>
-                                        <p>CPU a 90%</p>
-                                        <p>Sala 5 - Há 1 min</p>
-                                    </div>
-                                </div>
-                                <div class="card-alerta">
-                                    <div class="icone-card-alerta">
-                                        <i class="fa-solid fa-circle-exclamation"></i>
-                                    </div>
-                                    <div class="infos-card-alerta">
-                                        <p>Máquina 1</p>
-                                        <p>Taxa Download a 24%</p>
-                                        <p>Sala 5 - Há 2 min</p>
-                                    </div>
-                                </div>
+                            <div id="alertasMaquina">
+                                
                             </div>
                         </div>
                         <div class="falhas-por-componente">

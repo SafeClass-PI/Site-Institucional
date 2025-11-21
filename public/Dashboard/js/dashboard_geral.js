@@ -257,23 +257,24 @@ async function listarUltimosAlertas() {
             const card = document.createElement("div");
             card.classList.add("card-alerta");
 
-            const parametro =
-                alerta.parametro === "Crítico"
+            const nivel =
+                alerta.nivel === "Crítico"
                     ? "fa-solid fa-circle-exclamation"
-                    : alerta.parametro === "Atenção"
+                    : alerta.nivel === "Atenção"
                         ? "fa-solid fa-triangle-exclamation"
                         : "";
 
+        
             card.innerHTML = `
-        <div class="icone-card-alerta">
-            <i class="${parametro}"></i>
-        </div>
-        <div class="infos-card-alerta">
-            <p>${alerta.identificacao}</p>
-            <p>${alerta.mensagem}</p>
-            <p>${alerta.localizacao} - ${tempoRelativo(alerta.hora)}</p>
-        </div>
-    `;
+                <div class="icone-card-alerta">
+                    <i class="${nivel}"></i>
+                </div>
+                <div class="infos-card-alerta">
+                    <p>Máquina ${alerta.identificacao}</p>
+                    <p>${alerta.comp} a ${alerta.registro}${alerta.formatacao}</p>
+                    <p>Sala ${alerta.sala} - ${tempoRelativo(alerta.hora)}</p>
+                </div>
+            `;
 
             painel.appendChild(card);
         });

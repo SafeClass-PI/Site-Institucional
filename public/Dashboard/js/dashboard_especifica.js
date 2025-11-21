@@ -10,9 +10,173 @@ function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
+    kpiStatusMaquina();
+    kpiUptimeMaquina();
+    kpiTaxaMaisCritica();
+    kpiQtdAlertasMaquina();
     obterDadosGraficoComponente(idComponente);
     obterDadosGraficoRede(idComponenteRede);
+    graficoDisponibilidade();
+    graficoFalhasPorComponente();
+    listarUltimosAlertasMaquina();
 }
+
+function kpiStatusMaquina() {
+    fetch(`/api/dashboard/kpiStatusMaquina`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+                statusMaquina = vt_dados[0].estado_maquina;
+                kpiStatusMaquinaEscola.innerHTML = `${statusMaquina}`;
+
+                var icone = document.querySelector('#desempenho-maquina .icone-kpi i');
+
+                if (statusMaquina == "Crítico") {
+                    iconeStatusMaquina.style.backgroundColor = "white";
+
+                    icone.className = "fa-solid fa-circle-exclamation";
+                    icone.style.color = "#ea0303";
+                    icone.style.fontSize = '60px';
+                }
+                else if (statusMaquina == "Atenção") {
+                    iconeStatusMaquina.style.backgroundColor = "#ffd630";
+                    icone.className = "fa-solid fa-triangle-exclamation";
+                    icone.style.color = "white";
+                    icone.style.fontSize = '30px';
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function kpiUptimeMaquina() {
+    fetch(`/api/dashboard/kpiUptimeMaquina`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+                kpiUptimeMaquinaSala.innerHTML = `${vt_dados[0].uptime}%`;
+
+                var icone = document.querySelector('#kpi-taxa-uptime .icone-kpi i');
+
+                if (vt_dados[0].uptime < 60) {
+                    icone.style.transform = "rotate(180deg)";
+                    icone.style.color = '#ea0303';
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function kpiTaxaMaisCritica() {
+    fetch(`/api/dashboard/kpiTaxaMaisCritica`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                vt_dados = resposta;
+                kpiTaxaMaisCriticaMaquina.innerHTML = `${vt_dados[0].componente} a ${vt_dados[0].registro}${vt_dados[0].formatacao} - ${vt_dados[0].hora}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function kpiQtdAlertasMaquina() {
+    fetch(`/api/dashboard/kpiQtdAlertasMaquina`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                vt_dados = resposta;
+                kpiQtdAlertasMaquinaSala.innerHTML = `${vt_dados[0].qtdAlerta}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function listarUltimosAlertasMaquina() {
+    fetch(`/api/dashboard/listarUltimosAlertasMaquina`, { cache: 'no-store' })
+        .then(response => {
+            if (response.ok) {
+                response.json().then(resposta => {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    const container = document.getElementById('alertasMaquina');
+                    container.innerHTML = '';
+
+                    resposta.forEach(alerta => {
+                        const card = document.createElement('div');
+                        card.classList.add('card-alerta');
+
+                        const nivel =
+                            alerta.nivel === "Crítico"
+                                ? "fa-solid fa-circle-exclamation"
+                                : alerta.nivel === "Atenção"
+                                    ? "fa-solid fa-triangle-exclamation"
+                                    : "";
+
+                        card.innerHTML = `
+                            <div class="icone-card-alerta">
+                               <i class="${nivel}"></i>
+                            </div>
+                            <div class="infos-card-alerta">
+                                <p>Máquina ${alerta.identificacao}</p>
+                                <p>${alerta.comp} a ${alerta.registro}${alerta.formatacao}</p>
+                                <p>Sala ${alerta.sala} -  ${tempoRelativo(alerta.hora)}</p>
+                            </div>
+                        `;
+
+                        container.appendChild(card);
+                    });
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .catch(error => {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function tempoRelativo(dataStr) {
+    const agora = new Date();
+    const captura = new Date(dataStr);
+    const diffMs = agora - captura;
+    const diffMin = Math.floor(diffMs / 60000);
+
+    if (diffMin < 1) return "Agora";
+    if (diffMin < 60) return `há ${diffMin} min`;
+    const diffHoras = Math.floor(diffMin / 60);
+    if (diffHoras < 24) return `há ${diffHoras} h`;
+    const diffDias = Math.floor(diffHoras / 24);
+    return `há ${diffDias} d`;
+}
+
 
 /* ------------------------- GRÁFICOS ------------------------------------ */
 
@@ -336,116 +500,181 @@ function atualizarGraficoRede(dados, myChartRede) {
         }).catch(err => console.error(err));
 }
 
+function graficoDisponibilidade() {
+    fetch(`/api/dashboard/graficoDisponibilidade`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-const ctx2 = document.getElementById('disponibilidade-maquina').getContext('2d');
+                plotarGraficoDisponibilidade(resposta);
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
 
-const data2 = {
-    labels: ['Uptime', 'Downtime'],
-    datasets: [{
-        label: 'Time Admitted',
-        data: [86, 14],
-        borderColor: 'orange',
-        backgroundColor: ['#0eca117d', '#ea0303ae'],
-        borderWidth: 2.2,
-        borderColor: ['#00d000d4', '#ff0000d7'],
-        fill: true,
-        tension: 0.4, // suaviza as curvas
-        pointBackgroundColor: 'white', // cor do ponto
-        pointBorderColor: 'orange',
-        pointHoverRadius: 7,
-        pointRadius: 5
-    }]
-};
+function plotarGraficoDisponibilidade(resposta) {
 
-const config2 = {
-    type: 'pie',
-    data: data2,
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: true
-            },
-            tooltip: {
-                enabled: true,
-                backgroundColor: 'black',
-                titleColor: 'white',
-                bodyColor: 'white',
-                callbacks: {
-                    label: function (context) {
-                        return context.dataset.label + ': ' + context.raw;
+    console.log('iniciando plotagem do gráfico...');
+
+    let labels = [];
+
+    let dados = {
+        labels: labels,
+        datasets: [{
+            label: 'Time Admitted',
+            data: [],
+            borderColor: 'orange',
+            backgroundColor: ['#0eca117d', '#ea0303ae'],
+            borderWidth: 2.2,
+            borderColor: ['#00d000d4', '#ff0000d7'],
+            fill: true,
+            tension: 0.4, // suaviza as curvas
+            pointBackgroundColor: 'white', // cor do ponto
+            pointBorderColor: 'orange',
+            pointHoverRadius: 7,
+            pointRadius: 5
+        }]
+    };
+
+    console.log('----------------------------------------------')
+    console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+    console.log(resposta)
+
+    for (let i = 0; i < resposta.length; i++) {
+        let registro = resposta[i];
+        labels.push("Uptime", "Downtime");
+        dados.datasets[0].data.push(registro.capturasEstaveis);
+        dados.datasets[0].data.push(registro.totalAlertas);
+    }
+
+    console.log('----------------------------------------------')
+    console.log('O gráfico será plotado com os respectivos valores:')
+    console.log('Labels:')
+    console.log(labels)
+    console.log('Dados:')
+    console.log(dados.datasets)
+    console.log('----------------------------------------------')
+
+    const config = {
+        type: 'pie',
+        data: dados,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'black',
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    callbacks: {
+                        label: function (context) {
+                            return context.dataset.label + ': ' + context.raw;
+                        }
                     }
                 }
-            }
-        },
-        scales: {
-        },
+            },
+            scales: {
+            },
+        }
+    };
+
+    new Chart(document.getElementById('disponibilidade-maquina'), config);
+}
+
+function graficoFalhasPorComponente() {
+    fetch(`/api/dashboard/graficoFalhasPorComponente`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                plotarGraficoFalhasPorComponente(resposta);
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function plotarGraficoFalhasPorComponente(resposta) {
+    let labels = [];
+    let dadosValores = [];
+
+    for (let i = 0; i < resposta.length; i++) {
+        let registro = resposta[i];
+
+        if (registro.componente == "Disco Rígido") {
+            registro.componente = "Disco"
+        }
+        else if (registro.componente == "Memória RAM") {
+            registro.componente = "RAM"
+        }
+
+        labels.push(registro.componente);
+        dadosValores.push(registro.quantidade);
     }
-};
 
-new Chart(ctx2, config2);
+    const data3 = {
+        labels: labels,
+        datasets: [{
+            label: 'Incidência de Falhas no Mês',
+            data: dadosValores,
+            backgroundColor: [
+                'rgba(255, 99, 133, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-const labels = ['CPU', 'Disco', 'RAM', 'Rede'];
-const dados = [1, 1, 0, 0];
+    const config3 = {
+        type: 'bar',
+        data: data3,
+        options: {
+            indexAxis: 'y',
 
-const data3 = {
-    labels: labels,
-    datasets: [{
-        label: 'Incidência de Falhas no Mês',
-        data: dados,
-        backgroundColor: [
-            'rgba(255, 99, 133, 0.7)',
-            'rgba(54, 162, 235, 0.7)',
-            'rgba(255, 206, 86, 0.7)',
-            'rgba(75, 192, 192, 0.7)',
-            'rgba(153, 102, 255, 0.7)'
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)'
-        ],
-        borderWidth: 1
-    }]
-};
-
-const config3 = {
-    type: 'bar',
-    data: data3,
-    options: {
-        indexAxis: 'y',
-
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-                display: false,
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    display: false,
+                },
+                title: {
+                    display: false
+                }
             },
-            title: {
-                display: false,
-                text: 'Classificação das Máquinas Mais Problemáticas'
-            }
-        },
-        scales: {
-            x: {
-                min: 0,
-                max: 3,
-                beginAtZero: true
-            },
-            y: {
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
             }
         }
-    }
-};
+    };
 
-const meuGrafico = new Chart(
-    document.getElementById('falhas-por-componente'),
-    config3
-);
+    new Chart(document.getElementById('falhas-por-componente'), config3);
+}
 
 function atualizarDataHora() {
     const agora = new Date();

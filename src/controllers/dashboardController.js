@@ -69,6 +69,50 @@ function listarUltimosAlertas(req, res) {
         });
 }
 
+/* -------------- MÁQUINA ESPECIFICA ------------------------ */
+
+function kpiStatusMaquina(req, res) {
+    dashboardModel.kpiStatusMaquina().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function kpiUptimeMaquina(req, res) {
+    dashboardModel.kpiUptimeMaquina().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function kpiTaxaMaisCritica(req, res) {
+    dashboardModel.kpiTaxaMaisCritica().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function kpiQtdAlertasMaquina(req, res) {
+    dashboardModel.kpiQtdAlertasMaquina().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function listarUltimosAlertasMaquina(req, res) {
+    dashboardModel.listarUltimosAlertasMaquina().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+
+
 function monitoramentoComponente(req, res) {
     const idComponente = req.params.idComponente;
 
@@ -78,7 +122,7 @@ function monitoramentoComponente(req, res) {
 }
 
 function monitoramentoComponenteTempoReal(req, res) {
-    const idComponente = req.params.idComponente; 
+    const idComponente = req.params.idComponente;
 
     dashboardModel.monitoramentoComponenteTempoReal(idComponente)
         .then(resultado => res.status(200).json(resultado))
@@ -94,11 +138,27 @@ function monitoramentoComponenteRede(req, res) {
 }
 
 function monitoramentoComponenteRedeTempoReal(req, res) {
-    const idComponenteRede = req.params.idComponenteRede; 
+    const idComponenteRede = req.params.idComponenteRede;
 
     dashboardModel.monitoramentoComponenteRedeTempoReal(idComponenteRede)
         .then(resultado => res.status(200).json(resultado))
         .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
+function graficoDisponibilidade(req, res) {
+    dashboardModel.graficoDisponibilidade().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function graficoFalhasPorComponente(req, res) {
+    dashboardModel.graficoFalhasPorComponente().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
 }
 
 
@@ -113,8 +173,15 @@ module.exports = {
     listarSalas,
     mostrarMaquinas,
     listarUltimosAlertas,
+    kpiStatusMaquina,
+    kpiUptimeMaquina,
+    kpiTaxaMaisCritica,
+    kpiQtdAlertasMaquina,
+    listarUltimosAlertasMaquina,
     monitoramentoComponente,
     monitoramentoComponenteTempoReal,
     monitoramentoComponenteRede,
-    monitoramentoComponenteRedeTempoReal
+    monitoramentoComponenteRedeTempoReal,
+    graficoDisponibilidade,
+    graficoFalhasPorComponente
 }

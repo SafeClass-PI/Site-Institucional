@@ -1095,7 +1095,7 @@ body {
 
 .painel-alertas {
     width: 24%;
-    height: 99%;
+    height: 470px;
     border-radius: 10px;
     background-color: var(--cor-branco);
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
@@ -1105,7 +1105,7 @@ body {
 
 .titulo-ultimos-alertas {
     width: 100%;
-    height: 14%;
+    height: 55px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1113,6 +1113,7 @@ body {
 }
 
 .titulo-ultimos-alertas p {
+    margin-top: 8px;
     font-size: 22px;
     font-weight: 700;
     color: #434343;
@@ -1120,43 +1121,28 @@ body {
 
 .alertas {
     width: 100%;
-    height: 89%;
+    height: 403px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
+    gap: 12px;
     overflow-y: auto;
-}
-
-.alertas::-webkit-scrollbar {
-    width: 8px; 
-}
-
-.alertas::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-    border-radius: 10px;
-}
-
-.alertas::-webkit-scrollbar-thumb {
-    background-color: #3a1b08b4; 
-    border-radius: 10px;
-    border: 2px solid #f1f1f1; 
-}
-
-.alertas::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    padding: 5px;
+    box-sizing: border-box;
 }
 
 .card-alerta {
-    width: 90%;
-    height: 21.8%;
-    background-color: var(--cor-branco);
-    border-radius: 10px;
-    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.16);
+    min-height: 69px;
+    height: auto;
     display: flex;
-    flex-direction: row;
-    transition: 0.2s all ease-in-out;
-    cursor: pointer;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+    width: 230px;
+    margin-left: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
 }
 
 .card-alerta:hover {
@@ -1196,7 +1182,7 @@ body {
 }
 
 .infos-card-alerta p:nth-of-type(2) {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 550;
 }
 
@@ -1207,11 +1193,7 @@ body {
 }
 
 
-
-
 /* --------------- DASHBOARD ESPECÍFICA ------------------------- */
-
-
 
 
 #desempenho-maquina .icone-kpi {
@@ -1223,15 +1205,15 @@ body {
 }
 
 #kpi-alerta-critica .infos-kpi {
-    margin-top: 2.2%;
+    margin-top: 3.4%;
 }
 
 #kpi-alerta-critica .infos-kpi .titulo-kpi p {
-    margin-top: 3.3%;
+    margin-top: 3.7%;
 }
 
 #kpi-alerta-critica .infos-kpi .dado-kpi p {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .conteudo-principal {
@@ -1453,7 +1435,6 @@ body {
     gap: 2%;
 }
 
-.ultimos-alertas,
 .falhas-por-componente {
     width: 100%;
     height: 50%;
@@ -1462,9 +1443,17 @@ body {
     border-radius: 10px;
 }
 
+.ultimos-alertas {
+    width: 100%;
+    height: 238px;
+    background-color: var(--cor-branco);
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+    border-radius: 10px;
+}
+
 .titulo-alertas-maquina {
     width: 100%;
-    height: 17%;
+    height: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1478,30 +1467,43 @@ body {
     color: #383838;
 }
 
-.alertas {
+#alertasMaquina {
+    margin-top: 14px;
     width: 100%;
-    height: 83%;
+    height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 6%;
+    gap: 11px;
+    overflow-y: auto;
+    padding: 5px;
+    box-sizing: border-box;
 }
 
-.alertas .card-alerta {
-    height: 40%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.103);
+#alertasMaquina .card-alerta {
+    width: 230px;
+    min-height: 59px;
+    height: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.190);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    margin-left: 5px;
 }
 
-.alertas .card-alerta p:nth-of-type(1) {
+#alertasMaquina .card-alerta p:nth-of-type(1) {
     font-size: 14px;
 }
 
-.alertas .card-alerta p:nth-of-type(2) {
+#alertasMaquina .card-alerta p:nth-of-type(2) {
     font-size: 12px;
 }
 
-.alertas .card-alerta p:nth-of-type(3) {
+#alertasMaquina .card-alerta p:nth-of-type(3) {
     font-size: 12px;
 }
 
