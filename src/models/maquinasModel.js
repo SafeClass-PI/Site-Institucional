@@ -6,6 +6,7 @@ function listar() {
     var instrucaoSql = `
         SELECT idMaquina
         FROM Maquina
+        WHERE estado NOT LIKE 'Desligada'
         ORDER BY idMaquina ASC;
     `;
 
@@ -13,18 +14,15 @@ function listar() {
     return database.executar(instrucaoSql);
 }
 
-// Cadastrar máquina + componentes de forma segura
 async function cadastrarMaquinaComComponentes(sala, so, ip, username, senha, disco, ram, cpu) {
-    // Inserir a máquina
     const instrucaoMaquina = `
         INSERT INTO maquina (fkSala, sistemaOperacional, ip, username, senha)
         VALUES (?, ?, ?, ?, ?);
     `;
     const resultadoMaquina = await database.executarComParametros(instrucaoMaquina, [sala, so, ip, username, senha]);
-    
-    const fkMaquina = resultadoMaquina.insertId; // pega o id da máquina recém inserida
 
-    // Inserir componentes
+    const fkMaquina = resultadoMaquina.insertId; 
+    
     const instrucaoComponente = `
         INSERT INTO Componente (fkMaquina, nome, formatacao, capacidade)
         VALUES (?, ?, ?, ?);
@@ -36,8 +34,32 @@ async function cadastrarMaquinaComComponentes(sala, so, ip, username, senha, dis
 
     return fkMaquina;
 }
+function listarMaquinas(limite = 8, offset = 0) {
+    const instrucaoSql = `
+        SELECT m.idMaquina AS identificacao,
+               CONCAT('Máquina ', m.idMaquina) AS nome_maquina,
+               m.estado AS estado,
+               CONCAT('Sala ', m.fkSala) AS localizacao,
+               m.sistemaOperacional AS so,
+               m.ip AS ipv4,
+               COALESCE(cpu.capacidade, 'Intel i5') AS cpu_capacidade,
+               COALESCE(ram.capacidade, '8gb') AS ram_capacidade,
+               COALESCE(disco.capacidade, '500gb') AS disco_capacidade
+        FROM Maquina AS m
+        LEFT JOIN Componente AS cpu
+            ON cpu.fkMaquina = m.idMaquina AND cpu.nome = 'CPU'
+        LEFT JOIN Componente AS ram
+            ON ram.fkMaquina = m.idMaquina AND ram.nome = 'RAM'
+        LEFT JOIN Componente AS disco
+            ON disco.fkMaquina = m.idMaquina AND disco.nome = 'Disco'
+        LIMIT ? OFFSET ?;
+    `;
+
+    return database.executarComParametros(instrucaoSql, [limite, offset]);
+}
 
 module.exports = {
     listar,
-    cadastrarMaquinaComComponentes
+    cadastrarMaquinaComComponentes,
+    listarMaquinas
 };

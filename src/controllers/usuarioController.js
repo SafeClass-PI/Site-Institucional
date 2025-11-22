@@ -1,10 +1,6 @@
 import usuarioModel from "../models/usuarioModel.js";  // ⚠ lembre do .js
 import { enviarEmailAprovacao, enviarEmailRejeicao, enviarEmailRecuperacao, enviarEmailCadastroPendente } from "../services/emailService.js";
 
-
-
-
-
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
@@ -228,8 +224,8 @@ async function recuperarSenha(req, res) {
         await enviarEmailRecuperacao(email, usuario.nome, novaSenha);
 
         res.json({ success: true, message: "Nova senha enviada para o e-mail." });
-    } catch  {
-       console.log("Erro na recuperação de senha")
+    } catch {
+        console.log("Erro na recuperação de senha")
     }
 }
 
@@ -265,16 +261,18 @@ async function alterarSenhaPerfil(req, res) {
 }
 
 
+async function buscarTodos(req, res) {
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = parseInt(req.query.limite) || 8;
+    const offset = (pagina - 1) * limite;
 
-function buscarTodos(req, res) {
-    usuarioModel.buscarTodos()
-        .then(resultado => {
-            res.status(200).json(resultado);
-        })
-        .catch(erro => {
-            console.error("Erro ao buscar todos os usuários:", erro);
-            res.status(500).json(erro);
-        });
+    try {
+        const resultados = await usuarioModel.buscarTodos(limite, offset);
+        res.json(resultados);
+    } catch (erro) {
+        console.error("Erro ao listar usuários:", erro);
+        res.status(500).json({ erro: "Erro ao listar usuários" });
+    }
 }
 
 function deletarUsuario(req, res) {
@@ -312,20 +310,20 @@ function efetuarEdicaoUser() {
         },
         body: JSON.stringify({ nome, email, cargo, status })
     })
-    .then(res => res.json())
-    .then(resposta => {
-        if (resposta.success) {
-            alert("Usuário atualizado com sucesso!");
-            cancelarEditarUser();
-            listarUsuarios();
-        } else {
-            alert("Erro ao atualizar: " + resposta.message);
-        }
-    })
-    .catch(erro => {
-        console.error("Erro ao atualizar usuário:", erro);
-        alert("Erro interno ao atualizar.");
-    });
+        .then(res => res.json())
+        .then(resposta => {
+            if (resposta.success) {
+                alert("Usuário atualizado com sucesso!");
+                cancelarEditarUser();
+                listarUsuarios();
+            } else {
+                alert("Erro ao atualizar: " + resposta.message);
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao atualizar usuário:", erro);
+            alert("Erro interno ao atualizar.");
+        });
 }
 
 function atualizarUsuario(req, res) {
@@ -367,6 +365,35 @@ function buscarUsuarioPorId(req, res) {
 }
 
 
+import pkg from 'json2csv';
+const { Parser } = pkg;
+
+async function exportarCSV(req, res) {
+    try {
+        const limite = 1000;
+        const offset = 0;
+        const usuarios = await usuarioModel.buscarTodos(limite, offset);
+
+        const campos = [
+            'idUsuario',
+            'nomeUsuario',
+            'email',
+            'cargo',
+            'dtCadastro',
+            'status'
+        ];
+
+        const parser = new Parser({ fields: campos });
+        const csv = parser.parse(usuarios);
+
+        res.header('Content-Type', 'text/csv');
+        res.attachment('usuarios.csv');
+        res.send(csv);
+    } catch (erro) {
+        console.error(erro);
+        res.status(500).send('Erro ao gerar CSV');
+    }
+}
 
 
 
@@ -385,6 +412,7 @@ export {
     deletarUsuario,
     atualizarUsuario,
     efetuarEdicaoUser,
-    buscarUsuarioPorId
+    buscarUsuarioPorId,
+    exportarCSV
 };
 

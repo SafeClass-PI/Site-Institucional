@@ -75,11 +75,6 @@ router.get('/usuario/:id', function (req, res) {
     usuarioController.buscarUsuarioPorId(req, res);
 });
 
-
-
-
-
-
-
+router.get('/exportarCSV', usuarioController.exportarCSV);
 
 module.exports = router;

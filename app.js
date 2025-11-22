@@ -20,11 +20,6 @@ var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
 
 
-
-
-
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public",)));
@@ -34,7 +29,7 @@ app.use(cors());
 // ** ROTAS CONFIGURADAS COM PREFIXO /api **
 app.use("/api/usuarios", usuarioRouter);
 app.use("/api/dashboard", dashboardRouter);
-app.use("/salas", salaRoutes);
+app.use("/api/salas", salaRoutes);
 app.use("/maquinas", maquinasRouter);
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas

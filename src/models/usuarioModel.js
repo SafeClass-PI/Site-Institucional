@@ -178,7 +178,7 @@ function buscarGestorPorUsuario(idUsuario) {
     });
 }
 
-function buscarTodos() {
+function buscarTodos(limite = 8, offset = 0) {
     var instrucaoSql = `
         SELECT 
             u.idUsuario,
@@ -190,11 +190,12 @@ function buscarTodos() {
         FROM usuario AS u
         JOIN cargo AS c ON u.fkCargo = c.idCargo
         WHERE status NOT LIKE 'PENDENTE'
-        ORDER BY u.dtCadastro DESC;
+        ORDER BY u.idUsuario DESC
+        LIMIT ? OFFSET ?;
     `;
 
     console.log("Executando SQL para buscar todos os usuários:\n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executarComParametros(instrucaoSql, [limite, offset]);
 }
 
 function deletar(idUsuario) {

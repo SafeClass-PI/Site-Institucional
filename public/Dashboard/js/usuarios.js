@@ -7,7 +7,12 @@ function carregarInfos() {
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
     quantidadeSolicitacoes();
+    listarUsuarios();
 }
+
+document.getElementById("exportarDados").addEventListener("click", () => {
+    window.location.href = "/api/usuarios/exportarCSV";
+});
 
 let usuarioEditandoId = null;
 
@@ -26,23 +31,13 @@ function confirmarSairDaPagina() {
     window.location.href = '../index.html'
 }
 
-
-// ======================================================================
-// REFERÊNCIAS GLOBAIS (Certifique-se que estão definidas no seu escopo)
-// ======================================================================
 const telaOverlay = document.getElementById('telaOverlay');
 const modalDeletarUsuario = document.getElementById('modalDeletarUsuario');
 const modalSolicitacoes = document.getElementById('modalSolicitacoes');
 const modalAdicionarUser = document.getElementById('modalAdicionarUser'); // Adicionado
 const modalEditarUsuario = document.getElementById('modalEditarUsuario'); // Adicionado
 
-// Referência ao <tbody> DENTRO do modal de solicitações
 const tbodySolicitacoes = modalSolicitacoes ? modalSolicitacoes.querySelector('tbody') : null;
-
-
-// ======================================================================
-// FUNÇÕES EXISTENTES E DE GESTÃO BÁSICA
-// ======================================================================
 
 function adicionarUsuario() {
     telaOverlay.style.display = 'block'
@@ -341,9 +336,13 @@ function efetuarCriacaoUserGestor() {
     }
 }
 
-async function listarUsuarios() {
+let paginaAtual = 1;
+const limite = 5;
+
+async function listarUsuarios(pagina = 1) {
     try {
-        const resposta = await fetch("/api/usuarios", { cache: "no-store" });
+        paginaAtual = pagina;
+        const resposta = await fetch(`/api/usuarios?pagina=${pagina}&limite=${limite}`, { cache: "no-store" });
         const usuarios = await resposta.json();
 
         const tbody = document.getElementById("tabelaUsuarios");
@@ -374,10 +373,36 @@ async function listarUsuarios() {
 
             tbody.appendChild(tr);
         });
+
+        atualizarBotoesPaginacao();
+
     } catch (erro) {
         console.error("Erro ao listar usuários:", erro);
     }
 }
+
+setInterval(() => listarUsuarios(paginaAtual), 2000);
+
+function atualizarBotoesPaginacao() {
+    const btnPrev = document.querySelector(".prev");
+    const btnNext = document.querySelector(".next");
+    const paginas = document.querySelectorAll(".pagina");
+
+    btnPrev.disabled = paginaAtual === 1;
+
+    const totalPaginas = paginas.length;
+    btnNext.disabled = paginaAtual === totalPaginas;
+
+    paginas.forEach((btn, index) => {
+        btn.classList.toggle("ativa", index + 1 === paginaAtual);
+        btn.onclick = () => listarUsuarios(index + 1);
+    });
+
+    btnPrev.onclick = () => listarUsuarios(paginaAtual - 1);
+    btnNext.onclick = () => listarUsuarios(paginaAtual + 1);
+}
+
+listarUsuarios();
 
 function formatarData(dataISO) {
     const data = new Date(dataISO);
@@ -386,8 +411,6 @@ function formatarData(dataISO) {
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
 }
-
-window.onload = listarUsuarios;
 
 function deletarUsuario(idUsuario) {
     if (!confirm("Tem certeza que deseja deletar este usuário?")) return;

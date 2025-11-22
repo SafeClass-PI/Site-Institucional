@@ -558,13 +558,18 @@ body {
     border: 2px solid rgb(231, 231, 231);
     cursor: pointer;
     background-color: #ededed;
+    transition: 0.2s ease-in-out all;
 }
+
+#exportarDados:hover {
+    transform: scale(1.02);
+}
+
 
 #exportarDados p {
     font-weight: 500;
     color: #454545;
 }
-
 
 .filtros-usuarios {
     width: 100%;
@@ -815,7 +820,7 @@ body {
     margin-top: 1%;
 }
 
-.lista-usuarios table { 
+.lista-usuarios table {
     width: 95%;
     height: 100%;
     text-align: center;

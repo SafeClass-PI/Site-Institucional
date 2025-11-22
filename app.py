@@ -8,7 +8,7 @@ def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Felipzp123@",  
+        password="17342017",  
         database="safeclass"
     )
 
@@ -59,7 +59,7 @@ def desligar():
         # Atualiza status no banco
         conexao = get_db_connection()
         cursor = conexao.cursor()
-        cursor.execute("UPDATE Maquina SET status = %s WHERE idMaquina = %s", ("desligada", id_maquina))
+        cursor.execute("UPDATE Maquina SET estado = %s WHERE idMaquina = %s", ("desligada", id_maquina))
         conexao.commit()
         cursor.close()
         conexao.close()

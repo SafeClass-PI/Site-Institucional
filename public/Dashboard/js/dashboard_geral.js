@@ -75,6 +75,16 @@ function maquinaMaisCritica() {
 
 
                 vt_dados = resposta;
+
+                
+                if (!vt_dados || vt_dados.length === 0) {
+                    modal = document.getElementById('modal-maquina-critica');
+                    kpiMaquinaMaisCritica.style.fontSize = '17px';
+                    modal.style.display = 'none';
+                    kpiMaquinaMaisCritica.innerHTML = `Sem criticidade!`;
+                    return;
+                }
+
                 kpiMaquinaMaisCritica.innerHTML = `${vt_dados[0].maquina}`;
                 modalNomeMaquinaMaisCritica.innerHTML = `${vt_dados[0].maquina}`;
                 modalLocalizacaoMaquinaMaisCritica.innerHTML = `${vt_dados[0].localizacao}`;
@@ -253,6 +263,18 @@ async function listarUltimosAlertas() {
         const painel = document.getElementById("alertas");
         painel.innerHTML = "";
 
+        if (!alertas || alertas.length === 0) {
+            const card = document.createElement("div");
+            card.classList.add("card-alerta", "sem-alertas");
+            card.style.marginTop = '50%';
+            card.innerHTML = `
+                <p style="width:100%; text-align:center; margin-top: 25px; font-weight: 500;">Sem alertas recentes!</p>
+            `;
+
+            painel.appendChild(card);
+            return;
+        }
+
         alertas.forEach(alerta => {
             const card = document.createElement("div");
             card.classList.add("card-alerta");
@@ -264,7 +286,6 @@ async function listarUltimosAlertas() {
                         ? "fa-solid fa-triangle-exclamation"
                         : "";
 
-        
             card.innerHTML = `
                 <div class="icone-card-alerta">
                     <i class="${nivel}"></i>

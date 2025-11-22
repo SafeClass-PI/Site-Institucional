@@ -85,7 +85,7 @@
 }
 
 
-.status-maquina{
+.status-maquina {
     width: 100%;
     height: 5%;
     display: flex;
@@ -105,7 +105,8 @@
     display: flex;
 }
 
-#status-maquina, #maquina-1 {
+#status-maquina,
+#maquina-1 {
     color: var(--cor-estavel);
     font-weight: 650;
 }
@@ -115,7 +116,8 @@
     font-weight: 650;
 }
 
-.line-status, .line-maquina-1 {
+.line-status,
+.line-maquina-1 {
     width: 34%;
     height: 65%;
     background: var(--cor-estavel);
@@ -337,6 +339,22 @@
     font-weight: 500;
 }
 
+
+#pSala {
+    margin-right: 8%;
+}
+
+#select_salas {
+    width: 75%;
+    height: 73%;
+    border-radius: 10px;
+    border: 2px solid rgb(224, 224, 224);
+    text-align: center;
+    font-weight: 500;
+    margin-right: 20px;
+    margin-top: 13px;
+}
+
 .campos-capacidade-maquina {
     margin-top: 3%;
     width: 100%;
@@ -550,7 +568,7 @@
 
 .input-campo input {
     width: 90%;
-    height: 66%;
+    height: 56%;
     border-radius: 10px;
     border: 2px solid rgb(224, 224, 224);
     text-align: center;
@@ -558,7 +576,7 @@
 
 .select-campo select {
     width: 90%;
-    height: 66%;
+    height: 56%;
     border-radius: 10px;
     border: 2px solid rgb(224, 224, 224);
     text-align: center;

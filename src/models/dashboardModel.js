@@ -2,20 +2,9 @@ var database = require("../databases/config")
 
 function qtdMaquinasLigadas() {
     var instrucaoSql = `
-    SELECT 
-    COUNT(DISTINCT CASE 
-        WHEN ultCaptura.ultima >= NOW() - INTERVAL 2 SECOND THEN M.idMaquina
-    END) AS maquinasLigadas,
-    COUNT(DISTINCT M.idMaquina) AS totalMaquinas
-    FROM Maquina M
-    LEFT JOIN Componente C
-        ON M.idMaquina = C.fkMaquina
-    LEFT JOIN (
-        SELECT fkComponente, MAX(dtCaptura) AS ultima
-        FROM Captura
-        GROUP BY fkComponente
-    ) AS ultCaptura
-    ON C.idComponente = ultCaptura.fkComponente;
+    SELECT COUNT(CASE
+    WHEN m.estado LIKE 'Ligada' THEN 1 END) AS maquinasLigadas, COUNT(m.idMaquina) AS totalMaquinas
+    FROM Maquina AS m;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -165,7 +154,54 @@ function listarUltimosAlertas() {
 
 /* --------------- MÁQUINA ESPECIFICA -------------------- */
 
-function kpiStatusMaquina() {
+function listarSalasMaquina() {
+    var instrucaoSql = `
+    SELECT idSala AS identificacao
+    FROM Sala;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function listarMaquinas(idSala) {
+    var instrucaoSql = `
+    SELECT idMaquina AS maquina FROM Maquina
+    WHERE fkSala = ${idSala};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function carregarComponentes(idMaquina) {
+    var instrucaoSql = `
+   SELECT co.idComponente AS id, co.nome AS nome 
+    FROM Componente AS co
+    WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'Upload' AND nome NOT LIKE 'Download'
+    ORDER BY id DESC
+    LIMIT 3;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function carregarComponentesRede(idMaquina) {
+     var instrucaoSql = `
+        SELECT co.idComponente AS id, co.nome AS nome 
+        FROM Componente AS co
+        WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'CPU' AND nome NOT LIKE 'RAM' AND nome NOT LIKE 'Disco'
+        ORDER BY id DESC
+        LIMIT 2;
+        `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+function kpiStatusMaquina(idMaquina) {
     var instrucaoSql = `
         SELECT
         CASE
@@ -193,14 +229,14 @@ function kpiStatusMaquina() {
             )
         LEFT JOIN Parametro pcrit ON pcrit.fkComponente = c.idComponente AND pcrit.nivel = 'Crítico'
         LEFT JOIN Parametro pate ON pate.fkComponente = c.idComponente AND pate.nivel = 'Atenção'
-        WHERE c.fkMaquina = 1;
+        WHERE c.fkMaquina = ${idMaquina};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function kpiUptimeMaquina() {
+function kpiUptimeMaquina(idMaquina) {
     var instrucaoSql = `
         SELECT COUNT(c.idCaptura) AS totalCapturas, COUNT(a.idAlerta) AS totalAlertas,
             ROUND(
@@ -212,21 +248,21 @@ function kpiUptimeMaquina() {
         ON co.idComponente = c.fkComponente
         JOIN maquina AS m
         ON m.idMaquina = co.fkMaquina
-        WHERE m.idMaquina = 1 AND DATE(c.dtCaptura) = CURDATE();
+        WHERE m.idMaquina = ${idMaquina} AND DATE(c.dtCaptura) = CURDATE();
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function kpiTaxaMaisCritica() {
+function kpiTaxaMaisCritica(idMaquina) {
     var instrucaoSql = `
         SELECT co.nome AS componente, MAX(ROUND(ca.registro, 1)) AS registro, co.formatacao AS formatacao, DATE_FORMAT(MAX(ca.dtCaptura), '%H:%i') AS hora
         FROM Captura AS ca
         JOIN Alerta AS a ON a.fkCaptura = ca.idCaptura
         JOIN Componente AS co ON co.idComponente = ca.fkComponente
         JOIN Maquina AS m ON m.idMaquina = co.fkMaquina
-        WHERE m.idMaquina = 2 AND DATE(ca.dtCaptura) = CURDATE()
+        WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE()
         GROUP BY co.nome, co.formatacao
         LIMIT 1;
     `;
@@ -235,7 +271,7 @@ function kpiTaxaMaisCritica() {
     return database.executar(instrucaoSql);
 }
 
-function kpiQtdAlertasMaquina() {
+function kpiQtdAlertasMaquina(idMaquina) {
     var instrucaoSql = `
        SELECT COUNT(a.idAlerta) AS qtdAlerta
         FROM Alerta AS a
@@ -245,14 +281,14 @@ function kpiQtdAlertasMaquina() {
         ON c.idComponente = ca.fkComponente
         JOIN Maquina AS m
         ON m.idMaquina = c.fkMaquina
-        WHERE m.idMaquina = 1 AND DATE(ca.dtCaptura) = CURDATE();
+        WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE();
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function listarUltimosAlertasMaquina() {
+function listarUltimosAlertasMaquina(idMaquina) {
     var instrucaoSql = `
     SELECT m.idMaquina AS identificacao, c.nome as comp, ROUND(ca.registro, 1) AS registro, c.formatacao, p.nivel, m.fkSala AS sala, ca.dtCaptura AS hora FROM Alerta AS a
     JOIN Captura AS ca
@@ -263,7 +299,7 @@ function listarUltimosAlertasMaquina() {
     ON m.idMaquina = c.fkMaquina
     JOIN Parametro AS p
     ON p.idParametro = a.fkParametro
-    WHERE m.idMaquina = 2 AND DATE(ca.dtCaptura) = CURDATE()
+    WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE()
     ORDER BY ca.dtCaptura DESC; 
     `;
 
@@ -271,7 +307,7 @@ function listarUltimosAlertasMaquina() {
     return database.executar(instrucaoSql);
 }
 
-function monitoramentoComponente(idComponente) {
+function monitoramentoComponente(idComponente, idMaquina) {
     var instrucaoSql = `
         SELECT 
             co.nome AS componente, 
@@ -280,7 +316,7 @@ function monitoramentoComponente(idComponente) {
         FROM captura AS ca
         JOIN componente AS co
             ON co.idcomponente = ca.fkcomponente
-        WHERE co.idcomponente = ${idComponente}
+        WHERE co.idcomponente = ${idComponente} AND co.fkMaquina = ${idMaquina}
         ORDER BY dtcaptura DESC
         LIMIT 8;
     `;
@@ -289,7 +325,7 @@ function monitoramentoComponente(idComponente) {
     return database.executar(instrucaoSql);
 }
 
-function monitoramentoComponenteTempoReal(idComponente) {
+function monitoramentoComponenteTempoReal(idComponente, idMaquina) {
     var instrucaoSql = `
         SELECT 
             co.nome AS componente, 
@@ -298,7 +334,7 @@ function monitoramentoComponenteTempoReal(idComponente) {
         FROM captura AS ca
         JOIN componente AS co
             ON co.idcomponente = ca.fkcomponente
-        WHERE co.idcomponente = ${idComponente}
+        WHERE co.idcomponente = ${idComponente} AND co.fkMaquina = ${idMaquina}
         ORDER BY dtcaptura DESC
         LIMIT 1;
     `;
@@ -308,7 +344,7 @@ function monitoramentoComponenteTempoReal(idComponente) {
 }
 
 
-function monitoramentoComponenteRede(idComponenteRede) {
+function monitoramentoComponenteRede(idComponenteRede, idMaquina) {
     var instrucaoSql = `
         SELECT 
             co.nome AS componente, 
@@ -317,7 +353,7 @@ function monitoramentoComponenteRede(idComponenteRede) {
         FROM captura AS ca
         JOIN componente AS co
             ON co.idcomponente = ca.fkcomponente
-        WHERE co.idcomponente = ${idComponenteRede}
+        WHERE co.idcomponente = ${idComponenteRede} AND co.fkMaquina = ${idMaquina}
         ORDER BY dtcaptura DESC
         LIMIT 6;
     `;
@@ -326,7 +362,7 @@ function monitoramentoComponenteRede(idComponenteRede) {
     return database.executar(instrucaoSql);
 }
 
-function monitoramentoComponenteRedeTempoReal(idComponenteRede) {
+function monitoramentoComponenteRedeTempoReal(idComponenteRede, idMaquina) {
     var instrucaoSql = `
         SELECT 
             co.nome AS componente, 
@@ -335,7 +371,7 @@ function monitoramentoComponenteRedeTempoReal(idComponenteRede) {
         FROM captura AS ca
         JOIN componente AS co
             ON co.idcomponente = ca.fkcomponente
-        WHERE co.idcomponente = ${idComponenteRede}
+        WHERE co.idcomponente = ${idComponenteRede} AND co.fkMaquina = ${idMaquina}
         ORDER BY dtcaptura DESC
         LIMIT 1;
     `;
@@ -344,7 +380,7 @@ function monitoramentoComponenteRedeTempoReal(idComponenteRede) {
     return database.executar(instrucaoSql);
 }
 
-function graficoDisponibilidade() {
+function graficoDisponibilidade(idMaquina) {
     var instrucaoSql = `
         SELECT COUNT(a.idAlerta) AS totalAlertas, (COUNT(c.idCaptura) -  COUNT(a.idAlerta)) AS capturasEstaveis
         FROM captura AS c
@@ -354,14 +390,14 @@ function graficoDisponibilidade() {
         ON co.idComponente = c.fkComponente
         JOIN maquina AS m
         ON m.idMaquina = co.fkMaquina
-        WHERE m.idMaquina = 1 AND DATE(c.dtCaptura) = CURDATE();
+        WHERE m.idMaquina = ${idMaquina} AND DATE(c.dtCaptura) = CURDATE();
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function graficoFalhasPorComponente() {
+function graficoFalhasPorComponente(idMaquina) {
     var instrucaoSql = `
         SELECT c.nome AS componente, COUNT(a.idAlerta) AS quantidade 
         FROM Alerta AS a
@@ -371,7 +407,7 @@ function graficoFalhasPorComponente() {
         ON c.idComponente = ca.fkComponente
         JOIN maquina AS m
         ON m.idMaquina = c.fkMaquina
-        WHERE m.idMaquina = 1 AND DATE(ca.dtCaptura) = CURDATE() AND c.nome NOT LIKE 'Upload' AND c.nome NOT LIKE 'Download'
+        WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE() AND c.nome NOT LIKE 'Upload' AND c.nome NOT LIKE 'Download'
         GROUP BY c.nome;
     `;
 
@@ -380,6 +416,8 @@ function graficoFalhasPorComponente() {
 }
 
 module.exports = {
+    listarSalasMaquina,
+    listarMaquinas,
     qtdMaquinasLigadas,
     taxaUptimeEscola,
     maquinaMaisCritica,
@@ -387,6 +425,8 @@ module.exports = {
     listarSalas,
     mostrarMaquinas,
     listarUltimosAlertas,
+    carregarComponentes,
+    carregarComponentesRede,
     kpiStatusMaquina,
     kpiUptimeMaquina,
     kpiTaxaMaisCritica,
