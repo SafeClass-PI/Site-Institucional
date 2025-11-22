@@ -87,99 +87,9 @@
                         <button id="exportarDados">
                             <p>Exportar CSV</p>
                         </button>
-                        <div class="modal-adicionar-user" id="modalAdicionarUser">
-                            <div class="titulo-modal-adicionar-user">
-                                <p>Criar Alerta</p>
-                            </div>
-                            <div class="infos-modal-adicionar-user">
-                                <div class="infos-input">
-                                    <div class="titulo-campo">
-                                        <p>Identificação</p>
-                                    </div>
-                                    <div class="input-campo">
-                                        <input type="text" placeholder="Digite o número" id="nomeNovoUser">
-                                    </div>
-                                </div>
-                                <div class="infos-input">
-                                    <div class="titulo-campo">
-                                        <p>Componente</p>
-                                    </div>
-                                    <div class="select-campo">
-                                        <select>
-                                            <option value="ativo">CPU</option>
-                                            <option value="ativo">Memória RAM</option>
-                                            <option value="ativo">Disco</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="infos-input">
-                                    <div class="titulo-campo">
-                                        <p>Descrição</p>
-                                    </div>
-                                    <div class="input-campo">
-                                        <input type="text" placeholder="Descreva o alerta">
-                                    </div>
-                                </div>
-                                <div class="infos-input">
-                                    <div class="titulo-campo">
-                                        <p>Status</p>
-                                    </div>
-                                    <div class="select-campo">
-                                        <select>
-                                            <option value="ativo">Crítico</option>
-                                            <option value="ativo">Atenção</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="infos-input">
-                                    <div class="titulo-campo">
-                                        <p>Localização</p>
-                                    </div>
-                                    <div class="select-campo">
-                                        <select id="cargoNovoUser">
-                                            <option value="1">Sala 1</option>
-                                            <option value="2">Sala 2</option>
-                                            <option value="3">Sala 3</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="infos-input">
-                                    <div class="titulo-campo">
-                                        <p>Data/Hora</p>
-                                    </div>
-                                    <div class="input-campo">
-                                        <input type="datetime-local" name="dataHoraAlerta" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="btns-modal-adicionar-user">
-                                <button onclick="cancelarAdicionarUser()">Cancelar</button>
-                                <button onclick="efetuarCriacaoUserGestor()">Criar</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="filtros-usuarios">
-                    <div class="filtros">
-                        <div class="select-com-icone">
-                            <i class="fa fa-filter"></i>
-                            <select>
-                                <option value="" disabled selected>
-                                    <p>Filtros</p>
-                                </option>
-                                <option value="2">Ativos</option>
-                                <option value="2">Inativos</option>
-                                <option value="2">Gestores</option>
-                                <option value="2">Técnicos</option>
-                            </select>
-                        </div>
-                        <div class="campo-pesquisa">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Pesquisar..." />
-                        </div>
-                    </div>
-                </div>
-                <div class="lista-usuarios">
+                <div class="lista-usuarios" id="painelAlertas">
                     <table>
                         <colgroup>
                             <col style="width: 16%;">
@@ -199,7 +109,43 @@
                                 <th>Data/Hora</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbodyAlertas">
+                            <tr>
+                                <td>
+                                    <p>Máquina 1</p>
+                                </td>
+                                <td>
+                                    <p>Disco</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 93%</p>
+                                </td>
+                                <td><span class="status-inativo">Crítico</span></td>
+                                <td>
+                                    <p>Sala 1</p>
+                                </td>
+                                <td>
+                                    <p>25/10/2025 17:30</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Máquina 1</p>
+                                </td>
+                                <td>
+                                    <p>Disco</p>
+                                </td>
+                                <td>
+                                    <p>Uso acima de 93%</p>
+                                </td>
+                                <td><span class="status-inativo">Crítico</span></td>
+                                <td>
+                                    <p>Sala 1</p>
+                                </td>
+                                <td>
+                                    <p>25/10/2025 17:30</p>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <p>Máquina 1</p>
@@ -310,7 +256,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="paginacao">
+                    <div class="paginacao" id="paginasAlertas">
                         <button class="prev" disabled>
                             < Anterior </button>
                                 <button class="pagina ativa">1</button>

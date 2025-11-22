@@ -551,6 +551,12 @@ body {
     border: 2px solid rgb(231, 231, 231);
     cursor: pointer;
     background-color: #ededed;
+    transition: 0.2s ease-in-out all;
+}
+
+#exportarDados:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.185);
 }
 
 #exportarDados p {
@@ -651,12 +657,11 @@ body {
 
 .lista-usuarios {
     width: 100%;
-    height: 73%;
+    height: 82%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 1%;
 }
 
 .lista-usuarios table {
@@ -675,8 +680,8 @@ body {
 }
 
 .usuario-info p {
-  margin: 0;
-  font-size: 13px;
+    margin: 0;
+    font-size: 13px;
 }
 
 .lista-usuarios table td,
@@ -713,10 +718,11 @@ body {
 .status-inativo {
     background-color: var(--cor-critico);
     color: white;
-    padding-left: 8%;
-    padding-right: 8%;
+    padding-left: 7%;
+    padding-right: 7%;
     font-weight: 550;
     border-radius: 6px;
+    font-size: 12px;
 }
 
 .status-atencao {
@@ -726,6 +732,7 @@ body {
     padding-right: 4%;
     font-weight: 550;
     border-radius: 6px;
+    font-size: 12px;
 }
 
 
@@ -745,7 +752,7 @@ td span {
 
 .paginacao {
     width: 100%;
-    height: 8%;
+    height: 7%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -755,7 +762,7 @@ td span {
 }
 
 .paginacao button {
-    padding: 5px 10px;
+    padding: 1px 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #fff;
