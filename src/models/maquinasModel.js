@@ -15,14 +15,23 @@ function listar() {
 }
 
 async function cadastrarMaquinaComComponentes(sala, so, ip, username, senha, disco, ram, cpu) {
-    const instrucaoMaquina = `
-        INSERT INTO maquina (fkSala, sistemaOperacional, ip, username, senha)
-        VALUES (?, ?, ?, ?, ?);
-    `;
-    const resultadoMaquina = await database.executarComParametros(instrucaoMaquina, [sala, so, ip, username, senha]);
+    const statusPadrao = "Ligada"; // estado padrão
 
-    const fkMaquina = resultadoMaquina.insertId; 
-    
+    // Inserir a máquina
+    const instrucaoMaquina = `
+        INSERT INTO maquina (fkSala, sistemaOperacional, ip, username, senha, estado)
+        VALUES (?, ?, ?, ?, ?, ?);
+    `;
+
+    // Passa todos os parâmetros, incluindo o estado
+    const resultadoMaquina = await database.executarComParametros(
+        instrucaoMaquina,
+        [sala, so, ip, username, senha, statusPadrao]
+    );
+
+    const fkMaquina = resultadoMaquina.insertId; // pega o ID da máquina cadastrada
+
+    // Inserir os componentes da máquina
     const instrucaoComponente = `
         INSERT INTO Componente (fkMaquina, nome, formatacao, capacidade)
         VALUES (?, ?, ?, ?);
@@ -32,7 +41,7 @@ async function cadastrarMaquinaComComponentes(sala, so, ip, username, senha, dis
     await database.executarComParametros(instrucaoComponente, [fkMaquina, "Memória RAM", "GB", ram]);
     await database.executarComParametros(instrucaoComponente, [fkMaquina, "Processador", "%", cpu]);
 
-    return fkMaquina;
+    return fkMaquina; // retorna o ID da máquina cadastrada
 }
 function listarMaquinas(limite = 8, offset = 0) {
     const instrucaoSql = `
