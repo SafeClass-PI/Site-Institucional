@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,7 +86,7 @@
                 <div class="profile-icone">
                     <a href="perfil.html">
                         <div class="profile-img">
-                            <img src="imgs/profile-default.webp">
+                            <img id="imgPerfil" src="imgs/profile-default.webp">
                         </div>
                         <p id="nome-usuario-pagina"></p>
                     </a>
@@ -100,7 +101,9 @@
                         <div class="foto-perfil">
                             <div class="imagem-foto-perfil">
                                 <img id="previewFoto" src="imgs/profile-default.webp" alt="Foto de perfil">
-                                <button onclick="editarImagem()"><i class="fa-solid fa-pencil"></i></button>
+                                <button id="btnEditar">
+                                    <i id="iconeEditar" class="fa-solid fa-pencil"></i>
+                                </button>
                             </div>
                             <p id="campoNome2">Ryan Patric</p>
                             <p id="campoCargo2">Analista</p>

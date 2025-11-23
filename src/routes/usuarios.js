@@ -1,5 +1,7 @@
-var express = require("express");
-var router = express.Router();
+const express = require('express');
+const multer = require('multer');
+const router = express.Router();
+const usuarioModel = require('../models/usuarioModel.js'); 
 
 var usuarioController = require("../controllers/usuarioController");
 
@@ -76,5 +78,25 @@ router.get('/usuario/:id', function (req, res) {
 });
 
 router.get('/exportarCSV', usuarioController.exportarCSV);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // pasta dentro do projeto
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + '-' + file.originalname;
+    cb(null, uniqueName);
+  }
+});
+
+const upload = multer({ storage });
+
+router.post('/uploadFoto/:id', upload.single('foto'), usuarioController.uploadFoto);
+
+router.get('/preencherFotoPerfil/:id', function (req, res) {
+    usuarioController.preencherFotoPerfil(req, res);
+});
+
+
 
 module.exports = router;

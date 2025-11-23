@@ -186,7 +186,8 @@ function buscarTodos(limite = 8, offset = 0) {
             u.email,
             c.nome AS cargo,
             u.dtCadastro,
-            UPPER(u.status) AS status
+            UPPER(u.status) AS status,
+            u.imagemPerfil AS imagem
         FROM usuario AS u
         JOIN cargo AS c ON u.fkCargo = c.idCargo
         WHERE status NOT LIKE 'PENDENTE'
@@ -217,6 +218,25 @@ function atualizarUsuario(idUsuario, nome, email, cargo, status) {
     return database.executar(instrucaoSql);
 }
 
+function uploadFoto(idUsuario, caminhoImagem) {
+    const instrucaoSql = `
+        UPDATE Usuario 
+        SET imagemPerfil = '${caminhoImagem}'
+        WHERE idUsuario = ${idUsuario};
+    `;
+    console.log("Executando SQL para atualizar usuário:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function preencherFotoPerfil(idUsuario) {
+    const instrucaoSql = `
+       select imagemPerfil AS imagem from usuario
+        where idUsuario = ${idUsuario};
+    `;
+    console.log("Executando SQL para atualizar usuário:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -232,5 +252,7 @@ module.exports = {
     buscarGestorPorUsuario,
     buscarTodos,
     deletar,
-    atualizarUsuario
+    atualizarUsuario,
+    uploadFoto,
+    preencherFotoPerfil
 };

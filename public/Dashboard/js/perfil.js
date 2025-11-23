@@ -5,6 +5,19 @@ document.addEventListener("DOMContentLoaded", function () {
 function carregarInfos() {
   var usuario = document.getElementById('nome-usuario-pagina');
   usuario.innerText = sessionStorage.NOME_USUARIO;
+
+  var imgPerfil = document.getElementById('imgPerfil');
+  var imgInfos = document.getElementById('previewFoto');
+
+  if (imgPerfil) {
+    if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+      imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+      imgInfos.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+    } else {
+      imgPerfil.src = 'imgs/profile-default.webp';
+      imgInfos.src = 'imgs/profile-default.webp';
+    }
+  }
 }
 
 function sairDaPagina() {
@@ -21,8 +34,23 @@ function confirmarSairDaPagina() {
   window.location.href = '../index.html'
 }
 
+const btnEditar = document.getElementById('btnEditar');
+const iconeEditar = document.getElementById('iconeEditar');
+const previewFoto = document.getElementById('previewFoto');
 
-function editarImagem() {
+let novaImagem = null;
+
+btnEditar.addEventListener('click', () => {
+  if (iconeEditar.classList.contains('fa-pencil')) {
+    selecionarImagem();
+  }
+  
+  else if (iconeEditar.classList.contains('fa-check')) {
+    salvarImagem();
+  }
+});
+
+function selecionarImagem() {
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
@@ -30,32 +58,52 @@ function editarImagem() {
   input.onchange = () => {
     const file = input.files[0];
     if (file) {
+      novaImagem = file;
+
       const reader = new FileReader();
       reader.onload = function (e) {
-        const preview = document.getElementById('previewFoto');
-        if (preview) {
-          preview.src = e.target.result;
-        }
+        previewFoto.src = e.target.result;
       };
       reader.readAsDataURL(file);
 
-      salvarImagem(file);
+      iconeEditar.classList.remove('fa-pencil');
+      iconeEditar.classList.add('fa-check');
     }
   };
+
   input.click();
 }
 
-function salvarImagem(file) {
-  const formData = new FormData();
-  formData.append('foto', file);
+function salvarImagem() {
+  if (!novaImagem) return;
 
-  fetch('/api/usuarios/uploadFoto', {
+  const idUsuario = sessionStorage.ID_USUARIO;
+
+  if (!idUsuario) {
+    alert('Usuário não logado ou ID inválido!');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('foto', novaImagem);
+
+  fetch(`/api/usuarios/uploadFoto/${idUsuario}`, {
     method: 'POST',
     body: formData
   })
     .then(res => res.json())
     .then(data => {
-      console.log('Imagem salva com sucesso:', data.caminhoImagem);
+      if (data.success) {
+        sessionStorage.setItem('IMAGEM_USUARIO', data.nomeArquivo);
+        alert('Imagem salva com sucesso!');
+        iconeEditar.classList.remove('fa-check');
+        iconeEditar.classList.add('fa-pencil');
+        novaImagem = null;
+
+        window.location.reload();
+      } else {
+        alert('Erro ao salvar imagem.');
+      }
     })
     .catch(err => console.error('Erro ao salvar imagem:', err));
 }

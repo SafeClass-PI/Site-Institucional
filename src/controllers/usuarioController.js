@@ -395,8 +395,40 @@ async function exportarCSV(req, res) {
     }
 }
 
+const uploadFoto = async (req, res) => {
+    try {
+        const idUsuario = req.params.id;
 
+        if (!idUsuario) {
+            return res.status(400).json({ success: false, message: 'ID do usuário inválido.' });
+        }
 
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'Nenhum arquivo enviado.' });
+        }
+
+        const caminhoImagem = req.file.filename;
+
+        // Atualiza o nome da imagem no banco
+        const resultado = await usuarioModel.uploadFoto(idUsuario, caminhoImagem);
+
+        // Verifica se algum registro foi alterado
+        if (resultado.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
+        }
+
+        // Retorna sucesso para o frontend
+        return res.json({ success: true, nomeArquivo: caminhoImagem });
+
+    } catch (erro) {
+        console.error('Erro no controller uploadFoto:', erro);
+        res.status(500).json({ success: false, message: 'Erro ao salvar imagem.' });
+    }
+};
+
+function preencherFotoPerfil(req, res) {
+
+}
 
 export {
     autenticar,
@@ -413,6 +445,7 @@ export {
     atualizarUsuario,
     efetuarEdicaoUser,
     buscarUsuarioPorId,
-    exportarCSV
+    exportarCSV,
+    uploadFoto
 };
 

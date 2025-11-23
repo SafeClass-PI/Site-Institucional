@@ -86,9 +86,15 @@
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.16);
 }
 
+.imagem-foto-perfil button:hover i {
+   transform: scale(1.1);
+   color: rgb(47, 47, 47); /* opcional */
+}
+
 .imagem-foto-perfil button i {
     color: grey;
     font-size: 12px;
+    transition: 0.2s ease-in-out all;
 }
 
 .foto-perfil p:nth-of-type(1) {
@@ -284,5 +290,9 @@
     background-color: rgb(47, 47, 47);
     color: #e0e0e0;
 }
- 
- 
+
+#iconeEditar.fa-check {
+    font-size: 15px;
+    font-weight: 700;
+}
+

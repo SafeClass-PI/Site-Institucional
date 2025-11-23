@@ -2,6 +2,16 @@ function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
+    var imgPerfil = document.getElementById('imgPerfil');
+
+    if (imgPerfil) {
+        if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+            imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+        } else {
+            imgPerfil.src = 'imgs/profile-default.webp';
+        }
+    }
+
     listarQtdPaginas();
     listarAlertas();
 }

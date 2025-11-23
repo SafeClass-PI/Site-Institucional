@@ -6,6 +6,16 @@ function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
+    var imgPerfil = document.getElementById('imgPerfil');
+
+    if (imgPerfil) {
+        if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+            imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+        } else {
+            imgPerfil.src = 'imgs/profile-default.webp';
+        }
+    }
+    
     quantidadeSolicitacoes();
     listarUsuarios();
 }
@@ -351,12 +361,13 @@ async function listarUsuarios(pagina = 1) {
         usuarios.forEach(u => {
             const tr = document.createElement("tr");
             const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
+            const caminhoImagem = u.imagem ? `/uploads/${u.imagem}` : `/uploads/profile-default.webp`;
 
             tr.innerHTML = `
                         <td>
                             <div class="usuario-info">
                                 <div class="imagem-perfil">
-                                    <img src="./imgs/profile-default.webp" alt="Foto de ${u.nome}">
+                                   <img src="${caminhoImagem}" alt="Foto de ${u.nomeUsuario}">
                                 </div>
                                 <p>${u.nomeUsuario}</p>
                             </div>
