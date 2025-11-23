@@ -491,3 +491,17 @@ function editarUsuario(idUsuario) {
         });
 }
 
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drop.classList.toggle('active');
+    });
+});
+
+window.addEventListener('click', () => {
+    dropdowns.forEach(drop => drop.classList.remove('active'));
+});

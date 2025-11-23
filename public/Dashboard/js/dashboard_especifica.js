@@ -632,7 +632,7 @@ function plotarGraficoRede(resposta) {
                     ticks: {
                         stepSize: parametros.maxY / 10,
                         font: {
-                            size: 11 
+                            size: 11
                         },
                         callback: function (value) {
                             return value + parametros.formato;
@@ -912,3 +912,18 @@ function cancelarSairDaPagina() {
 function confirmarSairDaPagina() {
     window.location.href = '../index.html'
 }
+
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drop.classList.toggle('active');
+    });
+});
+
+window.addEventListener('click', () => {
+    dropdowns.forEach(drop => drop.classList.remove('active'));
+});

@@ -14,7 +14,7 @@ async function listarQtdPaginas() {
     try {
         const resposta = await fetch("/api/alertas/qtdPaginas");
         const dados = await resposta.json();
-        
+
         const totalPaginas = dados[0].paginas;
 
         console.log("Total de páginas:", totalPaginas);
@@ -120,3 +120,18 @@ function atualizarBotoesPaginacao() {
 }
 
 listarAlertas();
+
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drop.classList.toggle('active');
+    });
+});
+
+window.addEventListener('click', () => {
+    dropdowns.forEach(drop => drop.classList.remove('active'));
+});

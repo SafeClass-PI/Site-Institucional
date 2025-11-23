@@ -26,10 +26,21 @@
                     <i class="fa-solid fa-chart-simple"></i>
                     <p>Painel Geral</p>
                 </a>
-                <a href="dashboard_especifica.html" class="activate">
-                    <i class="fa-solid fa-filter"></i>
-                    <p>Análise</p>
-                </a>
+                <div class="icone-links dropdown-container">
+                    <div class="dropbtn activate">
+                        <i class="fa-solid fa-filter"></i>
+                        <p>Análises</p>
+                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="dashboard_especifica.html">Desempenho Máqs.</a>
+                        <a href="individual_ryan.html">Monitoramento Rede</a>
+                        <a href="individual_bia.html">Acessos Usuários</a>
+                        <a href="individual_matheus.html">Semestre Escola</a>
+                        <a href="individual_joao.html">Visão Alertas</a>
+                        <a href="individual_felipe.html">Desempenho CPU</a>
+                    </div>
+                </div>
                 <a href="alertas.html" class="icone-links">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <p>Alertas</p>
@@ -216,7 +227,7 @@
                                 <p>Últimos Alertas</p>
                             </div>
                             <div id="alertasMaquina">
-                                
+
                             </div>
                         </div>
                         <div class="falhas-por-componente">

@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-    carregarInfos();
+  carregarInfos();
 });
 
 function carregarInfos() {
-    var usuario = document.getElementById('nome-usuario-pagina');
-    usuario.innerText = sessionStorage.NOME_USUARIO;
+  var usuario = document.getElementById('nome-usuario-pagina');
+  usuario.innerText = sessionStorage.NOME_USUARIO;
 }
 
 function sairDaPagina() {
@@ -39,7 +39,7 @@ function editarImagem() {
       };
       reader.readAsDataURL(file);
 
-      salvarImagem(file); 
+      salvarImagem(file);
     }
   };
   input.click();
@@ -110,7 +110,7 @@ function limparInputsAlterarSenha() {
 function preencherDadosPerfil() {
   const campoNome = document.getElementById("campoNome");
   const campoNome2 = document.getElementById("campoNome2");
-  const campoCargo= document.getElementById("campoCargo");
+  const campoCargo = document.getElementById("campoCargo");
   const campoCargo2 = document.getElementById("campoCargo2");
   const campoEmail = document.getElementById("campoEmail");
   const campoDataEntrada = document.getElementById("campoDataEntrada");
@@ -158,4 +158,19 @@ window.addEventListener('DOMContentLoaded', () => {
     painelSenha.style.pointerEvents = 'auto';
     painelSenha.style.position = 'relative';
   }
+});
+
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+  const btn = drop.querySelector('.dropbtn');
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    drop.classList.toggle('active');
+  });
+});
+
+window.addEventListener('click', () => {
+  dropdowns.forEach(drop => drop.classList.remove('active'));
 });
