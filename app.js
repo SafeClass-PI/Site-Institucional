@@ -18,11 +18,14 @@ var usuarioRouter = require("./src/routes/usuarios");
 var dashboardRouter = require("./src/routes/dashboard");
 var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
+var alertasRouter = require("./src/routes/alertas");
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public",)));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 app.use(cors());
 
@@ -31,6 +34,7 @@ app.use("/api/usuarios", usuarioRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/salas", salaRoutes);
 app.use("/maquinas", maquinasRouter);
+app.use("/api/alertas", alertasRouter);
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);

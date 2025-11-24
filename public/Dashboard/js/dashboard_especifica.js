@@ -13,6 +13,16 @@ function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
+    var imgPerfil = document.getElementById('imgPerfil');
+
+    if (imgPerfil) {
+        if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+            imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+        } else {
+            imgPerfil.src = 'imgs/profile-default.webp';
+        }
+    }
+
     carregarSalas();
 }
 
@@ -632,7 +642,7 @@ function plotarGraficoRede(resposta) {
                     ticks: {
                         stepSize: parametros.maxY / 10,
                         font: {
-                            size: 11 
+                            size: 11
                         },
                         callback: function (value) {
                             return value + parametros.formato;
@@ -912,3 +922,18 @@ function cancelarSairDaPagina() {
 function confirmarSairDaPagina() {
     window.location.href = '../index.html'
 }
+
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drop.classList.toggle('active');
+    });
+});
+
+window.addEventListener('click', () => {
+    dropdowns.forEach(drop => drop.classList.remove('active'));
+});

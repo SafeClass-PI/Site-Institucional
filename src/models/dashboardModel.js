@@ -56,41 +56,48 @@ function qtdAlertas() {
 
 function listarSalas() {
     var instrucaoSql = `
-    WITH maquina_status AS (
-    SELECT 
-        m.fkSala,
-        CASE 
-        WHEN m.status = 'Crítico' THEN 3
-        WHEN m.status = 'Atenção' THEN 2
-        WHEN m.status = 'Estável' THEN 1
-        END AS valorStatus
-    FROM maquina AS m
-    ),
-    ordered AS (
-    SELECT 
-        fkSala,
-        valorStatus,
-        ROW_NUMBER() OVER (PARTITION BY fkSala ORDER BY valorStatus) AS rn,
-        COUNT(*) OVER (PARTITION BY fkSala) AS total
-    FROM maquina_status
-    )
-    SELECT 
-    s.idSala,
-    s.nome,
-    o.total AS qtdMaquinas,
-    CASE o.valorStatus
-        WHEN 3 THEN 'Crítico'
-        WHEN 2 THEN 'Atenção'
-        WHEN 1 THEN 'Estável'
-    END AS mediana
-    FROM sala AS s
-    JOIN ordered AS o 
-    ON o.fkSala = s.idSala
-    WHERE o.rn IN (
-    FLOOR((o.total + 1) / 2),
-    CEIL((o.total + 1) / 2)
-    )
-    GROUP BY s.idSala, s.nome, o.valorStatus, o.total;`;
+            WITH maquina_status AS (
+            SELECT 
+                m.fkSala,
+                CASE 
+                    WHEN m.status = 'Crítico' THEN 3
+                    WHEN m.status = 'Atenção' THEN 2
+                    WHEN m.status = 'Estável' THEN 1
+                END AS valorStatus
+            FROM maquina AS m
+        ),
+        ordered AS (
+            SELECT 
+                fkSala,
+                valorStatus,
+                ROW_NUMBER() OVER (PARTITION BY fkSala ORDER BY valorStatus) AS rn,
+                COUNT(*) OVER (PARTITION BY fkSala) AS total
+            FROM maquina_status
+        ),
+        mediana AS (
+            SELECT 
+                fkSala,
+            AVG(valorStatus) AS medianaValor, 
+            MAX(total) AS total
+        FROM ordered
+        WHERE rn IN (
+            FLOOR((total + 1) / 2),
+            CEIL((total + 1) / 2)
+        )
+        GROUP BY fkSala
+        )
+        SELECT 
+            s.idSala,
+            s.nome,
+            m.total AS qtdMaquinas,
+            CASE
+                WHEN m.medianaValor >= 2.5 THEN 'Crítico'
+                WHEN m.medianaValor >= 1.5 THEN 'Atenção'
+                ELSE 'Estável'
+            END AS mediana
+        FROM sala AS s
+        JOIN mediana AS m ON m.fkSala = s.idSala;
+    `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

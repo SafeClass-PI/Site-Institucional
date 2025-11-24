@@ -6,6 +6,16 @@ function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
 
+    var imgPerfil = document.getElementById('imgPerfil');
+
+    if (imgPerfil) {
+        if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+            imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+        } else {
+            imgPerfil.src = 'imgs/profile-default.webp';
+        }
+    }
+    
     quantidadeSolicitacoes();
     listarUsuarios();
 }
@@ -354,8 +364,10 @@ async function listarUsuarios(pagina = 1, busca = termoBuscaAtual, cargo = "", s
         usuarios.forEach(u => {
             const tr = document.createElement("tr");
             const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
+            const caminhoImagem = u.imagem ? `/uploads/${u.imagem}` : `/uploads/profile-default.webp`;
 
             tr.innerHTML = `
+<<<<<<< HEAD
                 <td>
                     <div class="usuario-info">
                         <div class="imagem-perfil">
@@ -373,6 +385,25 @@ async function listarUsuarios(pagina = 1, busca = termoBuscaAtual, cargo = "", s
                     <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
                 </td>
             `;
+=======
+                        <td>
+                            <div class="usuario-info">
+                                <div class="imagem-perfil">
+                                   <img src="${caminhoImagem}" alt="Foto de ${u.nomeUsuario}">
+                                </div>
+                                <p>${u.nomeUsuario}</p>
+                            </div>
+                        </td>
+                        <td><p>${u.email}</p></td>
+                        <td><p>${u.cargo}</p></td>
+                        <td><p>${formatarData(u.dtCadastro)}</p></td>
+                        <td><span class="${statusClass}">${u.status}</span></td>
+                        <td>
+                            <button onclick="editarUsuario(${u.idUsuario})"><i class="fa-solid fa-pencil"></i></button>
+                            <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    `;
+>>>>>>> 82ec9167a49ddbdf0a4ad6b18c085b22abe6a108
 
             tbody.appendChild(tr);
         });
@@ -498,6 +529,7 @@ function editarUsuario(idUsuario) {
         });
 }
 
+<<<<<<< HEAD
 document.getElementById("filtroUnico").addEventListener("change", () => {
     const valor = document.getElementById("filtroUnico").value;
 
@@ -514,3 +546,19 @@ document.getElementById("filtroUnico").addEventListener("change", () => {
 });
 
 
+=======
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drop.classList.toggle('active');
+    });
+});
+
+window.addEventListener('click', () => {
+    dropdowns.forEach(drop => drop.classList.remove('active'));
+});
+>>>>>>> 82ec9167a49ddbdf0a4ad6b18c085b22abe6a108
