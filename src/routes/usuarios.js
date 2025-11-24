@@ -55,13 +55,14 @@ router.post("/recuperar-senha", function (req, res) {
 router.put("/alterar-senha/:id", function (req, res) {
   usuarioController.alterarSenhaPerfil(req, res);
 });
-
+// rota principal de listagem com busca e paginação
 router.get("/usuarios", function (req, res) {
-    usuarioController.buscarTodos(req, res);
+    usuarioController.listarUsuarios(req, res);
 });
 
+// se quiser que a raiz "/" também liste usuários
 router.get("/", function (req, res) {
-    usuarioController.buscarTodos(req, res);
+    usuarioController.listarUsuarios(req, res);
 });
 
 router.delete("/usuario/:id", function (req, res) {

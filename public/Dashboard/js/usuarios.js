@@ -338,11 +338,14 @@ function efetuarCriacaoUserGestor() {
 
 let paginaAtual = 1;
 const limite = 5;
-
-async function listarUsuarios(pagina = 1) {
+let termoBuscaAtual = "";
+async function listarUsuarios(pagina = 1, busca = termoBuscaAtual, cargo = "", status = "") {
     try {
         paginaAtual = pagina;
-        const resposta = await fetch(`/api/usuarios?pagina=${pagina}&limite=${limite}`, { cache: "no-store" });
+        const resposta = await fetch(
+            `/api/usuarios?pagina=${pagina}&limite=${limite}&search=${encodeURIComponent(busca)}&cargo=${encodeURIComponent(cargo)}&status=${encodeURIComponent(status)}`,
+            { cache: "no-store" }
+        );
         const usuarios = await resposta.json();
 
         const tbody = document.getElementById("tabelaUsuarios");
@@ -353,23 +356,23 @@ async function listarUsuarios(pagina = 1) {
             const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
 
             tr.innerHTML = `
-                        <td>
-                            <div class="usuario-info">
-                                <div class="imagem-perfil">
-                                    <img src="./imgs/profile-default.webp" alt="Foto de ${u.nome}">
-                                </div>
-                                <p>${u.nomeUsuario}</p>
-                            </div>
-                        </td>
-                        <td><p>${u.email}</p></td>
-                        <td><p>${u.cargo}</p></td>
-                        <td><p>${formatarData(u.dtCadastro)}</p></td>
-                        <td><span class="${statusClass}">${u.status}</span></td>
-                        <td>
-                            <button onclick="editarUsuario(${u.idUsuario})"><i class="fa-solid fa-pencil"></i></button>
-                            <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    `;
+                <td>
+                    <div class="usuario-info">
+                        <div class="imagem-perfil">
+                            <img src="./imgs/profile-default.webp" alt="Foto de ${u.nome}">
+                        </div>
+                        <p>${u.nomeUsuario}</p>
+                    </div>
+                </td>
+                <td><p>${u.email}</p></td>
+                <td><p>${u.cargo}</p></td>
+                <td><p>${formatarData(u.dtCadastro)}</p></td>
+                <td><span class="${statusClass}">${u.status}</span></td>
+                <td>
+                    <button onclick="editarUsuario(${u.idUsuario})"><i class="fa-solid fa-pencil"></i></button>
+                    <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            `;
 
             tbody.appendChild(tr);
         });
@@ -381,7 +384,11 @@ async function listarUsuarios(pagina = 1) {
     }
 }
 
-setInterval(() => listarUsuarios(paginaAtual), 2000);
+document.getElementById("inputBuscaUsuarios").addEventListener("input", function () {
+    termoBuscaAtual = this.value.trim(); // 👈 salva o termo
+    listarUsuarios(1, termoBuscaAtual);  // 👈 usa o termo salvo
+});
+
 
 function atualizarBotoesPaginacao() {
     const btnPrev = document.querySelector(".prev");
@@ -490,4 +497,20 @@ function editarUsuario(idUsuario) {
             alert("Não foi possível carregar os dados do usuário.");
         });
 }
+
+document.getElementById("filtroUnico").addEventListener("change", () => {
+    const valor = document.getElementById("filtroUnico").value;
+
+    let cargo = "";
+    let status = "";
+
+    if (valor.startsWith("cargo:")) {
+        cargo = valor.split(":")[1];
+    } else if (valor.startsWith("status:")) {
+        status = valor.split(":")[1];
+    }
+
+    listarUsuarios(1, termoBuscaAtual, cargo, status);
+});
+
 

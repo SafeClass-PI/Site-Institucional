@@ -154,19 +154,18 @@
                     <div class="filtros">
                         <div class="select-com-icone">
                             <i class="fa fa-filter"></i>
-                            <select>
-                                <option value="" disabled selected>
-                                    <p>Filtros</p>
-                                </option>
-                                <option value="2">Ativos</option>
-                                <option value="2">Inativos</option>
-                                <option value="2">Gestores</option>
-                                <option value="2">Técnicos</option>
+                            <select id="filtroUnico">
+                                <option value="" disabled selected>Filtros</option>
+                                <option value="status:ativo">Ativos</option>
+                                <option value="status:inativo">Inativos</option>
+                                <option value="cargo:Gestor">Gestores</option>
+                                <option value="cargo:Técnico de T.I">Técnicos</option>
                             </select>
+
                         </div>
                         <div class="campo-pesquisa">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Pesquisar..." />
+                            <input id="inputBuscaUsuarios" type="text" placeholder="Pesquisar..." />
                         </div>
                         <div class="solicitacoes-gestor">
                             <button onclick="abrirSolicitacoes()">Solicitações <div class="icone-qtd-solicitacoes">

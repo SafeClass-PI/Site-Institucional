@@ -217,6 +217,47 @@ function atualizarUsuario(idUsuario, nome, email, cargo, status) {
     return database.executar(instrucaoSql);
 }
 
+function buscarComFiltro(limite = 8, offset = 0, busca = "", cargo = "", status = "") {
+    const termo = `%${busca}%`;
+    const cargoFiltro = cargo ? cargo : "%";
+    const statusFiltro = status ? status.toUpperCase() : "%";
+
+    const instrucaoSql = `
+        SELECT 
+            u.idUsuario,
+            u.nome AS nomeUsuario,
+            u.email,
+            c.nome AS cargo,
+            u.dtCadastro,
+            UPPER(u.status) AS status
+        FROM usuario AS u
+        JOIN cargo AS c ON u.fkCargo = c.idCargo
+        WHERE UPPER(u.status) LIKE ?
+          AND c.nome LIKE ?
+          AND (
+            u.nome LIKE ? OR
+            u.email LIKE ? OR
+            c.nome LIKE ?
+          )
+        ORDER BY u.idUsuario DESC
+        LIMIT ? OFFSET ?;
+    `;
+
+    console.log("Executando SQL com filtros:", instrucaoSql, statusFiltro, cargoFiltro, termo);
+
+    return database.executarComParametros(instrucaoSql, [
+        statusFiltro,
+        cargoFiltro,
+        termo,
+        termo,
+        termo,
+        limite,
+        offset
+    ]);
+}
+
+
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -232,5 +273,6 @@ module.exports = {
     buscarGestorPorUsuario,
     buscarTodos,
     deletar,
-    atualizarUsuario
+    atualizarUsuario,
+    buscarComFiltro
 };

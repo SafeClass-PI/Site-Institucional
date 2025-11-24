@@ -296,6 +296,24 @@ function deletarUsuario(req, res) {
         });
 }
 
+async function listarUsuarios(req, res) {
+    const pagina = parseInt(req.query.pagina) || 1;
+    const limite = parseInt(req.query.limite) || 8;
+    const busca = req.query.search || "";
+    const cargo = req.query.cargo || "";
+    const status = req.query.status || "";
+    const offset = (pagina - 1) * limite;
+
+    try {
+        const resultados = await usuarioModel.buscarComFiltro(limite, offset, busca, cargo, status);
+        res.json(resultados);
+    } catch (erro) {
+        console.error("Erro ao listar usuários:", erro.message);
+        res.status(500).json({ erro: "Erro ao listar usuários" });
+    }
+}
+
+
 
 function efetuarEdicaoUser() {
     const nome = document.querySelector("#modalEditarUsuario input[placeholder='Novo nome']").value;
@@ -413,6 +431,7 @@ export {
     atualizarUsuario,
     efetuarEdicaoUser,
     buscarUsuarioPorId,
-    exportarCSV
+    exportarCSV,
+    listarUsuarios
 };
 
