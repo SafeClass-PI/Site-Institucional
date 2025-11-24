@@ -364,28 +364,9 @@ async function listarUsuarios(pagina = 1, busca = termoBuscaAtual, cargo = "", s
         usuarios.forEach(u => {
             const tr = document.createElement("tr");
             const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
-            const caminhoImagem = u.imagem ? `/uploads/${u.imagem}` : `/uploads/profile-default.webp`;
-
+            const caminhoImagem = u.imagem ? `./uploads/${u.imagem}` : `/uploads/profile-default.webp`;
+            
             tr.innerHTML = `
-<<<<<<< HEAD
-                <td>
-                    <div class="usuario-info">
-                        <div class="imagem-perfil">
-                            <img src="./imgs/profile-default.webp" alt="Foto de ${u.nome}">
-                        </div>
-                        <p>${u.nomeUsuario}</p>
-                    </div>
-                </td>
-                <td><p>${u.email}</p></td>
-                <td><p>${u.cargo}</p></td>
-                <td><p>${formatarData(u.dtCadastro)}</p></td>
-                <td><span class="${statusClass}">${u.status}</span></td>
-                <td>
-                    <button onclick="editarUsuario(${u.idUsuario})"><i class="fa-solid fa-pencil"></i></button>
-                    <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
-                </td>
-            `;
-=======
                         <td>
                             <div class="usuario-info">
                                 <div class="imagem-perfil">
@@ -403,8 +384,6 @@ async function listarUsuarios(pagina = 1, busca = termoBuscaAtual, cargo = "", s
                             <button onclick="deletarUsuario(${u.idUsuario})"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     `;
->>>>>>> 82ec9167a49ddbdf0a4ad6b18c085b22abe6a108
-
             tbody.appendChild(tr);
         });
 
@@ -529,7 +508,6 @@ function editarUsuario(idUsuario) {
         });
 }
 
-<<<<<<< HEAD
 document.getElementById("filtroUnico").addEventListener("change", () => {
     const valor = document.getElementById("filtroUnico").value;
 
@@ -545,8 +523,6 @@ document.getElementById("filtroUnico").addEventListener("change", () => {
     listarUsuarios(1, termoBuscaAtual, cargo, status);
 });
 
-
-=======
 const dropdowns = document.querySelectorAll('.dropdown-container');
 
 dropdowns.forEach(drop => {
@@ -561,4 +537,4 @@ dropdowns.forEach(drop => {
 window.addEventListener('click', () => {
     dropdowns.forEach(drop => drop.classList.remove('active'));
 });
->>>>>>> 82ec9167a49ddbdf0a4ad6b18c085b22abe6a108
+

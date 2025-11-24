@@ -98,6 +98,4 @@ router.get('/preencherFotoPerfil/:id', function (req, res) {
     usuarioController.preencherFotoPerfil(req, res);
 });
 
-
-
 module.exports = router;

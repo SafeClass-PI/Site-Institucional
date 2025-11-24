@@ -464,10 +464,7 @@ export {
     efetuarEdicaoUser,
     buscarUsuarioPorId,
     exportarCSV,
-<<<<<<< HEAD
-    listarUsuarios
-=======
+    listarUsuarios, 
     uploadFoto
->>>>>>> 82ec9167a49ddbdf0a4ad6b18c085b22abe6a108
 };
 
