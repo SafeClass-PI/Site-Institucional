@@ -364,7 +364,7 @@ async function listarUsuarios(pagina = 1, busca = termoBuscaAtual, cargo = "", s
         usuarios.forEach(u => {
             const tr = document.createElement("tr");
             const statusClass = u.status.toLowerCase() === "ativo" ? "status-ativo" : "status-inativo";
-            const caminhoImagem = u.imagem ? `./uploads/${u.imagem}` : `/uploads/profile-default.webp`;
+            const caminhoImagem = u.imagem ? `/uploads/${u.imagem}` : `/uploads/profile-default.webp`;
             
             tr.innerHTML = `
                         <td>

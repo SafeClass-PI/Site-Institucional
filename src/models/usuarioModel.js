@@ -230,7 +230,8 @@ function buscarComFiltro(limite = 8, offset = 0, busca = "", cargo = "", status 
             u.email,
             c.nome AS cargo,
             u.dtCadastro,
-            UPPER(u.status) AS status
+            UPPER(u.status) AS status,
+            u.imagemPerfil AS imagem
         FROM usuario AS u
         JOIN cargo AS c ON u.fkCargo = c.idCargo
         WHERE UPPER(u.status) LIKE ?
