@@ -179,12 +179,11 @@
                     <div class="filtros">
                         <div class="select-com-icone">
                             <i class="fa fa-filter"></i>
-                            <select>
-                                <option value="" disabled selected>
-                                    <p>Filtros</p>
-                                </option>
-                                <option value="2">Ligadas</option>
-                                <option value="2">Desligada</option>
+                            <select id="filtroMaquina">
+                                <option value="" disabled selected>Filtros</option>
+                                <option value="">Todas</option>
+                                <option value="status:ligado">Ligadas</option>
+                                <option value="status:desligado">Desligada</option>
                             </select>
                         </div>
                         <button class="desligar-maquinas" onclick="abrirModalDesligarMaquinas()">

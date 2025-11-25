@@ -21,11 +21,13 @@ document.getElementById("exportarDados").addEventListener("click", () => {
 
 let paginaAtual = 1;
 const limite = 8;
+let filtroAtual = "";
 
-async function listarMaquinas(pagina = 1) {
+async function listarMaquinas(pagina = 1, filtro = "") {
     try {
         paginaAtual = pagina;
-        const resposta = await fetch(`/maquinas/listarMaquinas?pagina=${pagina}&limite=${limite}`, { cache: "no-store" });
+        const url = `/maquinas/listarMaquinas?pagina=${pagina}&limite=${limite}${filtro ? `&estado=${filtro}` : ""}`;
+        const resposta = await fetch(url, { cache: "no-store" });
         const maquinas = await resposta.json();
 
         const painel = document.getElementById("painel-maquinas");
@@ -35,64 +37,60 @@ async function listarMaquinas(pagina = 1) {
             const card = document.createElement("div");
             card.classList.add("maquina");
             card.innerHTML = `
-                    <div class="titulo-maquina">
-                        <p>Máquina ${m.identificacao}</p>
-                        <div class="btns-acoes-maquina">
-                            <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
-                            <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                <div class="titulo-maquina">
+                    <p>Máquina ${m.identificacao}</p>
+                    <div class="btns-acoes-maquina">
+                        <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
+                        <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="status-maquina">
+                    <div class="status" id="statusMaquina">
+                        <p>Status:</p>
+                        <p class="estado-maquina">${m.estado}</p>
+                    </div>
+                    <div class="line-status"></div>
+                </div>
+                <div class="infos-maquina">
+                    <div class="dados-maquina">
+                        <div class="dado-maquina">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <p>${m.localizacao}</p>
+                        </div>
+                        <div class="dado-maquina">
+                            <i class="fa-solid fa-laptop"></i>
+                            <p>${m.so}</p>
+                        </div>
+                        <div class="dado-maquina">
+                            <p>IP: ${m.ipv4}</p>
                         </div>
                     </div>
-                    <div class="status-maquina">
-                        <div class="status" id="statusMaquina">
-                            <p>Status:</p>
-                            <p class="estado-maquina">${m.estado}</p>
+                    <div class="capacidade-maquina">
+                        <div class="componente-maquina">
+                            <p>Disco</p>
+                            <p>${m.disco_capacidade}</p>
                         </div>
-                            <div class="line-status">
-                            </div>
+                        <div class="componente-maquina">
+                            <p>RAM</p>
+                            <p>${m.ram_capacidade}</p>
                         </div>
-                        <div class="infos-maquina">
-                            <div class="dados-maquina">
-                                <div class="dado-maquina">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    <p>${m.localizacao}</p>
-                                </div>
-                               <div class="dado-maquina">
-                                    <i class="fa-solid fa-laptop"></i>
-                                    <p>${m.so}</p>
-                                </div>
-                                    <div class="dado-maquina">
-                                        <p>IP: ${m.ipv4}</p>
-                                    </div>
-                                </div>
-                                <div class="capacidade-maquina">
-                                    <div class="componente-maquina">
-                                        <p>Disco</p>
-                                        <p>${m.disco_capacidade}</p>
-                                    </div>
-                                    <div class="componente-maquina">
-                                        <p>RAM</p>
-                                        <p>${m.ram_capacidade}</p>
-                                    </div>
-                                    <div class="componente-maquina">
-                                        <p>CPU</p>
-                                        <p>${m.cpu_capacidade}</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="componente-maquina">
+                            <p>CPU</p>
+                            <p>${m.cpu_capacidade}</p>
+                        </div>
+                    </div>
+                </div>
             `;
-            if (m.estado === "Ligada") {
-                const line = card.querySelector('.line-status');
-                const p = card.querySelector('.estado-maquina'); // seleciona só dentro do card atual
-                if (p) {
+
+            const line = card.querySelector('.line-status');
+            const p = card.querySelector('.estado-maquina');
+
+            if (p) {
+                if (m.estado === "Ligada") {
                     p.style.color = "#00AB03";
                     p.style.fontWeight = "bold";
                     line.style.backgroundColor = "#00AB03";
-                }
-            }
-            else {
-                const line = card.querySelector('.line-status');
-                const p = card.querySelector('.estado-maquina'); // seleciona só dentro do card atual
-                if (p) {
+                } else {
                     p.style.color = "#ea0303";
                     p.style.fontWeight = "bold";
                     line.style.backgroundColor = "#ea0303";
@@ -100,7 +98,6 @@ async function listarMaquinas(pagina = 1) {
             }
 
             painel.appendChild(card);
-
         });
 
         atualizarBotoesPaginacao();
@@ -109,7 +106,16 @@ async function listarMaquinas(pagina = 1) {
     }
 }
 
-setInterval(() => listarMaquinas(paginaAtual), 2000);
+// Escuta o filtro de status
+document.getElementById("filtroMaquina").addEventListener("change", function () {
+    filtroAtual = this.value.split(":")[1]; // "ligado" ou "desligado"
+    listarMaquinas(paginaAtual, filtroAtual);
+});
+
+// Atualização automática com filtro aplicado
+setInterval(() => listarMaquinas(paginaAtual, filtroAtual), 2000);
+
+
 
 function atualizarBotoesPaginacao() {
     const btnPrev = document.querySelector(".prev");

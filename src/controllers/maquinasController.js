@@ -35,19 +35,21 @@ function listar(req, res) {
 }
 
 
+
 async function listarMaquinas(req, res) {
-    const pagina = parseInt(req.query.pagina) || 1;
-    const limite = parseInt(req.query.limite) || 8;
-    const offset = (pagina - 1) * limite;
+    const { pagina = 1, limite = 8, estado } = req.query;
 
     try {
-        const resultados = await maquinasModel.listarMaquinas(limite, offset);
-        res.json(resultados);
+        const resultado = await maquinasModel.listarMaquinas(pagina, limite, estado);
+        res.json(resultado);
     } catch (erro) {
         console.error("Erro ao listar máquinas:", erro);
         res.status(500).json({ erro: "Erro ao listar máquinas" });
     }
 }
+
+
+
 
 const { Parser } = require('json2csv'); // instalar: npm install json2csv
 

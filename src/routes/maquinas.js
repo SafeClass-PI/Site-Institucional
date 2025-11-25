@@ -8,6 +8,7 @@ router.get("/listar", maquinasController.listar);
 
 router.get("/listarMaquinas", maquinasController.listarMaquinas);
 
+
 router.get('/exportarCSV', maquinasController.exportarCSV);
 
 module.exports = router;

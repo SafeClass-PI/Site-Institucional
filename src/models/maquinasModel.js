@@ -43,29 +43,42 @@ async function cadastrarMaquinaComComponentes(sala, so, ip, username, senha, dis
 
     return fkMaquina; // retorna o ID da máquina cadastrada
 }
-function listarMaquinas(limite = 8, offset = 0) {
-    const instrucaoSql = `
+
+async function listarMaquinas(pagina = 1, limite = 8, estado = null) {
+    const offset = (pagina - 1) * limite;
+
+    let instrucaoSql = `
         SELECT m.idMaquina AS identificacao,
-               CONCAT('Máquina ', m.idMaquina) AS nome_maquina,
                m.estado AS estado,
                CONCAT('Sala ', m.fkSala) AS localizacao,
                m.sistemaOperacional AS so,
                m.ip AS ipv4,
                COALESCE(cpu.capacidade, 'Intel i5') AS cpu_capacidade,
-               COALESCE(ram.capacidade, '8gb') AS ram_capacidade,
-               COALESCE(disco.capacidade, '500gb') AS disco_capacidade
+               COALESCE(ram.capacidade, '8GB') AS ram_capacidade,
+               COALESCE(disco.capacidade, '500GB') AS disco_capacidade
         FROM Maquina AS m
         LEFT JOIN Componente AS cpu
-            ON cpu.fkMaquina = m.idMaquina AND cpu.nome = 'CPU'
+            ON cpu.fkMaquina = m.idMaquina AND cpu.nome = 'Processador'
         LEFT JOIN Componente AS ram
-            ON ram.fkMaquina = m.idMaquina AND ram.nome = 'RAM'
+            ON ram.fkMaquina = m.idMaquina AND ram.nome = 'Memória RAM'
         LEFT JOIN Componente AS disco
-            ON disco.fkMaquina = m.idMaquina AND disco.nome = 'Disco'
-        LIMIT ? OFFSET ?;
+            ON disco.fkMaquina = m.idMaquina AND disco.nome = 'Disco Rígido'
     `;
 
-    return database.executarComParametros(instrucaoSql, [limite, offset]);
+    const params = [];
+
+    if (estado) {
+        instrucaoSql += " WHERE m.estado = ?";
+        params.push(estado === "ligado" ? "Ligada" : "Desligada");
+    }
+
+    instrucaoSql += " LIMIT ? OFFSET ?";
+    params.push(parseInt(limite), parseInt(offset));
+
+    return database.executarComParametros(instrucaoSql, params);
 }
+
+
 
 module.exports = {
     listar,
