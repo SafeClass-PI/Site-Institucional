@@ -40,8 +40,8 @@ async function listarMaquinas(pagina = 1, filtro = "") {
                 <div class="titulo-maquina">
                     <p>Máquina ${m.identificacao}</p>
                     <div class="btns-acoes-maquina">
-                        <button onclick="editarMaquina()"><i class="fa-solid fa-pencil"></i></button>
-                        <button onclick="deletarMaquina()"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="editarMaquina(${m.identificacao})"><i class="fa-solid fa-pencil"></i></button>
+                        <button onclick="deletarMaquina(${m.identificacao})"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
                 <div class="status-maquina">
@@ -188,9 +188,40 @@ if (editarStatusMaquina) {
     atualizarCorSelect();
 }
 
-function editarMaquina() {
-    telaOverlay.style.display = 'block';
-    modalEditarMaquina.style.display = 'flex';
+let idMaquinaEmEdicao = null;
+
+async function carregarSalasEditar(idSelecionada) {
+    try {
+        const res = await fetch('/api/salas/listar');
+        const salas = await res.json();
+        const select = document.getElementById('select_editar_sala');
+        select.innerHTML = '';
+        salas.forEach(s => {
+            const option = document.createElement('option');
+            option.value = s.idSala;
+            option.textContent = s.nome;
+            if (String(s.idSala) === String(idSelecionada)) option.selected = true;
+            select.appendChild(option);
+        });
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function editarMaquina(id) {
+    try {
+        idMaquinaEmEdicao = id;
+        const res = await fetch(`/maquinas/obter/${id}`);
+        const m = await res.json();
+        document.getElementById('ipt_editar_identificacao').value = `Máquina ${id}`;
+        document.getElementById('ipt_editar_so').value = m.sistemaOperacional || '';
+        await carregarSalasEditar(m.fkSala);
+        telaOverlay.style.display = 'block';
+        modalEditarMaquina.style.display = 'flex';
+    } catch (e) {
+        console.error('Erro ao carregar máquina', e);
+        alert('Erro ao carregar dados da máquina');
+    }
 }
 
 function cancelarEdicaoMaquina() {
@@ -198,13 +229,36 @@ function cancelarEdicaoMaquina() {
     modalEditarMaquina.style.display = 'none';
 }
 
-function efetuarEdicaoMaquina() {
-    alert('Usuário editado com sucesso!');
-    telaOverlay.style.display = 'none';
-    modalEditarMaquina.style.display = 'none';
+async function efetuarEdicaoMaquina() {
+    try {
+        const fkSala = document.getElementById('select_editar_sala').value;
+        const sistemaOperacional = document.getElementById('ipt_editar_so').value.trim();
+        if (!fkSala || !sistemaOperacional) {
+            alert('Preencha os campos de edição');
+            return;
+        }
+        const res = await fetch(`/maquinas/atualizar/${idMaquinaEmEdicao}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fkSala, sistemaOperacional })
+        });
+        if (!res.ok) throw new Error('Falha ao atualizar');
+        alert('Máquina atualizada com sucesso!');
+        modalEditarMaquina.style.display = 'none';
+        telaOverlay.style.display = 'none';
+        listarMaquinas(paginaAtual, filtroAtual);
+    } catch (e) {
+        console.error(e);
+        alert('Erro ao atualizar máquina');
+    }
 }
 
-function deletarMaquina() {
+let idMaquinaParaExcluir = null;
+
+function deletarMaquina(id) {
+    idMaquinaParaExcluir = id;
+    const mensagem = document.querySelector('#modalDeletarMaquina .mensagem-deletar-modal p');
+    if (mensagem) mensagem.textContent = `Deletar Máquina ${id}`;
     telaOverlay.style.display = 'block';
     modalDeletarMaquina.style.display = 'flex';
 }
@@ -214,10 +268,18 @@ function cancelarExclusaoMaquina() {
     modalDeletarMaquina.style.display = 'none';
 }
 
-function confirmarExclusaoMaquina() {
-    alert('Máquina editada com sucesso!');
-    telaOverlay.style.display = 'none';
-    modalDeletarMaquina.style.display = 'none';
+async function confirmarExclusaoMaquina() {
+    try {
+        const res = await fetch(`/maquinas/${idMaquinaParaExcluir}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Falha ao deletar');
+        alert('Máquina deletada com sucesso!');
+        modalDeletarMaquina.style.display = 'none';
+        telaOverlay.style.display = 'none';
+        listarMaquinas(paginaAtual, filtroAtual);
+    } catch (e) {
+        console.error(e);
+        alert('Erro ao deletar máquina');
+    }
 }
 
 function abrirModalDesligarMaquinas() {
