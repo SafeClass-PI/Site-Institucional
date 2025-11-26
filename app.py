@@ -2,14 +2,27 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import paramiko
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
+# Carrega as variáveis do .env.dev
+load_dotenv(".env.dev")
+
+# Variáveis do banco vindas do .env.dev
+DB_HOST = os.getenv("DB_HOST")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_NAME = os.getenv("DB_DATABASE")  # Seu env usa DB_DATABASE, não DB_NAME
+DB_PORT = os.getenv("DB_PORT")
 
 # conexão com o banco
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Felipzp123@",  
-        database="safeclass"
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
+        port=DB_PORT
     )
 
 app = Flask(__name__)
@@ -41,21 +54,17 @@ def desligar():
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(ip, username=usuario, password=senha)
 
-        # Comando conforme o sistema
         if sistema.lower() == "windows":
-            comando = "shutdown /s /t 0"
-            ssh.exec_command(comando)
+            ssh.exec_command("shutdown /s /t 0")
         else:
-            comando = "sudo systemctl poweroff --force --no-wall"
-            stdin, stdout, stderr = ssh.exec_command(comando)
-            # captura erros do Linux
+            stdin, stdout, stderr = ssh.exec_command("sudo systemctl poweroff --force --no-wall")
             erro = stderr.read().decode()
             if erro:
                 ssh.close()
                 return jsonify({"status": "erro", "mensagem": erro}), 500
 
         ssh.close()
-        
+
         # Atualiza status no banco
         conexao = get_db_connection()
         cursor = conexao.cursor()
@@ -69,5 +78,10 @@ def desligar():
     except Exception as e:
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(
+        host=os.getenv("APP_HOST", "0.0.0.0"),  # pega do env ou usa padrão
+        port=os.getenv("APP_PORT", 5000),
+        debug=True
+    )
