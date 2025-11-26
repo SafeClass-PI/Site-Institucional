@@ -31,6 +31,10 @@ router.get("/listarUltimosAlertas", function (req, res) {
     dashboardController.listarUltimosAlertas(req, res);
 });
 
+router.get("/carregarFoto/:idUsuario", function (req, res) {
+    dashboardController.carregarFoto(req, res);
+});
+
 /* --------------- MÁQUINA ESPECIFICA ------------------------- */
 
 router.get("/listarSalasMaquina", (req, res) =>

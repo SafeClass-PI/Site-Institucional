@@ -69,6 +69,20 @@ function listarUltimosAlertas(req, res) {
         });
 }
 
+function carregarFoto(req, res) {
+    const idUsuario = req.params.idUsuario;
+    console.log("ID RECEBIDO NA ROTA:", idUsuario);
+
+    dashboardModel.carregarFoto(idUsuario)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.log("Erro ao listar máquinas:", erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 /* -------------- MÁQUINA ESPECIFICA ------------------------ */
 function listarSalasMaquina(req, res) {
     dashboardModel.listarSalasMaquina().then(function (resultado) {
@@ -226,6 +240,7 @@ module.exports = {
     listarSalas,
     mostrarMaquinas,
     listarUltimosAlertas,
+    carregarFoto,
     carregarComponentes,
     carregarComponentesRede,
     kpiStatusMaquina,

@@ -1,7 +1,7 @@
 function carregarInfos() {
     var usuario = document.getElementById('nome-usuario-pagina');
     usuario.innerText = sessionStorage.NOME_USUARIO;
-
+    
     var imgPerfil = document.getElementById('imgPerfil');
 
     if (imgPerfil) {

@@ -159,6 +159,16 @@ function listarUltimosAlertas() {
     return database.executar(instrucaoSql);
 }
 
+function carregarFoto(idUsuario) {
+     var instrucaoSql = `
+       SELECT imagemPerfil AS imagem FROM usuario
+       WHERE idUsuario = ${idUsuario};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 /* --------------- MÁQUINA ESPECIFICA -------------------- */
 
 function listarSalasMaquina() {
@@ -432,6 +442,7 @@ module.exports = {
     listarSalas,
     mostrarMaquinas,
     listarUltimosAlertas,
+    carregarFoto,
     carregarComponentes,
     carregarComponentesRede,
     kpiStatusMaquina,

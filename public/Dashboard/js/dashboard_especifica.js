@@ -937,3 +937,31 @@ dropdowns.forEach(drop => {
 window.addEventListener('click', () => {
     dropdowns.forEach(drop => drop.classList.remove('active'));
 });
+
+function carregarFotoPerfil(idUsuario) {
+    alert(idUsuario);
+    fetch(`/api/dashboard/carregarFoto/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+
+                vt_dados = resposta;
+
+                var imgPerfil = document.getElementById('imgPerfil');
+
+                if (vt_dados[0].imagem) {
+                    imgPerfil.src = `/uploads/${vt_dados[0].imagem}`;
+                } else {
+                    imgPerfil.src = 'imgs/profile-default.webp';
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
