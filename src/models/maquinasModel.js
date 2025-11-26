@@ -78,10 +78,39 @@ async function listarMaquinas(pagina = 1, limite = 8, estado = null) {
     return database.executarComParametros(instrucaoSql, params);
 }
 
+function obterPorId(idMaquina) {
+    const instrucaoSql = `
+        SELECT idMaquina, fkSala, sistemaOperacional, ip, username, estado, status
+        FROM Maquina
+        WHERE idMaquina = ?
+        LIMIT 1;
+    `;
+    return database.executarComParametros(instrucaoSql, [idMaquina]).then(res => res[0] || null);
+}
+
+function atualizar(idMaquina, fkSala, sistemaOperacional) {
+    const instrucaoSql = `
+        UPDATE Maquina
+        SET fkSala = ?, sistemaOperacional = ?
+        WHERE idMaquina = ?;
+    `;
+    return database.executarComParametros(instrucaoSql, [fkSala, sistemaOperacional, idMaquina]);
+}
+
+async function deletar(idMaquina) {
+    const deletarComponentes = `DELETE FROM Componente WHERE fkMaquina = ?`;
+    const deletarMaquina = `DELETE FROM Maquina WHERE idMaquina = ?`;
+    await database.executarComParametros(deletarComponentes, [idMaquina]);
+    return database.executarComParametros(deletarMaquina, [idMaquina]);
+}
+
 
 
 module.exports = {
     listar,
     cadastrarMaquinaComComponentes,
-    listarMaquinas
+    listarMaquinas,
+    obterPorId,
+    atualizar,
+    deletar
 };

@@ -84,11 +84,57 @@ async function exportarCSV(req, res) {
 }
 
 
+function obterPorId(req, res) {
+    const idMaquina = req.params.id;
+    maquinasModel.obterPorId(idMaquina)
+        .then(resultado => {
+            if (!resultado) {
+                return res.status(404).json({ erro: "Máquina não encontrada" });
+            }
+            res.status(200).json(resultado);
+        })
+        .catch(erro => {
+            res.status(500).json({ erro: erro.sqlMessage || "Erro ao obter máquina" });
+        });
+}
+
+function atualizar(req, res) {
+    const idMaquina = req.params.id;
+    const { fkSala, sistemaOperacional } = req.body;
+
+    if (!fkSala || !sistemaOperacional) {
+        return res.status(400).json({ erro: "Campos obrigatórios faltando" });
+    }
+
+    maquinasModel.atualizar(idMaquina, fkSala, sistemaOperacional)
+        .then(resultado => {
+            res.status(200).json({ mensagem: "Máquina atualizada com sucesso" });
+        })
+        .catch(erro => {
+            res.status(500).json({ erro: erro.sqlMessage || "Erro ao atualizar máquina" });
+        });
+}
+
+function deletar(req, res) {
+    const idMaquina = req.params.id;
+    maquinasModel.deletar(idMaquina)
+        .then(() => {
+            res.status(200).json({ mensagem: "Máquina deletada com sucesso" });
+        })
+        .catch(erro => {
+            res.status(500).json({ erro: erro.sqlMessage || "Erro ao deletar máquina" });
+        });
+}
+
+
 
 
 module.exports = {
     cadastrarMaquina,
     listar,
     listarMaquinas,
-    exportarCSV
+    exportarCSV,
+    obterPorId,
+    atualizar,
+    deletar
 };

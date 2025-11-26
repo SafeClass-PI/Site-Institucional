@@ -11,4 +11,8 @@ router.get("/listarMaquinas", maquinasController.listarMaquinas);
 
 router.get('/exportarCSV', maquinasController.exportarCSV);
 
+router.get('/obter/:id', maquinasController.obterPorId);
+router.put('/atualizar/:id', maquinasController.atualizar);
+router.delete('/:id', maquinasController.deletar);
+
 module.exports = router;
