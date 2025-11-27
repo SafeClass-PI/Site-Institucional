@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="individual_ryan.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Monitoramento da Rede</title>
+</head>
+
+<body onload="carregarInfos()">
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../index.html"><img src="../imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="../dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <div class="icone-links dropdown-container">
+                    <div class="dropbtn activate">
+                        <i class="fa-solid fa-filter"></i>
+                        <p>Rede</p>
+                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
+                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
+                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                        <a href="DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
+                    </div>
+                </div>
+                <a href="../Dashboard/alertas.html" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="../Dashboard/usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../Dashboard/maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="../Dashboard/perfil.html" class="icone-links">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
+                </a>
+                <button onclick="sairDaPagina()" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-alerta">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <a href="perfil.html">
+                        <div class="profile-img">
+                            <img id="imgPerfil" src="imgs/profile-default.webp">
+                        </div>
+                        <p id="nome-usuario-pagina"></p>
+                    </a>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="titulo-dashboard">
+                    <div class="texto-titulo-nome-empresa-especifico">
+                        <p>Escola Joaquim 3°</p>
+                    </div>
+                    <div class="texto-titulo-dashboard">
+                        <p>MONITORAMENTO DA REDE</p>
+                        <p id="dataHora"></p>
+                    </div>
+                    <div class="selects-escolha-maquina">
+                        <select id="escolha-sala">
+                            <option value="#">Salas:</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="area-kpis">
+                    <div class="kpi" id="desempenho-maquina">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi" id="iconeStatusMaquina">
+                                <i style="font-size: 64px; color: #00AB03" class="fa-solid fa-circle-up"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpiStatusMaquinaEscola">Estável</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Estado da Rede Atual</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-alerta-critica">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p>2/8</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Máquinas Instáveis</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-taxa-uptime">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i style="color: #00AB03; font-size: 62px;" class="fa-solid fa-circle-check"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpiUptimeMaquinaSala">10:00 - 11:00</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Melhor Acesso</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-qtd-alertas-hoje">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <input type="text" placeholder="Digite um horário">
+                            </div>
+                            <div class="titulo-kpi">
+                                <button>Previsionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="conteudo-principal">
+                    <div class="painel-graficos">
+                        <div class="monitoramento-componentes">
+                            <div class="titulo-monitoramento-dia">
+                                <p>Monitoramento do Ping Mediano</p>
+
+                                <div class="parametros">
+                                    <div class="param">
+                                        <div class="quadrado-verde"></div>
+                                        <p>Estável</p>
+                                    </div>
+                                    <div class="param">
+                                        <div class="quadrado-amarelo"></div>
+                                        <p>Atenção</p>
+                                    </div>
+
+                                    <div class="param">
+                                        <div class="quadrado-vermelho"></div>
+                                        <p>Crítico</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grafico-monitoramento">
+                                <canvas id="monitoramento-ping"></canvas>
+                            </div>
+                        </div>
+                        <div class="rede-e-disponibilidade">
+                            <div class="monitoramento-rede">
+                                <div class="titulo-grafico-rede">
+                                    <p>Melhor Dia da Semana para Acessar</p>
+                                    <select id="componente-grafico">
+                                    </select>
+                                </div>
+                                <div class="grafico-rede">
+                                    <canvas id="monitoramento-semana"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alertas-e-falhas">
+                        <div class="ultimos-alertas">
+                            <div class="titulo-alertas-maquina">
+                                <p>Estado das Máquinas</p>
+                            </div>
+                            <div id="alertasMaquina">
+                                <div class="maquina-sala">
+                                    <div class="icone-maquina-sala">
+                                        <div class="corpo-icone status-instavel">
+                                            <i class="fa-solid fa-laptop"></i>
+                                        </div>
+                                    </div>
+                                    <div class="infos-maquina-sala">
+                                        <div class="id-ping-maquina">
+                                            <p>Máquina 1</p>
+                                            <p>Ping: 1000ms</p>
+                                        </div>
+                                        <div class="estado-maquina-sala">
+                                            <div class="status-maquina-instavel">
+                                                <p>Instável</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="maquina-sala">
+                                    <div class="icone-maquina-sala">
+                                        <div class="corpo-icone status-instavel">
+                                            <i class="fa-solid fa-laptop"></i>
+                                        </div>
+                                    </div>
+                                    <div class="infos-maquina-sala">
+                                        <div class="id-ping-maquina">
+                                            <p>Máquina 2</p>
+                                            <p>Ping: 1000ms</p>
+                                        </div>
+                                        <div class="estado-maquina-sala">
+                                            <div class="status-maquina-instavel">
+                                                <p>Instável</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="maquina-sala">
+                                    <div class="icone-maquina-sala">
+                                        <div class="corpo-icone status-estavel">
+                                            <i class="fa-solid fa-laptop"></i>
+                                        </div>
+                                    </div>
+                                    <div class="infos-maquina-sala">
+                                        <div class="id-ping-maquina">
+                                            <p>Máquina 3</p>
+                                            <p>Ping: 1000ms</p>
+                                        </div>
+                                        <div class="estado-maquina-sala">
+                                            <div class="status-maquina-estavel">
+                                                <p>Estável</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="maquina-sala">
+                                    <div class="icone-maquina-sala">
+                                        <div class="corpo-icone status-estavel">
+                                            <i class="fa-solid fa-laptop"></i>
+                                        </div>
+                                    </div>
+                                    <div class="infos-maquina-sala">
+                                        <div class="id-ping-maquina">
+                                            <p>Máquina 4</p>
+                                            <p>Ping: 1000ms</p>
+                                        </div>
+                                        <div class="estado-maquina-sala">
+                                            <div class="status-maquina-estavel">
+                                                <p>Estavel</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="maquina-sala">
+                                    <div class="icone-maquina-sala">
+                                        <div class="corpo-icone status-estavel">
+                                            <i class="fa-solid fa-laptop"></i>
+                                        </div>
+                                    </div>
+                                    <div class="infos-maquina-sala">
+                                        <div class="id-ping-maquina">
+                                            <p>Máquina 5</p>
+                                            <p>Ping: 1000ms</p>
+                                        </div>
+                                        <div class="estado-maquina-sala">
+                                            <div class="status-maquina-estavel">
+                                                <p>Estável</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="individual_ryan.js"></script>
+</body>
+
+</html>
