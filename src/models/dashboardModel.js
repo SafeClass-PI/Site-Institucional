@@ -421,7 +421,7 @@ function graficoFalhasPorComponente(idMaquina) {
         ON c.idComponente = ca.fkComponente
         JOIN maquina AS m
         ON m.idMaquina = c.fkMaquina
-        WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE() AND c.nome NOT LIKE 'Upload' AND c.nome NOT LIKE 'Download'
+        WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE() AND c.nome NOT LIKE 'Upload' AND c.nome NOT LIKE 'Download' AND c.nome NOT LIKE 'Ping'
         GROUP BY c.nome;
     `;
 

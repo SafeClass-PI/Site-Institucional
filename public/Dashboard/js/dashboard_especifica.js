@@ -372,8 +372,8 @@ function obterParametrosDoComponentePorNome(nome) {
 
 function obterParametrosDoComponenteRede(nome) {
     const tabelas = {
-        "Download": { atencao: 70, critico: 85, maxY: 1.5, formato: 'Mbps' },
-        "Upload": { atencao: 12, critico: 14.2, maxY: 1.5, formato: 'Mbps' },
+        "Download": {maxY: 25, formato: 'Mbps' },
+        "Upload": {maxY: 10, formato: 'Mbps' },
     };
 
     return tabelas[nome] || null;
@@ -596,42 +596,6 @@ function plotarGraficoRede(resposta) {
                     callbacks: {
                         label: function (context) {
                             return context.dataset.label + ': ' + context.raw;
-                        }
-                    }
-                },
-                annotation: {
-                    annotations: {
-                        yMinLine: {
-                            type: 'line',
-                            yMin: parametros.atencao,
-                            yMax: parametros.atencao,
-                            borderColor: '#f3c200ff',
-                            borderWidth: 1.8,
-                            borderDash: [5],
-                            label: {
-                                display: true,
-                                content: ['Atenção'],
-                                backgroundColor: '#ffd21dff',
-                                color: 'rgba(255, 255, 255, 1)',
-                                font: { size: 8, family: 'Poppins' },
-                                position: 'start'
-                            }
-                        },
-                        yMaxLine: {
-                            type: 'line',
-                            yMin: parametros.critico,
-                            yMax: parametros.critico,
-                            borderColor: '#ea0303',
-                            borderWidth: 1.8,
-                            borderDash: [5],
-                            label: {
-                                display: true,
-                                content: ['Crítico'],
-                                backgroundColor: '#ea0303',
-                                color: 'white',
-                                font: { size: 8, family: 'Poppins' },
-                                position: 'end'
-                            }
                         }
                     }
                 }
