@@ -105,32 +105,29 @@ function listarSalas() {
 
 function mostrarMaquinas(idSala) {
     var instrucaoSql = `
-        SELECT CONCAT('Máquina ', m.idMaquina) AS identificacao, m.status, 
-        CASE 
-        WHEN m.status = 'Estável' THEN 'Funcionamento regular'
-        ELSE ult.mensagem 
-        END AS descricao
-        FROM maquina AS m
-        LEFT JOIN (
-        SELECT 
-            co2.fkMaquina,
-            a2.mensagem
-        FROM alerta a2
-        JOIN captura c2 ON c2.idCaptura = a2.fkCaptura
-        JOIN componente co2 ON co2.idComponente = c2.fkComponente
-        JOIN (
-            SELECT co3.fkMaquina, MAX(c3.dtCaptura) AS ultData
-            FROM alerta a3
-            JOIN captura c3 ON c3.idCaptura = a3.fkCaptura
-            JOIN componente co3 ON co3.idComponente = c3.fkComponente
-            GROUP BY co3.fkMaquina
-        ) AS sub ON sub.fkMaquina = co2.fkMaquina AND sub.ultData = c2.dtCaptura
-    ) AS ult ON ult.fkMaquina = m.idMaquina
-    WHERE m.fkSala = ${idSala}
-    ORDER BY 
+    SELECT 
+    CONCAT('Máquina ', m.idMaquina) AS identificacao,
+    m.status, 
+    COALESCE(ult.mensagem, 'Funcionamento regular') AS descricao
+FROM maquina m
+LEFT JOIN (
+    SELECT a2.mensagem, co2.fkMaquina
+    FROM alerta a2
+    JOIN captura c2 ON c2.idCaptura = a2.fkCaptura
+    JOIN componente co2 ON co2.idComponente = c2.fkComponente
+    WHERE a2.idAlerta IN (
+        SELECT MAX(a3.idAlerta)
+        FROM alerta a3
+        JOIN captura c3 ON c3.idCaptura = a3.fkCaptura
+        JOIN componente co3 ON co3.idComponente = c3.fkComponente
+        GROUP BY co3.fkMaquina
+    )
+) ult ON ult.fkMaquina = m.idMaquina
+WHERE m.fkSala = ${idSala}
+ORDER BY 
     CASE 
         WHEN m.status = 'Crítico' THEN 1
-        WHEN m.status = 'Atenção' THEN 2
+        WHEN m.status = 'Atenção' THEN 2 
         WHEN m.status = 'Estável' THEN 3
         ELSE 4
     END;
@@ -195,7 +192,7 @@ function carregarComponentes(idMaquina) {
     var instrucaoSql = `
    SELECT co.idComponente AS id, co.nome AS nome 
     FROM Componente AS co
-    WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'Upload' AND nome NOT LIKE 'Download'
+    WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'Upload' AND nome NOT LIKE 'Download' AND nome NOT LIKE 'Ping'
     ORDER BY id DESC
     LIMIT 3;
     `;
@@ -208,7 +205,7 @@ function carregarComponentesRede(idMaquina) {
      var instrucaoSql = `
         SELECT co.idComponente AS id, co.nome AS nome 
         FROM Componente AS co
-        WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'CPU' AND nome NOT LIKE 'RAM' AND nome NOT LIKE 'Disco'
+        WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'CPU' AND nome NOT LIKE 'RAM' AND nome NOT LIKE 'Disco' AND nome NOT LIKE 'Ping'
         ORDER BY id DESC
         LIMIT 2;
         `;

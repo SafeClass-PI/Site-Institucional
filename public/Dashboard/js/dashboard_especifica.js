@@ -372,8 +372,8 @@ function obterParametrosDoComponentePorNome(nome) {
 
 function obterParametrosDoComponenteRede(nome) {
     const tabelas = {
-        "Download": { atencao: 70, critico: 85, maxY: 100, formato: 'Mbps' },
-        "Upload": { atencao: 12, critico: 14.2, maxY: 16, formato: 'Mbps' },
+        "Download": { atencao: 70, critico: 85, maxY: 1.5, formato: 'Mbps' },
+        "Upload": { atencao: 12, critico: 14.2, maxY: 1.5, formato: 'Mbps' },
     };
 
     return tabelas[nome] || null;
@@ -507,7 +507,7 @@ function plotarGrafico(resposta) {
         config
     );
 
-    proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
+    proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 30000);
 }
 
 function atualizarGrafico(dados, myChart) {
@@ -531,7 +531,7 @@ function atualizarGrafico(dados, myChart) {
                 myChart.update();
             }
 
-            proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
+            proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 30000);
 
         }).catch(err => console.error(err));
 }
@@ -674,7 +674,7 @@ function plotarGraficoRede(resposta) {
         config
     );
 
-    proximaAtualizacaoRede = setTimeout(() => atualizarGraficoRede(dados, myChartRede), 2000);
+    proximaAtualizacaoRede = setTimeout(() => atualizarGraficoRede(dados, myChartRede), 30000);
 }
 
 function atualizarGraficoRede(dados, myChartRede) {
@@ -698,7 +698,7 @@ function atualizarGraficoRede(dados, myChartRede) {
                 myChartRede.update();
             }
 
-            proximaAtualizacaoRede = setTimeout(() => atualizarGraficoRede(dados, myChartRede), 2000);
+            proximaAtualizacaoRede = setTimeout(() => atualizarGraficoRede(dados, myChartRede), 30000);
 
         }).catch(err => console.error(err));
 }
