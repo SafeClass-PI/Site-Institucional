@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+.painel-cliente-mobile {
+  display: none !important;
+}
 @media (min-width: 1024px) {
+  .menu-toggle {
+  display: none;
+}
 
   * {
     text-decoration: none;
@@ -41,6 +46,13 @@
     background-position: center;
     margin-top: -4%;
     margin-left: -5%;
+  }
+   .logo img {
+    display: none; /* esconde a tag <img> no desktop */
+  }
+
+  .logo-text {
+    display: none; /* se não quiser o texto SAFECLASS no desktop */
   }
 
   .links {
@@ -1296,58 +1308,150 @@
    CELULAR (até 768px)
 ========================= */
 @media (max-width: 768px) {
-
+   .painel-cliente-mobile {
+    display: block !important;
+    max-width: 320px;
+    width: 90%;
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    text-align: center;
+    background: #fc6403;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  .botao-cadastro{
+    display: none;
+  }
+  .overlay {
+    background: linear-gradient(135deg, #fff7f0 0%, #ffe0c2 50%, #ffffff 100%);
+    padding-top: 16px;
+    position: static;
+    height: auto;
+  }
   * {
     font-family: Poppins;
   }
 
- .nav-bar {
+  .nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background-color: #ffffff;
     display: flex;
-    font-size: 15px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   }
 
-  .logo {
-    width: 110px;
-    height: 110px;
-    background-image: url('../imgs/logo-nav.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 0;                  /* tira aquele deslocamento negativo do desktop */
-  }
+ .menu-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1100;
+  font-size: 32px;
+  color: #F77911;
+  background-color: #fff;
+  border: 2px solid #F77911;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.menu-toggle:hover {
+  background-color: #F77911;
+  color: #fff;
+}
 
   .links {
+    position: absolute;
+    top: 64px;
+    right: 0;
     width: 100%;
+    background-color: #ffffff;
+    display: none;
+    flex-direction: column;
+    padding: 12px 16px 16px 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    gap: 8px;
+  }
+
+  .links.open {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 12px;
+  }
+
+  /* LOGO + TEXTO SAFECLASS */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
     height: auto;
+    background-image: none; /* ok remover aqui, agora tem <img> */
     margin: 0;
   }
 
+  .logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #000;
+  }
+
+  /* BOTÃO HAMBÚRGUER */
+  .menu-toggle {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+
+  
+  .links {
+    position: absolute;
+    top: 64px;
+    left: 0;            
+    right: 0;
+    width: 100%;
+    background-color: #ffffff;
+    display: none;        
+    flex-direction: column;
+    padding: 12px 24px 16px 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    gap: 8px;
+  
+  }
+
+  /* QUANDO ABRIR (classe .open é adicionada pelo JS) */
+  .links.open {
+    display: flex;
+  }
+
   .links a {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     color: #000;
-    padding: 4px 6px;
+    padding: 8px 0;
+    text-decoration: none;
   }
 
-  .links a::after {
-    bottom: -2px;
-  }
-
+  
   .botao-cadastro {
-    width: auto;
-    padding: 4px 12px;
-    height: auto;
-    border-width: 2px;
-    border-radius: 20px;
-    margin-bottom: 4px;
-  }
-
-  .botao-cadastro a {
-    font-size: 12px;
+    display: none;
   }
 
  
@@ -1355,12 +1459,12 @@
     padding-top: 14vh; 
   }
 
-  .overlay {
+  /* .overlay {
     background: none;
     padding-top: 16px;
     position: static;
     height: auto;
-  }
+  } */
 
   .lado-direito {
     flex-direction: column;
@@ -1505,7 +1609,7 @@
 
   .quem-e-safe-class {
     display: flex;
-    flex-direction: column;  /* 🔁 Inverte ordem: imagem primeiro, texto depois */
+    flex-direction: column;  
     width: 100%;
     height: auto;
     padding: 24px 16px;
@@ -1544,7 +1648,7 @@
     width: 100%;
     height: 100%;
     background-image: url('../imgs/Gemini_Generated_Image_k39o67k39o67k39o.png');
-    background-size: cover;      /* cobre mais bonitinho no celular */
+    background-size: cover;    
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 12px;
@@ -1557,20 +1661,31 @@
   }
    .valores {
     display: flex;
-    flex-direction: column-reverse;  /* TEXTO em cima, IMAGEM embaixo */
+    flex-direction: column;  
     padding: 24px 16px;
     gap: 16px;
     background: linear-gradient(180deg, #fff7f0 0%, #ffffff 100%);
+    align-items: center;
+    text-align: center; 
   }
 
   .texto-valores {
     width: 100%;
     margin-top: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 12px;
   }
 
   .valores-bloco {
-    padding: 12px 10px;
-    font-size: 14px;
+    width: 100%;
+  max-width: 900px;     
+  margin: 0 auto;
+  padding: 12px 10px;
+  font-size: 14px;
+  box-sizing: border-box;
   }
 
   .titulo-com-icone {
@@ -1584,7 +1699,7 @@
     font-size: 18px;
   }
 
-  /* ÍCONES (alvo, olho, valores) aparecendo no mobile */
+  
   .icone-quadrado {
     width: 48px;
     height: 48px;
@@ -1601,15 +1716,17 @@
     object-fit: contain;
   }
 
-  /* IMAGEM PRINCIPAL EMBAIXO DO TEXTO */
+
    .imagem-valores {
-    width: 100%;
-    height: 240px;          /* aumentei um pouco pra dar mais presença */
-    margin-top: 8px;
-    margin-bottom: 8px;
-    position: relative;
-    display: block;         /* garante que apareça */
-    overflow: hidden;
+   width: 100%;
+  max-width: 900px;     
+  height: 240px;
+  margin: 8px auto;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  box-sizing: border-box;
   }
 
   .imagem-quadrado-valores {
@@ -1627,6 +1744,22 @@
   .valores-quadrado2 {
     display: none;
   }
+ 
+.titulo-equipe {
+  width: 100%;
+  text-align: center;      
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+  gap: 4px;                
+  margin: 24px 0 16px;     
+}
+
+
+#nome-safe-equipe,
+#nome-class-equipe {
+  display: inline-block;
+}
 .evitar-titulo {
     min-height: auto;
     width: 100%;
@@ -1723,7 +1856,8 @@
   }
 
  .info-equipe h3 {
-    font-size: 12px;
+    font-size: 20px;
+    font-weight: 600;
   }
 
   .info-equipe p {
@@ -1732,12 +1866,17 @@
   .social-icons {
     margin-top: 4px;
     gap: 4px;
+    display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .social-icons a {
-    width: 20px;    /* diminui o círculo */
+    width: 20px;    
     height: 20px;
+    display: flex;              
+  justify-content: center;
+  align-items: center;
   }
 
   .icone-social {
@@ -1754,23 +1893,46 @@
   }
 
   .texto-ajuda {
-    width: 100%;
-    margin: 0;
-  }
+  text-align: center;          
+}
+
+.texto-ajuda-titulo h1 {
+  text-align: center;          
+  width: 100%;
+  margin: 0 auto;
+}
 
   .formulario-ajuda {
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
   gap: 20px;
   margin-top: 7%;
-  }
+}
 
+
+.nome-completo-ajuda,
+.email-ajuda,
+.mensagem-ajuda {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.nome-completo-ajuda input,
+.email-ajuda input,
+.mensagem-ajuda textarea {
+  width: 100%;       
+  max-width: 400px;   
+  display: block;
+  margin: 0 auto;     
+}
   .footer-final {
     padding: 24px 16px;
   }
-}
+
  #ipt_nome_ajuda,
   #ipt_email_ajuda {
     width: 100%;
@@ -1789,6 +1951,11 @@
     border-radius: 10px;
     resize: vertical;
   }
+  .mensagem-ajuda textarea {
+  width: 100%;
+  max-width: 500px;
+  height: 120px;  
+}
 
   .nome-completo-ajuda,
   .email-ajuda,
@@ -1801,15 +1968,19 @@
     padding: 16px 28px;  
     font-size: 17px;
     border-radius: 999px; 
+    background: linear-gradient(to right, #fc6403, #ffb000);
+    color:#ffffff;
+    border: none;
   }
+}
 
 /* =========================
    AJUSTES GERAIS PARA <= 1023px (tablets e celulares)
 ========================= */
 @media (max-width: 1023px) {
 
-  .overlay {
-    background: none;
+.overlay {
+    background: linear-gradient(135deg, #fff7f0 0%, #ffe0c2 50%, #ffffff 100%);
     padding-top: 16px;
   }
 
