@@ -12,9 +12,113 @@ function carregarInfos() {
         }
     }
 
+    estadoDaRedeAtual();
+    qtdMaquinasInstaveis();
     graficoMonitoramentoPing();
     graficoSemana();
 }
+
+// -------------------- KPIS ---------------------------------------
+
+function estadoDaRedeAtual() {
+    fetch(`/api/ryan/kpiStatusRede`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                var icone = document.querySelector('#iconeStatusMaquina i');
+
+                if (!resposta || resposta.length === 0) {
+                    kpiStatusRede.innerText = "Sem dado";
+                    icone.style.color = '#ea0303';
+                    icone.className = 'fa-solid fa-circle-xmark';
+
+                    return;
+                }
+
+                const valores = resposta.map(item => item.registro).sort((a, b) => a - b);
+                const meio = Math.floor(valores.length / 2);
+                let mediana;
+
+                if (valores.length % 2 === 1) {
+                    mediana = valores[meio];
+                } else {
+                    mediana = (valores[meio - 1] + valores[meio]) / 2;
+                }
+
+                vt_dados = resposta;
+
+                if (mediana < 250) {
+                    kpiStatusRede.innerText = `Estável`
+                }
+                else if (mediana >= 250 && mediana < 350) {
+                    kpiStatusRede.innerText = `Lenta`
+                    icone.className = 'fa-solid fa-wind';
+                    icone.style.color = '#ffd630';
+                    icone.style.fontSize = '55px';
+                }
+                else if (mediana >= 350) {
+                    kpiStatusRede.innerText = `Instável`
+                    icone.style.transform = 'rotate(180deg)';
+                    icone.style.color = '#ea0303';
+                }
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function qtdMaquinasInstaveis() {
+    fetch(`/api/ryan/kpiQtdMaquinasInstaveis`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+        
+                if (!resposta || resposta.length === 0) {
+                    kpiQtdMaquinasInstaveis.innerText = "Sem dado";
+                }
+
+                vt_dados = resposta;
+
+                kpiQtdMaquinasInstaveis.innerText = `${resposta[0].maquinasInstaveis}/${resposta[0].totalMaquinas}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -127,13 +231,11 @@ function graficoMonitoramentoPing() {
 
 
 function graficoSemana() {
-
     const ctx = document.getElementById('monitoramento-semana').getContext('2d');
-
     const data = {
-        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'],
         datasets: [{
-            data: [8, 25, 15, 30, 24, 26, 46],
+            data: [8, 25, 15, 30, 24],
             label: 'Time Admitted',
             borderColor: 'orange',
             backgroundColor: 'rgba(255,165,0,0.2)',
@@ -188,7 +290,6 @@ function graficoSemana() {
             }
         }
     };
-
     new Chart(ctx, config);
 
 }
