@@ -1,4 +1,4 @@
-var biaModel = require("../modelsBeatriz/biaModel");
+var biaModel = require("../modelsBeatriz/biaModels");
 
 function buscarQtdSolicitacoesDiarias(req, res) {
     biaModel.buscarQtdSolicitacoesDiarias()
