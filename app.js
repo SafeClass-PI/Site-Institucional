@@ -22,6 +22,9 @@ var alertasRouter = require("./src/routes/alertas");
 
 var ryanRouter = require("./public/Dashboard/DASHBOARD_RYAN/srcRyan/routesRyan/ryan");
 
+var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public",)));
@@ -38,6 +41,8 @@ app.use("/maquinas", maquinasRouter);
 app.use("/api/alertas", alertasRouter);
 
 app.use("/api/ryan", ryanRouter);
+app.use("/api/bia", biaRouter);
+
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
 // app.use("/api/medidas", medidasRouter);
