@@ -57,6 +57,15 @@ function obterDadosGraficoPingUltimo(req, res) {
     })
 }
 
+function graficoSemana(req, res) {
+    ryanModel.graficoSemana().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+
 module.exports = {
     carregarSalas,
     kpiStatusRede,
@@ -64,5 +73,6 @@ module.exports = {
     kpiHoraMelhorAcesso,
     listarMaquinasEstados,
     obterDadosGraficoPing,
-    obterDadosGraficoPingUltimo
+    obterDadosGraficoPingUltimo,
+    graficoSemana
 }

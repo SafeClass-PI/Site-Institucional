@@ -11,7 +11,7 @@ function carregarInfos() {
             imgPerfil.src = 'imgs/profile-default.webp';
         }
     }
-
+    atualizarDataHora();
     carregarSalas();
     estadoDaRedeAtual();
     qtdMaquinasInstaveis();
@@ -23,6 +23,26 @@ function carregarInfos() {
 
 let proximaAtualizacao = null;
 let myChart = null;
+
+let chartSemana = null;
+
+function atualizarDataHora() {
+    const agora = new Date();
+
+    const data = agora.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+
+    document.getElementById('dataHora').textContent = `${data}`;
+}
+
+atualizarDataHora();
+setInterval(atualizarDataHora, 1000);
+
+
 
 // -------------------- KPIS ---------------------------------------
 
@@ -303,30 +323,8 @@ function atualizarGrafico(dados, myChart) {
         }).catch(err => console.error(err));
 }
 
-function atualizarPingSala() {
-    fetch(`/api/ryan/pingMedianoSala`)
-        .then(response => response.json())
-        .then(resultado => {
-            const mediana = resultado.mediana;
-
-            if (mediana == null) return;
-
-            const agora = new Date();
-            const horario = agora.toLocaleTimeString("pt-BR", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            });
-
-            adicionarPontoNoGrafico(horario, mediana);
-        })
-        .catch(erro => console.error("Erro:", erro));
-}
-
-
-
 function graficoSemana() {
-    fetch(`/api/dashboard/graficoFalhasPorComponente}`, { cache: 'no-store' }).then(function (response) {
+    fetch(`/api/ryan/graficoSemana`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -349,36 +347,53 @@ function plotarGraficoSemana(resposta) {
     for (let i = 0; i < resposta.length; i++) {
         let registro = resposta[i];
 
-        if (registro.componente == "Disco Rígido") {
-            registro.componente = "Disco"
+        if (registro.diaSemana == "2") {
+            registro.diaSemana = "Segunda"
         }
-        else if (registro.componente == "Memória RAM") {
-            registro.componente = "RAM"
+        else if (registro.diaSemana == "3") {
+            registro.diaSemana = "Terça"
+        }
+        else if (registro.diaSemana == "4") {
+            registro.diaSemana = "Quarta"
+        }
+        else if (registro.diaSemana == "5") {
+            registro.diaSemana = "Quinta"
+        }
+        else if (registro.diaSemana == "6") {
+            registro.diaSemana = "Sexta"
         }
 
-        labels.push(registro.componente);
-        dadosValores.push(registro.quantidade);
+        labels.push(registro.diaSemana);
+        dadosValores.push(Number(registro.qtdAcima250)); // força número
+    }
+
+    const maxValor = Math.max(...dadosValores);
+    const maxIndex = dadosValores.indexOf(maxValor);
+
+    const valoresOrdenados = [...dadosValores].sort((a, b) => b - a);
+    const segundoMaior = valoresOrdenados[1]; 
+    const segundoIndex = dadosValores.indexOf(segundoMaior);
+
+    let backgroundColors = dadosValores.map(() => '#00ab03d9'); 
+    let borderColors = dadosValores.map(() => '#00AB03');
+
+    if (maxIndex !== -1) {
+        backgroundColors[maxIndex] = '#ea0303b1'; 
+        borderColors[maxIndex] = '#ea0303';
+    }
+
+    if (segundoIndex !== -1) {
+        backgroundColors[segundoIndex] = '#eab303b1'; 
+        borderColors[segundoIndex] = '#eab303';
     }
 
     const data3 = {
         labels: labels,
         datasets: [{
-            label: 'Incidência de Falhas',
+            label: 'Qtd de Instabilidade',
             data: dadosValores,
-            backgroundColor: [
-                'rgba(255, 99, 133, 0.7)',
-                'rgba(54, 162, 235, 0.7)',
-                'rgba(255, 206, 86, 0.7)',
-                'rgba(75, 192, 192, 0.7)',
-                'rgba(153, 102, 255, 0.7)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-            ],
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
             borderWidth: 1
         }]
     };
@@ -387,8 +402,6 @@ function plotarGraficoSemana(resposta) {
         type: 'bar',
         data: data3,
         options: {
-            indexAxis: 'y',
-
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -401,19 +414,21 @@ function plotarGraficoSemana(resposta) {
                 }
             },
             scales: {
-                x: {
+                y: {
                     beginAtZero: true
                 }
             }
         }
     };
 
-    if (chartFalhas != null) {
-        chartFalhas.destroy();
+    console.log(backgroundColors);
+
+    if (chartSemana != null) {
+        chartSemana.destroy();
     }
 
-    chartFalhas = new Chart(
-        document.getElementById('falhas-por-componente'),
+    chartSemana = new Chart(
+        document.getElementById('monitoramento-semana'),
         config3
     );
 }
