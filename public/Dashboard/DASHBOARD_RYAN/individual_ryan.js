@@ -14,8 +14,10 @@ function carregarInfos() {
 
     estadoDaRedeAtual();
     qtdMaquinasInstaveis();
+    horaMelhorAcesso(); 
     graficoMonitoramentoPing();
     graficoSemana();
+    listarMaquinasEstados();
 }
 
 // -------------------- KPIS ---------------------------------------
@@ -77,7 +79,7 @@ function qtdMaquinasInstaveis() {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-        
+
                 if (!resposta || resposta.length === 0) {
                     kpiQtdMaquinasInstaveis.innerText = "Sem dado";
                 }
@@ -95,34 +97,28 @@ function qtdMaquinasInstaveis() {
         });
 }
 
+function horaMelhorAcesso() {
+    fetch(`/api/ryan/kpiHoraMelhorAcesso`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
+                if (!resposta || resposta.length === 0) {
+                    kpiHoraMelhorAcesso.innerText = "Sem dado";
+                }
 
+                vt_dados = resposta;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                kpiHoraMelhorAcesso.innerText = `${vt_dados[0].horaRecomendada}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
 
 // ---------------------- GRÁFICOS ---------------------------------------
 
@@ -294,6 +290,58 @@ function graficoSemana() {
 
 }
 
+
+async function listarMaquinasEstados() {
+    try {
+        const resposta = await fetch(`/api/ryan/listarMaquinasEstados`, { cache: "no-store" });
+        const maquinas = await resposta.json();
+
+        const painel = document.getElementById("alertasMaquina");
+        painel.innerHTML = "";
+
+        maquinas.forEach(m => {
+
+            const estadoClass =
+                m.estadoMaquina === "Instável" ? "status-instavel" :
+                    m.estadoMaquina === "Lento" ? "status-lento" :
+                        "status-estavel";
+
+            const estadoClass2 =
+                m.estadoMaquina === "Instável" ? "status-maquina-instavel" :
+                    m.estadoMaquina === "Lento" ? "status-maquina-lento" :
+                        "status-maquina-estavel";
+
+            const card = document.createElement("div");
+            card.classList.add("maquina-sala");
+
+            card.innerHTML = `
+                <div class="icone-maquina-sala">
+                    <div class="corpo-icone ${estadoClass}">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                </div>
+
+                <div class="infos-maquina-sala">
+                    <div class="id-ping-maquina">
+                        <p>${m.identificacao}</p>
+                        <p>${m.dadoPing}</p>
+                    </div>
+
+                    <div class="estado-maquina-sala">
+                        <div class="${estadoClass2}">
+                            <p>${m.estadoMaquina}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            painel.appendChild(card);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao listar máquinas:", erro);
+    }
+}
 
 // ---------------------- IRRELEVANTES ----------------------------------
 

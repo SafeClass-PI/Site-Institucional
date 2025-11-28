@@ -16,7 +16,25 @@ function kpiQtdMaquinasInstaveis(req, res) {
     })
 }
 
+function kpiHoraMelhorAcesso(req, res) {
+    ryanModel.kpiHoraMelhorAcesso().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function listarMaquinasEstados(req, res) {
+    ryanModel.listarMaquinasEstados().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 module.exports = {
     kpiStatusRede,
-    kpiQtdMaquinasInstaveis
+    kpiQtdMaquinasInstaveis,
+    kpiHoraMelhorAcesso,
+    listarMaquinasEstados
 }

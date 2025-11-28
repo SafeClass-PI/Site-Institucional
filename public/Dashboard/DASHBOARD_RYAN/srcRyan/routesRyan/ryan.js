@@ -11,4 +11,13 @@ router.get("/kpiQtdMaquinasInstaveis", function (req, res) {
     ryanController.kpiQtdMaquinasInstaveis(req, res);
 });
 
+
+router.get("/kpiHoraMelhorAcesso", function (req, res) {
+    ryanController.kpiHoraMelhorAcesso(req, res);
+});
+
+router.get("/listarMaquinasEstados", function (req, res) {
+    ryanController.listarMaquinasEstados(req, res);
+});
+
 module.exports = router;
