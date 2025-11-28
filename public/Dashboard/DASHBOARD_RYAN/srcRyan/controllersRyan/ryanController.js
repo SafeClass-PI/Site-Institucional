@@ -1,5 +1,14 @@
 var ryanModel = require("../modelsRyan/ryanModel");
 
+
+function carregarSalas(req, res) {
+    ryanModel.carregarSalas().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 function kpiStatusRede(req, res) {
     ryanModel.kpiStatusRede().then(function (resultado) {
         res.status(200).json(resultado);
@@ -32,9 +41,38 @@ function listarMaquinasEstados(req, res) {
     })
 }
 
+function obterDadosGraficoPing(req, res) {
+    ryanModel.obterDadosGraficoPing().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function obterDadosGraficoPingUltimo(req, res) {
+    ryanModel.obterDadosGraficoPingUltimo().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function graficoSemana(req, res) {
+    ryanModel.graficoSemana().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+
 module.exports = {
+    carregarSalas,
     kpiStatusRede,
     kpiQtdMaquinasInstaveis,
     kpiHoraMelhorAcesso,
-    listarMaquinasEstados
+    listarMaquinasEstados,
+    obterDadosGraficoPing,
+    obterDadosGraficoPingUltimo,
+    graficoSemana
 }

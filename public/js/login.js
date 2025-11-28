@@ -1,20 +1,19 @@
-// ======= FUNÇÃO DE LOGIN =======
+// ===== FUNÇÃO DE LOGIN =====
 async function entrar() {
-    // pegar elementos do HTML
     const ipt_email = document.getElementById("ipt_email");
     const ipt_senha = document.getElementById("ipt_senha");
 
     const emailVar = ipt_email.value.trim();
     const senhaVar = ipt_senha.value.trim();
 
-    // validação dos campos usando alert
+    // Validação
     if (!emailVar || !senhaVar) {
         alert("Por favor, preencha todos os campos!");
         return false;
     }
 
     try {
-        // faz login
+        // Autenticação
         const resLogin = await fetch("/api/usuarios/autenticar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -31,7 +30,7 @@ async function entrar() {
 
         alert("Login realizado com sucesso!");
 
-        // salva dados no sessionStorage
+        // Salvar dados no sessionStorage
         sessionStorage.ID_USUARIO = dataLogin.usuario.idUsuario;
         sessionStorage.NOME_USUARIO = dataLogin.usuario.nome;
         sessionStorage.EMAIL_USUARIO = dataLogin.usuario.email;
@@ -39,10 +38,17 @@ async function entrar() {
         sessionStorage.STATUS_USUARIO = dataLogin.usuario.status;
         sessionStorage.DATA_ENTRADA = dataLogin.usuario.dtCadastro;
 
-        // marca usuário online
+        // Marcar online
         await marcarUsuarioOnline(sessionStorage.ID_USUARIO);
 
-        // redireciona
+        // Registrar login
+        await fetch("/api/bia/registrarLogin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idUsuario: sessionStorage.ID_USUARIO })
+        });
+
+        // Redirecionar
         window.location.href = "Dashboard/dashboard_geral.html";
 
     } catch (erro) {
@@ -53,10 +59,10 @@ async function entrar() {
     return false;
 }
 
-// Expõe a função no escopo global para o onclick funcionar
+// Tornar a função acessível ao onclick do botão
 window.entrar = entrar;
 
-// ======= FUNÇÃO PARA MARCAR USUÁRIO ONLINE =======
+// ===== MARCAR USUÁRIO ONLINE =====
 async function marcarUsuarioOnline(idUsuario) {
     try {
         const res = await fetch("/api/bia/usuario/online", {
@@ -64,7 +70,6 @@ async function marcarUsuarioOnline(idUsuario) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ idUsuario })
         });
-
         const data = await res.json();
         console.log("✅ Usuário marcado como online:", data);
         return data;
@@ -74,7 +79,7 @@ async function marcarUsuarioOnline(idUsuario) {
     }
 }
 
-// ======= TOGGLE SENHA =======
+// ===== TOGGLE SENHA =====
 document.getElementById('toggleSenha').addEventListener('click', function () {
     const senhaInput = document.getElementById('ipt_senha');
     if (senhaInput.type === 'password') {
