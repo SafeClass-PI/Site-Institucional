@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="individual_bia.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Análise dos usuários</title>
+</head>
+
+<body onload="carregarInfos()">
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+
+        <!-- Menu -->
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../index.html"><img src="../imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="dashboard_geral.html" class="activate">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <div class="icone-links dropdown-container">
+                    <div class="dropbtn">
+                        <i class="fa-solid fa-filter"></i>
+                        <p>Análises</p>
+                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="dashboard_especifica.html">Desempenho Máqs.</a>
+                        <a href="DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
+                        <a href="./individual_bia.html">Acessos Usuários</a>
+                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                        <a href="DASHBOARD_JOAO/individual_felipe.html">Desempenho CPU</a>
+                    </div>
+                </div>
+                <a href="../alertas.html" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="../usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="../maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
+                </a>
+                <button onclick="sairDaPagina()" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-alerta">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <a href="perfil.html">
+                        <div class="profile-img">
+                            <img id="imgPerfil" src="../imgs/profile-default.webp">
+                        </div>
+                        <p id="nome-usuario-pagina"></p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- titulo - escola -->
+            <div class="dashboard-content">
+                <div class="titulo-escola">
+                    <div class="texto-titulo-nome-escola">
+                        <p>Escola Joaquim 3°</p>
+                    </div>
+
+                    <!-- Titulo - diario  -->
+                    <div class="texto-titulo-desempenho">
+                        <p>Análise diária dos usuários - </p>
+                        <p id="dataHora"></p>
+                    </div>
+                </div>
+
+                <!-- KPI  -->
+
+                <div class="area-kpis">
+
+                    <div class="kpi" id="kpi-usuario-online">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-qtd-usuarios-online">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Usuários online</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi" id="kpi-solicitacoes">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-up"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-qtd-solicitacoes">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Total de solicitações</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-horario">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-horario-acessado">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Horario mais acessado</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi" id="kpi-acesso">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-acesso-hoje">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Maior acesso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parte gráficos - alertas -->
+
+                <div class="parte-principal">
+
+                    <!-- Parte gráfico geral --->
+                    <div class="painel-grafico-geral">
+
+                        <!-- Card: Total de Usuários -->
+                        <div class="painel-grafico-card painel-grafico-total-usuarios">
+                            <h3>Total de Usuários</h3>
+
+                            <canvas id="graficoTotalUsuarios"></canvas>
+                        </div>
+
+                        <!-- Card: Ranking -->
+                        <div class="painel-grafico-card painel-grafico-ranking">
+                            <h3>Ranking de Acessos</h3>
+
+                            <canvas id="graficoRanking"></canvas>
+                        </div>
+
+                    </div>
+
+                    <div class="painel-alertas">
+                        <div class="titulo-ultimos-alertas">
+                            <p>Últimos Alertas</p>
+                        </div>
+                        <div class="alertas" id="alertas">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        function carregarInfos() {
+            var usuario = document.getElementById('nome-usuario-pagina');
+            usuario.innerText = sessionStorage.NOME_USUARIO;
+
+            var imgPerfil = document.getElementById('imgPerfil');
+
+            if (imgPerfil) {
+                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+                } else {
+                    imgPerfil.src = 'imgs/profile-default.webp';
+                }
+            }
+
+        }
+
+
+
+
+        function atualizarDataHora() {
+            const agora = new Date();
+
+            const data = agora.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+
+
+            document.getElementById('dataHora').textContent = `${data}`;
+        }
+
+        atualizarDataHora();
+        setInterval(atualizarDataHora, 1000);
+
+
+        function sairDaPagina() {
+            modalLogout.style.display = 'flex';
+            telaOverlay.style.display = 'block';
+        }
+
+        function cancelarSairDaPagina() {
+            modalLogout.style.display = 'none';
+            telaOverlay.style.display = 'none';
+        }
+
+        function confirmarSairDaPagina() {
+            window.location.href = '../index.html'
+        }
+
+        const dropdowns = document.querySelectorAll('.dropdown-container');
+
+        dropdowns.forEach(drop => {
+            const btn = drop.querySelector('.dropbtn');
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                drop.classList.toggle('active');
+            });
+        });
+
+        window.addEventListener('click', () => {
+            dropdowns.forEach(drop => drop.classList.remove('active'));
+        });
+
+
+
+        function atualizarKpiSolicitacoes() {
+            fetch('/api/bia/qtdSolicitacoesDiarias')
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro na resposta da API');
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar solicitações diárias:', error);
+                    document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
+                });
+        }
+
+
+        function carregarInfos() {
+            var usuario = document.getElementById('nome-usuario-pagina');
+            usuario.innerText = sessionStorage.NOME_USUARIO;
+
+            var imgPerfil = document.getElementById('imgPerfil');
+            if (imgPerfil) {
+                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+                } else {
+                    imgPerfil.src = 'imgs/profile-default.webp';
+                }
+            }
+
+            // Chama a função que atualiza o KPI de solicitações
+            atualizarKpiSolicitacoes();
+        }
+
+
+    </script>
+</body>
+
+</html>
