@@ -66,7 +66,7 @@ async function graficoSalasMaisAlertas() {
     new Chart(ctx, {
       type: 'bar',
       data: { labels, datasets: [{ label: 'Alertas', data: valores, backgroundColor: '#1f2937' }] },
-      options: { indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+      options: { scales: { y: { beginAtZero: true } } }
     });
   } catch (e) {}
 }

@@ -10,57 +10,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>Análise Semestral</title>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <style>
-            .conteudo-semestral {
-                width: 94%;
-                height: 70%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-between;
-                gap: 2%;
-            }
-
-            .charts-row {
-                width: 100%;
-                height: 48%;
-                display: flex;
-                justify-content: space-between;
-                gap: 2%;
-            }
-
-            .chart-card {
-                background: var(--cor-branco);
-                border-radius: 10px;
-                padding: 15px;
-                box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 49%;
-                height: 100%;
-            }
-
-            .chart-full {
-                width: 100%;
-                height: 48%;
-                margin-top: 0;
-            }
-
-            .titulo-secao {
-                font-weight: 600;
-                margin-bottom: 10px;
-                font-size: 15px;
-                align-self: flex-start;
-                color: #454545;
-            }
-
-            canvas {
-                max-height: 90% !important;
-                width: 100% !important;
-            }
-        </style>
+        <link rel="stylesheet" href="matheus.css">
     </head>
 
     <body onload="carregarInfos()">
@@ -163,51 +113,53 @@
                                     <p id="kpi-uptime">--%</p>
                                 </div>
                                 <div class="titulo-kpi">
-                                    <p>Taxa de Uptime</p>
+                                    <p>Uptime Semestral</p>
                                 </div>
                             </div>
                         </div>
                         <div class="kpi" id="kpi-sala-mais-alertas">
                             <div class="espaco-icone-kpi">
-                                <div class="icone-kpi"><i class="fa-solid fa-school"></i></div>
+                                <div class="icone-kpi"><i class="fa-solid fa-circle-up"></i></div>
                             </div>
                             <div class="infos-kpi">
                                 <div class="dado-kpi">
                                     <p id="kpi-sala">--</p>
                                 </div>
                                 <div class="titulo-kpi">
-                                    <p>Sala com mais alertas</p>
+                                    <p>Sala com mais alertas (6 meses)</p>
                                 </div>
                             </div>
                         </div>
                         <div class="kpi" id="kpi-qtd-alertas">
                             <div class="espaco-icone-kpi">
-                                <div class="icone-kpi"><i class="fa-solid fa-bell"></i></div>
+                                <div class="icone-kpi"><i class="fa-solid fa-circle-up"></i></div>
                             </div>
                             <div class="infos-kpi">
                                 <div class="dado-kpi">
                                     <p id="kpi-alertas">--</p>
                                 </div>
                                 <div class="titulo-kpi">
-                                    <p>Alertas 6 meses</p>
+                                    <p>Alertas no semestre</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="conteudo-semestral">
-                        <div class="charts-row">
-                            <div class="chart-card">
-                                <p class="titulo-secao">Taxa de Uptime x Downtime (6 meses)</p>
-                                <canvas id="chart-uptime"></canvas>
+                        <div class="charts-layout">
+                            <div class="charts-left">
+                                <div class="chart-card">
+                                    <p class="titulo-secao">Uptime x Downtime (semestre)</p>
+                                    <canvas id="chart-uptime"></canvas>
+                                </div>
+                                <div class="chart-card">
+                                    <p class="titulo-secao">Alertas por mês (semestre)</p>
+                                    <canvas id="chart-alertas"></canvas>
+                                </div>
                             </div>
-                            <div class="chart-card">
-                                <p class="titulo-secao">Quantidade de Alertas por Mês (6 meses)</p>
-                                <canvas id="chart-alertas"></canvas>
+                            <div class="chart-card charts-right">
+                                <p class="titulo-secao">Salas com mais alertas (semestre)</p>
+                                <canvas id="chart-salas"></canvas>
                             </div>
-                        </div>
-                        <div class="chart-card chart-full">
-                            <p class="titulo-secao">Salas com mais alertas nos últimos 6 meses</p>
-                            <canvas id="chart-salas"></canvas>
                         </div>
                     </div>
                 </div>
