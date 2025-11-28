@@ -41,9 +41,30 @@ function marcarOnline(req, res) {
         });
 }
 
+function registrarLogin(req, res) {
+    const { idUsuario } = req.body;
+    biaModel.registrarLogin(idUsuario)
+        .then(resultado => res.status(200).json({ success: true, resultado }))
+        .catch(erro => {
+            console.error("Erro ao registrar login:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+function buscarHoraMaisAcessada(req, res) {
+    biaModel.horaMaisAcessada()
+        .then(resultado => res.status(200).json(resultado[0] || { hora: null, total: 0 }))
+        .catch(erro => {
+            console.error("Erro ao buscar horário mais acessado:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
 module.exports = {
     buscarQtdSolicitacoesDiarias,
     listarUsuariosOnline,
     totalUsuarios,
-    marcarOnline
+    marcarOnline,
+    registrarLogin,
+    buscarHoraMaisAcessada
 };

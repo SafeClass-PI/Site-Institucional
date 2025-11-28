@@ -49,10 +49,32 @@ function totalUsuarios() {
     return database.executar(instrucaoSql);
 }
 
+function registrarLogin(idUsuario) {
+    var instrucaoSql = `
+        INSERT INTO logins (idUsuario, dataHoraLogin)
+        VALUES (${idUsuario}, NOW());
+    `;
+    return database.executar(instrucaoSql);
+}
+
+// KPI: horário mais acessado
+function horaMaisAcessada() {
+    var instrucaoSql = `
+        SELECT HOUR(dataHoraLogin) AS hora, COUNT(*) AS total
+        FROM logins
+        GROUP BY hora
+        ORDER BY total DESC
+        LIMIT 1;
+    `;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarQtdSolicitacoesDiarias,
     marcarOnline,
     marcarOffline,
     listarUsuariosOnline,
-    totalUsuarios
+    totalUsuarios,
+    registrarLogin,
+    horaMaisAcessada
 };

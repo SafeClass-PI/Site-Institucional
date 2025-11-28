@@ -222,124 +222,148 @@
         </div>
     </div>
 
-   <script>
+    <script>
 
-    function atualizarDataHora() {
-        const agora = new Date();
-        const data = agora.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
+        function atualizarDataHora() {
+            const agora = new Date();
+            const data = agora.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            document.getElementById('dataHora').textContent = `${data}`;
+        }
+        atualizarDataHora();
+        setInterval(atualizarDataHora, 1000);
+
+
+        function sairDaPagina() {
+            modalLogout.style.display = 'flex';
+            telaOverlay.style.display = 'block';
+        }
+
+        function cancelarSairDaPagina() {
+            modalLogout.style.display = 'none';
+            telaOverlay.style.display = 'none';
+        }
+
+        function confirmarSairDaPagina() {
+            window.location.href = '../index.html';
+        }
+
+
+        const dropdowns = document.querySelectorAll('.dropdown-container');
+        dropdowns.forEach(drop => {
+            const btn = drop.querySelector('.dropbtn');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                drop.classList.toggle('active');
+            });
         });
-        document.getElementById('dataHora').textContent = `${data}`;
-    }
-    atualizarDataHora();
-    setInterval(atualizarDataHora, 1000);
-
-  
-    function sairDaPagina() {
-        modalLogout.style.display = 'flex';
-        telaOverlay.style.display = 'block';
-    }
-
-    function cancelarSairDaPagina() {
-        modalLogout.style.display = 'none';
-        telaOverlay.style.display = 'none';
-    }
-
-    function confirmarSairDaPagina() {
-        window.location.href = '../index.html';
-    }
-
-
-    const dropdowns = document.querySelectorAll('.dropdown-container');
-    dropdowns.forEach(drop => {
-        const btn = drop.querySelector('.dropbtn');
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            drop.classList.toggle('active');
+        window.addEventListener('click', () => {
+            dropdowns.forEach(drop => drop.classList.remove('active'));
         });
-    });
-    window.addEventListener('click', () => {
-        dropdowns.forEach(drop => drop.classList.remove('active'));
-    });
 
- 
-    function carregarInfos() {
-        const usuario = document.getElementById('nome-usuario-pagina');
-        usuario.innerText = sessionStorage.NOME_USUARIO || "Usuário";
 
-        const imgPerfil = document.getElementById('imgPerfil');
-        if (imgPerfil) {
-            if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
-                imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
-            } else {
-                imgPerfil.src = 'imgs/profile-default.webp';
+        function carregarInfos() {
+            const usuario = document.getElementById('nome-usuario-pagina');
+            usuario.innerText = sessionStorage.NOME_USUARIO || "Usuário";
+
+            const imgPerfil = document.getElementById('imgPerfil');
+            if (imgPerfil) {
+                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+                } else {
+                    imgPerfil.src = 'imgs/profile-default.webp';
+                }
+            }
+
+
+            atualizarKpiSolicitacoes();
+            atualizarKpiUsuariosOnline();
+
+
+            if (sessionStorage.ID_USUARIO) {
+                marcarUsuarioOnline(sessionStorage.ID_USUARIO);
             }
         }
 
-   
-        atualizarKpiSolicitacoes();
-        atualizarKpiUsuariosOnline();
 
-      
-        if (sessionStorage.ID_USUARIO) {
-            marcarUsuarioOnline(sessionStorage.ID_USUARIO);
+        function atualizarKpiSolicitacoes() {
+            fetch('/api/bia/qtdSolicitacoesDiarias')
+                .then(res => {
+                    if (!res.ok) throw new Error('Erro na resposta da API');
+                    return res.json();
+                })
+                .then(data => {
+                    document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
+                })
+                .catch(erro => {
+                    console.error('Erro ao buscar solicitações diárias:', erro);
+                    document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
+                });
         }
-    }
-
- 
-    function atualizarKpiSolicitacoes() {
-        fetch('/api/bia/qtdSolicitacoesDiarias')
-            .then(res => {
-                if (!res.ok) throw new Error('Erro na resposta da API');
-                return res.json();
-            })
-            .then(data => {
-                document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
-            })
-            .catch(erro => {
-                console.error('Erro ao buscar solicitações diárias:', erro);
-                document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
-            });
-    }
 
 
-    async function marcarUsuarioOnline(idUsuario) {
-        try {
-            const res = await fetch("/api/bia/usuario/online", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ idUsuario })
-            });
-            const data = await res.json();
-            console.log("✅ Usuário marcado como online:", data);
-        } catch (erro) {
-            console.error("❌ Erro ao marcar usuário online:", erro);
+        async function marcarUsuarioOnline(idUsuario) {
+            try {
+                const res = await fetch("/api/bia/usuario/online", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idUsuario })
+                });
+                const data = await res.json();
+                console.log("✅ Usuário marcado como online:", data);
+            } catch (erro) {
+                console.error("❌ Erro ao marcar usuário online:", erro);
+            }
         }
-    }
 
 
-    function atualizarKpiUsuariosOnline() {
-        Promise.all([
-            fetch("/api/bia/usuario/online").then(res => res.json()),
-            fetch("/api/bia/totalUsuarios").then(res => res.json())
-        ])
-        .then(([usuariosOnline, totalUsuarios]) => {
-            const qtdOnline = usuariosOnline.length;
-            const qtdTotal = totalUsuarios.totalUsuarios || 0;
-            document.getElementById("kpi-qtd-usuarios-online").innerText = `${qtdOnline}/${qtdTotal}`;
-        })
-        .catch(erro => {
-            console.error("Erro ao atualizar KPI de usuários online:", erro);
-            document.getElementById("kpi-qtd-usuarios-online").innerText = "Erro";
-        });
-    }
+        function atualizarKpiUsuariosOnline() {
+            Promise.all([
+                fetch("/api/bia/usuario/online").then(res => res.json()),
+                fetch("/api/bia/totalUsuarios").then(res => res.json())
+            ])
+                .then(([usuariosOnline, totalUsuarios]) => {
+                    const qtdOnline = usuariosOnline.length;
+                    const qtdTotal = totalUsuarios.totalUsuarios || 0;
+                    document.getElementById("kpi-qtd-usuarios-online").innerText = `${qtdOnline}/${qtdTotal}`;
+                })
+                .catch(erro => {
+                    console.error("Erro ao atualizar KPI de usuários online:", erro);
+                    document.getElementById("kpi-qtd-usuarios-online").innerText = "Erro";
+                });
+        }
 
 
-    window.addEventListener("load", carregarInfos);
-    setInterval(atualizarKpiUsuariosOnline, 10000);
-</script>
+        window.addEventListener("load", carregarInfos);
+        setInterval(atualizarKpiUsuariosOnline, 10000);
+
+
+        function atualizarKpiHorario() {
+            fetch("/api/bia/horaMaisAcessada")
+                .then(res => res.json())
+                .then(data => {
+                    const elemento = document.getElementById("kpi-horario-acessado");
+                    if (data.hora !== null) {
+                        //elemento.innerText = `${data.hora}:00 )`;
+                        elemento.innerText = `${data.hora}:00 \n (${data.total} acessos)`;
+                    } else {
+                        elemento.innerText = "Sem dados";
+                    }
+                })
+                .catch(erro => {
+                    console.error("Erro ao atualizar KPI de horário:", erro);
+                    document.getElementById("kpi-horario-acessado").innerText = "Erro";
+                });
+        }
+
+        // chama na inicialização
+        atualizarKpiHorario();
+        setInterval(atualizarKpiHorario, 10000);
+
+    </script>
 
 </body>
 
