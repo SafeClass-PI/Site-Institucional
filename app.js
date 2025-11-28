@@ -23,6 +23,9 @@ var alertasRouter = require("./src/routes/alertas");
 var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/cpuMaxRoutes");
 const RelatorioController = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/controllersFelipe/relatorioController');
 const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/salaRoutes');
+const maquinaRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/maquinaRoutes');
+// rota de alertas do Felipe
+const alertasFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/alertasRoutes');
 
 
 ;
@@ -59,6 +62,9 @@ app.use("/api/ryan", ryanRouter);
 app.use("/api/bia", biaRouter);
 app.get('/api/relatorio/pdf', RelatorioController.gerarRelatorioPDF);
 app.use('/api', salaFelipeRoutes);
+app.use('/api/sala', alertasFelipeRoutes);
+app.use('/api', maquinaRoutes);
+
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
 // app.use("/api/medidas", medidasRouter);

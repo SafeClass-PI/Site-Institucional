@@ -1,27 +1,38 @@
 const database = require('../databasesFelipe/config'); // conexão padrão
 
+// Conta todos os alertas de CPU da sala
+async function obterTotalAlertasCPU(idSala) {
+  const sql = `
+    SELECT COUNT(a.idAlerta) AS totalAlertas
+    FROM Sala s
+    JOIN Maquina m ON s.idSala = m.fkSala
+    JOIN Componente c ON m.idMaquina = c.fkMaquina
+    JOIN Captura cap ON c.idComponente = cap.fkComponente
+    JOIN Parametro p ON c.idComponente = p.fkComponente
+    JOIN Alerta a ON a.fkCaptura = cap.idCaptura AND a.fkParametro = p.idParametro
+    WHERE s.idSala = ${idSala}
+      AND c.nome = 'CPU'; -- ajuste conforme o nome da coluna que identifica CPU
+  `;
+
+  const resultado = await database.executar(sql);
+  return resultado.length > 0 ? resultado[0].totalAlertas : 0;
+}
+
+// Calcula a mediana (aqui usamos AVG como aproximação) do uso de CPU
 async function obterMedianaCPU(idSala) {
   const sql = `
-    SELECT sub.registro AS medianaCPU
-    FROM (
-        SELECT cap.registro,
-               ROW_NUMBER() OVER (ORDER BY cap.registro) AS row_num,
-               COUNT(*) OVER () AS total_rows
-        FROM Sala s
-        JOIN Maquina m ON s.idSala = m.fkSala
-        JOIN Componente c ON m.idMaquina = c.fkMaquina
-        JOIN Captura cap ON c.idComponente = cap.fkComponente
-        WHERE s.idSala = ${idSala}
-          AND c.nome = 'CPU'
-    ) AS sub
-    WHERE sub.row_num = FLOOR((sub.total_rows + 1) / 2);
+    SELECT ROUND(AVG(cap.registro),0) AS medianaCPU
+    FROM Sala s
+    JOIN Maquina m ON s.idSala = m.fkSala
+    JOIN Componente c ON m.idMaquina = c.fkMaquina
+    JOIN Captura cap ON c.idComponente = cap.fkComponente
+    WHERE s.idSala = ${idSala}
+      AND c.nome = 'CPU';
   `;
 
   const resultado = await database.executar(sql);
   return resultado.length > 0 ? resultado[0].medianaCPU : null;
 }
-
-
 
 // Função principal que retorna os dados da sala
 async function obterDadosSala(idSala, data) {
@@ -68,14 +79,38 @@ async function obterDadosSala(idSala, data) {
   if (medianaCPU >= 75) statusEvolucao = 'Crítico';
   else if (medianaCPU >= 50) statusEvolucao = 'Atenção';
 
+  // Busca total de alertas reais
+  const totalAlertas = await obterTotalAlertasCPU(idSala);
+
   return {
     sala: idSala,
     data: dataFormatada,
     maquinaCritica,
-    totalAlertas: 999, // ainda mockado, vamos desmockar depois
+    totalAlertas,
     medianaCPU,
     statusEvolucao
   };
 }
 
-module.exports = { obterDadosSala, obterMedianaCPU };
+async function obterUltimosAlertas(idSala) {
+  const sql = `
+    SELECT 
+      p.nivel AS nivel,
+      m.idMaquina AS maquina,
+      DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
+      s.nome AS sala
+    FROM Alerta a
+    JOIN Captura cap ON a.fkCaptura = cap.idCaptura
+    JOIN Componente c ON cap.fkComponente = c.idComponente
+    JOIN Maquina m ON c.fkMaquina = m.idMaquina
+    JOIN Sala s ON m.fkSala = s.idSala
+    JOIN Parametro p ON a.fkParametro = p.idParametro
+    WHERE s.idSala = ${idSala}
+      AND c.nome = 'CPU'
+    ORDER BY cap.dtCaptura DESC
+    LIMIT 10;
+  `;
+  return await database.executar(sql);
+}
+
+module.exports = { obterDadosSala, obterMedianaCPU, obterTotalAlertasCPU, obterUltimosAlertas };

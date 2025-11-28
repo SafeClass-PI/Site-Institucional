@@ -95,13 +95,14 @@
             <div class="dashboard-content">
                 <div class="titulo-dashboard">
                     <div class="texto-titulo-nome-empresa-especifico">
-                        <p>Escola Joaquim 3°</p>
+                        <p>Escola Joaquim 3° <span id="salaSelecionadaTexto"></span></p>
                     </div>
+
                     <div class="texto-titulo-dashboard">
-                        <p>Desempenho Diário -</p>
+                        <p>Desempenho Diário CPU -</p>
                         <p id="dataHora"></p>
                     </div>
-                    
+
                     <div class="selects-escolha-maquina">
                         <select id="escolha-sala" onchange="selecionarSala()">
                             <option value="" disabled selected>Carregando Salas...</option>
@@ -140,7 +141,7 @@
                                 <p id="kpiStatusMaquinaEscola"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Máquina com mais falhas na CPU</p>
+                                <p>Máquina mais crítica</p>
                             </div>
                         </div>
 
@@ -198,11 +199,15 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p id="kpiUptimeMaquinaSala"></p>
+                                <p id="kpiUptimeMaquinaSala"
+                                    style="margin-top: 20px; font-size: 1.6em; font-weight: bold; color: #2c3e50; text-align: center;">
+                                </p>
+
                             </div>
                             <div class="titulo-kpi">
-                                <p style="margin-left: -10px; margin-top: 60px;">Mediana do uso de CPU</p>
+                                <p style="margin-left: -10px; margin-top: 4px;">Mediana do uso de CPU</p>
                             </div>
+
                         </div>
 
                         <!-- Modal explicativo -->
@@ -241,12 +246,16 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p id="kpiTaxaMaisCriticaMaquina"></p>
+                                <p id="kpiTotalAlertasSala"
+                                    style="margin-top: 10px; font-size: 1.6em; font-weight: bold; color: #c0392b; text-align: center;">
+                                </p>
                             </div>
                             <div class="titulo-kpi">
-                                <p style="margin-top: 60px;">Total de alertas</p>
+                                <p style="margin-top: 10px; font-size: 0.9em; text-align: center;">Total de alertas</p>
                             </div>
                         </div>
+
+
 
                         <!-- Modal explicativo -->
                         <div id="modal-alertas" class="kpiModal">
@@ -285,8 +294,9 @@
                                     </div>
                                 </div>
                                 <select id="componente-grafico" onchange="trocarComponente()">
-                                    <option value="PC01">Máquina 1</option>
+                                    <option value="" disabled selected>Selecione a Máquina</option>
                                 </select>
+
                             </div>
                             <div class="grafico-monitoramento">
                                 <canvas id="monitoramento-componente"></canvas>
@@ -304,17 +314,61 @@
 
                         </div>
                     </div>
-                    <div class="alertas-e-falhas">
+                    <div class="alertas-e-falhas" style="position: relative;">
                         <div class="ultimos-alertas">
-                            <div class="titulo-alertas-maquina">
+                            <div class="titulo-alertas-maquina"
+                                style="display: flex; justify-content: space-between; align-items: center;">
                                 <p>Últimos Alertas</p>
+                                <!-- Ícone de informação -->
+                                <button class="infoIcon" data-target="modalUltimosAlertas" style="
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #3498db;
+      ">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </button>
                             </div>
-                            <div id="alertasMaquina">
 
+                            <div id="alertasMaquina"></div>
+
+                            <!-- Modal explicativo -->
+                            <div id="modalUltimosAlertas" style="
+      display: none;
+      position: absolute;
+      top: -5px;
+      right: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 240px;
+      font-size: 0.85em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 100;
+      border-radius: 6px;
+    ">
+                                <strong>Sobre esta seção:</strong>
+                                <p>Exibe os últimos 10 alertas gerados pelas máquinas da sala selecionada, indicando
+                                    falhas críticas ou situações que exigem atenção imediata.</p>
+                                <button onclick="fecharModal('modalUltimosAlertas')" style="
+        margin-top: 6px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 4px 8px;
+        font-size: 0.8em;
+        cursor: pointer;
+        border-radius: 4px;
+      ">Fechar</button>
                             </div>
                         </div>
-
                     </div>
+
+
+
+
+
                 </div>
             </div>
         </div>
