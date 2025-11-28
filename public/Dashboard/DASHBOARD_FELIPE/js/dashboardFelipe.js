@@ -131,19 +131,23 @@ async function selecionarSala() {
   const selectSala = document.getElementById('escolha-sala');
   const salaId = selectSala.value;
 
+  // 👇 Atualiza o nome da sala no topo
+  const nomeSalaSelecionada = selectSala.options[selectSala.selectedIndex].text;
+  const salaTexto = document.getElementById('salaSelecionadaTexto');
+  if (salaTexto) salaTexto.textContent = `${nomeSalaSelecionada}`;
+
   const resposta = await fetch(`/api/maquinas?salaId=${salaId}`);
   const { maquinas } = await resposta.json();
 
   if (maquinas.length > 0) {
-  const maquinaCritica = maquinas[0]; // ou lógica para escolher
-  await carregarMaquinasPorSala(salaId);
+    const maquinaCritica = maquinas[0];
+    await carregarMaquinasPorSala(salaId);
 
-  carregarKpiMaquinaCritica(salaId);
-  carregarMedianaCPU(salaId);
-  carregarTotalAlertas(salaId);
-  carregarUltimosAlertas(salaId);
-}
-
+    carregarKpiMaquinaCritica(salaId);
+    carregarMedianaCPU(salaId);
+    carregarTotalAlertas(salaId);
+    carregarUltimosAlertas(salaId);
+  }
 }
 
 

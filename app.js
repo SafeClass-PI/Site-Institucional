@@ -62,12 +62,12 @@ app.use("/api/ryan", ryanRouter);
 app.use("/api/bia", biaRouter);
 app.get('/api/relatorio/pdf', RelatorioController.gerarRelatorioPDF);
 app.use('/api', salaFelipeRoutes);
-<<<<<<< HEAD
+
 app.use('/api/sala', alertasFelipeRoutes);
 app.use('/api', maquinaRoutes);
-=======
+
 app.use("/api/matheus", matheusRouter);
->>>>>>> bf76aac82118ddbfc316332e8a78e20f03f8cd38
+
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
