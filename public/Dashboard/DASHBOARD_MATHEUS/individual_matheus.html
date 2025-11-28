@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>Análise Semestral</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            .conteudo-semestral {
+                width: 94%;
+                height: 70%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                gap: 2%;
+            }
+
+            .charts-row {
+                width: 100%;
+                height: 48%;
+                display: flex;
+                justify-content: space-between;
+                gap: 2%;
+            }
+
+            .chart-card {
+                background: var(--cor-branco);
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 49%;
+                height: 100%;
+            }
+
+            .chart-full {
+                width: 100%;
+                height: 48%;
+                margin-top: 0;
+            }
+
+            .titulo-secao {
+                font-weight: 600;
+                margin-bottom: 10px;
+                font-size: 15px;
+                align-self: flex-start;
+                color: #454545;
+            }
+
+            canvas {
+                max-height: 90% !important;
+                width: 100% !important;
+            }
+        </style>
+    </head>
+
+    <body onload="carregarInfos()">
+        <div class="overlay" id="telaOverlay"></div>
+        <div class="dashboard">
+            <div class="side-bar">
+                <div class="logo">
+                    <a href="../index.html"><img src="../imgs/logo.png"></a>
+                </div>
+                <div class="links">
+                    <a href="../dashboard_geral.html" class="icone-links">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <p>Painel Geral</p>
+                    </a>
+                    <div class="icone-links dropdown-container">
+                        <div class="dropbtn">
+                            <i class="fa-solid fa-filter"></i>
+                            <p>Análises</p>
+                            <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
+                            <a href="../DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
+                            <a href="../DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
+                            <a href="individual_matheus.html">Semestre Escola</a>
+                            <a href="../DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                            <a href="../DASHBOARD_JOAO/individual_felipe.html">Desempenho CPU</a>
+                        </div>
+                    </div>
+                    <a href="../alertas.html" class="icone-links">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>Alertas</p>
+                    </a>
+                    <a href="../usuarios.html" class="icone-links">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Usuários</p>
+                    </a>
+                    <a href="../maquinas.html" class="icone-links">
+                        <i class="fa-solid fa-computer"></i>
+                        <p>Máquinas</p>
+                    </a>
+                    <a href="../perfil.html" class="icone-links">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Perfil</p>
+                    </a>
+                    <button onclick="sairDaPagina()" class="icone-links">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <p>Sair</p>
+                    </button>
+                    <div class="modal-logout" id="modalLogout">
+                        <div class="icone-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </div>
+                        <div class="mensagem-logout">
+                            <p>Sair da Página</p>
+                            <p>Deseja realmente encerrar sua sessão??</p>
+                        </div>
+                        <div class="btns-logout-modal">
+                            <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                                <p>Cancelar</p>
+                            </button>
+                            <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                                <p>Sim, sair!</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="perfil-notificacao">
+                    <i class="fa-solid fa-bell"></i>
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="profile-icone">
+                        <a href="../perfil.html">
+                            <div class="profile-img">
+                                <img id="imgPerfil" src="../imgs/profile-default.webp">
+                            </div>
+                            <p id="nome-usuario-pagina"></p>
+                        </a>
+                    </div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="titulo-dashboard-geral">
+                        <div class="texto-titulo-nome-empresa">
+                            <p>Escola Joaquim 3°</p>
+                        </div>
+                        <div class="texto-titulo-dashboard-geral">
+                            <p>Desempenho Semestral</p>
+                        </div>
+                    </div>
+                    <div class="area-kpis">
+                        <div class="kpi" id="kpi-taxa-uptime">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi">
+                                    <i class="fa-solid fa-circle-up"></i>
+                                </div>
+                            </div>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p id="kpi-uptime">--%</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Taxa de Uptime</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kpi" id="kpi-sala-mais-alertas">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi"><i class="fa-solid fa-school"></i></div>
+                            </div>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p id="kpi-sala">--</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Sala com mais alertas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kpi" id="kpi-qtd-alertas">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi"><i class="fa-solid fa-bell"></i></div>
+                            </div>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p id="kpi-alertas">--</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Alertas 6 meses</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conteudo-semestral">
+                        <div class="charts-row">
+                            <div class="chart-card">
+                                <p class="titulo-secao">Taxa de Uptime x Downtime (6 meses)</p>
+                                <canvas id="chart-uptime"></canvas>
+                            </div>
+                            <div class="chart-card">
+                                <p class="titulo-secao">Quantidade de Alertas por Mês (6 meses)</p>
+                                <canvas id="chart-alertas"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card chart-full">
+                            <p class="titulo-secao">Salas com mais alertas nos últimos 6 meses</p>
+                            <canvas id="chart-salas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="matheus.js"></script>
+    </body>
+
+</html>

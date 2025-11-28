@@ -1,421 +1,422 @@
 <!DOCTYPE html>
 <html lang="pt">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/usuarios.css">
-    <link rel="stylesheet" href="css/maquinas.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Máquinas</title>
-</head>
-<body onload="carregarInfos()">
-    <div class="overlay" id="telaOverlay">
-    </div>
-    <div class="dashboard">
-        <div class="side-bar">
-            <div class="logo">
-                <a href="../index.html"><img src="imgs/logo.png"></a>
-            </div>
-            <div class="links">
-                <a href="dashboard_geral.html" class="icone-links">
-                    <i class="fa-solid fa-chart-simple"></i>
-                    <p>Painel Geral</p>
-                </a>
-                <div class="icone-links dropdown-container">
-                    <div class="dropbtn">
-                        <i class="fa-solid fa-filter"></i>
-                        <p>Análises</p>
-                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
-                    </div>
-                    <div class="dropdown-content">
-                        <a href="dashboard_especifica.html">Desempenho Máqs.</a>
-                        <a href="DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
-                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
-                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
-                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
-                        <a href="DASHBOARD_JOAO/individual_felipe.html">Desempenho CPU</a>
-                    </div>
-                </div>
-                <a href="alertas.html" class="icone-links">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <p>Alertas</p>
-                </a>
-                <a href="usuarios.html" class="icone-links">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Usuários</p>
-                </a>
-                <a href="maquinas.html" class="activate">
-                    <i class="fa-solid fa-computer"></i>
-                    <p>Máquinas</p>
-                </a>
-                <a href="perfil.html" class="icone-links">
-                    <i class="fa-solid fa-user"></i>
-                    <p>Perfil</p>
-                </a>
-                <button onclick="sairDaPagina()" class="icone-links">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <p>Sair</p>
-                </button>
-                <div class="modal-logout" id="modalLogout">
-                    <div class="icone-logout">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </div>
-                    <div class="mensagem-logout">
-                        <p>Sair da Página</p>
-                        <p>Deseja realmente encerrar sua sessão??</p>
-                    </div>
-                    <div class="btns-logout-modal">
-                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
-                            <p>Cancelar</p>
-                        </button>
-                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
-                            <p>Sim, sair!</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/usuarios.css">
+        <link rel="stylesheet" href="css/maquinas.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>Máquinas</title>
+    </head>
+
+    <body onload="carregarInfos()">
+        <div class="overlay" id="telaOverlay">
         </div>
-        <div class="main-content">
-            <div class="perfil-notificacao">
-                <i class="fa-solid fa-bell"></i>
-                <i class="fa-solid fa-envelope"></i>
-                <div class="profile-icone">
-                    <a href="perfil.html">
-                        <div class="profile-img">
-                            <img id="imgPerfil" src="imgs/profile-default.webp">
-                        </div>
-                        <p id="nome-usuario-pagina"></p>
+        <div class="dashboard">
+            <div class="side-bar">
+                <div class="logo">
+                    <a href="../index.html"><img src="imgs/logo.png"></a>
+                </div>
+                <div class="links">
+                    <a href="dashboard_geral.html" class="icone-links">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <p>Painel Geral</p>
                     </a>
-                </div>
-            </div>
-            <div class="painel-usuarios">
-                <div class="titulo-painel">
-                    <p id="titulo-tela">Máquinas Escola Joaquim 3°</p>
-                    <div class="btns-titulo-painel">
-                        <button id="exportarDados">
-                            <p>Exportar CSV</p>
-                        </button>
-                        <button id="adicionarUsuario" onclick="abrirModalCadastrar()">
-                            <i class="fa-solid fa-plus"></i>
-                            <p>Adicionar Máquina</p>
-                        </button>
-                    </div>
-                    <div class="modal-adicionar-maquina" id="modalAdicionarMaquina">
-                        <div class="titulo-modal-adicionar-maquina">
-                            <p>Adicionar Máquina</p>
+                    <div class="icone-links dropdown-container">
+                        <div class="dropbtn">
+                            <i class="fa-solid fa-filter"></i>
+                            <p>Análises</p>
+                            <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
                         </div>
-                        <div class="infos-modal-adicionar-maquina">
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Username</p>
-                                </div>
-                                <div class="input-campo">
-                                    <input id="ipt_user" type="text" placeholder="Digite o username">
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>IP</p>
-                                </div>
-                                <div class="input-campo">
-                                    <input id="ipt_ip" type="text" placeholder="Digite o endereço de IP">
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Sistema Operacional</p>
-                                </div>
-                                <div class="input-campo">
-                                    <input id="ipt_so" type="text" placeholder="Digite o S.O">
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Senha da máquina</p>
-                                </div>
-                                <div class="input-campo">
-                                    <input id="ipt_senha" type="text" placeholder="Digite sua senha">
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo" id="pSala">
-                                    <p>Sala</p>
-                                </div>
-                                <select id="select_salas">
-                                    <option>Carregando salas...</option>
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="campos-capacidade-maquina">
-                            <p>Especificação Técnica</p>
-                            <div class="dados-capacidade">
-                                <div class="inserir-capacidade">
-                                    <p>Disco</p>
-                                    <input id="ipt_disco" type="text" placeholder="GB">
-                                </div>
-                                <div class="inserir-capacidade">
-                                    <p>RAM</p>
-                                    <input id="ipt_ram" type="text" placeholder="GB">
-                                </div>
-                                <div class="inserir-capacidade">
-                                    <p>CPU</p>
-                                    <input id="ipt_cpu" type="text" placeholder="Tipo">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="btns-modal-adicionar-maquina">
-                            <button onclick="cancelarAdicionarMaquina()">Cancelar</button>
-                            <button onclick="cadastrarMaquina()">Criar</button>
-
+                        <div class="dropdown-content">
+                            <a href="dashboard_especifica.html">Desempenho Máqs.</a>
+                            <a href="DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
+                            <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
+                            <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                            <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                            <a href="DASHBOARD_JOAO/individual_felipe.html">Desempenho CPU</a>
                         </div>
                     </div>
-                </div>
-                <div class="filtros-usuarios">
-                    <div class="filtros">
-                        <div class="select-com-icone">
-                            <i class="fa fa-filter"></i>
-                            <select id="filtroMaquina">
-                                <option value="" disabled selected>Filtros</option>
-                                <option value="">Todas</option>
-                                <option value="status:ligado">Ligadas</option>
-                                <option value="status:desligado">Desligada</option>
-                            </select>
+                    <a href="alertas.html" class="icone-links">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>Alertas</p>
+                    </a>
+                    <a href="usuarios.html" class="icone-links">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Usuários</p>
+                    </a>
+                    <a href="maquinas.html" class="activate">
+                        <i class="fa-solid fa-computer"></i>
+                        <p>Máquinas</p>
+                    </a>
+                    <a href="perfil.html" class="icone-links">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Perfil</p>
+                    </a>
+                    <button onclick="sairDaPagina()" class="icone-links">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <p>Sair</p>
+                    </button>
+                    <div class="modal-logout" id="modalLogout">
+                        <div class="icone-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
                         </div>
-                        <button class="desligar-maquinas" onclick="abrirModalDesligarMaquinas()">
-                            <p>Desligar Máquinas</p>
-                        </button>
-                    </div>
-                    <div class="modal-maquinas-ligadas" id="modalDesligarMaquinas">
-                        <div class="title-maquinas-ligadas">
-                            <p>Qual máquina você deseja desligar?</p>
+                        <div class="mensagem-logout">
+                            <p>Sair da Página</p>
+                            <p>Deseja realmente encerrar sua sessão??</p>
                         </div>
-                        <div class="select-maquina-desligar">
-                            <select id="selectMaquina"></select>
-                        </div>
-                        <div class="btns-desligar-maquina">
-                            <button onclick="cancelarDesligamento()">Cancelar</button>
-                            <button onclick="desligarMaquinaSelecionada()">Desligar</button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="lista-usuarios">
-                    <div class="modal-editar-maquina" id="modalEditarMaquina">
-                        <div class="titulo-modal-editar-maquina">
-                            <p>Editar Informações</p>
-                        </div>
-                        <div class="infos-modal-editar-maquina">
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Identificação</p>
-                                </div>
-                                <div class="input-campo">
-                                    <input id="ipt_editar_identificacao" type="text" placeholder="Máquina" disabled>
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Sala</p>
-                                </div>
-                                <div class="select-campo">
-                                    <select id="select_editar_sala">
-                                        <option>Carregando salas...</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="infos-input">
-                                <div class="titulo-campo">
-                                    <p>Sistema Operacional</p>
-                                </div>
-                                <div class="input-campo">
-                                    <input id="ipt_editar_so" type="text" placeholder="Windows 11">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="btns-modal-editar-maquina">
-                            <button onclick="cancelarEdicaoMaquina()">Cancelar</button>
-                            <button onclick="efetuarEdicaoMaquina()">Editar</button>
-                        </div>
-                    </div>
-                    <div class="modal-deletar-maquina" id="modalDeletarMaquina">
-                        <div class="icone-alerta">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <div class="mensagem-deletar-modal">
-                            <p>Deletar Máquina 1</p>
-                            <p>Você tem certeza que quer deletar esta máquina?</p>
-                        </div>
-                        <div class="btns-deletar-modal">
-                            <button id="cancelar-deletar" onclick="cancelarExclusaoMaquina()">
+                        <div class="btns-logout-modal">
+                            <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
                                 <p>Cancelar</p>
                             </button>
-                            <button id="confirmar-deletar" onclick="confirmarExclusaoMaquina()">
-                                <p>Sim</p>
+                            <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                                <p>Sim, sair!</p>
                             </button>
                         </div>
                     </div>
-                    <div class="painel-maquinas" id="painel-maquinas">
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="perfil-notificacao">
+                    <i class="fa-solid fa-bell"></i>
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="profile-icone">
+                        <a href="perfil.html">
+                            <div class="profile-img">
+                                <img id="imgPerfil" src="imgs/profile-default.webp">
+                            </div>
+                            <p id="nome-usuario-pagina"></p>
+                        </a>
+                    </div>
+                </div>
+                <div class="painel-usuarios">
+                    <div class="titulo-painel">
+                        <p id="titulo-tela">Máquinas Escola Joaquim 3°</p>
+                        <div class="btns-titulo-painel">
+                            <button id="exportarDados">
+                                <p>Exportar CSV</p>
+                            </button>
+                            <button id="adicionarUsuario" onclick="abrirModalCadastrar()">
+                                <i class="fa-solid fa-plus"></i>
+                                <p>Adicionar Máquina</p>
+                            </button>
+                        </div>
+                        <div class="modal-adicionar-maquina" id="modalAdicionarMaquina">
+                            <div class="titulo-modal-adicionar-maquina">
+                                <p>Adicionar Máquina</p>
+                            </div>
+                            <div class="infos-modal-adicionar-maquina">
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Username</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input id="ipt_user" type="text" placeholder="Digite o username">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>IP</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input id="ipt_ip" type="text" placeholder="Digite o endereço de IP">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Sistema Operacional</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input id="ipt_so" type="text" placeholder="Digite o S.O">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Senha da máquina</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input id="ipt_senha" type="text" placeholder="Digite sua senha">
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo" id="pSala">
+                                        <p>Sala</p>
+                                    </div>
+                                    <select id="select_salas">
+                                        <option>Carregando salas...</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="campos-capacidade-maquina">
+                                <p>Especificação Técnica</p>
+                                <div class="dados-capacidade">
+                                    <div class="inserir-capacidade">
+                                        <p>Disco</p>
+                                        <input id="ipt_disco" type="text" placeholder="GB">
+                                    </div>
+                                    <div class="inserir-capacidade">
+                                        <p>RAM</p>
+                                        <input id="ipt_ram" type="text" placeholder="GB">
+                                    </div>
+                                    <div class="inserir-capacidade">
+                                        <p>CPU</p>
+                                        <input id="ipt_cpu" type="text" placeholder="Tipo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btns-modal-adicionar-maquina">
+                                <button onclick="cancelarAdicionarMaquina()">Cancelar</button>
+                                <button onclick="cadastrarMaquina()">Criar</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filtros-usuarios">
+                        <div class="filtros">
+                            <div class="select-com-icone">
+                                <i class="fa fa-filter"></i>
+                                <select id="filtroMaquina">
+                                    <option value="" disabled selected>Filtros</option>
+                                    <option value="">Todas</option>
+                                    <option value="status:ligado">Ligadas</option>
+                                    <option value="status:desligado">Desligada</option>
+                                </select>
+                            </div>
+                            <button class="desligar-maquinas" onclick="abrirModalDesligarMaquinas()">
+                                <p>Desligar Máquinas</p>
+                            </button>
+                        </div>
+                        <div class="modal-maquinas-ligadas" id="modalDesligarMaquinas">
+                            <div class="title-maquinas-ligadas">
+                                <p>Qual máquina você deseja desligar?</p>
+                            </div>
+                            <div class="select-maquina-desligar">
+                                <select id="selectMaquina"></select>
+                            </div>
+                            <div class="btns-desligar-maquina">
+                                <button onclick="cancelarDesligamento()">Cancelar</button>
+                                <button onclick="desligarMaquinaSelecionada()">Desligar</button>
+                            </div>
+                        </div>
 
                     </div>
-                    <div class="paginacao">
-                        <button class="prev" disabled>
-                            Anterior </button>
-                        <button class="pagina ativa">1</button>
-                        <button class="pagina">2</button>
-                        <button class="pagina">3</button>
-                        <button class="pagina">4</button>
-                        <button class="pagina">5</button>
-                        <button class="pagina">6</button>
-                        <button class="pagina">7</button>
-                        <button class="next"> Próximo ></button>
+                    <div class="lista-usuarios">
+                        <div class="modal-editar-maquina" id="modalEditarMaquina">
+                            <div class="titulo-modal-editar-maquina">
+                                <p>Editar Informações</p>
+                            </div>
+                            <div class="infos-modal-editar-maquina">
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Identificação</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input id="ipt_editar_identificacao" type="text" placeholder="Máquina" disabled>
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Sala</p>
+                                    </div>
+                                    <div class="select-campo">
+                                        <select id="select_editar_sala">
+                                            <option>Carregando salas...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="infos-input">
+                                    <div class="titulo-campo">
+                                        <p>Sistema Operacional</p>
+                                    </div>
+                                    <div class="input-campo">
+                                        <input id="ipt_editar_so" type="text" placeholder="Windows 11">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btns-modal-editar-maquina">
+                                <button onclick="cancelarEdicaoMaquina()">Cancelar</button>
+                                <button onclick="efetuarEdicaoMaquina()">Editar</button>
+                            </div>
+                        </div>
+                        <div class="modal-deletar-maquina" id="modalDeletarMaquina">
+                            <div class="icone-alerta">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div class="mensagem-deletar-modal">
+                                <p>Deletar Máquina 1</p>
+                                <p>Você tem certeza que quer deletar esta máquina?</p>
+                            </div>
+                            <div class="btns-deletar-modal">
+                                <button id="cancelar-deletar" onclick="cancelarExclusaoMaquina()">
+                                    <p>Cancelar</p>
+                                </button>
+                                <button id="confirmar-deletar" onclick="confirmarExclusaoMaquina()">
+                                    <p>Sim</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="painel-maquinas" id="painel-maquinas">
+
+                        </div>
+                        <div class="paginacao">
+                            <button class="prev" disabled>
+                                Anterior </button>
+                            <button class="pagina ativa">1</button>
+                            <button class="pagina">2</button>
+                            <button class="pagina">3</button>
+                            <button class="pagina">4</button>
+                            <button class="pagina">5</button>
+                            <button class="pagina">6</button>
+                            <button class="pagina">7</button>
+                            <button class="next"> Próximo ></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="js/maquinas.js"></script>
+        <script src="js/maquinas.js"></script>
 
-    <script>
+        <script>
 
-        function carregarSalas() {
-            fetch("/api/salas/listar")
-                .then(resposta => resposta.json())
-                .then(salas => {
-                    console.log("Salas recebidas:", salas);
+            function carregarSalas() {
+                fetch("/api/salas/listar")
+                    .then(resposta => resposta.json())
+                    .then(salas => {
+                        console.log("Salas recebidas:", salas);
 
-                    let select = document.getElementById("select_salas");
-                    select.innerHTML = ""; // limpa
+                        let select = document.getElementById("select_salas");
+                        select.innerHTML = ""; // limpa
 
-                    salas.forEach(s => {
-                        let option = document.createElement("option");
-                        option.value = s.idSala;
-                        option.textContent = s.nome;
-                        select.appendChild(option);
+                        salas.forEach(s => {
+                            let option = document.createElement("option");
+                            option.value = s.idSala;
+                            option.textContent = s.nome;
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(erro => {
+                        console.error("Erro ao carregar salas:", erro);
                     });
+            }
+
+            function cadastrarMaquina() {
+
+                var UsernameVar = ipt_user.value.trim();
+                var IPVar = ipt_ip.value.trim();
+                var SOVar = ipt_so.value.trim();
+                var SenhaVar = ipt_senha.value.trim();
+                var SalaVar = document.getElementById("select_salas").value;
+                var DiscoVar = ipt_disco.value.trim();
+                var RamVar = ipt_ram.value.trim();
+                var CpuVar = ipt_cpu.value.trim();
+
+                if (!UsernameVar) return alert("Username inválido!");
+                if (!IPVar) return alert("IP inválido!");
+                if (!SOVar) return alert("Sistema operacional inválido!");
+                if (!SenhaVar) return alert("Senha inválida!");
+                if (!SalaVar) return alert("Seleciona uma sala!");
+                if (!DiscoVar) return alert("Informe o disco da máquina!");
+                if (!RamVar) return alert("Informe a memória RAM!");
+                if (!CpuVar) return alert("Informe o tipo de CPU!");
+
+                const dadosMaquina = {
+                    username: UsernameVar,
+                    ip: IPVar,
+                    so: SOVar,
+                    senha: SenhaVar,
+                    sala: SalaVar,
+                    disco: DiscoVar,
+                    ram: RamVar,
+                    cpu: CpuVar
+                };
+
+                console.log("Enviando dados da máquina para o backend:", dadosMaquina);
+
+                fetch("/maquinas/cadastrarMaquina", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dadosMaquina)
                 })
-                .catch(erro => {
-                    console.error("Erro ao carregar salas:", erro);
-                });
-        }
-
-        function cadastrarMaquina() {
-
-            var UsernameVar = ipt_user.value.trim();
-            var IPVar = ipt_ip.value.trim();
-            var SOVar = ipt_so.value.trim();
-            var SenhaVar = ipt_senha.value.trim();
-            var SalaVar = document.getElementById("select_salas").value;
-            var DiscoVar = ipt_disco.value.trim();
-            var RamVar = ipt_ram.value.trim();
-            var CpuVar = ipt_cpu.value.trim();
-
-            if (!UsernameVar) return alert("Username inválido!");
-            if (!IPVar) return alert("IP inválido!");
-            if (!SOVar) return alert("Sistema operacional inválido!");
-            if (!SenhaVar) return alert("Senha inválida!");
-            if (!SalaVar) return alert("Seleciona uma sala!");
-            if (!DiscoVar) return alert("Informe o disco da máquina!");
-            if (!RamVar) return alert("Informe a memória RAM!");
-            if (!CpuVar) return alert("Informe o tipo de CPU!");
-
-            const dadosMaquina = {
-                username: UsernameVar,
-                ip: IPVar,
-                so: SOVar,
-                senha: SenhaVar,
-                sala: SalaVar,
-                disco: DiscoVar,
-                ram: RamVar,
-                cpu: CpuVar
-            };
-
-            console.log("Enviando dados da máquina para o backend:", dadosMaquina);
-
-            fetch("/maquinas/cadastrarMaquina", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dadosMaquina)
-            })
-                .then(res => {
-                    if (!res.ok) throw "Erro ao cadastrar a máquina!";
-                    return res.json();
-                })
-                .then(json => {
-                    alert("Máquina e componentes cadastrados com sucesso!");
-                    location.reload();
-                })
-                .catch(err => {
-                    console.error("Erro:", err);
-                    alert("Erro ao cadastrar máquina ou componentes.");
-                });
-
-
-        }
-        function carregarMaquinas() {
-            fetch("/maquinas/listar")
-                .then(resposta => resposta.json())
-                .then(maquinas => {
-                    console.log("Máquinas recebidas:", maquinas);
-
-                    let select = document.getElementById("selectMaquina");
-                    select.innerHTML = "";
-
-                    maquinas.forEach(m => {
-                        let option = document.createElement("option");
-                        option.value = m.idMaquina;
-                        option.textContent = `Máquina: ${m.idMaquina} `;
-                        select.appendChild(option);
+                    .then(res => {
+                        if (!res.ok) throw "Erro ao cadastrar a máquina!";
+                        return res.json();
+                    })
+                    .then(json => {
+                        alert("Máquina e componentes cadastrados com sucesso!");
+                        location.reload();
+                    })
+                    .catch(err => {
+                        console.error("Erro:", err);
+                        alert("Erro ao cadastrar máquina ou componentes.");
                     });
+
+
+            }
+            function carregarMaquinas() {
+                fetch("/maquinas/listar")
+                    .then(resposta => resposta.json())
+                    .then(maquinas => {
+                        console.log("Máquinas recebidas:", maquinas);
+
+                        let select = document.getElementById("selectMaquina");
+                        select.innerHTML = "";
+
+                        maquinas.forEach(m => {
+                            let option = document.createElement("option");
+                            option.value = m.idMaquina;
+                            option.textContent = `Máquina: ${m.idMaquina} `;
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(erro => {
+                        console.error("Erro ao carregar máquinas:", erro);
+                    });
+            }
+
+            function desligarMaquinaSelecionada() {
+                const select = document.getElementById("selectMaquina");
+                const idMaquina = select.value;
+
+                if (!idMaquina) return alert("Selecione uma máquina para desligar!");
+
+                fetch("http://localhost:5000/desligar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idMaquina: idMaquina })
                 })
-                .catch(erro => {
-                    console.error("Erro ao carregar máquinas:", erro);
-                });
-        }
+                    .then(res => {
+                        if (!res.ok) throw "Erro ao desligar!";
+                        return res.json();
+                    })
+                    .then(json => {
+                        alert(json.mensagem);
+                        carregarMaquinas();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Erro ao desligar a máquina.");
+                    });
+            }
 
-        function desligarMaquinaSelecionada() {
-            const select = document.getElementById("selectMaquina");
-            const idMaquina = select.value;
+            function abrirModalDesligarMaquinas() {
+                carregarMaquinas(); // carrega as máquinas no select
+                document.getElementById("modalDesligarMaquinas").style.display = "block";
+            }
 
-            if (!idMaquina) return alert("Selecione uma máquina para desligar!");
+            function adicionarUsuario() {
+                abrirModalCadastrar();
+            }
 
-            fetch("http://localhost:5000/desligar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ idMaquina: idMaquina })
-            })
-                .then(res => {
-                    if (!res.ok) throw "Erro ao desligar!";
-                    return res.json();
-                })
-                .then(json => {
-                    alert(json.mensagem);
-                    carregarMaquinas();
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Erro ao desligar a máquina.");
-                });
-        }
+            function abrirModalCadastrar() {
+                carregarSalas();
+                document.getElementById("modalAdicionarMaquina").style.display = "block";
+            }
 
-        function abrirModalDesligarMaquinas() {
-            carregarMaquinas(); // carrega as máquinas no select
-            document.getElementById("modalDesligarMaquinas").style.display = "block";
-        }
-
-        function adicionarUsuario() {
-            abrirModalCadastrar();
-        }
-
-        function abrirModalCadastrar() {
-            carregarSalas();
-            document.getElementById("modalAdicionarMaquina").style.display = "block";
-        }
-
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>

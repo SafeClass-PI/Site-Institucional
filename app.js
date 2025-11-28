@@ -19,6 +19,7 @@ var dashboardRouter = require("./src/routes/dashboard");
 var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
+var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
 
 
 app.use(express.json());
@@ -35,6 +36,7 @@ app.use("/api/dashboard", dashboardRouter);
 app.use("/api/salas", salaRoutes);
 app.use("/maquinas", maquinasRouter);
 app.use("/api/alertas", alertasRouter);
+app.use("/api/matheus", matheusRouter);
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
@@ -51,7 +53,7 @@ app.listen(PORTA_APP, function () {
     #######  ##      ##  ##           ##  ##  ##  ##      ##    ##  ##               ##  ##     ##      ##
     ### ###  ##      ##  ##           ## ##    ##  ##      ##    ##  ##                ####      ##    ##
     ##   ##  ######  #####           ####    ##  ##      ##    ##  ##                 ##    ####    ######
-    \n\n\n                                                                                                          
+    \n\n\n
     Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n
     Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n
     \tSe .:desenvolvimento:. você está se conectando ao banco local. \n
