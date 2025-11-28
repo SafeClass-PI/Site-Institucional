@@ -886,16 +886,18 @@ body {
 }
 
 #kpi-qtd-alertas-hoje .dado-kpi input {
-    height: 40px;
+    margin-top: 5px;
+    height: 38px;
     border-radius: 10px;
     border: 2.3px solid rgb(226, 226, 226);
     text-align: center;
+    font-size: 12.55px;
 }
 
 #kpi-qtd-alertas-hoje .titulo-kpi button {
     border-radius: 10px;
     border: none;
-    width: 160px;
+    width: 164px;
     height: 25px;
     cursor: pointer;
     background-color: rgb(0, 0, 227);
@@ -903,10 +905,12 @@ body {
     color: var(--cor-branco);
     text-transform: uppercase;
     transition: 0.2s ease-in-out all;
+    margin-top: 5px;
 }
 
 #kpi-qtd-alertas-hoje .titulo-kpi button:hover {
     transform: scale(1.02);
+    background-color: rgba(0, 0, 165, 0.859);
 }
 
 .conteudo-principal {
@@ -1160,7 +1164,7 @@ body {
     background-color: var(--cor-branco);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.19);
     border-radius: 10px;
-    display: flex;  
+    display: flex;
     flex-direction: row;
 }
 
@@ -1307,4 +1311,140 @@ body {
 
 .status-lento {
     background-color: var(--cor-atencao);
+}
+
+.alert-previsao {
+    opacity: 0; 
+    pointer-events: none; 
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9); 
+    width: 20%;
+    height: 20%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.266);
+    z-index: 11;
+    display: flex; 
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.alert-previsao.show {
+    opacity: 1;
+    pointer-events: auto; 
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.alert-previsao.hide {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+.titulo-alerta {
+    width: 100%;
+    height: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titulo-alerta p {
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-left: 37%;
+    color: #262626;
+}
+
+.titulo-alerta button {
+    border: none;
+    cursor: pointer;
+    margin-right: 4%;
+    background: transparent;
+    transition: 0.2s ease-in-out all;
+}
+
+.titulo-alerta button:hover {
+    transform: scale(1.06);
+}
+
+
+.titulo-alerta button i {
+    font-size: 20px;
+    color: var(--cor-critico);
+}
+
+.titulo-alerta button i:hover {
+    color: #d10000;
+}
+
+.ping-info {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.estado-previsao {
+    width: 100%;
+    height: 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ping-info p {
+    font-size: 27px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #2d2d2d;
+}
+
+.estado-previsao {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.corpo-estado-previsao {
+    width: 35%;
+    height: 60%;
+    background-color: #ea0303;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-branco);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+#duvidaPrevisao {
+    position: absolute;
+    margin-left: 17%;
+    margin-bottom: 5.9%;
+    color: #424242;
+    font-size: 14.3px;
+    transition: 0.2s ease-in-out all;
+    cursor: pointer;
+}
+
+#duvidaPrevisao:hover {
+    transform: scale(1.03);
+}
+
+.explicacaoPrevisao {
+    width: 18.7%;
+    height: 16.8%;
+    border-radius: 10px;
+    background-color: var(--cor-branco);
+    position: absolute;
+    display: none;
 }

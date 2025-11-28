@@ -39,7 +39,7 @@ const salaRouter = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routes
 // Isso define que o endpoint completo será: /salas/listar
 var ryanRouter = require("./public/Dashboard/DASHBOARD_RYAN/srcRyan/routesRyan/ryan");
 var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
-
+var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
 
 
 app.use(express.json());
@@ -57,13 +57,17 @@ app.use("/api/salas", salaRoutes);
 app.use("/maquinas", maquinasRouter);
 app.use("/api/alertas", alertasRouter);
 app.use("/api", cpuMaxRoutes)
-app.use("/salas", salaRouter); 
+app.use("/salas", salaRouter);
 app.use("/api/ryan", ryanRouter);
 app.use("/api/bia", biaRouter);
 app.get('/api/relatorio/pdf', RelatorioController.gerarRelatorioPDF);
 app.use('/api', salaFelipeRoutes);
+<<<<<<< HEAD
 app.use('/api/sala', alertasFelipeRoutes);
 app.use('/api', maquinaRoutes);
+=======
+app.use("/api/matheus", matheusRouter);
+>>>>>>> bf76aac82118ddbfc316332e8a78e20f03f8cd38
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
@@ -80,7 +84,7 @@ app.listen(PORTA_APP, function () {
     #######  ##      ##  ##           ##  ##  ##  ##      ##    ##  ##               ##  ##     ##      ##
     ### ###  ##      ##  ##           ## ##    ##  ##      ##    ##  ##                ####      ##    ##
     ##   ##  ######  #####           ####    ##  ##      ##    ##  ##                 ##    ####    ######
-    \n\n\n                                                                                                          
+    \n\n\n
     Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n
     Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n
     \tSe .:desenvolvimento:. você está se conectando ao banco local. \n

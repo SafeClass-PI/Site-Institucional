@@ -36,10 +36,10 @@
                     </div>
                     <div class="dropdown-content">
                         <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
-                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
-                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
-                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
-                        <a href="DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
+                        <a href="../DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
+                        <a href="../DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                        <a href="../DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                        <a href="../DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
                     </div>
                 </div>
                 <a href="../alertas.html" class="icone-links">
@@ -120,15 +120,15 @@
                     <div class="kpi" id="kpi-usuario-online">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-circle-check"></i>
+                                <i class="fa-solid fa-users" style="color: rgb(11, 27, 87);margin-left: 20px;"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p id="kpi-qtd-usuarios-online">AA</p>
+                                <p id="kpi-qtd-usuarios-online" style="margin-left: 10px">AA</p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Usuários online</p>
+                                <p style="margin-left: 10px;">Usuários logados</p>
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                     <div class="kpi" id="kpi-solicitacoes">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-circle-up"></i>
+                                <i class="fa-solid fa-code-pull-request" style="color: rgb(43, 44, 43);"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -151,7 +151,7 @@
                     <div class="kpi" id="kpi-horario">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-laptop"></i>
+                                <i class="fa-regular fa-clock" style="background-color: dimgrey;"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -159,7 +159,7 @@
                                 <p id="kpi-horario-acessado">AA</p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Horario mais acessado</p>
+                                <p>Horário mais acessado</p>
                             </div>
                         </div>
 
@@ -167,9 +167,9 @@
 
 
                     <div class="kpi" id="kpi-acesso">
-                        <div class="espaco-icone-kpi">
+                        <div class="espaco-icone-kpi" style="margin-left: 7px;">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-bell"></i>
+                                <i class="fa-solid fa-chart-line"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -177,7 +177,7 @@
                                 <p id="kpi-acesso-hoje">AA</p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Maior acesso</p>
+                                <p>Perfil mais ativo</p>
                             </div>
                         </div>
                     </div>
@@ -503,6 +503,7 @@
                 acessos.forEach(acesso => {
                     const card = document.createElement("div");
                     card.classList.add("card-acesso");
+                    
 
                     card.innerHTML = `
                 <p class="nome">${acesso.NomeUsuario}</p>

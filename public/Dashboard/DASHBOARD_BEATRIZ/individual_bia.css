@@ -485,10 +485,6 @@ body {
 }
 
 
-#kpi-usuario-online .icone-kpi {
-    background-color: #ffffff;
-}
-
 #kpi-usuario-online .icone-kpi i {
     font-size: 60px;
     color: #0101B8;
@@ -502,14 +498,14 @@ body {
 
 
 #kpi-horario .icone-kpi {
-    background-color: var(--cor-critico);
+    background-color: dimgrey;
 }
 
 
 
 
 #kpi-acesso .icone-kpi {
-    background-color: var(--cor-atencao);
+    background-color: rgb(58, 58, 58)
 }
 
 
@@ -523,7 +519,7 @@ body {
     justify-content: center;
 }
 
-.titulo-kpi { 
+.titulo-kpi {
     align-self: flex-start;
 }
 
@@ -607,7 +603,7 @@ body {
     flex-direction: column;
     margin-right: 2%;
     margin-top: 2vh;
-   
+
 }
 
 .titulo-ultimos-alertas {
@@ -698,13 +694,18 @@ body {
 .card-acesso {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     padding: 12px 16px;
-    width: 85%;          
+    width: 85%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    border-left: 5px solid #0101B8 !important;
+
+
 }
+
+
 
 .card-acesso .nome {
     font-weight: 600;
@@ -729,7 +730,7 @@ body {
 
 
 #graficoTotalUsuarios {
-    width: 360px;   
+    width: 360px;
     height: 360px;
 }
 

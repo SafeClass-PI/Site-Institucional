@@ -65,6 +65,14 @@ function graficoSemana(req, res) {
     })
 }
 
+function carregarDadosPrevisao(req, res) {
+    ryanModel.carregarDadosPrevisao().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 
 module.exports = {
     carregarSalas,
@@ -74,5 +82,6 @@ module.exports = {
     listarMaquinasEstados,
     obterDadosGraficoPing,
     obterDadosGraficoPingUltimo,
-    graficoSemana
+    graficoSemana,
+    carregarDadosPrevisao
 }

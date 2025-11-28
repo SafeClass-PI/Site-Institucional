@@ -1,0 +1,69 @@
+:root {
+  overflow: hidden;
+}
+
+.conteudo-semestral {
+  width: 94%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2%;
+}
+
+.charts-layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2%;
+}
+
+.charts-left {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+}
+
+.charts-right {
+  margin-left: 2%;
+  width: 20%;
+  height: 100%;
+}
+
+.chart-card {
+  background: var(--cor-branco);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 92%;
+}
+
+.charts-left .chart-card { height: 42%; }
+
+.titulo-secao {
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 15px;
+  align-self: flex-start;
+  color: #454545;
+}
+
+canvas {
+  max-height: 90% !important;
+  width: 100% !important;
+}
+
+.area-kpis .kpi { width: 30%; }
+
+.area-kpis .dado-kpi p { font-size: 28px; }
+.area-kpis .titulo-kpi p { font-size: 16px; }
+.area-kpis .icone-kpi i { font-size: 60px; color: var(--cor-estavel); }
