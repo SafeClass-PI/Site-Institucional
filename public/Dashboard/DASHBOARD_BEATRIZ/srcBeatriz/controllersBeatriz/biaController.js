@@ -60,11 +60,52 @@ function buscarHoraMaisAcessada(req, res) {
         });
 }
 
+function buscarUsuarioMaisAtivo(req, res) {
+    biaModel.usuarioMaisAtivo()
+        .then(resultado => res.status(200).json(resultado[0] || { nome: null, totalLogins: 0 }))
+        .catch(erro => {
+            console.error("Erro ao buscar usuário mais ativo:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+function buscarTotalUsuariosPorCargo(req, res) {
+    biaModel.totalUsuariosPorCargo()
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => {
+            console.error("Erro ao buscar total de usuários por cargo:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+function buscarRankingUsuarios(req, res) {
+    biaModel.rankingUsuarios()
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => {
+            console.error("Erro ao buscar ranking de usuários:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+function buscarUltimosAcessos(req, res) {
+    biaModel.ultimosAcessos()
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => {
+            console.error("Erro ao buscar últimos acessos:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+
 module.exports = {
     buscarQtdSolicitacoesDiarias,
     listarUsuariosOnline,
     totalUsuarios,
     marcarOnline,
     registrarLogin,
-    buscarHoraMaisAcessada
+    buscarHoraMaisAcessada,
+    buscarUsuarioMaisAtivo,
+    buscarTotalUsuariosPorCargo,
+    buscarRankingUsuarios,
+    buscarUltimosAcessos
 };

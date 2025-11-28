@@ -21,26 +21,25 @@
         <!-- Menu -->
         <div class="side-bar">
             <div class="logo">
-                <a href="../index.html"><img src="../imgs/logo.png"></a>
+                <a href="/public/index.html"><img src="../imgs/logo.png"></a>
             </div>
             <div class="links">
-                <a href="dashboard_geral.html" class="activate">
+                <a href="../dashboard_geral.html" class="icone-links">
                     <i class="fa-solid fa-chart-simple"></i>
                     <p>Painel Geral</p>
                 </a>
                 <div class="icone-links dropdown-container">
-                    <div class="dropbtn">
+                    <div class="dropbtn activate">
                         <i class="fa-solid fa-filter"></i>
-                        <p>Análises</p>
+                        <p>Acessos</p>
                         <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
                     </div>
                     <div class="dropdown-content">
-                        <a href="dashboard_especifica.html">Desempenho Máqs.</a>
-                        <a href="DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
-                        <a href="./individual_bia.html">Acessos Usuários</a>
+                        <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
+                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
                         <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
                         <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
-                        <a href="DASHBOARD_JOAO/individual_felipe.html">Desempenho CPU</a>
+                        <a href="DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
                     </div>
                 </div>
                 <a href="../alertas.html" class="icone-links">
@@ -55,7 +54,7 @@
                     <i class="fa-solid fa-computer"></i>
                     <p>Máquinas</p>
                 </a>
-                <a href="../maquinas.html" class="icone-links">
+                <a href="../perfil.html" class="icone-links">
                     <i class="fa-solid fa-user"></i>
                     <p>Perfil</p>
                 </a>
@@ -91,7 +90,7 @@
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-envelope"></i>
                 <div class="profile-icone">
-                    <a href="perfil.html">
+                    <a href="../perfil.html">
                         <div class="profile-img">
                             <img id="imgPerfil" src="../imgs/profile-default.webp">
                         </div>
@@ -209,7 +208,7 @@
 
                     <div class="painel-alertas">
                         <div class="titulo-ultimos-alertas">
-                            <p>Últimos Alertas</p>
+                            <p>Últimos Acessos</p>
                         </div>
                         <div class="alertas" id="alertas">
 
@@ -320,6 +319,8 @@
         }
 
 
+        // kpi usuários online
+
         function atualizarKpiUsuariosOnline() {
             Promise.all([
                 fetch("/api/bia/usuario/online").then(res => res.json()),
@@ -341,14 +342,17 @@
         setInterval(atualizarKpiUsuariosOnline, 10000);
 
 
+
+        // kpi horario 
+
         function atualizarKpiHorario() {
             fetch("/api/bia/horaMaisAcessada")
                 .then(res => res.json())
                 .then(data => {
                     const elemento = document.getElementById("kpi-horario-acessado");
                     if (data.hora !== null) {
-                        //elemento.innerText = `${data.hora}:00 )`;
-                        elemento.innerText = `${data.hora}:00 \n (${data.total} acessos)`;
+                        elemento.innerText = `${data.hora}:00`;
+                        //elemento.innerText = `${data.hora}:00 \n (${data.total} acessos)`;
                     } else {
                         elemento.innerText = "Sem dados";
                     }
@@ -359,9 +363,169 @@
                 });
         }
 
-        // chama na inicialização
         atualizarKpiHorario();
         setInterval(atualizarKpiHorario, 10000);
+
+        // kpi maior acesso
+        function atualizarKpiMaiorAcesso() {
+            fetch("/api/bia/usuario/maisAcessos")
+                .then(res => res.json())
+                .then(data => {
+                    const elemento = document.getElementById("kpi-acesso-hoje");
+                    if (data.nome) {
+                        elemento.innerText = `${data.nome} `;
+                        //elemento.innerText = `${data.nome} \n (${data.totalLogins} acessos)`;
+                    } else {
+                        elemento.innerText = "Sem dados";
+                    }
+                })
+                .catch(erro => {
+                    console.error("Erro ao atualizar KPI de maior acesso:", erro);
+                    document.getElementById("kpi-acesso-hoje").innerText = "Erro";
+                });
+        }
+
+
+        atualizarKpiMaiorAcesso();
+        setInterval(atualizarKpiMaiorAcesso, 10000);
+
+
+
+
+
+        // gráfico total usuários
+
+        function atualizarGraficoUsuariosPorCargo() {
+            fetch("/api/bia/totalUsuariosPorCargo")
+                .then(res => res.json())
+                .then(data => {
+                    const labels = data.map(item => item.cargo);
+                    const valores = data.map(item => item.totalUsuarios);
+
+                    const ctx = document.getElementById("graficoTotalUsuarios").getContext("2d");
+                    new Chart(ctx, {
+                        type: "pie",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: valores,
+                                backgroundColor: [
+                                    "#FF6384",
+                                    "#36A2EB",
+                                    "#FFCE56",
+                                    "#4BC0C0",
+                                    "#9966FF",
+                                    "#FF9F40"
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: false,   // impede que o Chart.js expanda
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return `${context.label}: ${context.parsed} usuários`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(erro => console.error("Erro ao carregar gráfico:", erro));
+        }
+
+
+        atualizarGraficoUsuariosPorCargo();
+
+
+        // gráfico ranking
+
+        function atualizarGraficoRanking() {
+            fetch("/api/bia/rankingUsuarios")
+                .then(res => res.json())
+                .then(dados => {
+                    const nomes = dados.map(u => u.nome);
+                    const acessos = dados.map(u => u.totalLogins);
+
+
+                    const ctx = document.getElementById("graficoRanking").getContext("2d");
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: nomes,
+                            datasets: [{
+                                label: 'Acessos',
+                                data: acessos,
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            indexAxis: 'y',
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: { x: { beginAtZero: true } }
+                        }
+                    });
+                })
+                .catch(erro => console.error("Erro ao buscar ranking:", erro));
+        }
+
+
+        atualizarGraficoRanking();
+
+
+
+        // ultimos acessos
+
+        async function listarUltimosAcessos() {
+            try {
+                const resposta = await fetch("/api/bia/ultimosAcessos", { cache: "no-store" });
+                const acessos = await resposta.json();
+
+                const painel = document.getElementById("alertas");
+                painel.innerHTML = "";
+
+                if (!acessos || acessos.length === 0) {
+                    painel.innerHTML = `<p style="text-align:center; width:100%; margin-top: 50px;">Sem acessos recentes!</p>`;
+                    return;
+                }
+
+                acessos.forEach(acesso => {
+                    const card = document.createElement("div");
+                    card.classList.add("card-acesso");
+
+                    card.innerHTML = `
+                <p class="nome">${acesso.NomeUsuario}</p>
+                <p class="hora">${formatarHora(acesso.HorarioLogin)}</p>
+                <p class="cargo">${acesso.CargoUsuario}</p>
+            `;
+
+                    painel.appendChild(card);
+                });
+            } catch (erro) {
+                console.error("Erro ao listar últimos acessos:", erro);
+            }
+        }
+
+        function formatarHora(dataHora) {
+            const data = new Date(dataHora);
+            const horas = String(data.getHours()).padStart(2, "0");
+            const minutos = String(data.getMinutes()).padStart(2, "0");
+            return `${horas}:${minutos}`;
+        }
+
+        window.addEventListener("load", listarUltimosAcessos);
+
 
     </script>
 
