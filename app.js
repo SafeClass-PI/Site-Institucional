@@ -4,6 +4,7 @@ var ambiente_processo = 'desenvolvimento';
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 
 require("dotenv").config({ path: caminho_env });
+require('dotenv').config({ path: '.env.dev' });
 
 var express = require("express");
 var cors = require("cors");
@@ -19,7 +20,23 @@ var dashboardRouter = require("./src/routes/dashboard");
 var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
-var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
+var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/cpuMaxRoutes");
+const RelatorioController = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/controllersFelipe/relatorioController');
+const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/salaRoutes');
+
+
+;
+
+// Exemplo no app.js/index.js
+
+const salaRouter = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/buscarSala');
+
+
+
+// Isso define que o endpoint completo será: /salas/listar
+var ryanRouter = require("./public/Dashboard/DASHBOARD_RYAN/srcRyan/routesRyan/ryan");
+var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
+
 
 
 app.use(express.json());
@@ -36,8 +53,12 @@ app.use("/api/dashboard", dashboardRouter);
 app.use("/api/salas", salaRoutes);
 app.use("/maquinas", maquinasRouter);
 app.use("/api/alertas", alertasRouter);
-app.use("/api/matheus", matheusRouter);
-
+app.use("/api", cpuMaxRoutes)
+app.use("/salas", salaRouter);
+app.use("/api/ryan", ryanRouter);
+app.use("/api/bia", biaRouter);
+app.get('/api/relatorio/pdf', RelatorioController.gerarRelatorioPDF);
+app.use('/api', salaFelipeRoutes);
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
 // app.use("/api/medidas", medidasRouter);

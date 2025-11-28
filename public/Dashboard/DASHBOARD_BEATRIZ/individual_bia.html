@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="individual_bia.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Análise dos usuários</title>
+</head>
+
+<body onload="carregarInfos()">
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+
+        <!-- Menu -->
+        <div class="side-bar">
+            <div class="logo">
+                <a href="/public/index.html"><img src="../imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="../dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <div class="icone-links dropdown-container">
+                    <div class="dropbtn activate">
+                        <i class="fa-solid fa-filter"></i>
+                        <p>Acessos</p>
+                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
+                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
+                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                        <a href="DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
+                    </div>
+                </div>
+                <a href="../alertas.html" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="../usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="../perfil.html" class="icone-links">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
+                </a>
+                <button onclick="sairDaPagina()" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-alerta">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <a href="../perfil.html">
+                        <div class="profile-img">
+                            <img id="imgPerfil" src="../imgs/profile-default.webp">
+                        </div>
+                        <p id="nome-usuario-pagina"></p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- titulo - escola -->
+            <div class="dashboard-content">
+                <div class="titulo-escola">
+                    <div class="texto-titulo-nome-escola">
+                        <p>Escola Joaquim 3°</p>
+                    </div>
+
+                    <!-- Titulo - diario  -->
+                    <div class="texto-titulo-desempenho">
+                        <p>Análise diária dos usuários - </p>
+                        <p id="dataHora"></p>
+                    </div>
+                </div>
+
+                <!-- KPI  -->
+
+                <div class="area-kpis">
+
+                    <div class="kpi" id="kpi-usuario-online">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-qtd-usuarios-online">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Usuários online</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi" id="kpi-solicitacoes">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-circle-up"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-qtd-solicitacoes">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Total de solicitações</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi" id="kpi-horario">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-horario-acessado">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Horario mais acessado</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi" id="kpi-acesso">
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpi-acesso-hoje">AA</p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Maior acesso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parte gráficos - alertas -->
+
+                <div class="parte-principal">
+
+                    <!-- Parte gráfico geral --->
+                    <div class="painel-grafico-geral">
+
+                        <!-- Card: Total de Usuários -->
+                        <div class="painel-grafico-card painel-grafico-total-usuarios">
+                            <h3>Total de Usuários</h3>
+
+                            <canvas id="graficoTotalUsuarios"></canvas>
+                        </div>
+
+                        <!-- Card: Ranking -->
+                        <div class="painel-grafico-card painel-grafico-ranking">
+                            <h3>Ranking de Acessos</h3>
+
+                            <canvas id="graficoRanking"></canvas>
+                        </div>
+
+                    </div>
+
+                    <div class="painel-alertas">
+                        <div class="titulo-ultimos-alertas">
+                            <p>Últimos Acessos</p>
+                        </div>
+                        <div class="alertas" id="alertas">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function atualizarDataHora() {
+            const agora = new Date();
+            const data = agora.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            document.getElementById('dataHora').textContent = `${data}`;
+        }
+        atualizarDataHora();
+        setInterval(atualizarDataHora, 1000);
+
+
+        function sairDaPagina() {
+            modalLogout.style.display = 'flex';
+            telaOverlay.style.display = 'block';
+        }
+
+        function cancelarSairDaPagina() {
+            modalLogout.style.display = 'none';
+            telaOverlay.style.display = 'none';
+        }
+
+        function confirmarSairDaPagina() {
+            window.location.href = '../index.html';
+        }
+
+
+        const dropdowns = document.querySelectorAll('.dropdown-container');
+        dropdowns.forEach(drop => {
+            const btn = drop.querySelector('.dropbtn');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                drop.classList.toggle('active');
+            });
+        });
+        window.addEventListener('click', () => {
+            dropdowns.forEach(drop => drop.classList.remove('active'));
+        });
+
+
+        function carregarInfos() {
+            const usuario = document.getElementById('nome-usuario-pagina');
+            usuario.innerText = sessionStorage.NOME_USUARIO || "Usuário";
+
+            const imgPerfil = document.getElementById('imgPerfil');
+            if (imgPerfil) {
+                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+                } else {
+                    imgPerfil.src = 'imgs/profile-default.webp';
+                }
+            }
+
+
+            atualizarKpiSolicitacoes();
+            atualizarKpiUsuariosOnline();
+
+
+            if (sessionStorage.ID_USUARIO) {
+                marcarUsuarioOnline(sessionStorage.ID_USUARIO);
+            }
+        }
+
+
+        function atualizarKpiSolicitacoes() {
+            fetch('/api/bia/qtdSolicitacoesDiarias')
+                .then(res => {
+                    if (!res.ok) throw new Error('Erro na resposta da API');
+                    return res.json();
+                })
+                .then(data => {
+                    document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
+                })
+                .catch(erro => {
+                    console.error('Erro ao buscar solicitações diárias:', erro);
+                    document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
+                });
+        }
+
+
+        async function marcarUsuarioOnline(idUsuario) {
+            try {
+                const res = await fetch("/api/bia/usuario/online", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idUsuario })
+                });
+                const data = await res.json();
+                console.log("✅ Usuário marcado como online:", data);
+            } catch (erro) {
+                console.error("❌ Erro ao marcar usuário online:", erro);
+            }
+        }
+
+
+        // kpi usuários online
+
+        function atualizarKpiUsuariosOnline() {
+            Promise.all([
+                fetch("/api/bia/usuario/online").then(res => res.json()),
+                fetch("/api/bia/totalUsuarios").then(res => res.json())
+            ])
+                .then(([usuariosOnline, totalUsuarios]) => {
+                    const qtdOnline = usuariosOnline.length;
+                    const qtdTotal = totalUsuarios.totalUsuarios || 0;
+                    document.getElementById("kpi-qtd-usuarios-online").innerText = `${qtdOnline}/${qtdTotal}`;
+                })
+                .catch(erro => {
+                    console.error("Erro ao atualizar KPI de usuários online:", erro);
+                    document.getElementById("kpi-qtd-usuarios-online").innerText = "Erro";
+                });
+        }
+
+
+        window.addEventListener("load", carregarInfos);
+        setInterval(atualizarKpiUsuariosOnline, 10000);
+
+
+
+        // kpi horario 
+
+        function atualizarKpiHorario() {
+            fetch("/api/bia/horaMaisAcessada")
+                .then(res => res.json())
+                .then(data => {
+                    const elemento = document.getElementById("kpi-horario-acessado");
+                    if (data.hora !== null) {
+                        elemento.innerText = `${data.hora}:00`;
+                        //elemento.innerText = `${data.hora}:00 \n (${data.total} acessos)`;
+                    } else {
+                        elemento.innerText = "Sem dados";
+                    }
+                })
+                .catch(erro => {
+                    console.error("Erro ao atualizar KPI de horário:", erro);
+                    document.getElementById("kpi-horario-acessado").innerText = "Erro";
+                });
+        }
+
+        atualizarKpiHorario();
+        setInterval(atualizarKpiHorario, 10000);
+
+        // kpi maior acesso
+        function atualizarKpiMaiorAcesso() {
+            fetch("/api/bia/usuario/maisAcessos")
+                .then(res => res.json())
+                .then(data => {
+                    const elemento = document.getElementById("kpi-acesso-hoje");
+                    if (data.nome) {
+                        elemento.innerText = `${data.nome} `;
+                        //elemento.innerText = `${data.nome} \n (${data.totalLogins} acessos)`;
+                    } else {
+                        elemento.innerText = "Sem dados";
+                    }
+                })
+                .catch(erro => {
+                    console.error("Erro ao atualizar KPI de maior acesso:", erro);
+                    document.getElementById("kpi-acesso-hoje").innerText = "Erro";
+                });
+        }
+
+
+        atualizarKpiMaiorAcesso();
+        setInterval(atualizarKpiMaiorAcesso, 10000);
+
+
+
+
+
+        // gráfico total usuários
+
+        function atualizarGraficoUsuariosPorCargo() {
+            fetch("/api/bia/totalUsuariosPorCargo")
+                .then(res => res.json())
+                .then(data => {
+                    const labels = data.map(item => item.cargo);
+                    const valores = data.map(item => item.totalUsuarios);
+
+                    const ctx = document.getElementById("graficoTotalUsuarios").getContext("2d");
+                    new Chart(ctx, {
+                        type: "pie",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: valores,
+                                backgroundColor: [
+                                    "#FF6384",
+                                    "#36A2EB",
+                                    "#FFCE56",
+                                    "#4BC0C0",
+                                    "#9966FF",
+                                    "#FF9F40"
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: false,   // impede que o Chart.js expanda
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return `${context.label}: ${context.parsed} usuários`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(erro => console.error("Erro ao carregar gráfico:", erro));
+        }
+
+
+        atualizarGraficoUsuariosPorCargo();
+
+
+        // gráfico ranking
+
+        function atualizarGraficoRanking() {
+            fetch("/api/bia/rankingUsuarios")
+                .then(res => res.json())
+                .then(dados => {
+                    const nomes = dados.map(u => u.nome);
+                    const acessos = dados.map(u => u.totalLogins);
+
+
+                    const ctx = document.getElementById("graficoRanking").getContext("2d");
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: nomes,
+                            datasets: [{
+                                label: 'Acessos',
+                                data: acessos,
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            indexAxis: 'y',
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: { x: { beginAtZero: true } }
+                        }
+                    });
+                })
+                .catch(erro => console.error("Erro ao buscar ranking:", erro));
+        }
+
+
+        atualizarGraficoRanking();
+
+
+
+        // ultimos acessos
+
+        async function listarUltimosAcessos() {
+            try {
+                const resposta = await fetch("/api/bia/ultimosAcessos", { cache: "no-store" });
+                const acessos = await resposta.json();
+
+                const painel = document.getElementById("alertas");
+                painel.innerHTML = "";
+
+                if (!acessos || acessos.length === 0) {
+                    painel.innerHTML = `<p style="text-align:center; width:100%; margin-top: 50px;">Sem acessos recentes!</p>`;
+                    return;
+                }
+
+                acessos.forEach(acesso => {
+                    const card = document.createElement("div");
+                    card.classList.add("card-acesso");
+
+                    card.innerHTML = `
+                <p class="nome">${acesso.NomeUsuario}</p>
+                <p class="hora">${formatarHora(acesso.HorarioLogin)}</p>
+                <p class="cargo">${acesso.CargoUsuario}</p>
+            `;
+
+                    painel.appendChild(card);
+                });
+            } catch (erro) {
+                console.error("Erro ao listar últimos acessos:", erro);
+            }
+        }
+
+        function formatarHora(dataHora) {
+            const data = new Date(dataHora);
+            const horas = String(data.getHours()).padStart(2, "0");
+            const minutos = String(data.getMinutes()).padStart(2, "0");
+            return `${horas}:${minutos}`;
+        }
+
+        window.addEventListener("load", listarUltimosAcessos);
+
+
+    </script>
+
+</body>
+
+</html>

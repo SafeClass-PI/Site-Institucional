@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/dashboardFelipe.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Visão Específica</title>
+</head>
+
+<body onload="carregarInfos()">
+    <div class="overlay" id="telaOverlay">
+    </div>
+    <div class="dashboard">
+        <div class="side-bar">
+            <div class="logo">
+                <a href="../index.html"><img src="../imgs/logo.png"></a>
+            </div>
+            <div class="links">
+                <a href="../dashboard_geral.html" class="icone-links">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <p>Painel Geral</p>
+                </a>
+                <div class="icone-links dropdown-container">
+                    <div class="dropbtn activate">
+                        <i class="fa-solid fa-filter"></i>
+                        <p>CPU</p>
+                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
+                        <a href="DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
+                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
+                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                    </div>
+                </div>
+                <a href="../alertas.html" class="icone-links">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Alertas</p>
+                </a>
+                <a href="../usuarios.html" class="icone-links">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Usuários</p>
+                </a>
+                <a href="../maquinas.html" class="icone-links">
+                    <i class="fa-solid fa-computer"></i>
+                    <p>Máquinas</p>
+                </a>
+                <a href="../perfil.html" class="icone-links">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Perfil</p>
+                </a>
+                <button onclick="sairDaPagina()" class="icone-links">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <p>Sair</p>
+                </button>
+                <div class="modal-logout" id="modalLogout">
+                    <div class="icone-alerta">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div class="mensagem-logout">
+                        <p>Sair da Página</p>
+                        <p>Deseja realmente encerrar sua sessão??</p>
+                    </div>
+                    <div class="btns-logout-modal">
+                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                            <p>Cancelar</p>
+                        </button>
+                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                            <p>Sim, sair!</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="perfil-notificacao">
+                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <div class="profile-icone">
+                    <a href="perfil.html">
+                        <div class="profile-img">
+                            <img id="imgPerfil" src="imgs/profile-default.webp">
+                        </div>
+                        <p id="nome-usuario-pagina"></p>
+                    </a>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="titulo-dashboard">
+                    <div class="texto-titulo-nome-empresa-especifico">
+                        <p>Escola Joaquim 3°</p>
+                    </div>
+                    <div class="texto-titulo-dashboard">
+                        <p>Desempenho Diário -</p>
+                        <p id="dataHora"></p>
+                    </div>
+                    
+                    <div class="selects-escolha-maquina">
+                        <select id="escolha-sala" onchange="selecionarSala()">
+                            <option value="" disabled selected>Carregando Salas...</option>
+                        </select>
+                        <button id="btnRelatorio" class="btn-relatorio">
+                            <p><b style="color: black;">Gerar relatório com I.A</b></p>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="area-kpis">
+                    <div class="kpi" id="desempenho-maquina" style="position: relative;">
+                        <!-- Ícone de informação no canto superior direito -->
+                        <button id="infoIcon" style="
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #3498db;
+    z-index: 10;
+">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+
+
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi" id="iconeStatusMaquina">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpiStatusMaquinaEscola"></p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p>Máquina com mais falhas na CPU</p>
+                            </div>
+                        </div>
+
+                        <!-- Mini modal explicativo -->
+                        <div id="kpiModal" style="
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 220px;
+        font-size: 0.85em;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        z-index: 100;
+        border-radius: 6px;
+    ">
+                            <strong>Sobre esta KPI:</strong>
+                            <p>Esta métrica mostra a máquina com mais falhas críticas de CPU na sala selecionada.</p>
+                            <button onclick="fecharModal('kpiModal')" style="
+    margin-top: 6px;
+    background-color: #3498db;
+    color: white; /* <<< aqui define a cor do texto */
+    border: none;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    border-radius: 4px;
+">Fechar</button>
+
+
+                        </div>
+                    </div>
+
+                    <div class="kpi" id="kpi-taxa-uptime" style="position: relative;">
+                        <!-- Ícone de informação -->
+                        <button class="infoIcon" data-target="modal-uptime" style="
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #3498db;
+    ">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpiUptimeMaquinaSala"></p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p style="margin-left: -10px; margin-top: 60px;">Mediana do uso de CPU</p>
+                            </div>
+                        </div>
+
+                        <!-- Modal explicativo -->
+                        <div id="modal-uptime" class="kpiModal">
+                            <strong>Sobre esta KPI:</strong>
+                            <p>
+                                Esta métrica apresenta a <b>mediana do uso da CPU</b> das máquinas da sala selecionada,
+                                considerando o filtro aplicado. A mediana é um indicador estatístico que mostra o
+                                valor central do consumo de CPU, ajudando a identificar se o desempenho da sala está
+                                dentro de padrões estáveis ou se há risco de sobrecarga.
+                            </p>
+                            <button onclick="fecharModal('modal-uptime')">Fechar</button>
+                        </div>
+
+                    </div>
+
+                    <div class="kpi" id="kpi-alerta-critica" style="position: relative;">
+                        <!-- Ícone de informação -->
+                        <button class="infoIcon" data-target="modal-alertas" style="
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #3498db;
+    ">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+
+                        <div class="espaco-icone-kpi">
+                            <div class="icone-kpi">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="infos-kpi">
+                            <div class="dado-kpi">
+                                <p id="kpiTaxaMaisCriticaMaquina"></p>
+                            </div>
+                            <div class="titulo-kpi">
+                                <p style="margin-top: 60px;">Total de alertas</p>
+                            </div>
+                        </div>
+
+                        <!-- Modal explicativo -->
+                        <div id="modal-alertas" class="kpiModal">
+                            <strong>Sobre esta KPI:</strong>
+                            <p>
+                                Esta métrica apresenta o <b>total de alertas críticos e em Atenção</b> gerados pelas
+                                máquinas da sala
+                                selecionada, considerando apenas problemas relacionados ao uso da CPU.
+                                Ela ajuda a identificar a frequência com que a sala enfrenta situações de risco,
+                                permitindo avaliar a estabilidade e a necessidade de ações preventivas.
+                            </p>
+                            <button onclick="fecharModal('modal-alertas')">Fechar</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="conteudo-principal">
+                    <div class="painel-graficos">
+                        <div class="monitoramento-componentes">
+                            <div class="titulo-monitoramento-dia">
+                                <p>Evolução do Uso da CPU</p>
+
+                                <div class="parametros">
+                                    <div class="param">
+                                        <div class="quadrado-verde"></div>
+                                        <p>Estável</p>
+                                    </div>
+                                    <div class="param">
+                                        <div class="quadrado-amarelo"></div>
+                                        <p>Atenção</p>
+                                    </div>
+
+                                    <div class="param">
+                                        <div class="quadrado-vermelho"></div>
+                                        <p>Crítico</p>
+                                    </div>
+                                </div>
+                                <select id="componente-grafico" onchange="trocarComponente()">
+                                    <option value="PC01">Máquina 1</option>
+                                </select>
+                            </div>
+                            <div class="grafico-monitoramento">
+                                <canvas id="monitoramento-componente"></canvas>
+                            </div>
+                        </div>
+                        <div class="rede-e-disponibilidade">
+                            <div class="monitoramento-rede">
+                                <div class="titulo-grafico-rede">
+                                    <p>Máquinas com mais falhas por CPU (Ranking)</p>
+                                </div>
+                                <div class="grafico-rede">
+                                    <canvas id="monitoramento-rede"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="alertas-e-falhas">
+                        <div class="ultimos-alertas">
+                            <div class="titulo-alertas-maquina">
+                                <p>Últimos Alertas</p>
+                            </div>
+                            <div id="alertasMaquina">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/dashboardFelipe.js"></script>
+</body>
+
+</html>
