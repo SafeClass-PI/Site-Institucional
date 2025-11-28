@@ -32,8 +32,8 @@ router.get("/obterDadosGraficoPingUltimo", function (req, res) {
     ryanController.obterDadosGraficoPingUltimo(req, res);
 });
 
-
-
-
+router.get("/graficoSemana", function (req, res) {
+    ryanController.graficoSemana(req, res);
+});
 
 module.exports = router;
