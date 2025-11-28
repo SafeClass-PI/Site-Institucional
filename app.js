@@ -19,6 +19,9 @@ var dashboardRouter = require("./src/routes/dashboard");
 var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
+var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/cpuMaxRoutes");
+;
+
 
 
 app.use(express.json());
@@ -35,6 +38,7 @@ app.use("/api/dashboard", dashboardRouter);
 app.use("/api/salas", salaRoutes);
 app.use("/maquinas", maquinasRouter);
 app.use("/api/alertas", alertasRouter);
+app.use("/api", cpuMaxRoutes)
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
