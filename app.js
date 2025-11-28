@@ -36,7 +36,7 @@ const salaRouter = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routes
 // Isso define que o endpoint completo será: /salas/listar
 var ryanRouter = require("./public/Dashboard/DASHBOARD_RYAN/srcRyan/routesRyan/ryan");
 var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
-
+var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
 
 
 app.use(express.json());
@@ -59,6 +59,8 @@ app.use("/api/ryan", ryanRouter);
 app.use("/api/bia", biaRouter);
 app.get('/api/relatorio/pdf', RelatorioController.gerarRelatorioPDF);
 app.use('/api', salaFelipeRoutes);
+app.use("/api/matheus", matheusRouter);
+
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas
 // app.use("/api/avisos", avisosRouter);
 // app.use("/api/medidas", medidasRouter);
