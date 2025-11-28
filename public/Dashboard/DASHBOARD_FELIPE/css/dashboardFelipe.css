@@ -23,7 +23,6 @@ body {
     justify-content: center;
     background-color: rgb(227, 231, 237);
     overflow-y: hidden;
-    overflow: hidden;
 }
 
 .overlay {
@@ -83,7 +82,6 @@ body {
     object-fit: cover;
     filter: contrast(1.1) brightness(0.98);
 }
-
 .links {
     width: 100%;
     height: 60%;
@@ -385,11 +383,12 @@ body {
     margin-top: 0.5%;
 }
 
+
 /* --------------------- CONTEUDO DASHBOARD ----------------------------- */
 
 .dashboard-content {
     width: 100%;
-    height: 100%;
+    height: 93.4%;
     border-bottom-right-radius: 15px;
     background-color: rgb(229, 232, 238);
     display: flex;
@@ -1420,7 +1419,7 @@ body {
 }
 
 .monitoramento-rede {
-    width:56.9rem;
+    width: 56.9rem;
     height: 100%;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
     background-color: var(--cor-branco);
@@ -1521,17 +1520,17 @@ body {
 }
 
 .ultimos-alertas {
-   grid-column: 3 / 4;
-   background-color: var(--cor-branco);
+    grid-column: 3 / 4;
+    background-color: var(--cor-branco);
     border-radius: 15px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
-    height: 40rem ;
-    margin-top: -53%;
+    height: 40rem;
+    margin-top: -50%;
     margin-left: -35px;
-    
+
 }
 
 .titulo-alertas-maquina {
@@ -1632,10 +1631,11 @@ body {
     padding: 10px;
     width: 240px;
     font-size: 0.85em;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     z-index: 100;
 }
+
 .kpiModal button {
     margin-top: 6px;
     background-color: #3498db;
@@ -1646,15 +1646,26 @@ body {
     cursor: pointer;
     border-radius: 4px;
 }
+
 .btn-relatorio {
-  background-color: var(--cor-branco);
-  color: white;
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-size: 14px;
-  border-radius: 6px;
-  cursor: pointer;
+    background-color: var(--cor-branco);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 75%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
+
 .btn-relatorio:hover {
-  background-color: ghostwhite;
+    background-color: ghostwhite;
+}
+
+html, body {
+    overflow: hidden;
 }
