@@ -9,7 +9,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="joao.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -103,14 +103,14 @@
                         <p>Escola Joaquim 3°</p>
                     </div>
                     <div class="texto-titulo-dashboard">
-                        <p>Desempenho Diário -</p>
+                        <p>Desempenho semestral</p>
                         <p id="dataHora"></p>
                     </div>
                     <div class="selects-escolha-maquina">
-                        <select id="escolha-sala">
+                        <!-- <select id="escolha-sala"> -->
                         </select>
-                        <select id="escolha-maquina">
-                            <option value="">Máquinas</option>
+                        <!-- <select id="escolha-maquina"> -->
+                            <!-- <option value="">Máquinas</option> -->
                         </select>
                     </div>
                 </div>
@@ -123,10 +123,10 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p id="kpiStatusMaquinaEscola"></p>
+                                <p id="kpiAelrtasCriticos"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Estado da Máquina</p>
+                                <p>Alertas Críticos</p>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                                 <p id="kpiUptimeMaquinaSala"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Taxa de Uptime</p>
+                                <p>Alertas Moderados</p>
                             </div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                                 <p id="kpiTaxaMaisCriticaMaquina"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Taxa Mais Crítica</p>
+                                <p>Alertas por Semana/Mês</p>
                             </div>
                         </div>
                     </div>
@@ -180,24 +180,24 @@
                     <div class="painel-graficos">
                         <div class="monitoramento-componentes">
                             <div class="titulo-monitoramento-dia">
-                                <p>Monitoramento dos Componentes</p>
+                                <p>Quantidade de Alertas Críticos</p>
 
                                 <div class="parametros">
                                     <div class="param">
                                         <div class="quadrado-verde"></div>
-                                        <p>Estável</p>
+                                        <!-- <p>Estável</p> -->
                                     </div>
                                     <div class="param">
                                         <div class="quadrado-amarelo"></div>
-                                        <p>Atenção</p>
+                                        <!-- <p>Atenção</p> -->
                                     </div>
 
                                     <div class="param">
                                         <div class="quadrado-vermelho"></div>
-                                        <p>Crítico</p>
+                                        <!-- <p>Crítico</p> -->
                                     </div>
                                 </div>
-                                <select id="componente-grafico" onchange="trocarComponente()">
+                                <!-- <select id="componente-grafico" onchange="trocarComponente()"> -->
                                 </select>
                             </div>
                             <div class="grafico-monitoramento">
@@ -207,20 +207,12 @@
                         <div class="rede-e-disponibilidade">
                             <div class="monitoramento-rede">
                                 <div class="titulo-grafico-rede">
-                                    <p>Velocidade de Download</p>
-                                    <select id="componente-grafico-rede" onchange="trocarComponenteRede()">
+                                    <p>Quantidade de Alertas Moderados</p>
+                                    <!-- <select id="componente-grafico-rede" onchange="trocarComponenteRede()"> -->
                                     </select>
                                 </div>
                                 <div class="grafico-rede">
                                     <canvas id="monitoramento-rede"></canvas>
-                                </div>
-                            </div>
-                            <div class="disponibilidade-maquina">
-                                <div class="titulo-disponibilidade-maquina">
-                                    <p>Disponibilidade da Máquina</p>
-                                </div>
-                                <div class="grafico-disponibilidade-maquina">
-                                    <canvas id="disponibilidade-maquina"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -228,7 +220,7 @@
                     <div class="alertas-e-falhas">
                         <div class="ultimos-alertas">
                             <div class="titulo-alertas-maquina">
-                                <p>Últimos Alertas</p>
+                                 <p>Comparação de Alertas</p> 
                             </div>
                             <div id="alertasMaquina">
 
@@ -236,7 +228,7 @@
                         </div>
                         <div class="falhas-por-componente">
                             <div class="titulo-falhas-por-componente">
-                                <p>Falhas por Componente</p>
+                                <!-- <p>Falhas por Componente</p> -->
                             </div>
                             <div class="grafico-falhas-por-componente">
                                 <canvas id="falhas-por-componente"></canvas>
