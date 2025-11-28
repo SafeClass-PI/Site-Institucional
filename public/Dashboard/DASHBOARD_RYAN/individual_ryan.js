@@ -12,15 +12,35 @@ function carregarInfos() {
         }
     }
 
+    carregarSalas();
     estadoDaRedeAtual();
     qtdMaquinasInstaveis();
-    horaMelhorAcesso(); 
-    graficoMonitoramentoPing();
+    horaMelhorAcesso();
     graficoSemana();
     listarMaquinasEstados();
+    obterDadosGraficoPing();
 }
 
+let proximaAtualizacao = null;
+let myChart = null;
+
 // -------------------- KPIS ---------------------------------------
+
+function carregarSalas() {
+    fetch("/api/ryan/carregarSalas")
+        .then(res => res.json())
+        .then(salas => {
+            const selectSala = document.getElementById("escolha-sala");
+            selectSala.innerHTML = "<option value=''>Salas:</option>";
+
+            salas.forEach(s => {
+                selectSala.innerHTML += `
+                    <option value="${s.identificacao}">Sala ${s.identificacao}</option>
+                `;
+            });
+        })
+        .catch(erro => console.error("Erro ao carregar salas:", erro));
+}
 
 function estadoDaRedeAtual() {
     fetch(`/api/ryan/kpiStatusRede`, { cache: 'no-store' }).then(function (response) {
@@ -63,7 +83,6 @@ function estadoDaRedeAtual() {
                     icone.style.transform = 'rotate(180deg)';
                     icone.style.color = '#ea0303';
                 }
-
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -73,6 +92,7 @@ function estadoDaRedeAtual() {
             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
 }
+
 
 function qtdMaquinasInstaveis() {
     fetch(`/api/ryan/kpiQtdMaquinasInstaveis`, { cache: 'no-store' }).then(function (response) {
@@ -87,6 +107,14 @@ function qtdMaquinasInstaveis() {
                 vt_dados = resposta;
 
                 kpiQtdMaquinasInstaveis.innerText = `${resposta[0].maquinasInstaveis}/${resposta[0].totalMaquinas}`;
+
+                var icone = document.querySelector('#iconeQtdMaquinasInstaveis i');
+
+                if (resposta[0].maquinasInstaveis == 0) {
+                    icone.className = 'fa-solid fa-circle-check';
+                    icone.style.color = '#00AB03'
+                }
+
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -122,36 +150,52 @@ function horaMelhorAcesso() {
 
 // ---------------------- GRÁFICOS ---------------------------------------
 
-function graficoMonitoramentoPing() {
+function obterDadosGraficoPing() {
+    if (proximaAtualizacao != undefined) {
+        clearTimeout(proximaAtualizacao);
+    }
 
-    const ctx = document.getElementById('monitoramento-ping').getContext('2d');
+    fetch(`/api/ryan/obterDadosGraficoPing`, { cache: 'no-store' })
+        .then(response => response.json())
+        .then(resposta => {
+            resposta.reverse();
+            plotarGraficoMonitoramentoPing(resposta);
+        })
+        .catch(err => console.error(err));
+}
 
-    const data = {
-        labels: ['14:00:00', '14:00:10', '14:00:20', '14:00:30', '14:00:40', '14:00:50', '14:00:60', '14:00:70'],
+function plotarGraficoMonitoramentoPing(resposta) {
+
+    let labels = [];
+    let dados = {
+        labels: labels,
         datasets: [{
-            data: [21, 25, 24, 23, 24, 34, 46, 95],
-            label: 'Time Admitted',
+            label: 'Ping',
+            data: [],
             borderColor: 'orange',
             backgroundColor: 'rgba(255,165,0,0.2)',
             fill: true,
-            tension: 0.4, // suaviza as curvas
-            pointBackgroundColor: 'white', // cor do ponto
+            tension: 0.4,
+            pointBackgroundColor: 'white',
             pointBorderColor: 'orange',
             pointHoverRadius: 7,
             pointRadius: 5
         }]
     };
 
+    for (let i = 0; i < resposta.length; i++) {
+        labels.push(resposta[i].horaCaptura);
+        dados.datasets[0].data.push(resposta[i].medianaPing);
+    }
+
     const config = {
         type: 'line',
-        data: data,
+        data: dados,
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    display: false // esconde legenda
-                },
+                legend: { display: false },
                 tooltip: {
                     enabled: true,
                     backgroundColor: 'rgba(255, 166, 0, 0.93)',
@@ -167,30 +211,30 @@ function graficoMonitoramentoPing() {
                     annotations: {
                         yMinLine: {
                             type: 'line',
-                            yMin: 52.7,
-                            yMax: 52.7,
+                            yMin: 250,
+                            yMax: 250,
                             borderColor: '#f3c200ff',
                             borderWidth: 1.8,
                             borderDash: [5],
                             label: {
                                 display: true,
-                                content: ['Atenção'],
+                                content: ['Lento'],
                                 backgroundColor: '#ffd21dff',
-                                color: 'rgba(255, 255, 255, 1)',
+                                color: 'white',
                                 font: { size: 8, family: 'Poppins' },
                                 position: 'start'
                             }
                         },
                         yMaxLine: {
                             type: 'line',
-                            yMin: 65.3,
-                            yMax: 65.3,
+                            yMin: 350,
+                            yMax: 350,
                             borderColor: '#ea0303',
                             borderWidth: 1.8,
                             borderDash: [5],
                             label: {
                                 display: true,
-                                content: ['Crítico'],
+                                content: ['Instável'],
                                 backgroundColor: '#ea0303',
                                 color: 'white',
                                 font: { size: 8, family: 'Poppins' },
@@ -203,93 +247,176 @@ function graficoMonitoramentoPing() {
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: { stepSize: 50 },
+                    ticks: {
+                        stepSize: 400 / 10,
+                        callback: function (value) {
+                            return value + "ms";
+                        }
+                    },
+                    min: 0,
+                    max: 400,
                     grid: {
                         display: true,
                         color: 'rgba(0, 0, 0, 0.1)',
                         lineWidth: 1,
                         drawBorder: false
-                    },
-                    max: 100
-                },
-                x: {
-                    grid: {
-                        display: false
                     }
-                }
+                },
+                x: { grid: { display: false } }
             }
         }
     };
 
-    new Chart(ctx, config);
+    if (myChart != null) myChart.destroy();
 
+    myChart = new Chart(
+        document.getElementById(`monitoramento-ping`),
+        config
+    );
+
+    proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 30000);
+}
+
+function atualizarGrafico(dados, myChart) {
+    if (proximaAtualizacao) clearTimeout(proximaAtualizacao);
+    fetch(`/api/ryan/obterDadosGraficoPingUltimo`, { cache: 'no-store' })
+        .then(response => response.json())
+        .then(novoRegistro => {
+
+            if (novoRegistro[0].horaCaptura == dados.labels[dados.labels.length - 1]) {
+
+                console.log("Sem novos dados.");
+
+            } else {
+
+                dados.labels.shift();
+                dados.labels.push(novoRegistro[0].horaCaptura);
+
+                dados.datasets[0].data.shift();
+                dados.datasets[0].data.push(novoRegistro[0].medianaPing);
+
+                myChart.update();
+            }
+
+            proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 30000);
+
+        }).catch(err => console.error(err));
+}
+
+function atualizarPingSala() {
+    fetch(`/api/ryan/pingMedianoSala`)
+        .then(response => response.json())
+        .then(resultado => {
+            const mediana = resultado.mediana;
+
+            if (mediana == null) return;
+
+            const agora = new Date();
+            const horario = agora.toLocaleTimeString("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            });
+
+            adicionarPontoNoGrafico(horario, mediana);
+        })
+        .catch(erro => console.error("Erro:", erro));
 }
 
 
+
 function graficoSemana() {
-    const ctx = document.getElementById('monitoramento-semana').getContext('2d');
-    const data = {
-        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'],
+    fetch(`/api/dashboard/graficoFalhasPorComponente}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                plotarGraficoSemana(resposta);
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function plotarGraficoSemana(resposta) {
+    let labels = [];
+    let dadosValores = [];
+
+    for (let i = 0; i < resposta.length; i++) {
+        let registro = resposta[i];
+
+        if (registro.componente == "Disco Rígido") {
+            registro.componente = "Disco"
+        }
+        else if (registro.componente == "Memória RAM") {
+            registro.componente = "RAM"
+        }
+
+        labels.push(registro.componente);
+        dadosValores.push(registro.quantidade);
+    }
+
+    const data3 = {
+        labels: labels,
         datasets: [{
-            data: [8, 25, 15, 30, 24],
-            label: 'Time Admitted',
-            borderColor: 'orange',
-            backgroundColor: 'rgba(255,165,0,0.2)',
-            fill: true,
-            tension: 0.4, // suaviza as curvas
-            pointBackgroundColor: 'white', // cor do ponto
-            pointBorderColor: 'orange',
-            pointHoverRadius: 7,
-            pointRadius: 5
+            label: 'Incidência de Falhas',
+            data: dadosValores,
+            backgroundColor: [
+                'rgba(255, 99, 133, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
         }]
     };
 
-    const config = {
+    const config3 = {
         type: 'bar',
-        data: data,
+        data: data3,
         options: {
+            indexAxis: 'y',
+
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: false // esconde legenda
+                    position: 'top',
+                    display: false,
                 },
-                tooltip: {
-                    enabled: true,
-                    backgroundColor: 'rgba(255, 166, 0, 0.93)',
-                    titleColor: 'white',
-                    bodyColor: 'white',
-                    callbacks: {
-                        label: function (context) {
-                            return context.dataset.label + ': ' + context.raw;
-                        }
-                    }
+                title: {
+                    display: false
                 }
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 50 },
-                    grid: {
-                        display: true,
-                        color: 'rgba(0, 0, 0, 0.1)',
-                        lineWidth: 1,
-                        drawBorder: false
-                    },
-                    max: 50
-                },
                 x: {
-                    grid: {
-                        display: false
-                    }
+                    beginAtZero: true
                 }
             }
         }
     };
-    new Chart(ctx, config);
 
+    if (chartFalhas != null) {
+        chartFalhas.destroy();
+    }
+
+    chartFalhas = new Chart(
+        document.getElementById('falhas-por-componente'),
+        config3
+    );
 }
-
 
 async function listarMaquinasEstados() {
     try {
