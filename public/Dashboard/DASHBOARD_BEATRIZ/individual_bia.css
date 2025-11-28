@@ -485,8 +485,7 @@ body {
     justify-content: center;
 }
 
-.titulo-kpi {
-    margin-top: 45%;  
+.titulo-kpi { 
     align-self: flex-start;
 }
 

@@ -222,111 +222,125 @@
         </div>
     </div>
 
-    <script>
+   <script>
 
-
-        function carregarInfos() {
-            var usuario = document.getElementById('nome-usuario-pagina');
-            usuario.innerText = sessionStorage.NOME_USUARIO;
-
-            var imgPerfil = document.getElementById('imgPerfil');
-
-            if (imgPerfil) {
-                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
-                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
-                } else {
-                    imgPerfil.src = 'imgs/profile-default.webp';
-                }
-            }
-
-        }
-
-
-
-
-        function atualizarDataHora() {
-            const agora = new Date();
-
-            const data = agora.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-
-
-            document.getElementById('dataHora').textContent = `${data}`;
-        }
-
-        atualizarDataHora();
-        setInterval(atualizarDataHora, 1000);
-
-
-        function sairDaPagina() {
-            modalLogout.style.display = 'flex';
-            telaOverlay.style.display = 'block';
-        }
-
-        function cancelarSairDaPagina() {
-            modalLogout.style.display = 'none';
-            telaOverlay.style.display = 'none';
-        }
-
-        function confirmarSairDaPagina() {
-            window.location.href = '../index.html'
-        }
-
-        const dropdowns = document.querySelectorAll('.dropdown-container');
-
-        dropdowns.forEach(drop => {
-            const btn = drop.querySelector('.dropbtn');
-
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                drop.classList.toggle('active');
-            });
+    function atualizarDataHora() {
+        const agora = new Date();
+        const data = agora.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
         });
+        document.getElementById('dataHora').textContent = `${data}`;
+    }
+    atualizarDataHora();
+    setInterval(atualizarDataHora, 1000);
 
-        window.addEventListener('click', () => {
-            dropdowns.forEach(drop => drop.classList.remove('active'));
+  
+    function sairDaPagina() {
+        modalLogout.style.display = 'flex';
+        telaOverlay.style.display = 'block';
+    }
+
+    function cancelarSairDaPagina() {
+        modalLogout.style.display = 'none';
+        telaOverlay.style.display = 'none';
+    }
+
+    function confirmarSairDaPagina() {
+        window.location.href = '../index.html';
+    }
+
+
+    const dropdowns = document.querySelectorAll('.dropdown-container');
+    dropdowns.forEach(drop => {
+        const btn = drop.querySelector('.dropbtn');
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            drop.classList.toggle('active');
         });
+    });
+    window.addEventListener('click', () => {
+        dropdowns.forEach(drop => drop.classList.remove('active'));
+    });
 
+ 
+    function carregarInfos() {
+        const usuario = document.getElementById('nome-usuario-pagina');
+        usuario.innerText = sessionStorage.NOME_USUARIO || "Usuário";
 
-
-        function atualizarKpiSolicitacoes() {
-            fetch('/api/bia/qtdSolicitacoesDiarias')
-                .then(response => {
-                    if (!response.ok) throw new Error('Erro na resposta da API');
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar solicitações diárias:', error);
-                    document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
-                });
-        }
-
-
-        function carregarInfos() {
-            var usuario = document.getElementById('nome-usuario-pagina');
-            usuario.innerText = sessionStorage.NOME_USUARIO;
-
-            var imgPerfil = document.getElementById('imgPerfil');
-            if (imgPerfil) {
-                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
-                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
-                } else {
-                    imgPerfil.src = 'imgs/profile-default.webp';
-                }
+        const imgPerfil = document.getElementById('imgPerfil');
+        if (imgPerfil) {
+            if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+                imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+            } else {
+                imgPerfil.src = 'imgs/profile-default.webp';
             }
-
-            // Chama a função que atualiza o KPI de solicitações
-            atualizarKpiSolicitacoes();
         }
 
+   
+        atualizarKpiSolicitacoes();
+        atualizarKpiUsuariosOnline();
 
-    </script>
+      
+        if (sessionStorage.ID_USUARIO) {
+            marcarUsuarioOnline(sessionStorage.ID_USUARIO);
+        }
+    }
+
+ 
+    function atualizarKpiSolicitacoes() {
+        fetch('/api/bia/qtdSolicitacoesDiarias')
+            .then(res => {
+                if (!res.ok) throw new Error('Erro na resposta da API');
+                return res.json();
+            })
+            .then(data => {
+                document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
+            })
+            .catch(erro => {
+                console.error('Erro ao buscar solicitações diárias:', erro);
+                document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
+            });
+    }
+
+
+    async function marcarUsuarioOnline(idUsuario) {
+        try {
+            const res = await fetch("/api/bia/usuario/online", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idUsuario })
+            });
+            const data = await res.json();
+            console.log("✅ Usuário marcado como online:", data);
+        } catch (erro) {
+            console.error("❌ Erro ao marcar usuário online:", erro);
+        }
+    }
+
+
+    function atualizarKpiUsuariosOnline() {
+        Promise.all([
+            fetch("/api/bia/usuario/online").then(res => res.json()),
+            fetch("/api/bia/totalUsuarios").then(res => res.json())
+        ])
+        .then(([usuariosOnline, totalUsuarios]) => {
+            const qtdOnline = usuariosOnline.length;
+            const qtdTotal = totalUsuarios.totalUsuarios || 0;
+            document.getElementById("kpi-qtd-usuarios-online").innerText = `${qtdOnline}/${qtdTotal}`;
+        })
+        .catch(erro => {
+            console.error("Erro ao atualizar KPI de usuários online:", erro);
+            document.getElementById("kpi-qtd-usuarios-online").innerText = "Erro";
+        });
+    }
+
+
+    window.addEventListener("load", carregarInfos);
+    setInterval(atualizarKpiUsuariosOnline, 10000);
+</script>
+
 </body>
 
 </html>
