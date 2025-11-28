@@ -36,4 +36,10 @@ router.get("/graficoSemana", function (req, res) {
     ryanController.graficoSemana(req, res);
 });
 
+router.get("/carregarDadosPrevisao", function (req, res) {
+    ryanController.carregarDadosPrevisao(req, res);
+});
+
+
+
 module.exports = router;

@@ -11,6 +11,7 @@ function carregarInfos() {
             imgPerfil.src = 'imgs/profile-default.webp';
         }
     }
+
     atualizarDataHora();
     carregarSalas();
     estadoDaRedeAtual();
@@ -20,6 +21,148 @@ function carregarInfos() {
     listarMaquinasEstados();
     obterDadosGraficoPing();
 }
+
+function atualizarDashboard() {
+    if (!idSalaSelecionada) {
+        return;
+    }
+
+    kpiStatusMaquina(idSalaSelecionada);
+    kpiUptimeMaquina(idSalaSelecionada);
+    kpiTaxaMaisCritica(idSalaSelecionada);
+    kpiQtdAlertasMaquina(idSalaSelecionada);
+}
+
+setInterval(atualizarDashboard, 30000);
+
+function abrirDuvidaPrevisao() {
+    alert('Oi');    
+}
+
+function previsionar() {
+    fetch(`/api/ryan/carregarDadosPrevisao`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    const horarioDigitado = document.querySelector("#kpi-qtd-alertas-hoje input").value;
+
+                    if (!horarioDigitado.match(/^\d{2}:\d{2}:\d{2}$/)) {
+                        alert("Digite no formato HH:MM:SS");
+                        return;
+                    }
+
+                    const valorPrevisto = preverPing(horarioDigitado, resposta);
+
+                    let estado = "Estável";
+                    if (valorPrevisto >= 350) {
+                        estado = "Instável";
+                    } else if (valorPrevisto >= 250) {
+                        estado = "Lento";
+                    }
+
+                    mostrarAlertaPrevisao(valorPrevisto, estado);
+                });
+            } else {
+                console.error('Erro ao carregar dados da API');
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro ao obter dados: ${error.message}`);
+        });
+}
+
+function preverPing(horarioDigitado, dados) {
+    const { a, b } = calcularRegressao(dados);
+
+    const xNovo = horaParaSegundos(horarioDigitado);
+
+    return a + b * xNovo;
+}
+
+function calcularRegressao(dados) {
+    const n = dados.length;
+
+    let somaX = 0, somaY = 0, somaXY = 0, somaX2 = 0;
+
+    dados.forEach(d => {
+        const x = horaParaSegundos(d.horaCaptura);
+        const y = d.medianaPing;
+
+        somaX += x;
+        somaY += y;
+        somaXY += x * y;
+        somaX2 += x * x;
+    });
+
+    const b = (n * somaXY - somaX * somaY) / (n * somaX2 - somaX * somaX);
+    const a = (somaY - b * somaX) / n;
+
+    return { a, b };
+}
+
+function horaParaSegundos(hora) {
+    const [h, m, s] = hora.split(":").map(Number);
+    return h * 3600 + m * 60 + s;
+}
+function mostrarAlertaPrevisao(valorPing, estado) {
+    const alerta = document.getElementById("alertaDePrevisao");
+    const pingSpan = document.getElementById("pingPrevisao");
+    const estadoP = document.getElementById("estadoPrevisao");
+    const corpo = document.querySelector(".corpo-estado-previsao");
+
+    pingSpan.textContent = valorPing.toFixed(2) + " ms";
+    estadoP.textContent = estado;
+
+    if (estado.toLowerCase() === "instável") {
+        corpo.style.backgroundColor = "#ea0303";
+    } else if (estado.toLowerCase() === "lento") {
+        corpo.style.backgroundColor = "#f5a623";
+    } else {
+        corpo.style.backgroundColor = "#28a745";
+    }
+
+    alerta.classList.remove("hide");
+    alerta.classList.add("show");
+}
+
+function fecharAlerta() {
+    const alerta = document.getElementById("alertaDePrevisao");
+    alerta.classList.remove("show");
+    alerta.classList.add("hide");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let proximaAtualizacao = null;
 let myChart = null;
@@ -41,8 +184,6 @@ function atualizarDataHora() {
 
 atualizarDataHora();
 setInterval(atualizarDataHora, 1000);
-
-
 
 // -------------------- KPIS ---------------------------------------
 
@@ -371,19 +512,19 @@ function plotarGraficoSemana(resposta) {
     const maxIndex = dadosValores.indexOf(maxValor);
 
     const valoresOrdenados = [...dadosValores].sort((a, b) => b - a);
-    const segundoMaior = valoresOrdenados[1]; 
+    const segundoMaior = valoresOrdenados[1];
     const segundoIndex = dadosValores.indexOf(segundoMaior);
 
-    let backgroundColors = dadosValores.map(() => '#00ab03d9'); 
+    let backgroundColors = dadosValores.map(() => '#00ab03d9');
     let borderColors = dadosValores.map(() => '#00AB03');
 
     if (maxIndex !== -1) {
-        backgroundColors[maxIndex] = '#ea0303b1'; 
+        backgroundColors[maxIndex] = '#ea0303b1';
         borderColors[maxIndex] = '#ea0303';
     }
 
     if (segundoIndex !== -1) {
-        backgroundColors[segundoIndex] = '#eab303b1'; 
+        backgroundColors[segundoIndex] = '#eab303b1';
         borderColors[segundoIndex] = '#eab303';
     }
 

@@ -223,6 +223,58 @@ function graficoSemana() {
     return database.executar(instrucaoSql);
 }
 
+function carregarDadosPrevisao() {
+    var instrucaoSql = `
+            WITH dados AS (
+            SELECT
+                s.idSala,
+                ca.dtCaptura,
+                TIME(ca.dtCaptura) AS horaCaptura,
+                ca.registro AS ping,
+                ROW_NUMBER() OVER (
+                    PARTITION BY s.idSala, TIME(ca.dtCaptura)
+                    ORDER BY ca.registro
+                ) AS rn,
+                COUNT(*) OVER (
+                    PARTITION BY s.idSala, TIME(ca.dtCaptura)
+                ) AS total
+            FROM captura ca
+            JOIN componente co ON co.idcomponente = ca.fkcomponente
+            JOIN maquina m ON m.idMaquina = co.fkMaquina
+            JOIN sala s ON s.idSala = m.fkSala
+            WHERE co.nome = 'PING'
+            AND s.idSala = 1
+            AND DATE(ca.dtCaptura) = CURDATE() 
+            )
+            SELECT 
+                idSala,
+                horaCaptura,
+                ROUND(
+                    CASE 
+                        WHEN total % 2 = 1 THEN 
+                            (SELECT ping 
+                            FROM dados d2 
+                            WHERE d2.idSala = d1.idSala
+                            AND d2.horaCaptura = d1.horaCaptura
+                            AND d2.rn = (d1.total + 1) / 2)
+                        ELSE 
+                            (SELECT AVG(ping)
+                            FROM dados d2 
+                            WHERE d2.idSala = d1.idSala
+                            AND d2.horaCaptura = d1.horaCaptura
+                            AND d2.rn IN (d1.total / 2, d1.total / 2 + 1))
+                    END
+                , 2) AS medianaPing
+            FROM dados d1
+            GROUP BY idSala, horaCaptura
+            ORDER BY MAX(dtCaptura) ASC;
+     `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
 
 module.exports = {
     carregarSalas,
@@ -232,5 +284,6 @@ module.exports = {
     listarMaquinasEstados,
     obterDadosGraficoPing,
     obterDadosGraficoPingUltimo,
-    graficoSemana
+    graficoSemana,
+    carregarDadosPrevisao
 }
