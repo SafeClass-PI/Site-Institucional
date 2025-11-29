@@ -240,12 +240,10 @@
             modalLogout.style.display = 'flex';
             telaOverlay.style.display = 'block';
         }
-
         function cancelarSairDaPagina() {
             modalLogout.style.display = 'none';
             telaOverlay.style.display = 'none';
         }
-
         function confirmarSairDaPagina() {
             window.location.href = '../index.html';
         }
@@ -253,8 +251,7 @@
 
         const dropdowns = document.querySelectorAll('.dropdown-container');
         dropdowns.forEach(drop => {
-            const btn = drop.querySelector('.dropbtn');
-            btn.addEventListener('click', (e) => {
+            drop.querySelector('.dropbtn').addEventListener('click', (e) => {
                 e.stopPropagation();
                 drop.classList.toggle('active');
             });
@@ -269,36 +266,27 @@
             usuario.innerText = sessionStorage.NOME_USUARIO || "Usuário";
 
             const imgPerfil = document.getElementById('imgPerfil');
-            if (imgPerfil) {
-                if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
-                    imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
-                } else {
-                    imgPerfil.src = 'imgs/profile-default.webp';
-                }
+            if (sessionStorage.IMAGEM_USUARIO?.trim()) {
+                imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
             }
-
 
             atualizarKpiSolicitacoes();
             atualizarKpiUsuariosOnline();
-
 
             if (sessionStorage.ID_USUARIO) {
                 marcarUsuarioOnline(sessionStorage.ID_USUARIO);
             }
         }
+        window.addEventListener("load", carregarInfos);
 
 
         function atualizarKpiSolicitacoes() {
             fetch('/api/bia/qtdSolicitacoesDiarias')
-                .then(res => {
-                    if (!res.ok) throw new Error('Erro na resposta da API');
-                    return res.json();
-                })
+                .then(res => res.json())
                 .then(data => {
                     document.getElementById('kpi-qtd-solicitacoes').innerText = data.qtdSolicitacoesDiarias;
                 })
-                .catch(erro => {
-                    console.error('Erro ao buscar solicitações diárias:', erro);
+                .catch(() => {
                     document.getElementById('kpi-qtd-solicitacoes').innerText = 'Erro';
                 });
         }
@@ -306,186 +294,151 @@
 
         async function marcarUsuarioOnline(idUsuario) {
             try {
-                const res = await fetch("/api/bia/usuario/online", {
+                await fetch("/api/bia/usuario/online", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ idUsuario })
                 });
-                const data = await res.json();
-                console.log("✅ Usuário marcado como online:", data);
-            } catch (erro) {
-                console.error("❌ Erro ao marcar usuário online:", erro);
-            }
+            } catch { }
         }
 
 
-        // kpi usuários online
 
         function atualizarKpiUsuariosOnline() {
             Promise.all([
-                fetch("/api/bia/usuario/online").then(res => res.json()),
-                fetch("/api/bia/totalUsuarios").then(res => res.json())
+                fetch("/api/bia/usuario/online").then(r => r.json()),
+                fetch("/api/bia/totalUsuarios").then(r => r.json())
             ])
-                .then(([usuariosOnline, totalUsuarios]) => {
-                    const qtdOnline = usuariosOnline.length;
-                    const qtdTotal = totalUsuarios.totalUsuarios || 0;
-                    document.getElementById("kpi-qtd-usuarios-online").innerText = `${qtdOnline}/${qtdTotal}`;
+                .then(([online, total]) => {
+                    document.getElementById("kpi-qtd-usuarios-online").innerText =
+                        `${online.length}/${total.totalUsuarios ?? 0}`;
                 })
-                .catch(erro => {
-                    console.error("Erro ao atualizar KPI de usuários online:", erro);
+                .catch(() => {
                     document.getElementById("kpi-qtd-usuarios-online").innerText = "Erro";
                 });
         }
 
 
-        window.addEventListener("load", carregarInfos);
-        setInterval(atualizarKpiUsuariosOnline, 10000);
 
-
-
-        // kpi horario 
 
         function atualizarKpiHorario() {
             fetch("/api/bia/horaMaisAcessada")
                 .then(res => res.json())
                 .then(data => {
-                    const elemento = document.getElementById("kpi-horario-acessado");
-                    if (data.hora !== null) {
-                        elemento.innerText = `${data.hora}:00`;
-                        //elemento.innerText = `${data.hora}:00 \n (${data.total} acessos)`;
-                    } else {
-                        elemento.innerText = "Sem dados";
-                    }
+                    document.getElementById("kpi-horario-acessado").innerText =
+                        data.hora !== null ? `${data.hora}:00` : "Sem dados";
                 })
-                .catch(erro => {
-                    console.error("Erro ao atualizar KPI de horário:", erro);
+                .catch(() => {
                     document.getElementById("kpi-horario-acessado").innerText = "Erro";
                 });
         }
 
-        atualizarKpiHorario();
-        setInterval(atualizarKpiHorario, 10000);
 
-        // kpi maior acesso
+
+
         function atualizarKpiMaiorAcesso() {
             fetch("/api/bia/usuario/maisAcessos")
                 .then(res => res.json())
                 .then(data => {
-                    const elemento = document.getElementById("kpi-acesso-hoje");
-                    if (data.nome) {
-                        elemento.innerText = `${data.nome} `;
-                        //elemento.innerText = `${data.nome} \n (${data.totalLogins} acessos)`;
-                    } else {
-                        elemento.innerText = "Sem dados";
-                    }
+                    document.getElementById("kpi-acesso-hoje").innerText =
+                        data.nome || "Sem dados";
                 })
-                .catch(erro => {
-                    console.error("Erro ao atualizar KPI de maior acesso:", erro);
+                .catch(() => {
                     document.getElementById("kpi-acesso-hoje").innerText = "Erro";
                 });
         }
 
 
-        atualizarKpiMaiorAcesso();
-        setInterval(atualizarKpiMaiorAcesso, 10000);
 
 
+        let graficoUsuariosPorCargo = null;
+        let graficoRanking = null;
 
 
-
-        // gráfico total usuários
-
-        function atualizarGraficoUsuariosPorCargo() {
+        function criarOuAtualizarGraficoUsuariosPorCargo() {
             fetch("/api/bia/totalUsuariosPorCargo")
                 .then(res => res.json())
                 .then(data => {
-                    const labels = data.map(item => item.cargo);
-                    const valores = data.map(item => item.totalUsuarios);
+                    const labels = data.map(i => i.cargo);
+                    const valores = data.map(i => i.totalUsuarios);
 
-                    const ctx = document.getElementById("graficoTotalUsuarios").getContext("2d");
-                    new Chart(ctx, {
-                        type: "pie",
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                data: valores,
-                                backgroundColor: [
-                                    "#FF6384",
-                                    "#36A2EB",
-                                    "#FFCE56",
-                                    "#4BC0C0",
-                                    "#9966FF",
-                                    "#FF9F40"
-                                ]
-                            }]
-                        },
-                        options: {
-                            responsive: false,   // impede que o Chart.js expanda
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'bottom'
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function (context) {
-                                            return `${context.label}: ${context.parsed} usuários`;
+                    if (!graficoUsuariosPorCargo) {
+                        const ctx = document.getElementById("graficoTotalUsuarios").getContext("2d");
+
+                        graficoUsuariosPorCargo = new Chart(ctx, {
+                            type: "pie",
+                            data: {
+                                labels,
+                                datasets: [{
+                                    data: valores,
+                                    backgroundColor: [
+                                        "#FF6384", "#36A2EB", "#FFCE56",
+                                        "#4BC0C0", "#9966FF", "#FF9F40"
+                                    ]
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { position: 'bottom' } }
+                            }
+                        });
+                    } else {
+                        graficoUsuariosPorCargo.data.labels = labels;
+                        graficoUsuariosPorCargo.data.datasets[0].data = valores;
+                        graficoUsuariosPorCargo.update();
+                    }
+                });
+        }
+
+
+        function criarOrAtualizarGraficoRanking() {
+            fetch("/api/bia/rankingUsuarios")
+                .then(res => res.json())
+                .then(data => {
+                    const labels = data.map(u => u.nome);
+                    const valores = data.map(u => u.totalLogins);
+
+                    if (!graficoRanking) {
+                        const ctx = document.getElementById("graficoRanking").getContext("2d");
+
+                        graficoRanking = new Chart(ctx, {
+                            type: "bar",
+                            data: {
+                                labels,
+                                datasets: [{
+                                    label: 'Acessos',
+                                    data: valores,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                indexAxis: 'y',
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            stepSize: 1,
+                                            callback: function (value) {
+                                                return Number.isInteger(value) ? value : null;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
-                })
-                .catch(erro => console.error("Erro ao carregar gráfico:", erro));
+                        });
+                    } else {
+                        graficoRanking.data.labels = labels;
+                        graficoRanking.data.datasets[0].data = valores;
+                        graficoRanking.update();
+                    }
+                });
         }
 
-
-        atualizarGraficoUsuariosPorCargo();
-
-
-        // gráfico ranking
-
-        function atualizarGraficoRanking() {
-            fetch("/api/bia/rankingUsuarios")
-                .then(res => res.json())
-                .then(dados => {
-                    const nomes = dados.map(u => u.nome);
-                    const acessos = dados.map(u => u.totalLogins);
-
-
-                    const ctx = document.getElementById("graficoRanking").getContext("2d");
-
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: nomes,
-                            datasets: [{
-                                label: 'Acessos',
-                                data: acessos,
-                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            maintainAspectRatio: false,
-                            indexAxis: 'y',
-                            responsive: true,
-                            plugins: { legend: { display: false } },
-                            scales: { x: { beginAtZero: true } }
-                        }
-                    });
-                })
-                .catch(erro => console.error("Erro ao buscar ranking:", erro));
-        }
-
-
-        atualizarGraficoRanking();
-
-
-
-        // ultimos acessos
 
         async function listarUltimosAcessos() {
             try {
@@ -495,38 +448,49 @@
                 const painel = document.getElementById("alertas");
                 painel.innerHTML = "";
 
-                if (!acessos || acessos.length === 0) {
-                    painel.innerHTML = `<p style="text-align:center; width:100%; margin-top: 50px;">Sem acessos recentes!</p>`;
+                if (!acessos.length) {
+                    painel.innerHTML = `<p style="text-align:center;margin-top:50px;">Sem acessos recentes!</p>`;
                     return;
                 }
 
-                acessos.forEach(acesso => {
+                acessos.forEach(a => {
                     const card = document.createElement("div");
                     card.classList.add("card-acesso");
-                    
-
                     card.innerHTML = `
-                <p class="nome">${acesso.NomeUsuario}</p>
-                <p class="hora">${formatarHora(acesso.HorarioLogin)}</p>
-                <p class="cargo">${acesso.CargoUsuario}</p>
-            `;
-
+                    <div class="card-left">
+                    <div class="infos">
+                    <p class="nome">${a.NomeUsuario}</p>
+                    <p class="cargo">${a.CargoUsuario}</p>
+                </div>
+             </div>
+             <p class="hora">${formatarHora(a.HorarioLogin)}</p>
+    `;
                     painel.appendChild(card);
                 });
-            } catch (erro) {
-                console.error("Erro ao listar últimos acessos:", erro);
-            }
+                ;
+
+            } catch { }
         }
 
-        function formatarHora(dataHora) {
-            const data = new Date(dataHora);
-            const horas = String(data.getHours()).padStart(2, "0");
-            const minutos = String(data.getMinutes()).padStart(2, "0");
-            return `${horas}:${minutos}`;
+        function formatarHora(d) {
+            const dt = new Date(d);
+            return `${String(dt.getHours()).padStart(2, "0")}:${String(dt.getMinutes()).padStart(2, "0")}`;
         }
 
-        window.addEventListener("load", listarUltimosAcessos);
 
+
+        function atualizarTudo() {
+            atualizarKpiSolicitacoes();
+            atualizarKpiUsuariosOnline();
+            atualizarKpiHorario();
+            atualizarKpiMaiorAcesso();
+            listarUltimosAcessos();
+            criarOuAtualizarGraficoUsuariosPorCargo();
+            criarOrAtualizarGraficoRanking();
+        }
+
+        atualizarTudo();
+        setInterval(atualizarTudo, 5000);
 
     </script>
 
