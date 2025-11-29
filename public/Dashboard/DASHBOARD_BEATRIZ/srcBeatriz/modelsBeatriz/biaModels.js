@@ -73,12 +73,13 @@ function horaMaisAcessada() {
 
 function usuarioMaisAtivo() {
     var instrucaoSql = `
-        SELECT u.nome, COUNT(l.idUsuario) AS totalLogins
-        FROM logins l
-        JOIN usuario u ON l.idUsuario = u.idUsuario
-        GROUP BY l.idUsuario
-        ORDER BY totalLogins DESC
-        LIMIT 1;
+   SELECT u.nome, COUNT(l.idUsuario) AS totalLoginsHoje
+    FROM logins l
+    JOIN usuario u ON l.idUsuario = u.idUsuario
+    WHERE DATE(l.dataHoraLogin) = CURDATE()
+    GROUP BY l.idUsuario
+    ORDER BY totalLoginsHoje DESC
+    LIMIT 1;
     `;
     return database.executar(instrucaoSql);
 }
