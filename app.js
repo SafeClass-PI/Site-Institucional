@@ -24,8 +24,12 @@ var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_FELIPE/srcFelipe/route
 const RelatorioController = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/controllersFelipe/relatorioController');
 const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/salaRoutes');
 const maquinaRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/maquinaRoutes');
+const rankingRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/rankingRoutes');
+
 // rota de alertas do Felipe
 const alertasFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/alertasRoutes');
+const cpuUsoRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/cpuUsoRoutes')
+
 
 
 ;
@@ -62,11 +66,13 @@ app.use("/api/ryan", ryanRouter);
 app.use("/api/bia", biaRouter);
 app.get('/api/relatorio/pdf', RelatorioController.gerarRelatorioPDF);
 app.use('/api', salaFelipeRoutes);
+app.use('/api', rankingRoutes);
 
 app.use('/api/sala', alertasFelipeRoutes);
 app.use('/api', maquinaRoutes);
 
 app.use("/api/matheus", matheusRouter);
+app.use('/api', cpuUsoRoutes);
 
 
 // As rotas abaixo estavam comentadas no seu código original, mas são um bom exemplo de como outras rotas seriam adicionadas

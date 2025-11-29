@@ -5,7 +5,7 @@ async function buscarMaquinasPorSala(idSala) {
     SELECT idMaquina
     FROM Maquina
     WHERE fkSala = ?
-    ORDER BY idMaquina DESC
+    ORDER BY idMaquina 
   `;
   return database.executarComParametros(instrucao, [idSala]);
 }

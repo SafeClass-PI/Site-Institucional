@@ -161,7 +161,8 @@
         border-radius: 6px;
     ">
                             <strong>Sobre esta KPI:</strong>
-                            <p>Esta métrica mostra a máquina com mais falhas críticas de CPU na sala selecionada.</p>
+                            <p>Esta métrica mostra a máquina com mais <b>alertas críticos</b> de CPU na sala
+                                selecionada.</p>
                             <button onclick="fecharModal('kpiModal')" style="
     margin-top: 6px;
     background-color: #3498db;
@@ -308,11 +309,11 @@
                                     <p>Máquinas com mais falhas por CPU (Ranking)</p>
                                 </div>
                                 <div class="grafico-rede">
-                                    <canvas id="monitoramento-rede"></canvas>
+                                    <canvas id="monitoramento-rede" style="width:100%; height:300px;"></canvas>
                                 </div>
                             </div>
-
                         </div>
+
                     </div>
                     <div class="alertas-e-falhas" style="position: relative;">
                         <div class="ultimos-alertas">
