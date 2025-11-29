@@ -4,18 +4,18 @@ function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n function autenticar():", email, senha);
 
     var instrucaoSql = `
-  SELECT 
-    u.idUsuario, 
-    u.nome, 
-    u.email, 
-    u.senha, 
-    u.status,  
-    u.dtCadastro,
-    c.nome AS cargo
-  FROM usuario u
-  JOIN cargo c ON u.fkCargo = c.idCargo
-  WHERE u.email = '${email}'
-`;
+    SELECT 
+        u.idUsuario, 
+        u.nome, 
+        u.email, 
+        u.senha, 
+        u.status,  
+        u.dtCadastro,
+        c.nome AS cargo
+    FROM usuario u
+    JOIN cargo c ON u.fkCargo = c.idCargo
+    WHERE u.email = '${email}'
+    `;
 
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -116,8 +116,8 @@ function rejeitar(idUsuario) {
 function buscarPorId(idUsuario) {
     var instrucaoSql = `
         SELECT idUsuario, nome, email, fkCargo, status
-FROM usuario
-WHERE idUsuario = ${idUsuario}
+    FROM usuario
+    WHERE idUsuario = ${idUsuario}
 
     `;
 
@@ -261,7 +261,7 @@ function buscarComFiltro(limite = 8, offset = 0, busca = "", cargo = "", status 
 
 function uploadFoto(idUsuario, caminhoImagem) {
     const instrucaoSql = `
-        UPDATE Usuario 
+        UPDATE usuario 
         SET imagemPerfil = '${caminhoImagem}'
         WHERE idUsuario = ${idUsuario};
     `;

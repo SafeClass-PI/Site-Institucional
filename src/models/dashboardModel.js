@@ -4,7 +4,7 @@ function qtdMaquinasLigadas() {
     var instrucaoSql = `
     SELECT COUNT(CASE
     WHEN m.estado LIKE 'Ligada' THEN 1 END) AS maquinasLigadas, COUNT(m.idMaquina) AS totalMaquinas
-    FROM Maquina AS m;
+    FROM maquina AS m;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -28,10 +28,10 @@ function taxaUptimeEscola() {
 function maquinaMaisCritica() {
     var instrucaoSql = `
     SELECT CONCAT("Máquina", " ", m.idMaquina) AS maquina, COUNT(a.idAlerta) AS TotalAlertas, CONCAT("Sala", " ", m.fkSala) AS localizacao, CONCAT("Mac Address:", " ", m.macaddress) AS macaddress
-    FROM Maquina AS m
-    JOIN Componente AS c ON c.fkMaquina = m.idMaquina
-    JOIN Captura AS ca ON ca.fkComponente = c.idComponente 
-    JOIN Alerta AS a ON a.fkCaptura = ca.idCaptura
+    FROM maquina AS m
+    JOIN componente AS c ON c.fkMaquina = m.idMaquina
+    JOIN captura AS ca ON ca.fkComponente = c.idComponente 
+    JOIN alerta AS a ON a.fkCaptura = ca.idCaptura
     WHERE DATE(ca.dtCaptura) = CURDATE()
     GROUP BY m.idMaquina
     ORDER BY TotalAlertas DESC
@@ -140,14 +140,14 @@ function mostrarMaquinas(idSala) {
 
 function listarUltimosAlertas() {
     var instrucaoSql = `
-       SELECT m.idMaquina AS identificacao, c.nome as comp, ROUND(ca.registro, 1) AS registro, c.formatacao, p.nivel, m.fkSala AS sala, ca.dtCaptura AS hora FROM Alerta AS a
-        JOIN Captura AS ca
+       SELECT m.idMaquina AS identificacao, c.nome as comp, ROUND(ca.registro, 1) AS registro, c.formatacao, p.nivel, m.fkSala AS sala, ca.dtCaptura AS hora FROM alerta AS a
+        JOIN captura AS ca
         ON ca.idCaptura = a.fkCaptura
-        JOIN Componente AS c
+        JOIN componente AS c
         ON c.idComponente = ca.fkComponente
-        JOIN Maquina AS m
+        JOIN maquina AS m
         ON m.idMaquina = c.fkMaquina
-        JOIN Parametro AS p
+        JOIN parametro AS p
         ON p.idParametro = a.fkParametro
         WHERE DATE(ca.dtCaptura) = CURDATE()
         ORDER BY ca.dtCaptura DESC; 
@@ -172,7 +172,7 @@ function carregarFoto(idUsuario) {
 function listarSalasMaquina() {
     var instrucaoSql = `
     SELECT idSala AS identificacao
-    FROM Sala;
+    FROM sala;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -181,7 +181,7 @@ function listarSalasMaquina() {
 
 function listarMaquinas(idSala) {
     var instrucaoSql = `
-    SELECT idMaquina AS maquina FROM Maquina
+    SELECT idMaquina AS maquina FROM maquina
     WHERE fkSala = ${idSala};
     `;
 
@@ -192,7 +192,7 @@ function listarMaquinas(idSala) {
 function carregarComponentes(idMaquina) {
     var instrucaoSql = `
    SELECT co.idComponente AS id, co.nome AS nome 
-    FROM Componente AS co
+    FROM componente AS co
     WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'Upload' AND nome NOT LIKE 'Download' AND nome NOT LIKE 'Ping'
     ORDER BY id DESC
     LIMIT 3;
@@ -205,7 +205,7 @@ function carregarComponentes(idMaquina) {
 function carregarComponentesRede(idMaquina) {
      var instrucaoSql = `
         SELECT co.idComponente AS id, co.nome AS nome 
-        FROM Componente AS co
+        FROM componente AS co
         WHERE co.fkMaquina = ${idMaquina} AND nome NOT LIKE 'CPU' AND nome NOT LIKE 'RAM' AND nome NOT LIKE 'Disco' AND nome NOT LIKE 'Ping'
         ORDER BY id DESC
         LIMIT 2;
@@ -235,15 +235,15 @@ function kpiStatusMaquina(idMaquina) {
             ) = 2 THEN 'Atenção'
             ELSE 'Estável'
         END AS estado_maquina
-        FROM Componente c
-        JOIN Captura ca 
+        FROM componente c
+        JOIN captura ca 
         ON ca.idCaptura = (
                 SELECT MAX(ca2.idCaptura)
-                FROM Captura ca2
+                FROM captura ca2
                 WHERE ca2.fkComponente = c.idComponente
             )
-        LEFT JOIN Parametro pcrit ON pcrit.fkComponente = c.idComponente AND pcrit.nivel = 'Crítico'
-        LEFT JOIN Parametro pate ON pate.fkComponente = c.idComponente AND pate.nivel = 'Atenção'
+        LEFT JOIN parametro pcrit ON pcrit.fkComponente = c.idComponente AND pcrit.nivel = 'Crítico'
+        LEFT JOIN parametro pate ON pate.fkComponente = c.idComponente AND pate.nivel = 'Atenção'
         WHERE c.fkMaquina = ${idMaquina};
     `;
 
@@ -273,10 +273,10 @@ function kpiUptimeMaquina(idMaquina) {
 function kpiTaxaMaisCritica(idMaquina) {
     var instrucaoSql = `
         SELECT co.nome AS componente, MAX(ROUND(ca.registro, 1)) AS registro, co.formatacao AS formatacao, DATE_FORMAT(MAX(ca.dtCaptura), '%H:%i') AS hora
-        FROM Captura AS ca
-        JOIN Alerta AS a ON a.fkCaptura = ca.idCaptura
-        JOIN Componente AS co ON co.idComponente = ca.fkComponente
-        JOIN Maquina AS m ON m.idMaquina = co.fkMaquina
+        FROM captura AS ca
+        JOIN alerta AS a ON a.fkCaptura = ca.idCaptura
+        JOIN componente AS co ON co.idComponente = ca.fkComponente
+        JOIN maquina AS m ON m.idMaquina = co.fkMaquina
         WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE()
         GROUP BY co.nome, co.formatacao
         LIMIT 1;
@@ -289,12 +289,12 @@ function kpiTaxaMaisCritica(idMaquina) {
 function kpiQtdAlertasMaquina(idMaquina) {
     var instrucaoSql = `
        SELECT COUNT(a.idAlerta) AS qtdAlerta
-        FROM Alerta AS a
-        JOIN Captura AS ca
+        FROM alerta AS a
+        JOIN captura AS ca
         ON ca.idCaptura = a.fkCaptura
-        JOIN Componente AS c
+        JOIN componente AS c
         ON c.idComponente = ca.fkComponente
-        JOIN Maquina AS m
+        JOIN maquina AS m
         ON m.idMaquina = c.fkMaquina
         WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE();
     `;
@@ -305,14 +305,14 @@ function kpiQtdAlertasMaquina(idMaquina) {
 
 function listarUltimosAlertasMaquina(idMaquina) {
     var instrucaoSql = `
-    SELECT m.idMaquina AS identificacao, c.nome as comp, ROUND(ca.registro, 1) AS registro, c.formatacao, p.nivel, m.fkSala AS sala, ca.dtCaptura AS hora FROM Alerta AS a
-    JOIN Captura AS ca
+    SELECT m.idMaquina AS identificacao, c.nome as comp, ROUND(ca.registro, 1) AS registro, c.formatacao, p.nivel, m.fkSala AS sala, ca.dtCaptura AS hora FROM alerta AS a
+    JOIN captura AS ca
     ON ca.idCaptura = a.fkCaptura
-    JOIN Componente AS c
+    JOIN componente AS c
     ON c.idComponente = ca.fkComponente
-    JOIN Maquina AS m
+    JOIN maquina AS m
     ON m.idMaquina = c.fkMaquina
-    JOIN Parametro AS p
+    JOIN parametro AS p
     ON p.idParametro = a.fkParametro
     WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE()
     ORDER BY ca.dtCaptura DESC; 
@@ -415,10 +415,10 @@ function graficoDisponibilidade(idMaquina) {
 function graficoFalhasPorComponente(idMaquina) {
     var instrucaoSql = `
         SELECT c.nome AS componente, COUNT(a.idAlerta) AS quantidade 
-        FROM Alerta AS a
-        RIGHT JOIN Captura AS ca
+        FROM alerta AS a
+        RIGHT JOIN captura AS ca
         ON a.fkCaptura = ca.idCaptura
-        JOIN Componente AS c
+        JOIN componente AS c
         ON c.idComponente = ca.fkComponente
         JOIN maquina AS m
         ON m.idMaquina = c.fkMaquina

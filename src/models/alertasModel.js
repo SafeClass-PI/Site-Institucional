@@ -6,14 +6,14 @@ function listarAlertas(limite = 8, offset = 0) {
    SELECT CONCAT('Máquina ', m.idMaquina) AS identificacao, CASE WHEN c.nome LIKE 'RAM' THEN 'Memória RAM' ELSE c.nome END AS componente, REPLACE(
     REPLACE( REPLACE( REPLACE(a.mensagem, ' de CPU', ''), ' de Memoria', ''),' de Disco', ''), 'a', 'em') AS mensagem, 
     p.nivel AS nivel, CONCAT('Sala ', m.fkSala) AS localizacao, DATE_FORMAT(ca.dtCaptura, '%d/%m/%Y %H:%i:%s') AS hora
-    FROM Maquina AS m
-    JOIN Componente AS c
+    FROM maquina AS m
+    JOIN componente AS c
     ON m.idMaquina = c.fkMaquina
-    JOIN Captura AS ca
+    JOIN captura AS ca
     ON ca.fkComponente = c.idComponente
-    JOIN Alerta AS a
+    JOIN alerta AS a
     ON a.fkCaptura = ca.idCaptura
-    JOIN Parametro AS p
+    JOIN parametro AS p
     ON p.fkComponente = c.idComponente
     ORDER BY ca.dtCaptura DESC
     LIMIT ? OFFSET ?;
@@ -25,7 +25,7 @@ function listarAlertas(limite = 8, offset = 0) {
 function qtdPaginas() {
     var instrucaoSql = `
         SELECT CEIL(COUNT(idAlerta) / 8) AS paginas
-        FROM Alerta;
+        FROM alerta;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

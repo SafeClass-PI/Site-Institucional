@@ -1,9 +1,9 @@
-DROP DATABASE IF EXISTS safeclass;
-CREATE DATABASE safeclass;
-USE safeclass;
+DROP DATABASE IF EXISTS safeclass2;
+CREATE DATABASE safeclass2;
+USE safeclass2;
 
-CREATE TABLE Endereco (
-	idEndereco INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE endereco (
+    idEndereco INT PRIMARY KEY AUTO_INCREMENT,
     logradouro VARCHAR(45),
     numero VARCHAR(45),
     cidade VARCHAR(45),
@@ -11,48 +11,45 @@ CREATE TABLE Endereco (
     uf CHAR(2)
 );
 
-CREATE TABLE Escola (
-	idEscola INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE escola (
+    idEscola INT PRIMARY KEY AUTO_INCREMENT,
     idSlack VARCHAR(45),
     fkEndereco INT,
     nome VARCHAR(45),
     email VARCHAR(45),
-	telefone CHAR(11),
+    telefone CHAR(11),
     codigoInep VARCHAR(45),
-    FOREIGN KEY (fkEndereco)
-    REFERENCES Endereco(idEndereco)
+    FOREIGN KEY (fkEndereco) REFERENCES endereco(idEndereco)
 );
 
-CREATE TABLE CodigoAtivacao (
-	idCodigo INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE codigoAtivacao (
+    idCodigo INT PRIMARY KEY AUTO_INCREMENT,
     fkEscola INT,
     codigo VARCHAR(45),
     validade DATE,
     qtdUsos INT,
-    FOREIGN KEY (fkEscola)
-    REFERENCES Escola(idEscola)
+    FOREIGN KEY (fkEscola) REFERENCES escola(idEscola)
 );
 
-CREATE TABLE Sala (
-	idSala INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE sala (
+    idSala INT PRIMARY KEY AUTO_INCREMENT,
     fkEscola INT,
     nome VARCHAR(45),
     localizacao VARCHAR(45),
-    FOREIGN KEY (fkEscola)
-    REFERENCES Escola(idEscola)
+    FOREIGN KEY (fkEscola) REFERENCES escola(idEscola)
 );
 
-CREATE TABLE Cargo (
-	idCargo INT PRIMARY KEY AUTO_INCREMENT, 
-	nome VARCHAR(45),
+CREATE TABLE cargo (
+    idCargo INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(45),
     permissao VARCHAR(100)
 );
 
-CREATE TABLE Usuario (
-	idUsuario INT AUTO_INCREMENT,
+CREATE TABLE usuario (
+    idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     fkCargo INT,
     fkEscola INT,
-    fkGestor INT,
+    fkGestor INT NULL,
     nome VARCHAR(45),
     email VARCHAR(45),
     senha VARCHAR(45),
@@ -60,14 +57,11 @@ CREATE TABLE Usuario (
     dtCadastro DATE,
     status VARCHAR(45),
     imagemPerfil VARCHAR(255),
-	last_login DATETIME,
+    last_login DATETIME,
     online BOOLEAN,
-    PRIMARY KEY (idUsuario),
-    FOREIGN KEY (fkCargo)
-    REFERENCES Cargo(idCargo),
-    FOREIGN KEY (fkEscola)
-    REFERENCES Escola(idEscola),
-    FOREIGN KEY (fkGestor) REFERENCES Usuario(idUsuario)
+    FOREIGN KEY (fkCargo) REFERENCES cargo(idCargo),
+    FOREIGN KEY (fkEscola) REFERENCES escola(idEscola),
+    FOREIGN KEY (fkGestor) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE logins (
@@ -77,8 +71,8 @@ CREATE TABLE logins (
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE Maquina (
-	idMaquina INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE maquina (
+    idMaquina INT PRIMARY KEY AUTO_INCREMENT,
     fkSala INT,
     ip VARCHAR(45),
     username VARCHAR(45),
@@ -88,78 +82,65 @@ CREATE TABLE Maquina (
     macaddress VARCHAR(45),
     status VARCHAR(45),
     estado VARCHAR(45),
-    FOREIGN KEY (fkSala)
-    REFERENCES Sala(idSala)
+    FOREIGN KEY (fkSala) REFERENCES sala(idSala)
 );
 
-CREATE TABLE DesligamentoRemoto (
-	idDesligamento INT,
+CREATE TABLE desligamentoRemoto (
+    idDesligamento INT,
     fkMaquina INT,
     fkUsuario INT,
     dtDesligamento DATETIME,
     PRIMARY KEY (idDesligamento, fkMaquina),
-    FOREIGN KEY (fkMaquina)
-    REFERENCES Maquina(idMaquina),
-    FOREIGN KEY (fkUsuario)
-    REFERENCES Usuario(idUsuario)
+    FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina),
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE Componente (
-	idComponente INT auto_increment,
+CREATE TABLE componente (
+    idComponente INT AUTO_INCREMENT PRIMARY KEY,
     fkMaquina INT,
     nome VARCHAR(45),
     formatacao VARCHAR(45),
     capacidade VARCHAR(45),
-    PRIMARY KEY (idComponente, fkMaquina),
-    FOREIGN KEY (fkMaquina)
-    REFERENCES Maquina(idMaquina)
+    FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina)
 );
 
-CREATE TABLE Captura (
-    idCaptura INT AUTO_INCREMENT,
-	fkComponente INT,
+CREATE TABLE captura (
+    idCaptura INT AUTO_INCREMENT PRIMARY KEY,
+    fkComponente INT,
     registro FLOAT,
     dtCaptura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (idCaptura, fkComponente),
-    FOREIGN KEY (fkComponente)
-    REFERENCES Componente(idComponente)
+    FOREIGN KEY (fkComponente) REFERENCES componente(idComponente)
 );
 
-CREATE TABLE Parametro (
-	idParametro INT AUTO_INCREMENT,
-    fkComponente INT, 
+CREATE TABLE parametro (
+    idParametro INT AUTO_INCREMENT PRIMARY KEY,
+    fkComponente INT,
     nivel VARCHAR(45),
-    minimo VARCHAR(45),
-    maximo VARCHAR(45),
-    PRIMARY KEY (idParametro, fkComponente),
-    FOREIGN KEY (fkComponente)
-    REFERENCES Componente(idComponente)
+    minimo FLOAT,
+    maximo FLOAT,
+    FOREIGN KEY (fkComponente) REFERENCES componente(idComponente)
 );
 
-CREATE TABLE Alerta (
-	idAlerta INT AUTO_INCREMENT,
+CREATE TABLE alerta (
+    idAlerta INT AUTO_INCREMENT PRIMARY KEY,
     fkParametro INT,
     fkCaptura INT,
     mensagem VARCHAR(80),
     enviado TINYINT(1),
-    PRIMARY KEY (idAlerta, fkParametro),
-    FOREIGN KEY (fkParametro)
-    REFERENCES Parametro(idParametro),
-    FOREIGN KEY (fkCaptura)
-    REFERENCES Captura(idCaptura)
+    FOREIGN KEY (fkParametro) REFERENCES parametro(idParametro),
+    FOREIGN KEY (fkCaptura) REFERENCES captura(idCaptura)
 );
 
--- -----------------------INSERTS TABELAS -----------------------------------------------------------------------
-INSERT INTO Endereco (logradouro, numero, cidade, bairro, uf) values
-("Avenida Paulista", 290, "São Paulo", "Bela vista", "SP");
+INSERT INTO endereco (logradouro, numero, cidade, bairro, uf)
+VALUES ("Avenida Paulista", "290", "São Paulo", "Bela vista", "SP");
 
-INSERT INTO Escola (idEscola, idSlack, fkEndereco, nome, email, telefone, codigoInep) VALUES
-(default, "C09TJE2LB4P", 1, 'Escola Joaquim 3°', 'joaquimterceiro@gmail.com', '11910877887', 'ebsdiw');
+INSERT INTO escola (idSlack, fkEndereco, nome, email, telefone, codigoInep)
+VALUES ("C09TJE2LB4P", 1, 'Escola Joaquim 3°', 'joaquimterceiro@gmail.com', '11910877887', 'ebsdiw');
 
-INSERT INTO CodigoAtivacao (fkEscola, codigo, validade, qtdUsos) VALUES 
-(1, "00j12", "2025-09-11", 10);
+INSERT INTO codigoAtivacao (fkEscola, codigo, validade, qtdUsos)
+VALUES (1, "00j12", "2025-09-11", 10);
 
-INSERT INTO Sala (nome, fkEscola, localizacao) VALUES
+INSERT INTO sala (nome, fkEscola, localizacao) VALUES
 ("Sala 1", 1, "2° andar, lado esquerdo"),
 ("Sala 2", 1, "1° andar, lado direito"),
 ("Sala 3", 1, "2° andar, lado direito"),
@@ -167,19 +148,21 @@ INSERT INTO Sala (nome, fkEscola, localizacao) VALUES
 ("Sala 5", 1, "2° andar, lado direito"),
 ("Sala 6", 1, "1° andar, lado esquerdo");
 
-INSERT INTO Cargo (nome, permissao) VALUES
+INSERT INTO cargo (nome, permissao) VALUES
 ("Gestor", "Visualizar métricas, visualizar/editar/remover/inserir usuários e máquinas"),
 ("Técnico de T.I", "Visualizar métricas, visualizar/editar/remover/inserir máquinas"),
 ("Professor", "Visualizar métricas");
 
-INSERT INTO Usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status) VALUES 
+INSERT INTO usuario (fkCargo, fkEscola, nome, email, senha, dtCadastro, status)
+VALUES
 (1, 1, "Rosa Campos", "rosacampos@gmail.com", "urubu100", "2025-09-10", "ativo"),
 (2, 1, "Alberto Silva", "albertosilva@gmail.com", "urubu100", "2025-09-10", "ativo"),
 (2, 1, "Ryan Patric", "ryanpatric@gmail.com", "urubu100", "2025-09-10", "ativo"),
 (2, 1, "Marcia Lima", "marcialima@gmail.com", "urubu100", "2025-09-10", "ativo"),
 (2, 1, "Beatriz Carvalho", "beatrizcarvalho@gmail.com", "urubu100", "2025-09-10", "ativo");
 
-INSERT INTO Maquina (fkSala, ip, username, senha, sistemaOperacional, marca, macaddress, status, estado) VALUES
+
+INSERT INTO maquina (fkSala, ip, username, senha, sistemaOperacional, marca, macaddress, status, estado) VALUES
 (1, '192.168.1.10', 'user01', 'pass01', 'Windows', 'Dell', 'A1:B2:C3:D4:E5:01', 'Estável', 'Ligada'),
 (1, '192.168.1.11', 'user02', 'pass02', 'Linux', 'HP', 'A1:B2:C3:D4:E5:02', 'Estável', 'Ligada'),
 (1, '192.168.1.12', 'user03', 'pass03', 'Windows', 'Lenovo', 'A1:B2:C3:D4:E5:03', 'Estável', 'Ligada'),
@@ -229,7 +212,7 @@ INSERT INTO Maquina (fkSala, ip, username, senha, sistemaOperacional, marca, mac
 (6, '192.168.6.16', 'user47', 'pass47', 'Windows', 'Asus', 'A6:B7:C8:D9:E0:07', 'Estável', 'Ligada'),
 (6, '192.168.6.17', 'user48', 'pass48', 'Linux', 'Dell', 'A6:B7:C8:D9:E0:08', 'Estável', 'Ligada');
 
-INSERT INTO Componente (idComponente, fkMaquina, nome, formatacao, capacidade) VALUES 
+INSERT INTO componente (idComponente, fkMaquina, nome, formatacao, capacidade) VALUES 
 (default, 1, 'RAM', 'gb', '16GB DDR4'), 
 (default, 1, 'Disco', 'gb', '1TB'),
 (default, 1, 'CPU', '%', 'Intel i7'),
@@ -255,7 +238,7 @@ INSERT INTO Componente (idComponente, fkMaquina, nome, formatacao, capacidade) V
 (default, 4, 'Download', 'Mbps', '1000 Mbps'),
 (default, 4, 'Ping', 'Ms', '');
 
-INSERT INTO Parametro VALUES
+INSERT INTO parametro VALUES
 (default, 1, "Crítico", 14.2, 16),
 (default, 1, "Atenção", 12, 14.1),
 (default, 2, "Crítico", 421, 500),
@@ -267,7 +250,7 @@ INSERT INTO Parametro VALUES
 (default, 5, "Crítico", 30.0, 0.0),
 (default, 5, "Atenção", 65.0, 30.01);
 
-INSERT INTO Parametro VALUES
+INSERT INTO parametro VALUES
 (default, 7, "Crítico", 14.2, 16),
 (default, 7, "Atenção", 12, 14.1),
 (default, 8, "Crítico", 421, 500),
@@ -279,7 +262,7 @@ INSERT INTO Parametro VALUES
 (default, 11, "Crítico", 30.0, 0.0),
 (default, 11, "Atenção", 65.0, 30.01);
 
-INSERT INTO Parametro VALUES
+INSERT INTO parametro VALUES
 (default, 13, "Crítico", 14.2, 16),
 (default, 13, "Atenção", 12, 14.1),
 (default, 14, "Crítico", 421, 500),
@@ -291,7 +274,7 @@ INSERT INTO Parametro VALUES
 (default, 17, "Crítico", 30.0, 0.0),
 (default, 17, "Atenção", 65.0, 30.01);
 
-INSERT INTO Parametro VALUES
+INSERT INTO parametro VALUES
 (default, 19, "Crítico", 14.2, 16), 
 (default, 19, "Atenção", 12, 14.1),
 (default, 20, "Crítico", 421, 500),
@@ -303,9 +286,7 @@ INSERT INTO Parametro VALUES
 (default, 23, "Crítico", 30.0, 0.0), 
 (default, 23, "Atenção", 65.0, 30.01);
 
--- ------- INSERTS NECESSÁRIOS DASH INDIVIDUAL: RYAN -----------------------
--- Segunda
-INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
+INSERT INTO captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-24 10:00:00'),
 (6, 800, '2025-11-24 12:00:00'),
 (6, 800, '2025-11-24 13:00:00'),
@@ -313,8 +294,7 @@ INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-24 15:00:00'),
 (6, 800, '2025-11-24 16:00:00');
 
--- Terça Feira
-INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
+INSERT INTO captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-25 10:00:00'),
 (6, 800, '2025-11-25 12:00:00'),
 (6, 800, '2025-11-25 13:00:00'),
@@ -326,21 +306,18 @@ INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-25 19:00:00'),
 (6, 800, '2025-11-25 20:00:00');
 
--- Quarta Feira
-INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
+INSERT INTO captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-26 10:00:00'),
 (6, 800, '2025-11-26 12:00:00'),
 (6, 800, '2025-11-26 13:00:00'),
 (6, 800, '2025-11-26 14:00:00');
 
--- Quinta Feira
-INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
+INSERT INTO captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-27 10:00:00'),
 (6, 800, '2025-11-27 12:00:00'),
 (6, 800, '2025-11-27 14:00:00');
 
--- Sexta Feira
-INSERT INTO Captura (fkComponente, registro, dtCaptura) VALUES
+INSERT INTO captura (fkComponente, registro, dtCaptura) VALUES
 (6, 800, '2025-11-28 10:00:00'),
 (6, 800, '2025-11-28 12:00:00'),
 (6, 800, '2025-11-28 14:00:00'),

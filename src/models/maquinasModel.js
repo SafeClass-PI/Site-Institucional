@@ -5,7 +5,7 @@ function listar() {
 
     var instrucaoSql = `
         SELECT idMaquina
-        FROM Maquina
+        FROM maquina
         WHERE estado NOT LIKE 'Desligada'
         ORDER BY idMaquina ASC;
     `;
@@ -33,7 +33,7 @@ async function cadastrarMaquinaComComponentes(sala, so, ip, username, senha, dis
 
     // Inserir os componentes da máquina
     const instrucaoComponente = `
-        INSERT INTO Componente (fkMaquina, nome, formatacao, capacidade)
+        INSERT INTO componente (fkMaquina, nome, formatacao, capacidade)
         VALUES (?, ?, ?, ?);
     `;
 
@@ -56,12 +56,12 @@ async function listarMaquinas(pagina = 1, limite = 8, estado = null) {
                COALESCE(cpu.capacidade, 'Intel i5') AS cpu_capacidade,
                COALESCE(ram.capacidade, '8GB') AS ram_capacidade,
                COALESCE(disco.capacidade, '500GB') AS disco_capacidade
-        FROM Maquina AS m
-        LEFT JOIN Componente AS cpu
+        FROM maquina AS m
+        LEFT JOIN componente AS cpu
             ON cpu.fkMaquina = m.idMaquina AND cpu.nome = 'Processador'
-        LEFT JOIN Componente AS ram
+        LEFT JOIN componente AS ram
             ON ram.fkMaquina = m.idMaquina AND ram.nome = 'Memória RAM'
-        LEFT JOIN Componente AS disco
+        LEFT JOIN componente AS disco
             ON disco.fkMaquina = m.idMaquina AND disco.nome = 'Disco Rígido'
     `;
 
@@ -81,7 +81,7 @@ async function listarMaquinas(pagina = 1, limite = 8, estado = null) {
 function obterPorId(idMaquina) {
     const instrucaoSql = `
         SELECT idMaquina, fkSala, sistemaOperacional, ip, username, estado, status
-        FROM Maquina
+        FROM maquina
         WHERE idMaquina = ?
         LIMIT 1;
     `;
@@ -90,7 +90,7 @@ function obterPorId(idMaquina) {
 
 function atualizar(idMaquina, fkSala, sistemaOperacional) {
     const instrucaoSql = `
-        UPDATE Maquina
+        UPDATE maquina
         SET fkSala = ?, sistemaOperacional = ?
         WHERE idMaquina = ?;
     `;
@@ -98,8 +98,8 @@ function atualizar(idMaquina, fkSala, sistemaOperacional) {
 }
 
 async function deletar(idMaquina) {
-    const deletarComponentes = `DELETE FROM Componente WHERE fkMaquina = ?`;
-    const deletarMaquina = `DELETE FROM Maquina WHERE idMaquina = ?`;
+    const deletarComponentes = `DELETE FROM componente WHERE fkMaquina = ?`;
+    const deletarMaquina = `DELETE FROM maquina WHERE idMaquina = ?`;
     await database.executarComParametros(deletarComponentes, [idMaquina]);
     return database.executarComParametros(deletarMaquina, [idMaquina]);
 }
