@@ -3,7 +3,7 @@ const database = require('../databasesFelipe/config');
 async function buscarMaquinasPorSala(idSala) {
   const instrucao = `
     SELECT idMaquina
-    FROM Maquina
+    FROM maquina
     WHERE fkSala = ?
     ORDER BY idMaquina 
   `;

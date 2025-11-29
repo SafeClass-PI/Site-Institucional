@@ -34,7 +34,7 @@ function marcarOffline(idUsuario) {
 function listarUsuariosOnline() {
     var instrucaoSql = `   
     SELECT u.idUsuario, MAX(l.dataHoraLogin) AS ultimoLogin
-    FROM Usuario u
+    FROM usuario u
     INNER JOIN logins l ON u.idUsuario = l.idUsuario
     WHERE DATE(l.dataHoraLogin) = CURDATE()
     GROUP BY u.idUsuario;
@@ -86,8 +86,8 @@ function usuarioMaisAtivo() {
 function totalUsuariosPorCargo() {
     const instrucaoSql = `
         SELECT c.nome AS cargo, COUNT(u.idUsuario) AS totalUsuarios
-        FROM Cargo c
-        LEFT JOIN Usuario u ON u.fkCargo = c.idCargo
+        FROM cargo c
+        LEFT JOIN usuario u ON u.fkCargo = c.idCargo
         GROUP BY c.idCargo, c.nome
         ORDER BY totalUsuarios DESC;
     `;
@@ -114,8 +114,8 @@ function ultimosAcessos() {
     l.dataHoraLogin AS HorarioLogin,
     c.nome AS CargoUsuario
     FROM logins l
-    JOIN Usuario u ON l.idUsuario = u.idUsuario
-    JOIN Cargo c ON u.fkCargo = c.idCargo
+    JOIN usuario u ON l.idUsuario = u.idUsuario
+    JOIN cargo c ON u.fkCargo = c.idCargo
     WHERE DATE(l.dataHoraLogin) = CURDATE()
     ORDER BY l.dataHoraLogin DESC;
     `;
