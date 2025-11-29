@@ -6,41 +6,174 @@ function carregarInfos() {
 
     if (imgPerfil) {
         if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
-            imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
+            imgPerfil.src = `../../../uploads/${sessionStorage.IMAGEM_USUARIO}`;
         } else {
-            imgPerfil.src = 'imgs/profile-default.webp';
+            imgPerfil.src = '../imgs/profile-default.webp';
         }
     }
-
-    atualizarDataHora();
     carregarSalas();
-    estadoDaRedeAtual();
-    qtdMaquinasInstaveis();
-    horaMelhorAcesso();
-    graficoSemana();
-    listarMaquinasEstados();
-    obterDadosGraficoPing();
+}
+
+
+function carregarSalas() {
+    fetch("/api/ryan/carregarSalas")
+        .then(res => res.json())
+        .then(salas => {
+            const select = document.getElementById("escolha-sala");
+            select.innerHTML = "<option value=''>Salas:</option>";
+
+            salas.forEach(s => {
+                select.innerHTML += `
+                    <option value="${s.identificacao}">Sala ${s.identificacao}</option>
+                `;
+            });
+
+            idSala = "1";
+            select.value = "1";
+
+            atualizarDashboard();
+
+            select.onchange = () => {
+                if (select.value) {
+                    idSala = select.value;
+                    atualizarDashboard();
+                }
+            };
+        })
+        .catch(erro => console.error("Erro ao carregar salas:", erro));
 }
 
 function atualizarDashboard() {
-    if (!idSalaSelecionada) {
-        return;
-    }
+    if (!idSala) return;
 
-    kpiStatusMaquina(idSalaSelecionada);
-    kpiUptimeMaquina(idSalaSelecionada);
-    kpiTaxaMaisCritica(idSalaSelecionada);
-    kpiQtdAlertasMaquina(idSalaSelecionada);
+    estadoDaRedeAtual(idSala);
+    qtdMaquinasInstaveis(idSala);
+    horaMelhorAcesso(idSala);
+    graficoSemana(idSala);
+    listarMaquinasEstados(idSala);
+    obterDadosGraficoPing(idSala);
 }
 
 setInterval(atualizarDashboard, 30000);
 
-function abrirDuvidaPrevisao() {
-    alert('Oi');    
+// -------------------- KPIS ---------------------------------------
+
+function estadoDaRedeAtual(idSala) {
+    fetch(`/api/ryan/kpiStatusRede/${idSala}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                var icone = document.querySelector('#iconeStatusMaquina i');
+
+                if (!resposta || resposta.length === 0) {
+                    kpiStatusRede.innerText = "Sem dado";
+                    icone.style.color = '#ea0303';
+                    icone.className = 'fa-solid fa-circle-xmark';
+
+                    return;
+                }
+
+                const valores = resposta.map(item => item.registro).sort((a, b) => a - b);
+                const meio = Math.floor(valores.length / 2);
+                let mediana;
+
+                if (valores.length % 2 === 1) {
+                    mediana = valores[meio];
+                } else {
+                    mediana = (valores[meio - 1] + valores[meio]) / 2;
+                }
+
+                vt_dados = resposta;
+
+                if (mediana < 250) {
+                    kpiStatusRede.innerText = `Estável`
+                    icone.className = 'fa-solid fa-circle-up';
+                    icone.style.transform = 'rotate(0deg)';
+                    icone.style.color = '#00AB03';
+                }
+                else if (mediana >= 250 && mediana < 350) {
+                    kpiStatusRede.innerText = `Lenta`
+                    icone.className = 'fa-solid fa-wind';
+                    icone.style.color = '#ffd630';
+                    icone.style.fontSize = '55px';
+                }
+                else if (mediana >= 350) {
+                    kpiStatusRede.innerText = `Instável`
+                    icone.style.transform = 'rotate(180deg)';
+                    icone.style.color = '#ea0303';
+                }
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+
+function qtdMaquinasInstaveis(idSala) {
+    fetch(`/api/ryan/kpiQtdMaquinasInstaveis/${idSala}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                if (!resposta || resposta.length === 0) {
+                    kpiQtdMaquinasInstaveis.innerText = "Sem dado";
+                }
+
+                vt_dados = resposta;
+
+                kpiQtdMaquinasInstaveis.innerText = `${resposta[0].maquinasInstaveis}/${resposta[0].totalMaquinas}`;
+
+                var icone = document.querySelector('#iconeQtdMaquinasInstaveis i');
+
+                if (resposta[0].maquinasInstaveis == 0) {
+                    icone.className = 'fa-solid fa-circle-check';
+                    icone.style.color = '#00AB03'
+                }
+
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+}
+
+function horaMelhorAcesso(idSala) {
+    fetch(`/api/ryan/kpiHoraMelhorAcesso/${idSala}`, { cache: 'no-store' }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                if (!resposta || resposta.length === 0) {
+                    kpiHoraMelhorAcesso.innerText = "Sem dado";
+                }
+
+                vt_dados = resposta;
+
+                kpiHoraMelhorAcesso.innerText = `${vt_dados[0].horaRecomendada}`;
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
 }
 
 function previsionar() {
-    fetch(`/api/ryan/carregarDadosPrevisao`, { cache: 'no-store' })
+    if (!idSala) {
+        alert("Selecione uma sala primeiro.");
+        return;
+    }
+
+    fetch(`/api/ryan/carregarDadosPrevisao/${idSala}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
@@ -63,7 +196,7 @@ function previsionar() {
                         estado = "Lento";
                     }
 
-                    mostrarAlertaPrevisao(valorPrevisto, estado);
+                    mostrarAlertaPrevisao(valorPrevisto, estado, horarioDigitado);
                 });
             } else {
                 console.error('Erro ao carregar dados da API');
@@ -107,13 +240,16 @@ function horaParaSegundos(hora) {
     const [h, m, s] = hora.split(":").map(Number);
     return h * 3600 + m * 60 + s;
 }
-function mostrarAlertaPrevisao(valorPing, estado) {
+
+function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
     const alerta = document.getElementById("alertaDePrevisao");
     const pingSpan = document.getElementById("pingPrevisao");
     const estadoP = document.getElementById("estadoPrevisao");
     const corpo = document.querySelector(".corpo-estado-previsao");
+    const hora = document.getElementById("horaPrevisao");
 
-    pingSpan.textContent = valorPing.toFixed(2) + " ms";
+    hora.textContent = horarioDigitado;
+    pingSpan.textContent = valorPing.toFixed(2) + "ms";
     estadoP.textContent = estado;
 
     if (estado.toLowerCase() === "instável") {
@@ -128,195 +264,19 @@ function mostrarAlertaPrevisao(valorPing, estado) {
     alerta.classList.add("show");
 }
 
-function fecharAlerta() {
-    const alerta = document.getElementById("alertaDePrevisao");
-    alerta.classList.remove("show");
-    alerta.classList.add("hide");
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// ---------------------- GRÁFICOS ---------------------------------------
 
 let proximaAtualizacao = null;
 let myChart = null;
 
 let chartSemana = null;
 
-function atualizarDataHora() {
-    const agora = new Date();
-
-    const data = agora.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
-
-
-    document.getElementById('dataHora').textContent = `${data}`;
-}
-
-atualizarDataHora();
-setInterval(atualizarDataHora, 1000);
-
-// -------------------- KPIS ---------------------------------------
-
-function carregarSalas() {
-    fetch("/api/ryan/carregarSalas")
-        .then(res => res.json())
-        .then(salas => {
-            const selectSala = document.getElementById("escolha-sala");
-            selectSala.innerHTML = "<option value=''>Salas:</option>";
-
-            salas.forEach(s => {
-                selectSala.innerHTML += `
-                    <option value="${s.identificacao}">Sala ${s.identificacao}</option>
-                `;
-            });
-        })
-        .catch(erro => console.error("Erro ao carregar salas:", erro));
-}
-
-function estadoDaRedeAtual() {
-    fetch(`/api/ryan/kpiStatusRede`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (resposta) {
-                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                var icone = document.querySelector('#iconeStatusMaquina i');
-
-                if (!resposta || resposta.length === 0) {
-                    kpiStatusRede.innerText = "Sem dado";
-                    icone.style.color = '#ea0303';
-                    icone.className = 'fa-solid fa-circle-xmark';
-
-                    return;
-                }
-
-                const valores = resposta.map(item => item.registro).sort((a, b) => a - b);
-                const meio = Math.floor(valores.length / 2);
-                let mediana;
-
-                if (valores.length % 2 === 1) {
-                    mediana = valores[meio];
-                } else {
-                    mediana = (valores[meio - 1] + valores[meio]) / 2;
-                }
-
-                vt_dados = resposta;
-
-                if (mediana < 250) {
-                    kpiStatusRede.innerText = `Estável`
-                }
-                else if (mediana >= 250 && mediana < 350) {
-                    kpiStatusRede.innerText = `Lenta`
-                    icone.className = 'fa-solid fa-wind';
-                    icone.style.color = '#ffd630';
-                    icone.style.fontSize = '55px';
-                }
-                else if (mediana >= 350) {
-                    kpiStatusRede.innerText = `Instável`
-                    icone.style.transform = 'rotate(180deg)';
-                    icone.style.color = '#ea0303';
-                }
-            });
-        } else {
-            console.error('Nenhum dado encontrado ou erro na API');
-        }
-    })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-}
-
-
-function qtdMaquinasInstaveis() {
-    fetch(`/api/ryan/kpiQtdMaquinasInstaveis`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (resposta) {
-                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-
-                if (!resposta || resposta.length === 0) {
-                    kpiQtdMaquinasInstaveis.innerText = "Sem dado";
-                }
-
-                vt_dados = resposta;
-
-                kpiQtdMaquinasInstaveis.innerText = `${resposta[0].maquinasInstaveis}/${resposta[0].totalMaquinas}`;
-
-                var icone = document.querySelector('#iconeQtdMaquinasInstaveis i');
-
-                if (resposta[0].maquinasInstaveis == 0) {
-                    icone.className = 'fa-solid fa-circle-check';
-                    icone.style.color = '#00AB03'
-                }
-
-            });
-        } else {
-            console.error('Nenhum dado encontrado ou erro na API');
-        }
-    })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-}
-
-function horaMelhorAcesso() {
-    fetch(`/api/ryan/kpiHoraMelhorAcesso`, { cache: 'no-store' }).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (resposta) {
-                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-
-                if (!resposta || resposta.length === 0) {
-                    kpiHoraMelhorAcesso.innerText = "Sem dado";
-                }
-
-                vt_dados = resposta;
-
-                kpiHoraMelhorAcesso.innerText = `${vt_dados[0].horaRecomendada}`;
-            });
-        } else {
-            console.error('Nenhum dado encontrado ou erro na API');
-        }
-    })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
-}
-
-// ---------------------- GRÁFICOS ---------------------------------------
-
-function obterDadosGraficoPing() {
+function obterDadosGraficoPing(idSala) {
     if (proximaAtualizacao != undefined) {
         clearTimeout(proximaAtualizacao);
     }
 
-    fetch(`/api/ryan/obterDadosGraficoPing`, { cache: 'no-store' })
+    fetch(`/api/ryan/obterDadosGraficoPing/${idSala}`, { cache: 'no-store' })
         .then(response => response.json())
         .then(resposta => {
             resposta.reverse();
@@ -440,7 +400,7 @@ function plotarGraficoMonitoramentoPing(resposta) {
 
 function atualizarGrafico(dados, myChart) {
     if (proximaAtualizacao) clearTimeout(proximaAtualizacao);
-    fetch(`/api/ryan/obterDadosGraficoPingUltimo`, { cache: 'no-store' })
+    fetch(`/api/ryan/obterDadosGraficoPingUltimo/${idSala}`, { cache: 'no-store' })
         .then(response => response.json())
         .then(novoRegistro => {
 
@@ -464,8 +424,8 @@ function atualizarGrafico(dados, myChart) {
         }).catch(err => console.error(err));
 }
 
-function graficoSemana() {
-    fetch(`/api/ryan/graficoSemana`, { cache: 'no-store' }).then(function (response) {
+function graficoSemana(idSala) {
+    fetch(`/api/ryan/graficoSemana/${idSala}`, { cache: 'no-store' }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -515,17 +475,12 @@ function plotarGraficoSemana(resposta) {
     const segundoMaior = valoresOrdenados[1];
     const segundoIndex = dadosValores.indexOf(segundoMaior);
 
-    let backgroundColors = dadosValores.map(() => '#00ab03d9');
-    let borderColors = dadosValores.map(() => '#00AB03');
+    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.2)');
+    let borderColors = dadosValores.map(() => 'orange');
 
     if (maxIndex !== -1) {
         backgroundColors[maxIndex] = '#ea0303b1';
         borderColors[maxIndex] = '#ea0303';
-    }
-
-    if (segundoIndex !== -1) {
-        backgroundColors[segundoIndex] = '#eab303b1';
-        borderColors[segundoIndex] = '#eab303';
     }
 
     const data3 = {
@@ -535,7 +490,8 @@ function plotarGraficoSemana(resposta) {
             data: dadosValores,
             backgroundColor: backgroundColors,
             borderColor: borderColors,
-            borderWidth: 1
+            borderWidth: 3,
+            borderRadius: 7
         }]
     };
 
@@ -574,9 +530,9 @@ function plotarGraficoSemana(resposta) {
     );
 }
 
-async function listarMaquinasEstados() {
+async function listarMaquinasEstados(idSala) {
     try {
-        const resposta = await fetch(`/api/ryan/listarMaquinasEstados`, { cache: "no-store" });
+        const resposta = await fetch(`/api/ryan/listarMaquinasEstados/${idSala}`, { cache: "no-store" });
         const maquinas = await resposta.json();
 
         const painel = document.getElementById("alertasMaquina");
@@ -656,3 +612,43 @@ dropdowns.forEach(drop => {
 window.addEventListener('click', () => {
     dropdowns.forEach(drop => drop.classList.remove('active'));
 });
+
+
+function fecharAlerta() {
+    const alerta = document.getElementById("alertaDePrevisao");
+    alerta.classList.remove("show");
+    alerta.classList.add("hide");
+}
+
+function abrirExplicacaoMetricas() {
+    telaOverlay.style.display = 'block';
+    modalExplicacaoMetricas.style.display = 'block';
+}
+
+function removerModalMetricas() {
+    telaOverlay.style.display = 'none';
+    modalExplicacaoMetricas.style.display = 'none';
+}
+
+function atualizarDataHora() {
+    const agora = new Date();
+
+    const data = agora.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+    document.getElementById('dataHora').textContent = `${data}`;
+}
+
+atualizarDataHora();
+setInterval(atualizarDataHora, 1000);
+
+function abrirDuvidaPrevisao() {
+    divExplicarPrevisao.style.display = 'flex';
+}
+
+function removerCardExplicacao() {
+    divExplicarPrevisao.style.display = 'none';
+}

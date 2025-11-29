@@ -1,6 +1,5 @@
 var ryanModel = require("../modelsRyan/ryanModel");
 
-
 function carregarSalas(req, res) {
     ryanModel.carregarSalas().then(function (resultado) {
         res.status(200).json(resultado);
@@ -10,7 +9,9 @@ function carregarSalas(req, res) {
 }
 
 function kpiStatusRede(req, res) {
-    ryanModel.kpiStatusRede().then(function (resultado) {
+    const idSala = req.params.idSala;
+
+    ryanModel.kpiStatusRede(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -18,7 +19,9 @@ function kpiStatusRede(req, res) {
 }
 
 function kpiQtdMaquinasInstaveis(req, res) {
-    ryanModel.kpiQtdMaquinasInstaveis().then(function (resultado) {
+    const idSala = req.params.idSala;
+
+    ryanModel.kpiQtdMaquinasInstaveis(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -26,7 +29,8 @@ function kpiQtdMaquinasInstaveis(req, res) {
 }
 
 function kpiHoraMelhorAcesso(req, res) {
-    ryanModel.kpiHoraMelhorAcesso().then(function (resultado) {
+    const idSala = req.params.idSala;
+    ryanModel.kpiHoraMelhorAcesso(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -34,7 +38,8 @@ function kpiHoraMelhorAcesso(req, res) {
 }
 
 function listarMaquinasEstados(req, res) {
-    ryanModel.listarMaquinasEstados().then(function (resultado) {
+    const idSala = req.params.idSala;
+    ryanModel.listarMaquinasEstados(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -42,7 +47,8 @@ function listarMaquinasEstados(req, res) {
 }
 
 function obterDadosGraficoPing(req, res) {
-    ryanModel.obterDadosGraficoPing().then(function (resultado) {
+    const idSala = req.params.idSala;
+    ryanModel.obterDadosGraficoPing(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -50,7 +56,8 @@ function obterDadosGraficoPing(req, res) {
 }
 
 function obterDadosGraficoPingUltimo(req, res) {
-    ryanModel.obterDadosGraficoPingUltimo().then(function (resultado) {
+    const idSala = req.params.idSala;
+    ryanModel.obterDadosGraficoPingUltimo(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -58,7 +65,9 @@ function obterDadosGraficoPingUltimo(req, res) {
 }
 
 function graficoSemana(req, res) {
-    ryanModel.graficoSemana().then(function (resultado) {
+    const idSala = req.params.idSala;
+
+    ryanModel.graficoSemana(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);
@@ -66,7 +75,9 @@ function graficoSemana(req, res) {
 }
 
 function carregarDadosPrevisao(req, res) {
-    ryanModel.carregarDadosPrevisao().then(function (resultado) {
+    const idSala = req.params.idSala;
+
+    ryanModel.carregarDadosPrevisao(idSala).then(function (resultado) {
         res.status(200).json(resultado);
     }).catch(function (erro) {
         res.status(500).json(erro.sqlMessage);

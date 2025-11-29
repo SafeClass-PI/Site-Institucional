@@ -10,21 +10,21 @@ function carregarSalas() {
     return database.executar(instrucaoSql);
 }
 
-function kpiStatusRede() {
+function kpiStatusRede(idSala) {
     var instrucaoSql = `
         SELECT ca.registro FROM Captura AS ca
         JOIN Componente AS co 
         ON ca.fkComponente = co.idComponente
         JOIN Maquina AS m
         ON co.fkMaquina = m.idMaquina 
-        WHERE m.fkSala = 1 AND co.nome LIKE 'Ping' AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND;
+        WHERE m.fkSala = ${idSala} AND co.nome LIKE 'Ping' AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND;
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function kpiQtdMaquinasInstaveis() {
+function kpiQtdMaquinasInstaveis(idSala) {
     var instrucaoSql = `
         	SELECT (
             SELECT COUNT(DISTINCT co.fkMaquina)
@@ -32,16 +32,16 @@ function kpiQtdMaquinasInstaveis() {
             JOIN Componente co ON co.idComponente = ca.fkComponente
             JOIN Maquina AS m
             ON m.idMaquina = co.fkMaquina
-            WHERE m.fkSala = 1 AND co.nome = 'Ping' AND ca.registro >= 350 AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND) AS maquinasInstaveis, 
+            WHERE m.fkSala = ${idSala} AND co.nome = 'Ping' AND ca.registro >= 350 AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND) AS maquinasInstaveis, 
             (SELECT COUNT(idMaquina) FROM Maquina
-            WHERE fkSala = 1) AS totalMaquinas; 
+            WHERE fkSala = ${idSala}) AS totalMaquinas; 
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function kpiHoraMelhorAcesso() {
+function kpiHoraMelhorAcesso(idSala) {
     var instrucaoSql = `
         	SELECT CONCAT(HOUR(c.dtCaptura), ':00') AS horaRecomendada, COUNT(*) AS capturasPositivas
             FROM Captura c
@@ -49,7 +49,7 @@ function kpiHoraMelhorAcesso() {
             ON comp.idComponente = c.fkComponente
             JOIN Maquina m
             ON m.idMaquina = comp.fkMaquina
-            WHERE m.fkSala = 1 AND comp.nome = 'Ping'
+            WHERE m.fkSala = ${idSala} AND comp.nome = 'Ping'
             AND c.registro < 250
             AND c.dtCaptura >= NOW() - INTERVAL 7 DAY
             GROUP BY horaRecomendada
@@ -61,7 +61,7 @@ function kpiHoraMelhorAcesso() {
     return database.executar(instrucaoSql);
 }
 
-function listarMaquinasEstados() {
+function listarMaquinasEstados(idSala) {
     var instrucaoSql = `
         	SELECT 
             CONCAT('Máquina ', m.idMaquina) AS identificacao,
@@ -86,7 +86,7 @@ function listarMaquinasEstados() {
                 )
             ) ca
             ON ca.fkComponente = c.idComponente
-            WHERE m.fkSala = 1
+            WHERE m.fkSala = ${idSala}
             ORDER BY
             CASE
                 WHEN ca.registro >= 350 THEN 1
@@ -100,7 +100,7 @@ function listarMaquinasEstados() {
 }
 
 
-function obterDadosGraficoPing() {
+function obterDadosGraficoPing(idSala) {
     var instrucaoSql = `
         	WITH dados AS (
             SELECT
@@ -120,7 +120,7 @@ function obterDadosGraficoPing() {
             JOIN maquina m ON m.idMaquina = co.fkMaquina
             JOIN sala s ON s.idSala = m.fkSala
             WHERE co.nome = 'PING'
-            AND s.idSala = 1
+            AND s.idSala = ${idSala}
         )
         SELECT 
             idSala,
@@ -152,7 +152,7 @@ function obterDadosGraficoPing() {
 }
 
 
-function obterDadosGraficoPingUltimo() {
+function obterDadosGraficoPingUltimo(idSala) {
     var instrucaoSql = `
         	WITH dados AS (
             SELECT
@@ -172,7 +172,7 @@ function obterDadosGraficoPingUltimo() {
             JOIN maquina m ON m.idMaquina = co.fkMaquina
             JOIN sala s ON s.idSala = m.fkSala
             WHERE co.nome = 'PING'
-            AND s.idSala = 1
+            AND s.idSala = ${idSala}
         )
         SELECT 
             idSala,
@@ -203,7 +203,7 @@ function obterDadosGraficoPingUltimo() {
     return database.executar(instrucaoSql);
 }
 
-function graficoSemana() {
+function graficoSemana(idSala) {
     var instrucaoSql = `
         	SELECT 
             DAYOFWEEK(ca.dtCaptura) AS diaSemana,
@@ -212,18 +212,19 @@ function graficoSemana() {
             JOIN componente co ON co.idcomponente = ca.fkcomponente
             JOIN maquina m ON m.idMaquina = co.fkMaquina
             WHERE co.nome LIKE 'Ping'
-            AND m.fkSala = 1
-            AND ca.dtCaptura >= NOW() - INTERVAL 7 DAY
-            AND DAYOFWEEK(ca.dtCaptura) BETWEEN 2 AND 6  
+            AND m.fkSala = ${idSala}
+            AND ca.dtCaptura >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) 
+            AND ca.dtCaptura < DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)     
+            AND DAYOFWEEK(ca.dtCaptura) BETWEEN 2 AND 6
             GROUP BY diaSemana
-            ORDER BY diaSemana;	
+            ORDER BY diaSemana;
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function carregarDadosPrevisao() {
+function carregarDadosPrevisao(idSala) {
     var instrucaoSql = `
             WITH dados AS (
             SELECT
@@ -243,7 +244,7 @@ function carregarDadosPrevisao() {
             JOIN maquina m ON m.idMaquina = co.fkMaquina
             JOIN sala s ON s.idSala = m.fkSala
             WHERE co.nome = 'PING'
-            AND s.idSala = 1
+            AND s.idSala = ${idSala}
             AND DATE(ca.dtCaptura) = CURDATE() 
             )
             SELECT 
@@ -273,8 +274,6 @@ function carregarDadosPrevisao() {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-
-
 
 module.exports = {
     carregarSalas,

@@ -18,7 +18,7 @@
     </div>
     <div class="alert-previsao" id="alertaDePrevisao">
         <div class="titulo-alerta">
-            <p>Previsão:</p>
+            <p>Previsão para <span id="horaPrevisao"></span> </p>
             <button onclick="fecharAlerta()">
                 <i class="fa-solid fa-circle-xmark"></i>
             </button>
@@ -56,19 +56,19 @@
                         <a href="../DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
                     </div>
                 </div>
-                <a href="../Dashboard/alertas.html" class="icone-links">
+                <a href="../alertas.html" class="icone-links">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <p>Alertas</p>
                 </a>
-                <a href="../Dashboard/usuarios.html" class="icone-links">
+                <a href="../usuarios.html" class="icone-links">
                     <i class="fa-solid fa-users"></i>
                     <p>Usuários</p>
                 </a>
-                <a href="../Dashboard/maquinas.html" class="icone-links">
+                <a href="../maquinas.html" class="icone-links">
                     <i class="fa-solid fa-computer"></i>
                     <p>Máquinas</p>
                 </a>
-                <a href="../Dashboard/perfil.html" class="icone-links">
+                <a href="../perfil.html" class="icone-links">
                     <i class="fa-solid fa-user"></i>
                     <p>Perfil</p>
                 </a>
@@ -100,9 +100,9 @@
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-envelope"></i>
                 <div class="profile-icone">
-                    <a href="perfil.html">
+                    <a href="../perfil.html">
                         <div class="profile-img">
-                            <img id="imgPerfil" src="imgs/profile-default.webp">
+                            <img id="imgPerfil" src="../imgs/profile-default.webp">
                         </div>
                         <p id="nome-usuario-pagina"></p>
                     </a>
@@ -157,7 +157,7 @@
                     <div class="kpi" id="kpi-taxa-uptime">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i style="color: #00AB03; font-size: 62px;" class="fa-solid fa-alarm-clock"></i>
+                                <i style="color: rgb(0, 0, 204); font-size: 62px;" class="fa-solid fa-alarm-clock"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -184,8 +184,14 @@
                             </div>
                         </div>
                         <i onclick="abrirDuvidaPrevisao()" class="fa-solid fa-circle-info" id="duvidaPrevisao"></i>
-                        <div class="explicacaoPrevisao">
-                            
+                        <div class="explicacaoPrevisao" id="divExplicarPrevisao">
+                            <div class="textoPrevisão">
+                                <p>Digite um horário e nossa ferramenta estima o Ping da sala naquele momento, usando
+                                    <b>regressão linear</b> baseada em dados históricos
+                                </p>
+                                <i class="fa-solid fa-circle-xmark" onclick="removerCardExplicacao()"
+                                    id="tirarExplicacaoPrevisao"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -210,6 +216,35 @@
                                         <p>Instável</p>
                                     </div>
                                 </div>
+
+                                <i onclick="abrirExplicacaoMetricas()" class="fa-solid fa-circle-info"
+                                    id="explicacaoMetricas"></i>
+
+                                <div id="modalExplicacaoMetricas">
+                                    <table>
+                                        <tr style="height: 40px;">
+                                            <td>Métrica:</td>
+                                            <td>Descrição:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Estável</td>
+                                            <td>
+                                                Menor que 250ms </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lenta</td>
+                                            <td>Entre 250ms e 350ms
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Instável</td>
+                                            <td>Maior que 350ms
+                                            </td>
+                                        </tr>
+                                        <i class="fa-solid fa-circle-xmark" onclick="removerModalMetricas()"
+                                            id="tirarModalMetricas"></i>
+                                    </table>
+                                </div>
                             </div>
                             <div class="grafico-monitoramento">
                                 <canvas id="monitoramento-ping"></canvas>
@@ -218,7 +253,7 @@
                         <div class="rede-e-disponibilidade">
                             <div class="monitoramento-rede">
                                 <div class="titulo-grafico-rede">
-                                    <p>Piores Dias da Semana para o Acesso</p>
+                                    <p>Instabilidade da Rede na Semana Passada</p>
                                     <select id="componente-grafico">
                                     </select>
                                 </div>

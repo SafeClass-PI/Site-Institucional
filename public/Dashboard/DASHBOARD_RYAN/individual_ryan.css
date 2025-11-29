@@ -32,6 +32,7 @@ body {
     background-color: #e1e1e138;
     backdrop-filter: blur(1.5px);
     display: none;
+    z-index: 10;
 }
 
 .dashboard {
@@ -171,7 +172,6 @@ body {
 
 .dropdown-content {
     display: none;
-    /* escondido por padrão */
     position: absolute;
     top: 100%;
     left: 0;
@@ -900,8 +900,8 @@ body {
     width: 164px;
     height: 25px;
     cursor: pointer;
-    background-color: rgb(0, 0, 227);
-    border: 2.3px solid rgb(0, 0, 206);
+    background-color: #a626a6;
+    border: 2.3px solid #920092;
     color: var(--cor-branco);
     text-transform: uppercase;
     transition: 0.2s ease-in-out all;
@@ -910,7 +910,7 @@ body {
 
 #kpi-qtd-alertas-hoje .titulo-kpi button:hover {
     transform: scale(1.02);
-    background-color: rgba(0, 0, 165, 0.859);
+    background-color: #c306c3;
 }
 
 .conteudo-principal {
@@ -1314,12 +1314,12 @@ body {
 }
 
 .alert-previsao {
-    opacity: 0; 
-    pointer-events: none; 
+    opacity: 0;
+    pointer-events: none;
     position: absolute;
     top: 17%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9); 
+    transform: translate(-50%, -50%) scale(0.9);
     width: 20%;
     height: 20%;
     background-color: var(--cor-branco);
@@ -1329,13 +1329,13 @@ body {
     justify-content: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.266);
     z-index: 11;
-    display: flex; 
+    display: flex;
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .alert-previsao.show {
     opacity: 1;
-    pointer-events: auto; 
+    pointer-events: auto;
     transform: translate(-50%, -50%) scale(1);
 }
 
@@ -1354,9 +1354,11 @@ body {
 }
 
 .titulo-alerta p {
+    width: 100%;
     font-weight: 600;
+    font-size: 14px;
     text-transform: uppercase;
-    margin-left: 37%;
+    margin-left: 67px;
     color: #262626;
 }
 
@@ -1430,14 +1432,15 @@ body {
     position: absolute;
     margin-left: 17%;
     margin-bottom: 5.9%;
-    color: #424242;
+    color: #575757;
     font-size: 14.3px;
     transition: 0.2s ease-in-out all;
     cursor: pointer;
 }
 
 #duvidaPrevisao:hover {
-    transform: scale(1.03);
+    transform: scale(1.1);
+    color: rgb(70, 70, 70);
 }
 
 .explicacaoPrevisao {
@@ -1447,4 +1450,133 @@ body {
     background-color: var(--cor-branco);
     position: absolute;
     display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.textoPrevisão {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.textoPrevisão p {
+    text-align: start;
+    font-size: 13px;
+}
+
+#tirarExplicacaoPrevisao {
+    transition: 0.2s ease-in-out all;
+    color: var(--cor-critico);
+    cursor: pointer;
+    position: absolute;
+    margin-left: 87%;
+    margin-bottom: 30%;
+}
+
+#tirarExplicacaoPrevisao:hover {
+    transform: scale(1.1);
+    color: rgb(255, 10, 10);
+}
+
+#explicacaoMetricas {
+    position: absolute;
+    margin-left: 52%;
+    color: #575757;
+    font-size: 16.3px;
+    transition: 0.2s ease-in-out all;
+    cursor: pointer;
+}
+
+#explicacaoMetricas:hover {
+    transform: scale(1.1);
+    color: rgb(70, 70, 70);
+}
+
+#modalExplicacaoMetricas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 25%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    display: none;
+    padding: 0;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    z-index: 11;
+}
+
+#modalExplicacaoMetricas table {
+    width: 100%;
+    height: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#modalExplicacaoMetricas table td {
+    border: 1px solid rgba(0, 0, 0, 0.127);
+    padding: 10px;
+}
+
+#modalExplicacaoMetricas table tr:first-child td {
+    border-top: none;
+}
+
+#modalExplicacaoMetricas table tr:last-child td {
+    border-bottom: none;
+}
+
+#modalExplicacaoMetricas table td:first-child {
+    border-left: none;
+}
+
+#modalExplicacaoMetricas table td:last-child {
+    border-right: none;
+}
+
+#modalExplicacaoMetricas table tr:nth-of-type(1) {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#modalExplicacaoMetricas table tr:nth-of-type(2) td:nth-of-type(1) {
+    background-color: var(--cor-estavel);
+    color: var(--cor-branco);
+    font-weight: 500;
+}
+
+#modalExplicacaoMetricas table tr:nth-of-type(3) td:nth-of-type(1) {
+    background-color: #ffcc00;
+    color: #262626;
+    font-weight: 500;
+}
+
+#modalExplicacaoMetricas table tr:nth-of-type(4) td:nth-of-type(1) {
+    background-color: var(--cor-critico);
+    color: var(--cor-branco);
+    font-weight: 500;
+}
+
+#tirarModalMetricas {
+    color: var(--cor-critico);
+    font-size: 18px;
+    position: absolute;
+    margin-left: 91%;
+    margin-top: 3.2%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out all;
+}
+
+#tirarModalMetricas:hover {
+    transform: scale(1.1);
+    color: rgb(255, 10, 10);
 }
