@@ -10,4 +10,16 @@ async function buscarMaquinasPorSala(idSala) {
   return database.executarComParametros(instrucao, [idSala]);
 }
 
-module.exports = { buscarMaquinasPorSala };
+async function buscarMaquinaCritica(idSala) {
+  const instrucao = `
+    SELECT TOP 1 idMaquina, nomeMaquina AS maquina, COUNT(*) AS totalFalhas
+    FROM Falha
+    JOIN Maquina ON Falha.fkMaquina = Maquina.idMaquina
+    WHERE Maquina.fkSala = ?
+    GROUP BY idMaquina, nomeMaquina
+    ORDER BY totalFalhas DESC
+  `;
+  return database.executarComParametros(instrucao, [idSala]);
+}
+
+module.exports = { buscarMaquinasPorSala, buscarMaquinaCritica };
