@@ -308,6 +308,10 @@ async function listarUltimosAlertas() {
             `;
 
             painel.appendChild(card);
+
+            if (window.FontAwesome && window.FontAwesome.dom && window.FontAwesome.dom.i2svg) {
+                window.FontAwesome.dom.i2svg();
+            }
         });
     } catch (erro) {
         console.error("Erro ao listar salas:", erro);

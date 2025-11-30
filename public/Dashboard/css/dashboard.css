@@ -1613,3 +1613,8 @@ body {
 .dropdown-content {
     display: none;
 }
+
+i[class^="fa-"], i[class*=" fa-"] {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}

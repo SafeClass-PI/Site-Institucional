@@ -322,6 +322,10 @@ function listarUltimosAlertasMaquina(idMaquinaSelecionada) {
                         `;
 
                         container.appendChild(card);
+
+                        if (window.FontAwesome && window.FontAwesome.dom && window.FontAwesome.dom.i2svg) {
+                            window.FontAwesome.dom.i2svg();
+                        }
                     });
                 });
             } else {
@@ -372,8 +376,8 @@ function obterParametrosDoComponentePorNome(nome) {
 
 function obterParametrosDoComponenteRede(nome) {
     const tabelas = {
-        "Download": {maxY: 25, formato: 'Mbps' },
-        "Upload": {maxY: 10, formato: 'Mbps' },
+        "Download": { maxY: 25, formato: 'Mbps' },
+        "Upload": { maxY: 10, formato: 'Mbps' },
     };
 
     return tabelas[nome] || null;
