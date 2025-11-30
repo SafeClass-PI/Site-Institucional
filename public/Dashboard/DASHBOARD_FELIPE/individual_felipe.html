@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/dashboardFelipe.css">
+    <link rel="icon" href="../imgs/logoIconSafeClass.png" type="image/png">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Visão Específica</title>
+    <title>Dashboard - CPU</title>
 </head>
 
 <body onload="carregarInfos()">
@@ -84,9 +86,9 @@
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-envelope"></i>
                 <div class="profile-icone">
-                    <a href="perfil.html">
+                    <a href="../perfil.html">
                         <div class="profile-img">
-                            <img id="imgPerfil" src="imgs/profile-default.webp">
+                            <img id="imgPerfil" src="../imgs/profile-default.webp">
                         </div>
                         <p id="nome-usuario-pagina"></p>
                     </a>
@@ -104,36 +106,42 @@
                     </div>
 
                     <div class="selects-escolha-maquina">
-                        <span >Filtro:</span>
+                       <span style="font-weight: 500; color: #555; font-size: 15px; background-color: #F5F5F5; padding: 4px 6px; border-radius: 3px;">Filtro:</span>
+
+
                         <select id="escolha-sala" onchange="selecionarSala()">
                             <option value="" disabled selected>Carregando Salas...</option>
                         </select>
                         <div style="position: relative; display: flex; align-items: center; gap: 10px;">
-  <!-- Botão principal -->
-  <button id="btnRelatorio" class="btn-relatorio">
-    <p><b style="color: black;">Gerar relatório com I.A</b></p>
-  </button>
+                            <!-- Botão principal -->
+                            <button id="btnRelatorio" class="btn-relatorio">
+                                <p><b style="color: black;">Gerar relatório com I.A</b></p>
+                            </button>
 
-  <!-- Ícone de informação -->
-  <button class="infoIcon" data-target="modal-relatorio" style="
+                            <!-- Ícone de informação -->
+                            <button class="infoIcon" data-target="modal-relatorio" style="
     background: transparent;
     border: none;
     cursor: pointer;
     font-size: 1.2em;
     color: #3498db;
   ">
-    <i class="fa-solid fa-circle-info"></i>
-  </button>
-</div>
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                        </div>
 
-<!-- Modal explicativo -->
-<div id="modal-relatorio" class="kpiModal">
-  <strong>Sobre este botão:</strong>
-  <p>
-    Ao clicar em <b>Gerar relatório com I.A</b>, o sistema coleta os dados da <b>sala </b> selecionada — como a máquina mais crítica em CPU, alertas e a mediana de uso de cpu daquela sala selecionada — e gera automaticamente um relatório em PDF com insights relevantes. Essa funcionalidade usa inteligência artificial para destacar padrões críticos e facilitar a tomada de decisão.
-  </p>
-  <button onclick="fecharModal('modal-relatorio')">Fechar</button>
-</div>
+                        <!-- Modal explicativo -->
+                        <div id="modal-relatorio" class="kpiModal">
+                            <strong>Sobre este botão:</strong>
+                            <p>
+                                Ao clicar em <b>Gerar relatório com I.A</b>, o sistema coleta os dados da <b>sala </b>
+                                selecionada — como a máquina mais crítica em CPU, alertas e a mediana de uso de cpu
+                                daquela sala selecionada — e gera automaticamente um relatório em PDF com insights
+                                relevantes. Essa funcionalidade usa inteligência artificial para destacar padrões
+                                críticos e facilitar a tomada de decisão.
+                            </p>
+                            <button onclick="fecharModal('modal-relatorio')">Fechar</button>
+                        </div>
 
                     </div>
                 </div>
@@ -167,7 +175,7 @@
                             </div>
                             <div class="titulo-kpi">
                                 <p>Máquina mais crítica</p>
-                                
+
                             </div>
                         </div>
 
@@ -229,7 +237,8 @@
                                 <p id="kpiUptimeMaquinaSala"
                                     style="margin-top: 20px; font-size: 1.6em; font-weight: bold; color: #2c3e50; text-align: center;">
                                 </p>
-                                <s style="margin-left:  -2.6px;">Sala:</s> <span style="font-weight: bold;" class="salaInfoId"></span>
+                                <s style="margin-left:  -2.6px;">Sala:</s> <span style="font-weight: bold;"
+                                    class="salaInfoId"></span>
 
                             </div>
                             <div class="titulo-kpi">
@@ -263,7 +272,7 @@
         cursor: pointer;
         font-size: 1.1em;
         color: #3498db;
-    ">  
+    ">
                             <i class="fa-solid fa-circle-info"></i>
                         </button>
 
@@ -280,7 +289,8 @@
                                 Sala: <span style="font-weight: bold;" class="salaInfoId"></span>
                             </div>
                             <div class="titulo-kpi">
-                                <p style="margin-top: -0.5px; font-size: 0.9em; text-align: center;">Total de alertas</p>
+                                <p style="margin-top: -0.5px; font-size: 0.9em; text-align: center;">Total de alertas
+                                </p>
                             </div>
                         </div>
 
@@ -322,7 +332,7 @@
                                         <p>Crítico</p>
                                     </div>
                                 </div>
-                                <span style="margin-left: 6rem;">Filtro:</span>
+<span style="font-weight: 500; color: #555; font-size: 15px; background-color: #F5F5F5; padding: 4px 6px; border-radius: 3px; margin-left: 6rem;">Filtro:</span>
                                 <select id="componente-grafico" onchange="trocarComponente()">
                                     <option value="" disabled selected>Selecione a Máquina</option>
                                 </select>
