@@ -1,11 +1,9 @@
-// modelsFelipe/cpuMaxModel.js
 
-const database = require('../databasesFelipe/config'); // Assumindo seu arquivo de config
+const database = require('../databasesFelipe/config');
 
 function buscarMaquinaCriticaPorSala(idSala) {
     console.log("Executando instrução SQL para máquina crítica na Sala ID:", idSala);
 
-    // Instrução SQL adaptada para receber e usar o idSala
    const instrucaoSql = `
     SELECT 
         CONCAT('Máquina ', m.idMaquina) AS maquina,

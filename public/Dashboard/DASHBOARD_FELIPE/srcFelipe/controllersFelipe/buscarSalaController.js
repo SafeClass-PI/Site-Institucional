@@ -1,10 +1,8 @@
-// controllers/salaController.js
 
 const salaModel = require('../modelsFelipe/buscarSalaModels');
 
 function listar(req, res) {
-    // Se a lógica exigir filtrar por empresa, você precisaria de um fkEmpresa aqui.
-    // Para simplificar, estamos buscando todas as salas.
+    
     salaModel.listar()
         .then(function (resultado) {
             if (resultado.length > 0) {

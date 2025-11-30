@@ -1,9 +1,3 @@
-// ===== Utils e navegação =====
-
-
-
-    
-
 
 
 function sairDaPagina() {
@@ -48,7 +42,6 @@ function atualizarDataHora() {
 }
 setInterval(atualizarDataHora, 1000);
 
-// ===== Modais de info =====
 document.addEventListener("DOMContentLoaded", () => {
   atualizarDataHora();
 
@@ -67,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Inicialização principal
   carregarInfos();
 });
 function fecharModal(id) {
@@ -75,7 +67,6 @@ function fecharModal(id) {
   if (modal) modal.style.display = "none";
 }
 
-// ===== Salas e KPIs =====
 async function carregarInfos() {
   await carregarSalas();
 }
@@ -106,7 +97,6 @@ async function carregarSalas() {
 
     if (!selectSala) return console.error('Elemento #escolha-sala não encontrado.');
 
-    // Placeholder
     selectSala.innerHTML = '<option value="" disabled selected>Selecione a Sala</option>';
 
     if (!Array.isArray(salas) || salas.length === 0) {
@@ -117,7 +107,7 @@ async function carregarSalas() {
       
     }
 
-    // Popular options
+    
     salas.forEach(sala => {
       const idSala = sala.idSala || sala.id || sala.ID;
       const nomeSala = sala.nomeSala || sala.nome || sala.Nome;
@@ -130,13 +120,11 @@ async function carregarSalas() {
       }
     });
 
-    // Listener para mudança de sala
     selectSala.addEventListener('change', selecionarSala);
 
-    // Seleciona a primeira sala e carrega KPIs
     if (selectSala.options.length > 1) {
       selectSala.value = selectSala.options[1].value;
-      selecionarSala(); // dispara carregamento
+      selecionarSala(); 
     }
   } catch (error) {
     console.error('Erro ao carregar salas:', error);
@@ -154,18 +142,15 @@ async function selecionarSala() {
   const selectSala = document.getElementById('escolha-sala');
   const salaId = selectSala.value;
 
-  // Atualiza título já existente
   const nomeSalaSelecionada = selectSala.options[selectSala.selectedIndex].text;
   const salaTexto = document.getElementById('salaSelecionadaTexto');
   if (salaTexto) salaTexto.textContent = nomeSalaSelecionada;
 
-  // Atualiza "Sala: idSala" em todas as KPIs
   const elementosSala = document.querySelectorAll('.salaInfoId');
   elementosSala.forEach(el => {
     el.textContent = salaId;
   });
 
-  // fluxo existente...
   const resposta = await fetch(`/api/maquinas?salaId=${salaId}`);
   const { maquinas } = await resposta.json();
 
@@ -182,7 +167,6 @@ async function selecionarSala() {
 
 
 
-// Máquina mais crítica
 async function carregarKpiMaquinaCritica(idSala) {
   try {
     const response = await fetch(`/api/maquina-critica/${idSala}`);
@@ -215,7 +199,7 @@ async function carregarKpiMaquinaCritica(idSala) {
   }
 }
 
-// Mediana CPU dinâmica (lê número puro ou JSON)
+
 async function carregarMedianaCPU(idSala) {
   const el = document.getElementById('kpiUptimeMaquinaSala');
   if (!el) return;
@@ -227,11 +211,11 @@ async function carregarMedianaCPU(idSala) {
     const texto = await resp.text();
     let mediana = null;
 
-    // Tenta converter como número direto
+    
     if (!isNaN(texto)) {
       mediana = Number(texto);
     } else {
-      // Tenta interpretar como JSON
+   
       try {
         const json = JSON.parse(texto);
         if (Array.isArray(json) && json.length > 0 && 'medianaCPU' in json[0]) {
@@ -244,14 +228,14 @@ async function carregarMedianaCPU(idSala) {
       }
     }
 
-    // Aplica estilo diretamente no elemento
+    
     el.textContent = mediana !== null && !Number.isNaN(mediana) ? `${mediana}%` : '—';
-    el.style.marginTop = '30px'; // desce mais
+    el.style.marginTop = '30px'; 
     el.style.fontSize = '1.6em';
     el.style.fontWeight = 'bold';
     el.style.color = '#2c3e50';
     el.style.textAlign = 'center';
-    // opcional: centraliza dentro da KPI
+
   } catch (e) {
     console.error('Erro ao carregar mediana:', e);
     el.textContent = 'Nenhum registro';
@@ -261,7 +245,7 @@ async function carregarMedianaCPU(idSala) {
 }
 
 
-// ===== Relatório =====
+
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('btnRelatorio');
   if (!btn) return;
@@ -286,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function carregarTotalAlertas(idSala) {
-  const el = document.getElementById('kpiTotalAlertasSala'); // 👈 mesmo ID do HTML
+  const el = document.getElementById('kpiTotalAlertasSala');
   if (!el) return;
 
   try {
@@ -311,7 +295,7 @@ async function carregarUltimosAlertas(idSala) {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const alertas = await resp.json();
 
-    container.innerHTML = ''; // limpa antes de preencher
+    container.innerHTML = ''; 
 
     if (!Array.isArray(alertas) || alertas.length === 0) {
       container.innerHTML = '<p style="text-align:center;">Nenhum alerta recente</p>';
@@ -366,20 +350,19 @@ async function carregarMaquinasPorSala(salaId) {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const { maquinas } = await resp.json();
 
-    // Limpa opções antigas
     selectMaquina.innerHTML = '<option value="" disabled selected>Selecione a Máquina</option>';
 
     if (!Array.isArray(maquinas) || maquinas.length === 0) {
       selectMaquina.innerHTML = '<option value="" disabled selected>Nenhuma máquina encontrada</option>';
-      selectMaquina.disabled = true; // desativa o filtro se não houver máquinas
-      mostrarMensagemSemDados(); // limpa gráfico
+      selectMaquina.disabled = true;
+      mostrarMensagemSemDados(); 
       limparKPIs();
       return;
     }
 
-    selectMaquina.disabled = false; // garante que o filtro esteja ativo
+    selectMaquina.disabled = false;
 
-    // Popula com as máquinas da sala
+    a
     maquinas.forEach(m => {
       const option = document.createElement('option');
       option.value = m.idMaquina;
@@ -393,10 +376,10 @@ async function carregarMaquinasPorSala(salaId) {
     return;
   }
 
-  // ✅ Seleciona a primeira máquina automaticamente
+  
   if (selectMaquina.options.length > 1) {
     selectMaquina.value = selectMaquina.options[1].value;
-    trocarComponente(); // dispara o gráfico com a primeira máquina
+    trocarComponente(); 
   }
 }
 
@@ -408,7 +391,7 @@ function trocarComponente() {
   const maquinaId = selectMaquina?.value;
 
   if (maquinaId) {
-    carregarGrafico(maquinaId); // ✅ só atualiza o gráfico
+    carregarGrafico(maquinaId); 
   }
 }
 
@@ -419,7 +402,6 @@ function trocarComponente() {
 
 
 
-// public/js/grafico.js
 let graficoCpu = null;
 let maquinaAtual = null;
 
@@ -586,7 +568,7 @@ setInterval(() => {
   carregarMedianaCPU(salaId);
   carregarTotalAlertas(salaId);
   carregarUltimosAlertas(salaId);
-}, 30000); // atualiza a cada 30 segundos
+}, 30000); 
 
 async function carregarRankingFalhas(salaId) {
   const canvas = document.getElementById('monitoramento-rede');

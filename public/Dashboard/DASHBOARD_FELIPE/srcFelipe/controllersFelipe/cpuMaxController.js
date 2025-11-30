@@ -1,9 +1,7 @@
-// controllersFelipe/cpuMaxController.js
 
 const cpuMaxModel = require("../modelsFelipe/cpuMaxModels");
 
 function getMaquinaCritica(req, res) {
-    // 1. CAPTURAR O ID DA SALA DOS PARÂMETROS
     const idSala = req.params.idSala; 
 
     if (!idSala || idSala === 'undefined') {
@@ -11,13 +9,12 @@ function getMaquinaCritica(req, res) {
         return;
     }
 
-    // 2. PASSAR O ID DA SALA PARA A FUNÇÃO DO MODEL
     cpuMaxModel.buscarMaquinaCriticaPorSala(idSala)
         .then(resultado => {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
-                res.status(200).json([]); // Retorna array vazio se não houver dados
+                res.status(200).json([]); 
             }
         })
         .catch(erro => {
