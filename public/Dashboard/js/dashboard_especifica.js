@@ -323,9 +323,6 @@ function listarUltimosAlertasMaquina(idMaquinaSelecionada) {
 
                         container.appendChild(card);
 
-                        if (window.FontAwesome && window.FontAwesome.dom && window.FontAwesome.dom.i2svg) {
-                            window.FontAwesome.dom.i2svg();
-                        }
                     });
                 });
             } else {

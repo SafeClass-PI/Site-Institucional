@@ -314,7 +314,7 @@ function listarUltimosAlertasMaquina(idMaquina) {
     ON m.idMaquina = c.fkMaquina
     JOIN parametro AS p
     ON p.idParametro = a.fkParametro
-    WHERE m.idMaquina = ${idMaquina} AND DATE(ca.dtCaptura) = CURDATE()
+    WHERE m.idMaquina = 2 AND DATE(ca.dtCaptura) = CURDATE()
     ORDER BY ca.dtCaptura DESC; 
     `;
 
