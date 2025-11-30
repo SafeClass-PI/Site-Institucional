@@ -113,28 +113,30 @@ async function obterDadosSala(salaId, data) {
 async function obterUltimosAlertas(idSala) {
   const sql = `
     SELECT 
-      p.nivel AS nivel,
-      m.idMaquina AS maquina,
-      DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
-      s.nome AS sala
-    FROM alerta a
-    JOIN captura cap ON a.fkCaptura = cap.idCaptura
-    JOIN componente c ON cap.fkComponente = c.idComponente
-    JOIN maquina m ON c.fkMaquina = m.idMaquina
-    JOIN sala s ON m.fkSala = s.idSala
-    JOIN parametro p ON a.fkParametro = p.idParametro
-    WHERE s.idSala = ${idSala}
-      AND c.nome = 'CPU'
-    ORDER BY cap.dtCaptura DESC
-    LIMIT 10;
+  p.nivel AS nivel,
+  m.idMaquina AS maquina,
+  DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
+  s.nome AS sala,
+  cap.registro AS cpu
+FROM alerta a
+JOIN captura cap ON a.fkCaptura = cap.idCaptura
+JOIN componente c ON cap.fkComponente = c.idComponente
+JOIN maquina m ON c.fkMaquina = m.idMaquina
+JOIN sala s ON m.fkSala = s.idSala
+JOIN parametro p ON a.fkParametro = p.idParametro
+WHERE s.idSala = ${idSala}
+  AND c.nome = 'CPU'
+ORDER BY cap.dtCaptura DESC
+LIMIT 10;
+
   `;
   return await database.executar(sql);
 }
 
-module.exports = { 
-  obterDadosSala, 
-  obterMedianaCPU, 
-  obterTotalAlertasCPU, 
+module.exports = {
+  obterDadosSala,
+  obterMedianaCPU,
+  obterTotalAlertasCPU,
   obterUltimosAlertas,
   buscarMaquinaCritica,
   buscarEvolucaoCPU,
