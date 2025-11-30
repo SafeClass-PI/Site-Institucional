@@ -44,6 +44,8 @@ const salaRouter = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routes
 var ryanRouter = require("./public/Dashboard/DASHBOARD_RYAN/srcRyan/routesRyan/ryan");
 var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
 var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
+var joaoRouter = require("./public/Dashboard/DASHBOARD_JOAO/srcJoao/routesJoao/rotasJoao");
+
 
 
 app.use(express.json());
@@ -72,6 +74,7 @@ app.use('/api/sala', alertasFelipeRoutes);
 app.use('/api', maquinaRoutes);
 
 app.use("/api/matheus", matheusRouter);
+app.use("/api/joao", joaoRouter);
 app.use('/api', cpuUsoRoutes);
 
 

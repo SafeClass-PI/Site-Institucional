@@ -1,0 +1,11 @@
+var express = require("express");
+var router = express.Router();
+var joaoController = require("../controllersJoao/ControllerJoao");
+
+router.get("/alertas/criticos", joaoController.buscarTotalAlertasCriticos);
+
+router.get("/alertas/moderados", joaoController.buscarTotalAlertasModerados);
+
+router.get("/alertas/comparacao", joaoController.buscarComparacaoAlertas);
+
+module.exports = router;
