@@ -199,8 +199,10 @@
                     <div class="painel-graficos">
                         <div class="monitoramento-componentes">
                             <div class="titulo-monitoramento-dia">
-                                <p>Monitoramento do Ping Mediano</p>
-
+                                <p>Monitoramento do <span id="explicacaoPing">Ping</span> Mediano</p>
+                                <div class="cardExplicacaoPing">
+                                    <p>O ping é o tempo que um pacote de dados leva para sair do seu computador, viajar até outro computador ou servidor na internet e voltar. Ele é medido em milissegundos (ms). Um ping baixo indica que a conexão é rápida e responsiva; um ping alto significa que a resposta demora mais.</p>
+                                </div>
                                 <div class="parametros">
                                     <div class="param">
                                         <div class="quadrado-verde"></div>
@@ -217,7 +219,7 @@
                                     </div>
                                 </div>
 
-                                <i onclick="abrirExplicacaoMetricas()" class="fa-solid fa-circle-info"
+                                <i class="fa-solid fa-circle-info"
                                     id="explicacaoMetricas"></i>
 
                                 <div id="modalExplicacaoMetricas">
@@ -241,8 +243,6 @@
                                             <td>Maior que 350ms
                                             </td>
                                         </tr>
-                                        <i class="fa-solid fa-circle-xmark" onclick="removerModalMetricas()"
-                                            id="tirarModalMetricas"></i>
                                     </table>
                                 </div>
                             </div>

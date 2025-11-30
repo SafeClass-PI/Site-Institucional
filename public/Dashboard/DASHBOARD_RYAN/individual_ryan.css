@@ -1492,16 +1492,15 @@ body {
 }
 
 #explicacaoMetricas:hover {
-    transform: scale(1.1);
-    color: rgb(70, 70, 70);
+    color: rgb(146, 146, 146);
 }
 
 #modalExplicacaoMetricas {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 51%;
+    left: 70%;
     transform: translate(-50%, -50%);
-    width: 25%;
+    width: 23%;
     height: 25%;
     background-color: var(--cor-branco);
     border-radius: 10px;
@@ -1523,8 +1522,13 @@ body {
 }
 
 #modalExplicacaoMetricas table td {
-    border: 1px solid rgba(0, 0, 0, 0.127);
+    border: 1px solid rgba(39, 39, 39, 0.127);
     padding: 10px;
+    font-size: 15px;
+}
+
+#modalExplicacaoMetricas table tr {
+    font-size: 14px;
 }
 
 #modalExplicacaoMetricas table tr:first-child td {
@@ -1579,4 +1583,36 @@ body {
 #tirarModalMetricas:hover {
     transform: scale(1.1);
     color: rgb(255, 10, 10);
+}
+
+#explicacaoPing {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#explicacaoPing:hover {
+    color: rgb(153, 153, 153);
+}
+
+.cardExplicacaoPing {
+    position: absolute;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    top: 51%;
+    left: 32%;
+    transform: translate(-50%, -50%);
+    width: 23%;
+    height: 25%;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    z-index: 11;
+}
+
+.cardExplicacaoPing p {
+    font-size: 13px;
+    padding: 2%;
+    line-height: 23px;
 }

@@ -178,6 +178,11 @@ function previsionar() {
             if (response.ok) {
                 response.json().then(function (resposta) {
 
+                    if (!resposta || resposta.length === 0) {
+                        alert('Ainda não há dados suficientes do dia!');
+                        return;
+                    }
+
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                     const horarioDigitado = document.querySelector("#kpi-qtd-alertas-hoje input").value;
@@ -622,15 +627,6 @@ function fecharAlerta() {
     alerta.classList.add("hide");
 }
 
-function abrirExplicacaoMetricas() {
-    telaOverlay.style.display = 'block';
-    modalExplicacaoMetricas.style.display = 'block';
-}
-
-function removerModalMetricas() {
-    telaOverlay.style.display = 'none';
-    modalExplicacaoMetricas.style.display = 'none';
-}
 
 function atualizarDataHora() {
     const agora = new Date();
@@ -654,3 +650,28 @@ function abrirDuvidaPrevisao() {
 function removerCardExplicacao() {
     divExplicarPrevisao.style.display = 'none';
 }
+
+const spanPing = document.getElementById('explicacaoPing');
+const card = document.querySelector('.cardExplicacaoPing');
+
+spanPing.addEventListener('mouseenter', () => {
+    const rect = spanPing.getBoundingClientRect();
+    card.style.display = 'flex';
+});
+
+spanPing.addEventListener('mouseleave', () => {
+    card.style.display = 'none';
+});
+
+
+const duvidaMetrica = document.getElementById('explicacaoMetricas');
+const cardExplicacaoMetrica = document.getElementById('modalExplicacaoMetricas');
+
+duvidaMetrica.addEventListener('mouseenter', () => {
+    const rect = duvidaMetrica.getBoundingClientRect();
+    cardExplicacaoMetrica.style.display = 'flex';
+});
+
+duvidaMetrica.addEventListener('mouseleave', () => {
+    cardExplicacaoMetrica.style.display = 'none';
+});
