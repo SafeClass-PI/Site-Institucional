@@ -1,4 +1,11 @@
 // ===== Utils e navegação =====
+
+
+
+    
+
+
+
 function sairDaPagina() {
   const modalLogout = document.getElementById('modalLogout');
   const telaOverlay = document.getElementById('telaOverlay');
@@ -73,6 +80,20 @@ async function carregarInfos() {
   await carregarSalas();
 }
 
+
+    var usuario = document.getElementById('nome-usuario-pagina');
+    usuario.innerText = sessionStorage.NOME_USUARIO;
+
+    var imgPerfil = document.getElementById('imgPerfil');
+
+    if (imgPerfil) {
+        if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+            imgPerfil.src = `../../../uploads/${sessionStorage.IMAGEM_USUARIO}`;
+        } else {
+            imgPerfil.src = '../imgs/profile-default.webp';
+        }
+    }
+
 async function carregarSalas() {
   try {
     const response = await fetch("/salas/listar");
@@ -92,6 +113,8 @@ async function carregarSalas() {
       selectSala.innerHTML = '<option value="" disabled selected>Nenhuma Sala Encontrada</option>';
       if (kpiStatus) kpiStatus.innerHTML = 'Nenhuma sala disponível para filtro.';
       return;
+
+      
     }
 
     // Popular options
@@ -302,7 +325,7 @@ async function carregarUltimosAlertas(idSala) {
 
 
 
-      const icone = alerta.nivel === 'Crítico' ? '🔥' : '⚠️';
+const icone = alerta.nivel === 'Crítico' ? '🔥' : '⚠️';
 card.innerHTML = `
   <div style="display: flex; flex-direction: column; gap: 4px;">
     <strong>${icone} ${alerta.nivel}</strong>
@@ -462,7 +485,7 @@ async function carregarGrafico(maquinaId) {
                   display: true,
                   content: 'Crítico',
                   position: 'start',
-                  yAdjust: -10,
+                  yAdjust: -4,
                   color: '#fff',
                   backgroundColor: '#e74c3c',
                   borderColor: '#c0392b',
@@ -486,7 +509,7 @@ async function carregarGrafico(maquinaId) {
                   display: true,
                   content: 'Atenção',
                   position: 'start',
-                  yAdjust: -10,
+                  yAdjust: 13,
                   color: '#fff',
                   backgroundColor: '#f39c12',
                   borderColor: '#e67e22',
