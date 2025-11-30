@@ -188,6 +188,7 @@ function previsionar() {
                     }
 
                     const valorPrevisto = preverPing(horarioDigitado, resposta);
+                    valorPrevisto = Math.max(valorPrevisto, 0);
 
                     let estado = "Estável";
                     if (valorPrevisto >= 350) {
