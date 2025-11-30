@@ -1,8 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
     criarGraficoAlertasCriticos();
     criarGraficoAlertasModerados();
-    criarGraficoPizzaAlertas();   
+    criarGraficoPizzaAlertas();
 });
+
+var usuario = document.getElementById('nome-usuario-pagina');
+usuario.innerText = sessionStorage.NOME_USUARIO;
+
+var imgPerfil = document.getElementById('imgPerfil');
+
+if (imgPerfil) {
+    if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
+        imgPerfil.src = `../../../uploads/${sessionStorage.IMAGEM_USUARIO}`;
+    } else {
+        imgPerfil.src = '../../imgs/profile-default.webp';
+    }
+}
 
 const labelsMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
 
@@ -85,7 +98,7 @@ function criarGraficoAlertasModerados() {
             labels: labelsMeses,
             datasets: [{
                 label: 'Alertas Moderados',
-                data: [3, 5, 4, 7, 4, 5], // mock por enquanto
+                data: [3, 5, 4, 7, 4, 5], 
                 tension: 0.4,
                 fill: false,
                 borderWidth: 3,
@@ -153,7 +166,7 @@ async function criarGraficoPizzaAlertas() {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             plugins: {
                 legend: {
                     position: 'bottom'
@@ -162,3 +175,32 @@ async function criarGraficoPizzaAlertas() {
         }
     });
 }
+
+function sairDaPagina() {
+    modalLogout.style.display = 'flex';
+    telaOverlay.style.display = 'block';
+}
+
+function cancelarSairDaPagina() {
+    modalLogout.style.display = 'none';
+    telaOverlay.style.display = 'none';
+}
+
+function confirmarSairDaPagina() {
+    window.location.href = '../../../index.html'
+}
+
+const dropdowns = document.querySelectorAll('.dropdown-container');
+
+dropdowns.forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drop.classList.toggle('active');
+    });
+});
+
+window.addEventListener('click', () => {
+    dropdowns.forEach(drop => drop.classList.remove('active'));
+});

@@ -6,6 +6,8 @@
     padding: 0;
     text-decoration: none;
     font-family: Poppins;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 :root {
@@ -797,35 +799,35 @@ body {
 
 .painel-graficos {
     width: 76%;
-    height: 99%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 2%;
 }
 
 
 
-.monitoramento-componentes{
+.monitoramento-componentes {
     width: 100%;
+    height: 48%;
     background-color: var(--cor-branco);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    padding: 15px;
-    box-sizing: border-box;
-    flex: 0 0 auto;  
 }
+
 .rede-e-disponibilidade {
     background-color: var(--cor-branco);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    padding: 15px;
     box-sizing: border-box;
-    flex: 0 0 auto;
-
+    width: 100%;
+    height: 48%;
 }
 
 .titulo-monitoramento-dia {
@@ -862,14 +864,14 @@ body {
 
 
 .grafico-monitoramento {
-    width: 99%;
+    width: 100%;
     height: 76%;
     margin-left: 2%;
 }
 
 .grafico-monitoramento canvas {
     margin-top: 2%;
-    margin-right: 3%;
+    margin-right: 2.5%;
 }
 
 .titulo-grafico-rede {
@@ -1009,16 +1011,7 @@ body {
 .dropdown-content {
     display: none;
 }
-.grafico-monitoramento,
-.grafico-rede {
-    position: relative;
-}
 
-.grafico-monitoramento canvas,
-.grafico-rede canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
 .ultimos-alertas {
     width: 100%;
     height: 700px;
@@ -1042,11 +1035,8 @@ body {
 .grafico-comparacao-alertas {
     width: 100%;
     height: 85%;
-    position: relative;
-}
-
-.grafico-comparacao-alertas canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
