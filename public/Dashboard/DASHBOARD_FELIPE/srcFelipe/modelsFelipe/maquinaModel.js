@@ -13,9 +13,9 @@ async function buscarMaquinasPorSala(idSala) {
 async function buscarMaquinaCritica(idSala) {
   const instrucao = `
     SELECT TOP 1 idMaquina, nomeMaquina AS maquina, COUNT(*) AS totalFalhas
-    FROM Falha
-    JOIN Maquina ON Falha.fkMaquina = Maquina.idMaquina
-    WHERE Maquina.fkSala = ?
+    FROM falha
+    JOIN maquina ON falha.fkMaquina = maquina.idMaquina
+    WHERE maquina.fkSala = ?
     GROUP BY idMaquina, nomeMaquina
     ORDER BY totalFalhas DESC
   `;

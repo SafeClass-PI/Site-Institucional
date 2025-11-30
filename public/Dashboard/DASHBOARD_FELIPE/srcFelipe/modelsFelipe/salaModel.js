@@ -37,10 +37,10 @@ async function obterMedianaCPU(idSala) {
 async function buscarMaquinaCritica(idSala) {
   const sql = `
     SELECT m.idMaquina, COUNT(a.idAlerta) AS totalFalhas
-    FROM Maquina m
-    JOIN Componente c ON m.idMaquina = c.fkMaquina
-    JOIN Captura cap ON c.idComponente = cap.fkComponente
-    JOIN Alerta a ON a.fkCaptura = cap.idCaptura
+    FROM maquina m
+    JOIN componente c ON m.idMaquina = c.fkMaquina
+    JOIN captura cap ON c.idComponente = cap.fkComponente
+    JOIN alerta a ON a.fkCaptura = cap.idCaptura
     WHERE m.fkSala = ${idSala}
       AND c.nome = 'CPU'
     GROUP BY m.idMaquina
@@ -55,8 +55,8 @@ async function buscarMaquinaCritica(idSala) {
 async function buscarEvolucaoCPU(idSala, idMaquina) {
   const sql = `
     SELECT cap.dtCaptura, cap.registro
-    FROM Captura cap
-    JOIN Componente c ON cap.fkComponente = c.idComponente
+    FROM captura cap
+    JOIN componente c ON cap.fkComponente = c.idComponente
     WHERE c.fkMaquina = ${idMaquina}
       AND c.nome = 'CPU'
     ORDER BY cap.dtCaptura ASC
@@ -69,10 +69,10 @@ async function buscarEvolucaoCPU(idSala, idMaquina) {
 async function buscarRankingPorSala(idSala) {
   const sql = `
     SELECT m.idMaquina AS maquina, COUNT(a.idAlerta) AS falhas
-    FROM Maquina m
-    JOIN Componente c ON m.idMaquina = c.fkMaquina
-    JOIN Captura cap ON c.idComponente = cap.fkComponente
-    JOIN Alerta a ON a.fkCaptura = cap.idCaptura
+    FROM maquina m
+    JOIN componente c ON m.idMaquina = c.fkMaquina
+    JOIN captura cap ON c.idComponente = cap.fkComponente
+    JOIN alerta a ON a.fkCaptura = cap.idCaptura
     WHERE m.fkSala = ${idSala}
       AND c.nome = 'CPU'
     GROUP BY m.idMaquina
