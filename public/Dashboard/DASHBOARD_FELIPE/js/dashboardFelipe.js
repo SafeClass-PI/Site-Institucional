@@ -325,15 +325,22 @@ async function carregarUltimosAlertas(idSala) {
 
 
 
-const icone = alerta.nivel === 'Crítico' ? '🔥' : '⚠️';
+const icone = alerta.nivel === 'Crítico' ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-triangle-exclamation';
 card.innerHTML = `
-  <div style="display: flex; flex-direction: column; gap: 4px;">
-    <strong>${icone} ${alerta.nivel}</strong>
-    <span><b>Máquina:</b> ${alerta.maquina}  <b>Sala:</b> ${alerta.sala}</span>
+  <div style="display: flex; flex-direction: column; gap: 2px; font-size: 12px; padding: 4px;">
+    <div style="display: flex; align-items: center; gap: 4px; margin-top: -2px; margin-bottom: 0;">
+      <i class="${icone}" style="color: red; font-size: 13px; margin-top: -2px;"></i>
+      <strong style="font-size: 12px; margin-top: -2px;">${alerta.nivel}</strong>
+    </div>
+    <span><b>Máquina:</b> ${alerta.maquina} <b>Sala:</b> ${alerta.sala}</span>
     <span><b>Momento:</b> ${alerta.horario}</span>
     <span><b>CPU no momento:</b> ${alerta.cpu !== undefined ? alerta.cpu + '%' : '—'}</span>
   </div>
 `;
+
+
+
+
 
 
 
