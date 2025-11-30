@@ -1,0 +1,42 @@
+var joaoModel = require("../modelsJoao/modelsJoao");
+
+
+function buscarTotalAlertasCriticos(req, res) {
+    joaoModel.buscarTotalAlertasCriticos()
+        .then(resultado => {
+            res.status(200).json(resultado[0] || { totalCriticos: 0 });
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar total de alertas críticos:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+
+function buscarTotalAlertasModerados(req, res) {
+    joaoModel.buscarTotalAlertasModerados()
+        .then(resultado => {
+            res.status(200).json(resultado[0] || { totalModerados: 0 });
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar total de alertas moderados:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+function buscarComparacaoAlertas(req, res) {
+    joaoModel.buscarComparacaoAlertas()
+        .then(resultado => {
+            res.status(200).json(resultado[0] || { totalCriticos: 0, totalModerados: 0 });
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar comparação de alertas:", erro);
+            res.status(500).json({ erro: erro.sqlMessage });
+        });
+}
+
+module.exports = {
+    buscarTotalAlertasCriticos,
+    buscarTotalAlertasModerados,
+    buscarComparacaoAlertas
+};

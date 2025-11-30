@@ -1,0 +1,50 @@
+var database = require("../../../../../src/databases/config.js");
+
+function buscarTotalAlertasCriticos() {
+    var instrucaoSql = `     SELECT 
+            COUNT(*) AS totalCriticos
+        FROM Alerta a
+        JOIN Parametro p 
+            ON a.fkParametro = p.idParametro
+        WHERE 
+            p.nivel = 'Crítico';
+       
+    `;
+    console.log("Executando buscarTotalAlertasCriticos:\n", instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+function buscarTotalAlertasModerados() {
+    var instrucaoSql = `SELECT 
+            COUNT(*) AS totalModerados
+        FROM Alerta a
+        JOIN Parametro p 
+            ON a.fkParametro = p.idParametro
+        WHERE 
+            p.nivel = 'Atenção';
+        
+    `;
+    console.log("Executando buscarTotalAlertasModerados:\n", instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+// Comparação (críticos x moderados) – útil pra pizza
+function buscarComparacaoAlertas() {
+    var instrucaoSql = `SELECT
+            SUM(CASE WHEN p.nivel = 'Crítico' THEN 1 ELSE 0 END) AS totalCriticos,
+            SUM(CASE WHEN p.nivel = 'Atenção' THEN 1 ELSE 0 END) AS totalModerados
+        FROM Alerta a
+        JOIN Parametro p 
+            ON a.fkParametro = p.idParametro;
+        
+    `;
+    console.log("Executando buscarComparacaoAlertas:\n", instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+module.exports = {
+    buscarTotalAlertasCriticos,
+    buscarTotalAlertasModerados,
+    buscarComparacaoAlertas
+};
