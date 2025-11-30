@@ -1,9 +1,7 @@
-// Joao.js
-
 document.addEventListener("DOMContentLoaded", function () {
     criarGraficoAlertasCriticos();
     criarGraficoAlertasModerados();
-    criarGraficoPizzaAlertas();
+    criarGraficoPizzaAlertas();   
 });
 
 const labelsMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
@@ -103,7 +101,8 @@ function criarGraficoAlertasModerados() {
 
 // --------- GRÁFICO 3 – Pizza: Comparação de Alertas (API) ---------
 async function criarGraficoPizzaAlertas() {
-    const canvas = document.getElementById('falhas-por-componente');
+    // AGORA PEGANDO O MESMO ID QUE ESTÁ NO HTML
+    const canvas = document.getElementById('grafico-comparacao-alertas');
     if (!canvas) return;
 
     canvas.style.width = '100%';
@@ -127,6 +126,7 @@ async function criarGraficoPizzaAlertas() {
 
     } catch (erro) {
         console.error("Erro ao carregar comparação de alertas:", erro);
+        // mock se der erro
         totalCriticos = 5;
         totalModerados = 3;
     }
@@ -141,8 +141,8 @@ async function criarGraficoPizzaAlertas() {
                 label: 'Comparação de Alertas',
                 data: [totalModerados, totalCriticos],
                 backgroundColor: [
-                    'rgba(255, 214, 48, 0.7)',
-                    'rgba(234, 3, 3, 0.7)'
+                    'rgba(255, 214, 48, 0.7)', // moderados
+                    'rgba(234, 3, 3, 0.7)'     // críticos
                 ],
                 borderColor: [
                     'rgba(255, 214, 48, 1)',
