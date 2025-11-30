@@ -1,7 +1,7 @@
 const OpenAI = require("openai");
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // pega do .env.dev
+  apiKey: process.env.OPENAI_API_KEY, 
 });
 
 async function gerarTextoRelatorio(dados) {
@@ -22,7 +22,7 @@ Instruções:
   `;
 
   const resposta = await client.chat.completions.create({
-    model: "gpt-4o-mini", // modelo leve e rápido
+    model: "gpt-4o-mini", 
     messages: [{ role: "user", content: prompt }],
   });
 

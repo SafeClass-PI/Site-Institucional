@@ -114,12 +114,10 @@
                             <option value="" disabled selected>Carregando Salas...</option>
                         </select>
                         <div style="position: relative; display: flex; align-items: center; gap: 10px;">
-                            <!-- Botão principal -->
                             <button id="btnRelatorio" class="btn-relatorio">
                                 <p><b style="color: black;">Gerar relatório com I.A</b></p>
                             </button>
 
-                            <!-- Ícone de informação -->
                             <button class="infoIcon" data-target="modal-relatorio" style="
     background: transparent;
     border: none;
@@ -131,7 +129,6 @@
                             </button>
                         </div>
 
-                        <!-- Modal explicativo -->
                         <div id="modal-relatorio" class="kpiModal">
                             <strong>Sobre este botão:</strong>
                             <p>
@@ -148,7 +145,6 @@
                 </div>
                 <div class="area-kpis">
                     <div class="kpi" id="desempenho-maquina" style="position: relative;">
-                        <!-- Ícone de informação no canto superior direito -->
                         <button id="infoIcon" style="
     position: absolute;
     top: 6px;
@@ -180,7 +176,6 @@
                             </div>
                         </div>
 
-                        <!-- Mini modal explicativo -->
                         <div id="kpiModal" style="
         display: none;
         position: absolute;
@@ -214,7 +209,6 @@
                     </div>
 
                     <div class="kpi" id="kpi-taxa-uptime" style="position: relative;">
-                        <!-- Ícone de informação -->
                         <button class="infoIcon" data-target="modal-uptime" style="
         position: absolute;
         top: 6px;
@@ -248,7 +242,6 @@
 
                         </div>
 
-                        <!-- Modal explicativo -->
                         <div id="modal-uptime" class="kpiModal">
                             <strong>Sobre esta KPI:</strong>
                             <p>
@@ -263,7 +256,6 @@
                     </div>
 
                     <div class="kpi" id="kpi-alerta-critica" style="position: relative;">
-                        <!-- Ícone de informação -->
                         <button class="infoIcon" data-target="modal-alertas" style="
         position: absolute;
         top: 6px;
@@ -290,14 +282,13 @@
                                 Sala: <span style="font-weight: bold;" class="salaInfoId"></span>
                             </div>
                             <div class="titulo-kpi">
-                                <p style="margin-top: -0.5px; font-size: 0.9em; text-align: center;">Total de alertas
+                                <p style="margin-top: -0.5px; font-size: 0.9em; text-align: center;">Total de alertas (CPU)
                                 </p>
                             </div>
                         </div>
 
 
 
-                        <!-- Modal explicativo -->
                         <div id="modal-alertas" class="kpiModal">
                             <strong>Sobre esta KPI:</strong>
                             <p>
@@ -361,7 +352,6 @@
                             <div class="titulo-alertas-maquina"
                                 style="display: flex; justify-content: space-between; align-items: center;">
                                 <p>Últimos Alertas</p>
-                                <!-- Ícone de informação -->
                                 <button class="infoIcon" data-target="modalUltimosAlertas" style="
         background-color: transparent;
         border: none;
@@ -375,7 +365,6 @@
 
                             <div id="alertasMaquina"></div>
 
-                            <!-- Modal explicativo -->
                             <div id="modalUltimosAlertas" style="
       display: none;
       position: absolute;

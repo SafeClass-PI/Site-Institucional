@@ -1,7 +1,6 @@
-const database = require('../databasesFelipe/config'); // conexão padrão
+const database = require('../databasesFelipe/config'); 
 const MaquinaModel = require('./maquinaModel');
 
-// Conta todos os alertas de CPU da sala
 async function obterTotalAlertasCPU(idSala) {
   const sql = `
     SELECT COUNT(a.idAlerta) AS totalAlertas
@@ -18,7 +17,6 @@ async function obterTotalAlertasCPU(idSala) {
   return resultado.length > 0 ? resultado[0].totalAlertas : 0;
 }
 
-// Calcula a mediana (aqui usamos AVG como aproximação) do uso de CPU
 async function obterMedianaCPU(idSala) {
   const sql = `
     SELECT ROUND(AVG(cap.registro),0) AS medianaCPU
@@ -33,7 +31,6 @@ async function obterMedianaCPU(idSala) {
   return resultado.length > 0 ? resultado[0].medianaCPU : null;
 }
 
-// Máquina crítica (a que tem mais falhas)
 async function buscarMaquinaCritica(idSala) {
   const sql = `
     SELECT m.idMaquina, COUNT(a.idAlerta) AS totalFalhas
@@ -51,7 +48,6 @@ async function buscarMaquinaCritica(idSala) {
   return resultado.length > 0 ? resultado[0] : { idMaquina: null, totalFalhas: 0 };
 }
 
-// Evolução do uso de CPU da máquina crítica
 async function buscarEvolucaoCPU(idSala, idMaquina) {
   const sql = `
     SELECT cap.dtCaptura, cap.registro
@@ -65,7 +61,6 @@ async function buscarEvolucaoCPU(idSala, idMaquina) {
   return await database.executar(sql);
 }
 
-// Ranking de falhas por máquina da sala
 async function buscarRankingPorSala(idSala) {
   const sql = `
     SELECT m.idMaquina AS maquina, COUNT(a.idAlerta) AS falhas
@@ -81,7 +76,6 @@ async function buscarRankingPorSala(idSala) {
   return await database.executar(sql);
 }
 
-// Função principal que retorna os dados da sala
 async function obterDadosSala(salaId, data) {
   const maquinaCritica = await buscarMaquinaCritica(salaId);
   const totalAlertas = await obterTotalAlertasCPU(salaId);
@@ -109,7 +103,6 @@ async function obterDadosSala(salaId, data) {
   };
 }
 
-// Últimos alertas da sala
 async function obterUltimosAlertas(idSala) {
   const sql = `
     SELECT 

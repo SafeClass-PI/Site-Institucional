@@ -7,7 +7,6 @@ async function filtrarPorSala(req, res) {
   try {
     const maquinas = await MaquinaModel.buscarMaquinasPorSala(salaId);
 
-    // força retorno só com idMaquina
     const apenasIds = maquinas.map(m => ({ idMaquina: m.idMaquina }));
     res.json({ maquinas: apenasIds });
   } catch (erro) {

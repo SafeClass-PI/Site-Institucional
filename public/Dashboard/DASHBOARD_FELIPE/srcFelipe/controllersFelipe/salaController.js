@@ -1,6 +1,5 @@
 const SalaModel = require('../modelsFelipe/salaModel');
 
-// Mediana CPU
 async function getMedianaCPU(req, res) {
   try {
     const { sala } = req.query;
@@ -13,7 +12,6 @@ async function getMedianaCPU(req, res) {
   }
 }
 
-// Total de alertas
 async function getTotalAlertas(req, res) {
   try {
     const { sala } = req.query;
@@ -25,16 +23,13 @@ async function getTotalAlertas(req, res) {
   }
 }
 
-// Últimos alertas (com CPU)
 async function getUltimosAlertas(req, res) {
   try {
     const { sala } = req.query;
     const resultado = await SalaModel.obterUltimosAlertas(sala);
 
-    // 🔍 DEBUG opcional: logar no console para confirmar que CPU está vindo
     console.log('Ultimos alertas retornados:', resultado);
 
-    // Garante que sempre devolve o campo cpu
     const alertas = resultado.map(a => ({
       nivel: a.nivel,
       maquina: a.maquina,

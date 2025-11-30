@@ -9,7 +9,7 @@ async function listarRanking(req, res) {
 
   try {
     const resultado = await rankingModel.buscarRankingPorSala(salaId);
-    res.json(resultado); // ✅ retorna array direto
+    res.json(resultado);
   } catch (erro) {
     console.error('Erro ao buscar ranking:', erro); // ✅ log no terminal
     res.status(500).json({ erro: 'Erro interno ao buscar ranking' });
