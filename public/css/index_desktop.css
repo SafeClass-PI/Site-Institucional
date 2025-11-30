@@ -107,16 +107,16 @@
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.368);
   }
 
-  .botao-cadastro a {
-    background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
-    -webkit-background-clip: text;
-    /* Faz o gradiente aparecer apenas no texto */
-    -webkit-text-fill-color: transparent;
-    /* Deixa o texto transparente para mostrar o gradiente */
-    text-decoration: none;
-    /* Opcional, tira o sublinhado */
-    font-weight: 600;
-  }
+    .botao-cadastro a {
+      background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
+      -webkit-background-clip: text;
+      /* Faz o gradiente aparecer apenas no texto */
+      -webkit-text-fill-color: transparent;
+      /* Deixa o texto transparente para mostrar o gradiente */
+      text-decoration: none;
+      /* Opcional, tira o sublinhado */
+      font-weight: 600;
+    }
 
   .home {
     position: relative;
@@ -1307,21 +1307,9 @@
 /* =========================
    CELULAR (até 768px)
 ========================= */
+
 @media (max-width: 768px) {
-   .painel-cliente-mobile {
-    display: block !important;
-    max-width: 320px;
-    width: 90%;
-    margin-top: 8px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    text-align: center;
-    background: #fc6403;
-    color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-    box-sizing: border-box;
-  }
+
   .botao-cadastro{
     display: none;
   }
@@ -1368,19 +1356,6 @@
   background-color: #F77911;
   color: #fff;
 }
-
-  .links {
-    position: absolute;
-    top: 64px;
-    right: 0;
-    width: 100%;
-    background-color: #ffffff;
-    display: none;
-    flex-direction: column;
-    padding: 12px 16px 16px 16px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    gap: 8px;
-  }
 
   .links.open {
     display: flex;
@@ -2015,4 +1990,8 @@
   .logo-footer {
     display: none;
   }
+}
+
+#painelClienteHome {
+  display: none;
 }

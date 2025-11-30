@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="icon" href="/Site/imgs/logo-icone.png" type="image/x-icon">
-  
 
   <title>SafeClass | Home</title>
-
   <title>Home</title>
 </head>
 
@@ -22,20 +20,19 @@
     <div class="nav-bar">
       <div class="logo">
         <img src="../imgs/logo-nav.png" alt="SafeClass">
-        <span class="logo-text">SAFECLASS</span>
       </div>
-    
+
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
         &#9776;
-     </button>
-      <div class="links" id="menuLinks"> 
+      </button>
+      <div class="links" id="menuLinks">
         <a href="#inicio">Início</a>
         <a href="#solucao">Solução</a>
         <a href="#empresa">Nossa Empresa</a>
         <a href="#ajuda">Fale conosco</a>
-       <a href="cadastro.html" class="painel-cliente-mobile">
-    Painel do Cliente
-  </a>
+        <a href="cadastro.html" id="painelClienteHome">
+          <p>Painel do Cliente</p>
+        </a>
       </div>
       <div class="botao-cadastro">
         <a href="cadastro.html">Painel do Cliente</a>
@@ -466,13 +463,13 @@
       });
     });
     const menuToggle = document.getElementById("menuToggle");
-  const menuLinks = document.getElementById("menuLinks");
+    const menuLinks = document.getElementById("menuLinks");
 
-  if (menuToggle && menuLinks) {
-    menuToggle.addEventListener("click", () => {
-      menuLinks.classList.toggle("open");
-    });
-  }
+    if (menuToggle && menuLinks) {
+      menuToggle.addEventListener("click", () => {
+        menuLinks.classList.toggle("open");
+      });
+    }
 
 
 
