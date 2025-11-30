@@ -113,23 +113,6 @@ async function obterDadosSala(salaId, data) {
 async function obterUltimosAlertas(idSala) {
   const sql = `
     SELECT 
-<<<<<<< HEAD
-  p.nivel AS nivel,
-  m.idMaquina AS maquina,
-  DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
-  s.nome AS sala,
-  cap.registro AS cpu
-FROM Alerta a
-JOIN Captura cap ON a.fkCaptura = cap.idCaptura
-JOIN Componente c ON cap.fkComponente = c.idComponente
-JOIN Maquina m ON c.fkMaquina = m.idMaquina
-JOIN Sala s ON m.fkSala = s.idSala
-JOIN Parametro p ON a.fkParametro = p.idParametro
-WHERE s.idSala = ${idSala}
-  AND c.nome = 'CPU'
-ORDER BY cap.dtCaptura DESC
-LIMIT 10;
-=======
       p.nivel AS nivel,
       m.idMaquina AS maquina,
       DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
@@ -144,7 +127,6 @@ LIMIT 10;
       AND c.nome = 'CPU'
     ORDER BY cap.dtCaptura DESC
     LIMIT 10;
->>>>>>> 5aecaeecac7ba4be17146dfe256bb06297955ea7
   `;
   return await database.executar(sql);
 }
