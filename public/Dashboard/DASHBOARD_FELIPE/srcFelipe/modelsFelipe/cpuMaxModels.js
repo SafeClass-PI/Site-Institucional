@@ -10,12 +10,12 @@ function buscarMaquinaCriticaPorSala(idSala) {
     SELECT 
         CONCAT('Máquina ', m.idMaquina) AS maquina,
         COUNT(a.idAlerta) AS totalFalhas
-    FROM Sala s
-    JOIN Maquina m ON s.idSala = m.fkSala
-    JOIN Componente c ON m.idMaquina = c.fkMaquina
-    JOIN Captura cap ON c.idComponente = cap.fkComponente
-    JOIN Parametro p ON c.idComponente = p.fkComponente
-    JOIN Alerta a ON a.fkCaptura = cap.idCaptura AND a.fkParametro = p.idParametro
+    FROM sala s
+    JOIN maquina m ON s.idSala = m.fkSala
+    JOIN componente c ON m.idMaquina = c.fkMaquina
+    JOIN captura cap ON c.idComponente = cap.fkComponente
+    JOIN parametro p ON c.idComponente = p.fkComponente
+    JOIN alerta a ON a.fkCaptura = cap.idCaptura AND a.fkParametro = p.idParametro
     WHERE 
         s.idSala = ${idSala}
         AND c.nome = 'CPU'

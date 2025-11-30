@@ -3,7 +3,7 @@ var database = require("../../../../../src/databases/config.js")
 function carregarSalas() {
     var instrucaoSql = `
         SELECT idSala AS identificacao
-        FROM Sala;
+        FROM sala;
         `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -12,10 +12,10 @@ function carregarSalas() {
 
 function kpiStatusRede(idSala) {
     var instrucaoSql = `
-        SELECT ca.registro FROM Captura AS ca
-        JOIN Componente AS co 
+        SELECT ca.registro FROM captura AS ca
+        JOIN componente AS co 
         ON ca.fkComponente = co.idComponente
-        JOIN Maquina AS m
+        JOIN maquina AS m
         ON co.fkMaquina = m.idMaquina 
         WHERE m.fkSala = ${idSala} AND co.nome LIKE 'Ping' AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND;
      `;
@@ -28,12 +28,12 @@ function kpiQtdMaquinasInstaveis(idSala) {
     var instrucaoSql = `
         	SELECT (
             SELECT COUNT(DISTINCT co.fkMaquina)
-            FROM Captura ca
-            JOIN Componente co ON co.idComponente = ca.fkComponente
-            JOIN Maquina AS m
+            FROM captura ca
+            JOIN componente co ON co.idComponente = ca.fkComponente
+            JOIN maquina AS m
             ON m.idMaquina = co.fkMaquina
             WHERE m.fkSala = ${idSala} AND co.nome = 'Ping' AND ca.registro >= 350 AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND) AS maquinasInstaveis, 
-            (SELECT COUNT(idMaquina) FROM Maquina
+            (SELECT COUNT(idMaquina) FROM maquina
             WHERE fkSala = ${idSala}) AS totalMaquinas; 
      `;
 
@@ -44,10 +44,10 @@ function kpiQtdMaquinasInstaveis(idSala) {
 function kpiHoraMelhorAcesso(idSala) {
     var instrucaoSql = `
         	SELECT CONCAT(HOUR(c.dtCaptura), ':00') AS horaRecomendada, COUNT(*) AS capturasPositivas
-            FROM Captura c
-            JOIN Componente comp 
+            FROM captura c
+            JOIN componente comp 
             ON comp.idComponente = c.fkComponente
-            JOIN Maquina m
+            JOIN maquina m
             ON m.idMaquina = comp.fkMaquina
             WHERE m.fkSala = ${idSala} AND comp.nome = 'Ping'
             AND c.registro < 250
@@ -72,17 +72,17 @@ function listarMaquinasEstados(idSala) {
                 WHEN ca.registro IS NULL THEN 'Estável'
                 ELSE 'Estável'
             END AS estadoMaquina
-            FROM Maquina m
-            LEFT JOIN Componente c
+            FROM maquina m
+            LEFT JOIN componente c
             ON c.fkMaquina = m.idMaquina 
             AND c.nome = 'Ping'
             LEFT JOIN (
                 SELECT fkComponente, registro, dtCaptura
-                FROM Captura
+                FROM captura
                 WHERE dtCaptura = (
                     SELECT MAX(dtCaptura)
-                    FROM Captura c2
-                    WHERE c2.fkComponente = Captura.fkComponente
+                    FROM captura c2
+                    WHERE c2.fkComponente = captura.fkComponente
                 )
             ) ca
             ON ca.fkComponente = c.idComponente

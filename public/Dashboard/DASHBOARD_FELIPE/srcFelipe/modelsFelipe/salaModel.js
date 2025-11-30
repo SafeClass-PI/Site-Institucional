@@ -5,12 +5,12 @@ const MaquinaModel = require('./maquinaModel');
 async function obterTotalAlertasCPU(idSala) {
   const sql = `
     SELECT COUNT(a.idAlerta) AS totalAlertas
-    FROM Sala s
-    JOIN Maquina m ON s.idSala = m.fkSala
-    JOIN Componente c ON m.idMaquina = c.fkMaquina
-    JOIN Captura cap ON c.idComponente = cap.fkComponente
-    JOIN Parametro p ON c.idComponente = p.fkComponente
-    JOIN Alerta a ON a.fkCaptura = cap.idCaptura AND a.fkParametro = p.idParametro
+    FROM sala s
+    JOIN maquina m ON s.idSala = m.fkSala
+    JOIN componente c ON m.idMaquina = c.fkMaquina
+    JOIN captura cap ON c.idComponente = cap.fkComponente
+    JOIN parametro p ON c.idComponente = p.fkComponente
+    JOIN alerta a ON a.fkCaptura = cap.idCaptura AND a.fkParametro = p.idParametro
     WHERE s.idSala = ${idSala}
       AND c.nome = 'CPU';
   `;
@@ -22,10 +22,10 @@ async function obterTotalAlertasCPU(idSala) {
 async function obterMedianaCPU(idSala) {
   const sql = `
     SELECT ROUND(AVG(cap.registro),0) AS medianaCPU
-    FROM Sala s
-    JOIN Maquina m ON s.idSala = m.fkSala
-    JOIN Componente c ON m.idMaquina = c.fkMaquina
-    JOIN Captura cap ON c.idComponente = cap.fkComponente
+    FROM sala s
+    JOIN maquina m ON s.idSala = m.fkSala
+    JOIN componente c ON m.idMaquina = c.fkMaquina
+    JOIN captura cap ON c.idComponente = cap.fkComponente
     WHERE s.idSala = ${idSala}
       AND c.nome = 'CPU';
   `;
@@ -113,6 +113,7 @@ async function obterDadosSala(salaId, data) {
 async function obterUltimosAlertas(idSala) {
   const sql = `
     SELECT 
+<<<<<<< HEAD
   p.nivel AS nivel,
   m.idMaquina AS maquina,
   DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
@@ -128,6 +129,22 @@ WHERE s.idSala = ${idSala}
   AND c.nome = 'CPU'
 ORDER BY cap.dtCaptura DESC
 LIMIT 10;
+=======
+      p.nivel AS nivel,
+      m.idMaquina AS maquina,
+      DATE_FORMAT(cap.dtCaptura, '%d/%m/%Y %H:%i') AS horario,
+      s.nome AS sala
+    FROM alerta a
+    JOIN captura cap ON a.fkCaptura = cap.idCaptura
+    JOIN componente c ON cap.fkComponente = c.idComponente
+    JOIN maquina m ON c.fkMaquina = m.idMaquina
+    JOIN sala s ON m.fkSala = s.idSala
+    JOIN parametro p ON a.fkParametro = p.idParametro
+    WHERE s.idSala = ${idSala}
+      AND c.nome = 'CPU'
+    ORDER BY cap.dtCaptura DESC
+    LIMIT 10;
+>>>>>>> 5aecaeecac7ba4be17146dfe256bb06297955ea7
   `;
   return await database.executar(sql);
 }

@@ -322,6 +322,7 @@ function listarUltimosAlertasMaquina(idMaquinaSelecionada) {
                         `;
 
                         container.appendChild(card);
+
                     });
                 });
             } else {
@@ -372,8 +373,8 @@ function obterParametrosDoComponentePorNome(nome) {
 
 function obterParametrosDoComponenteRede(nome) {
     const tabelas = {
-        "Download": {maxY: 25, formato: 'Mbps' },
-        "Upload": {maxY: 10, formato: 'Mbps' },
+        "Download": { maxY: 25, formato: 'Mbps' },
+        "Upload": { maxY: 10, formato: 'Mbps' },
     };
 
     return tabelas[nome] || null;

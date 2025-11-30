@@ -1613,3 +1613,12 @@ body {
 .dropdown-content {
     display: none;
 }
+
+.fa,
+.fas,
+.fa-solid,
+.fa-regular,
+.fa-brands {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}
