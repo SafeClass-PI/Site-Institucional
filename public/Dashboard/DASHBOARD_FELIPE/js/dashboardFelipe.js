@@ -131,27 +131,32 @@ async function selecionarSala() {
   const selectSala = document.getElementById('escolha-sala');
   const salaId = selectSala.value;
 
-  // 👇 Atualiza o nome da sala no topo
+  // Atualiza título já existente
   const nomeSalaSelecionada = selectSala.options[selectSala.selectedIndex].text;
   const salaTexto = document.getElementById('salaSelecionadaTexto');
-  if (salaTexto) salaTexto.textContent = `${nomeSalaSelecionada}`;
+  if (salaTexto) salaTexto.textContent = nomeSalaSelecionada;
 
+  // Atualiza "Sala: idSala" em todas as KPIs
+  const elementosSala = document.querySelectorAll('.salaInfoId');
+  elementosSala.forEach(el => {
+    el.textContent = salaId;
+  });
+
+  // fluxo existente...
   const resposta = await fetch(`/api/maquinas?salaId=${salaId}`);
   const { maquinas } = await resposta.json();
 
   if (maquinas.length > 0) {
-    const maquinaCritica = maquinas[0];
     await carregarMaquinasPorSala(salaId);
-
-
     carregarKpiMaquinaCritica(salaId);
     carregarMedianaCPU(salaId);
     carregarTotalAlertas(salaId);
     carregarUltimosAlertas(salaId);
     carregarRankingFalhas(salaId);
-
   }
 }
+
+
 
 
 // Máquina mais crítica
@@ -298,14 +303,17 @@ async function carregarUltimosAlertas(idSala) {
 
 
       const icone = alerta.nivel === 'Crítico' ? '🔥' : '⚠️';
-
-      card.innerHTML = `
-  <strong>${icone} ${alerta.nivel}</strong>
-  <div>
+card.innerHTML = `
+  <div style="display: flex; flex-direction: column; gap: 4px;">
+    <strong>${icone} ${alerta.nivel}</strong>
     <span><b>Máquina:</b> ${alerta.maquina}  <b>Sala:</b> ${alerta.sala}</span>
+    <span><b>Momento:</b> ${alerta.horario}</span>
+    <span><b>CPU no momento:</b> ${alerta.cpu !== undefined ? alerta.cpu + '%' : '—'}</span>
   </div>
-  <span><b>Momento:</b> ${alerta.horario}</span>
 `;
+
+
+
 
 
 
@@ -491,30 +499,6 @@ async function carregarGrafico(maquinaId) {
                   padding: 4
                 }
               },
-              linhaEstavel: {
-                type: 'line',
-                scaleID: 'y',
-                value: 55,
-                borderColor: 'green',
-                borderWidth: 1,
-                borderDash: [4, 4],
-                label: {
-                  display: true,
-                  content: 'Estável',
-                  position: 'start',
-                  yAdjust: -10,
-                  color: '#fff',
-                  backgroundColor: '#2ecc71',
-                  borderColor: '#27ae60',
-                  borderWidth: 1,
-                  borderRadius: 4,
-                  font: {
-                    size: 10,
-                    weight: 'bold'
-                  },
-                  padding: 4
-                }
-              }
             }
           }
         }

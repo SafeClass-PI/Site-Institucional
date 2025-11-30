@@ -15,7 +15,6 @@ async function gerarPDFBuffer(texto, dados) {
     doc.text(`Máquina crítica: ${dados.maquinaCritica.nome} (${dados.maquinaCritica.falhas} falhas)`);
     doc.text(`Total de alertas: ${dados.totalAlertas}`);
     doc.text(`Mediana CPU: ${dados.medianaCPU}%`);
-    doc.text(`Status: ${dados.statusEvolucao}`);
     doc.moveDown();
 
     doc.fontSize(14).text('Análise da IA:', { underline: true });
