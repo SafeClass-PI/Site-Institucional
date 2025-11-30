@@ -476,11 +476,12 @@ function plotarGraficoSemana(resposta) {
     const segundoMaior = valoresOrdenados[1];
     const segundoIndex = dadosValores.indexOf(segundoMaior);
 
-    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.2)');
+    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.25)');
     let borderColors = dadosValores.map(() => 'orange');
 
+
     if (maxIndex !== -1) {
-        backgroundColors[maxIndex] = '#ea0303b1';
+        backgroundColors[maxIndex] = '#eb0000c9';
         borderColors[maxIndex] = '#ea0303';
     }
 
