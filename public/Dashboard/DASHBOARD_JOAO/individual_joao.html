@@ -3,64 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Visão Alertas</title>
 
 
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../DASHBOARD_JOAO/joao.css">
+
+    <!-- Chart.js -->
+
+    <link rel="stylesheet" href="./joao.css">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Visão Alertas</title>
 </head>
+<body>
+    <div class="overlay" id="telaOverlay"></div>
 
-<body onload="carregarInfos()">
-    <div class="overlay" id="telaOverlay">
-    </div>
     <div class="dashboard">
         <div class="side-bar">
             <div class="logo">
-                <a href="../index.html"><img src="imgs/logo.png"></a>
+                <a href="../../../index.html"><img src="../../imgs/logo.png" alt="Logo SafeClass"></a>
             </div>
+
             <div class="links">
-                <a href="dashboard_geral.html" class="icone-links">
+                <a href="../../dashboard_geral.html" class="icone-links">
                     <i class="fa-solid fa-chart-simple"></i>
                     <p>Painel Geral</p>
                 </a>
                 <div class="icone-links dropdown-container">
                     <div class="dropbtn activate">
                         <i class="fa-solid fa-filter"></i>
-                        <p>Máquinas</p>
+                        <p>Alertas</p>
                         <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
                     </div>
                     <div class="dropdown-content">
-                        <a href="DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
-                        <a href="DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
-                        <a href="DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
-                        <a href="DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
-                        <a href="DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
+                        <a href="../../DASHBOARD_RYAN/individual_ryan.html">Monitoramento Rede</a>
+                        <a href="../../DASHBOARD_BEATRIZ/individual_bia.html">Acessos Usuários</a>
+                        <a href="../../DASHBOARD_MATHEUS/individual_matheus.html">Semestre Escola</a>
+                        <a href="../../DASHBOARD_JOAO/DASHBOARD_JOAO/individual_joao.html">Visão Alertas</a>
+                        <a href="../../DASHBOARD_FELIPE/individual_felipe.html">Desempenho CPU</a>
                     </div>
                 </div>
+
                 <a href="../Dashboard/alertas.html" class="icone-links">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <p>Alertas</p>
                 </a>
+
                 <a href="../Dashboard/usuarios.html" class="icone-links">
                     <i class="fa-solid fa-users"></i>
                     <p>Usuários</p>
                 </a>
+
                 <a href="../Dashboard/maquinas.html" class="icone-links">
                     <i class="fa-solid fa-computer"></i>
                     <p>Máquinas</p>
                 </a>
+
                 <a href="../Dashboard/perfil.html" class="icone-links">
                     <i class="fa-solid fa-user"></i>
                     <p>Perfil</p>
                 </a>
+
                 <button onclick="sairDaPagina()" class="icone-links">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <p>Sair</p>
@@ -89,9 +96,9 @@
                 <i class="fa-solid fa-bell"></i>
                 <i class="fa-solid fa-envelope"></i>
                 <div class="profile-icone">
-                    <a href="perfil.html">
+                    <a href="../../perfil.html">
                         <div class="profile-img">
-                            <img id="imgPerfil" src="imgs/profile-default.webp">
+                            <img id="imgPerfil" src="../../imgs/profile-default.webp" alt="Foto de perfil">
                         </div>
                         <p id="nome-usuario-pagina"></p>
                     </a>
@@ -102,16 +109,13 @@
                     <div class="texto-titulo-nome-empresa-especifico">
                         <p>Escola Joaquim 3°</p>
                     </div>
+
                     <div class="texto-titulo-dashboard">
-                        <p>Desempenho Diário -</p>
+                        <p>Desempenho semestral</p>
                         <p id="dataHora"></p>
                     </div>
+
                     <div class="selects-escolha-maquina">
-                        <select id="escolha-sala">
-                        </select>
-                        <select id="escolha-maquina">
-                            <option value="">Máquinas</option>
-                        </select>
                     </div>
                 </div>
                 <div class="area-kpis">
@@ -123,13 +127,14 @@
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p id="kpiStatusMaquinaEscola"></p>
+                                <p id="kpiAelrtasCriticos"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Estado da Máquina</p>
+                                <p>Alertas Críticos</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="kpi" id="kpi-taxa-uptime">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
@@ -141,10 +146,11 @@
                                 <p id="kpiUptimeMaquinaSala"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Taxa de Uptime</p>
+                                <p>Alertas em Atenção</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="kpi" id="kpi-alerta-critica">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
@@ -156,10 +162,11 @@
                                 <p id="kpiTaxaMaisCriticaMaquina"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Taxa Mais Crítica</p>
+                                <p>Componente mais Crítico</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="kpi" id="kpi-qtd-alertas-hoje">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
@@ -171,7 +178,7 @@
                                 <p id="kpiQtdAlertasMaquinaSala"></p>
                             </div>
                             <div class="titulo-kpi">
-                                <p>Alertas Hoje</p>
+                                <p>Mês mais Crítico</p>
                             </div>
                         </div>
                     </div>
@@ -180,73 +187,40 @@
                     <div class="painel-graficos">
                         <div class="monitoramento-componentes">
                             <div class="titulo-monitoramento-dia">
-                                <p>Monitoramento dos Componentes</p>
-
-                                <div class="parametros">
-                                    <div class="param">
-                                        <div class="quadrado-verde"></div>
-                                        <p>Estável</p>
-                                    </div>
-                                    <div class="param">
-                                        <div class="quadrado-amarelo"></div>
-                                        <p>Atenção</p>
-                                    </div>
-
-                                    <div class="param">
-                                        <div class="quadrado-vermelho"></div>
-                                        <p>Crítico</p>
-                                    </div>
-                                </div>
-                                <select id="componente-grafico" onchange="trocarComponente()">
-                                </select>
+                                <p>Quantidade de Alertas Críticos</p>
                             </div>
+
                             <div class="grafico-monitoramento">
                                 <canvas id="monitoramento-componente"></canvas>
                             </div>
                         </div>
+
                         <div class="rede-e-disponibilidade">
                             <div class="monitoramento-rede">
                                 <div class="titulo-grafico-rede">
-                                    <p>Velocidade de Download</p>
-                                    <select id="componente-grafico-rede" onchange="trocarComponenteRede()">
-                                    </select>
+                                    <p>Quantidade de Alertas em Atenção</p>
                                 </div>
                                 <div class="grafico-rede">
                                     <canvas id="monitoramento-rede"></canvas>
                                 </div>
                             </div>
-                            <div class="disponibilidade-maquina">
-                                <div class="titulo-disponibilidade-maquina">
-                                    <p>Disponibilidade da Máquina</p>
-                                </div>
-                                <div class="grafico-disponibilidade-maquina">
-                                    <canvas id="disponibilidade-maquina"></canvas>
-                                </div>
-                            </div>
                         </div>
                     </div>
+
                     <div class="alertas-e-falhas">
                         <div class="ultimos-alertas">
                             <div class="titulo-alertas-maquina">
-                                <p>Últimos Alertas</p>
+                                <p>Comparação de Alertas</p>
                             </div>
-                            <div id="alertasMaquina">
-
-                            </div>
-                        </div>
-                        <div class="falhas-por-componente">
-                            <div class="titulo-falhas-por-componente">
-                                <p>Falhas por Componente</p>
-                            </div>
-                            <div class="grafico-falhas-por-componente">
-                                <canvas id="falhas-por-componente"></canvas>
+                            <div class="grafico-comparacao-alertas">
+                                <canvas id="grafico-comparacao-alertas"></canvas>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> 
+            </div> 
         </div>
-    </div>
-    <script src="js/dashboard_especifica.js"></script>
+    </div> 
+    <script src="./Joao.js"></script>
 </body>
 </html>

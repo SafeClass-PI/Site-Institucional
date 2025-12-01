@@ -1,7 +1,7 @@
 var database = require("../../../../../src/databases/config.js");
 
 function buscarTotalAlertasCriticos() {
-    var instrucaoSql = `     SELECT 
+    var instrucaoSql = `   SELECT 
             COUNT(*) AS totalCriticos
         FROM Alerta a
         JOIN Parametro p 
@@ -29,7 +29,7 @@ function buscarTotalAlertasModerados() {
     return database.executar(instrucaoSql);
 }
 
-// Comparação (críticos x moderados) – útil pra pizza
+
 function buscarComparacaoAlertas() {
     var instrucaoSql = `SELECT
             SUM(CASE WHEN p.nivel = 'Crítico' THEN 1 ELSE 0 END) AS totalCriticos,
@@ -40,11 +40,35 @@ function buscarComparacaoAlertas() {
         
     `;
     console.log("Executando buscarComparacaoAlertas:\n", instrucaoSql);
+    return database.executar(instrucaoSql);}
+
+    function buscarComponenteMaisCritico() {
+    var instrucaoSql = `
+       SELECT 
+            comp.idComponente,
+            comp.nome AS nomeComponente,
+            COUNT(*) AS totalAlertasCriticos
+        FROM Alerta a
+        JOIN Parametro p
+            ON a.fkParametro = p.idParametro
+        JOIN Componente comp
+            ON p.fkComponente = comp.idComponente
+        WHERE 
+            p.nivel = 'Crítico'
+        GROUP BY 
+            comp.idComponente, comp.nome
+        ORDER BY 
+            totalAlertasCriticos DESC
+        LIMIT 1;
+    `;
+    console.log("Executando buscarMaquinaMaisCritica:\n", instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
 
 module.exports = {
     buscarTotalAlertasCriticos,
     buscarTotalAlertasModerados,
-    buscarComparacaoAlertas
+    buscarComparacaoAlertas,
+    buscarComponenteMaisCritico
 };

@@ -8,4 +8,6 @@ router.get("/alertas/moderados", joaoController.buscarTotalAlertasModerados);
 
 router.get("/alertas/comparacao", joaoController.buscarComparacaoAlertas);
 
+router.get("/alertas/componente-mais-critico", joaoController.buscarComponenteMaisCritico);
+
 module.exports = router;

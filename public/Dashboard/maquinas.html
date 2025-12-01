@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/usuarios.css">
-            <link rel="icon" href="./imgs/logoIconSafeClass.png" type="image/png">
+    <link rel="icon" href="./imgs/logoIconSafeClass.png" type="image/png">
 
     <link rel="stylesheet" href="css/maquinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -385,7 +385,7 @@
 
             if (!idMaquina) return alert("Selecione uma máquina para desligar!");
 
-            fetch("http://54.204.112.127:5000/desligar", {
+            fetch("http://54.204.112.127:5000/desligar", {  // <-- PORTA CORRETA AQUI!
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ idMaquina: idMaquina })
@@ -396,14 +396,14 @@
                 })
                 .then(json => {
                     alert(json.mensagem);
-                    carregarMaquinas();
+                    carregarMaquinas(); // Atualiza o status na tela
                 })
                 .catch(err => {
                     console.error(err);
                     alert("Erro ao desligar a máquina.");
                 });
         }
-
+        
         function abrirModalDesligarMaquinas() {
             carregarMaquinas(); // carrega as máquinas no select
             document.getElementById("modalDesligarMaquinas").style.display = "block";
