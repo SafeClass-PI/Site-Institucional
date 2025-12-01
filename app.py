@@ -26,7 +26,7 @@ def get_db_connection():
     )
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # rota para desligar máquina
 @app.route('/desligar', methods=['POST'])
@@ -36,7 +36,7 @@ def desligar():
 
     conexao = get_db_connection()
     cursor = conexao.cursor(dictionary=True)
-    cursor.execute("SELECT ip, username, senha, sistemaOperacional FROM Maquina WHERE idMaquina = %s", (id_maquina,))
+    cursor.execute("SELECT ip, username, senha, sistemaOperacional FROM maquina WHERE idMaquina = %s", (id_maquina,))
     maquina = cursor.fetchone()
     cursor.close()
     conexao.close()
@@ -68,7 +68,7 @@ def desligar():
         # Atualiza status no banco
         conexao = get_db_connection()
         cursor = conexao.cursor()
-        cursor.execute("UPDATE Maquina SET estado = %s WHERE idMaquina = %s", ("desligada", id_maquina))
+        cursor.execute("UPDATE maquina SET estado = %s WHERE idMaquina = %s", ("desligada", id_maquina))
         conexao.commit()
         cursor.close()
         conexao.close()
