@@ -76,12 +76,15 @@ def desligar():
         return jsonify({"status": "ok", "mensagem": f"{ip} desligada com sucesso!"})
 
     except Exception as e:
+        print("\n================= ERRO NO DESLIGAMENTO =================")
+        print(e)
+        print("=========================================================\n")
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
 
 if __name__ == '__main__':
     app.run(
-        host=os.getenv("APP_HOST", "0.0.0.0"),  # pega do env ou usa padrão
-        port=os.getenv("APP_PORT", 5000),
+        host=os.getenv("APP_HOST", "0.0.0.0"), 
+        port=int(os.getenv("APP_PORT_PYTHON", 5000)),  
         debug=True
     )
