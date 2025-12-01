@@ -2,10 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
     criarGraficoAlertasCriticos();
     criarGraficoAlertasModerados();
     criarGraficoPizzaAlertas();
+    carregarKpisAlertas();
 });
 
+// ================== PERFIL / NOME USUÁRIO ==================
+
 var usuario = document.getElementById('nome-usuario-pagina');
-usuario.innerText = sessionStorage.NOME_USUARIO;
+if (usuario) {
+    usuario.innerText = sessionStorage.NOME_USUARIO || "Usuário";
+}
 
 var imgPerfil = document.getElementById('imgPerfil');
 
@@ -16,6 +21,8 @@ if (imgPerfil) {
         imgPerfil.src = '../../imgs/profile-default.webp';
     }
 }
+
+// ================== CONFIG GERAIS GRÁFICOS ==================
 
 const labelsMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
 
@@ -52,7 +59,8 @@ function criarOpcoesBase(tituloY) {
     };
 }
 
-// --------- GRÁFICO 1 – Alertas Críticos ---------
+// ================== GRÁFICO 1 – Alertas Críticos (mock) ==================
+
 function criarGraficoAlertasCriticos() {
     const canvas = document.getElementById('monitoramento-componente');
     if (!canvas) return;
@@ -82,7 +90,8 @@ function criarGraficoAlertasCriticos() {
     });
 }
 
-// --------- GRÁFICO 2 – Alertas Moderados ---------
+// ================== GRÁFICO 2 – Alertas em Atenção (mock) ==================
+
 function criarGraficoAlertasModerados() {
     const canvas = document.getElementById('monitoramento-rede');
     if (!canvas) return;
@@ -97,7 +106,7 @@ function criarGraficoAlertasModerados() {
         data: {
             labels: labelsMeses,
             datasets: [{
-                label: 'Alertas Moderados',
+                label: 'Alertas em Atenção',
                 data: [3, 5, 4, 7, 4, 5], 
                 tension: 0.4,
                 fill: false,
@@ -108,13 +117,13 @@ function criarGraficoAlertasModerados() {
                 pointHoverRadius: 6
             }]
         },
-        options: criarOpcoesBase('Qtd de Alertas Moderados')
+        options: criarOpcoesBase('Qtd de Alertas em Atenção')
     });
 }
 
-// --------- GRÁFICO 3 – Pizza: Comparação de Alertas (API) ---------
+// ================== GRÁFICO 3 – Pizza: Comparação de Alertas (API) ==================
+
 async function criarGraficoPizzaAlertas() {
-    // AGORA PEGANDO O MESMO ID QUE ESTÁ NO HTML
     const canvas = document.getElementById('grafico-comparacao-alertas');
     if (!canvas) return;
 
@@ -126,20 +135,21 @@ async function criarGraficoPizzaAlertas() {
 
     try {
         const resposta = await fetch("/api/joao/alertas/comparacao");
+        console.log("Status /alertas/comparacao:", resposta.status);
 
         if (!resposta.ok) {
             throw new Error("Resposta HTTP não OK: " + resposta.status);
         }
 
         const dados = await resposta.json();
-        console.log("Comparação de alertas vinda da API:", dados);
+        console.log("Dados comparação de alertas:", dados);
 
+        
         totalCriticos = dados.totalCriticos || 0;
         totalModerados = dados.totalModerados || 0;
 
     } catch (erro) {
         console.error("Erro ao carregar comparação de alertas:", erro);
-        // mock se der erro
         totalCriticos = 5;
         totalModerados = 3;
     }
@@ -149,13 +159,13 @@ async function criarGraficoPizzaAlertas() {
     new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Alertas Moderados', 'Alertas Críticos'],
+            labels: ['Alertas em Atenção', 'Alertas Críticos'],
             datasets: [{
                 label: 'Comparação de Alertas',
                 data: [totalModerados, totalCriticos],
                 backgroundColor: [
-                    'rgba(255, 214, 48, 0.7)', // moderados
-                    'rgba(234, 3, 3, 0.7)'     // críticos
+                    'rgba(255, 214, 48, 0.7)', 
+                    'rgba(234, 3, 3, 0.7)' 
                 ],
                 borderColor: [
                     'rgba(255, 214, 48, 1)',
@@ -175,6 +185,8 @@ async function criarGraficoPizzaAlertas() {
         }
     });
 }
+
+
 
 function sairDaPagina() {
     modalLogout.style.display = 'flex';
@@ -204,3 +216,64 @@ dropdowns.forEach(drop => {
 window.addEventListener('click', () => {
     dropdowns.forEach(drop => drop.classList.remove('active'));
 });
+
+// KPIs 
+
+async function carregarKpisAlertas() {
+    const kpiCriticos  = document.getElementById("kpiAelrtasCriticos");
+    const kpiModerados = document.getElementById("kpiUptimeMaquinaSala");
+    const kpiCompMais  = document.getElementById("kpiTaxaMaisCriticaMaquina");
+
+    // 1) Totais de críticos e em atenção
+    try {
+        // Críticos 
+        const respCriticos = await fetch("/api/joao/alertas/criticos");
+        console.log("HTTP /alertas/criticos status:", respCriticos.status);
+        const dadosCriticos = await respCriticos.json();
+        console.log("JSON /alertas/criticos:", dadosCriticos);
+
+        const totalCriticos = dadosCriticos.totalCriticos || 0;
+        if (kpiCriticos) kpiCriticos.textContent = totalCriticos;
+
+        // Moderados (atenção) 
+        const respModerados = await fetch("/api/joao/alertas/moderados");
+        console.log("HTTP /alertas/moderados status:", respModerados.status);
+        const dadosModerados = await respModerados.json();
+        console.log("JSON /alertas/moderados:", dadosModerados);
+
+        const totalModerados = dadosModerados.totalModerados || 0;
+        if (kpiModerados) kpiModerados.textContent = totalModerados;
+
+        console.log("KPIs Crit/Atenção atualizadas:", { totalCriticos, totalModerados });
+
+    } catch (erro) {
+        console.error("Erro ao carregar totais de críticos/atenção:", erro);
+        if (kpiCriticos)  kpiCriticos.textContent  = "-";
+        if (kpiModerados) kpiModerados.textContent = "-";
+    }
+
+    //  2 Componente mais crítico 
+    try {
+        const respComponente = await fetch("/api/joao/alertas/componente-mais-critico");
+        console.log("HTTP /alertas/componente-mais-critico status:", respComponente.status);
+        const dadosComponente = await respComponente.json();
+        console.log("JSON /alertas/componente-mais-critico:", dadosComponente);
+
+        const nomeComponenteMaisCritico = dadosComponente.nomeComponente || "Sem dados";
+        const qtdAlertasComponente      = dadosComponente.totalAlertasCriticos || 0;
+
+        if (kpiCompMais) {
+           
+            kpiCompMais.textContent = `${nomeComponenteMaisCritico} Alertas :(${qtdAlertasComponente})`;
+        }
+
+        console.log("KPI Componente mais crítico atualizada:", {
+            nomeComponenteMaisCritico,
+            qtdAlertasComponente
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar componente mais crítico:", erro);
+        if (kpiCompMais) kpiCompMais.textContent = "Sem dados";
+    }
+}
