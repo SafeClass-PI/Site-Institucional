@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     criarGraficoAlertasModerados();
     criarGraficoPizzaAlertas();
     carregarKpisAlertas();
+    carregarKpiMesMaisCritico();
 });
 
 // ================== PERFIL / NOME USUÁRIO ==================
@@ -61,66 +62,97 @@ function criarOpcoesBase(tituloY) {
 
 // ================== GRÁFICO 1 – Alertas Críticos (mock) ==================
 
-function criarGraficoAlertasCriticos() {
+async function criarGraficoAlertasCriticos() {
     const canvas = document.getElementById('monitoramento-componente');
     if (!canvas) return;
 
     canvas.style.width = '100%';
     canvas.height = 300;
 
-    const ctx = canvas.getContext('2d');
+    let labels = [];
+    let dados = [];
 
+    try {
+        const resposta = await fetch("/api/joao/alertas/criticos-mensais");
+        const resultados = await resposta.json();
+
+        resultados.forEach(item => {
+            const [ano, mes] = item.mes.split("-");
+            const nomesMes = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+            labels.push(`${nomesMes[Number(mes)-1]}/${ano}`);
+            dados.push(item.total);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar alertas críticos mensais:", erro);
+        labels = ['Jan','Fev','Mar','Abr','Mai','Jun'];
+        dados = [0,0,0,0,0,0];
+    }
+
+    const ctx = canvas.getContext('2d');
     new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: labelsMeses,
-            datasets: [{
-                label: 'Alertas Críticos',
-                data: [2, 6, 3, 8, 4, 7], // mock por enquanto
-                tension: 0.4,
-                fill: false,
-                borderWidth: 3,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                pointRadius: 4,
-                pointHoverRadius: 6
-            }]
-        },
+        data: { labels, datasets: [{
+            label: 'Alertas Críticos',
+            data: dados,
+            tension: 0.4,
+            fill: false,
+            borderWidth: 3,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }]},
         options: criarOpcoesBase('Qtd de Alertas Críticos')
     });
 }
 
 // ================== GRÁFICO 2 – Alertas em Atenção (mock) ==================
 
-function criarGraficoAlertasModerados() {
+async function criarGraficoAlertasModerados() {
     const canvas = document.getElementById('monitoramento-rede');
     if (!canvas) return;
 
     canvas.style.width = '100%';
     canvas.height = 300;
 
-    const ctx = canvas.getContext('2d');
+    let labels = [];
+    let dados = [];
 
+    try {
+        const resposta = await fetch("/api/joao/alertas/moderados-mensais");
+        const resultados = await resposta.json();
+
+        resultados.forEach(item => {
+            const [ano, mes] = item.mes.split("-");
+            const nomesMes = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+            labels.push(`${nomesMes[Number(mes)-1]}/${ano}`);
+            dados.push(item.total);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar alertas moderados mensais:", erro);
+        labels = ['Jan','Fev','Mar','Abr','Mai','Jun'];
+        dados = [0,0,0,0,0,0];
+    }
+
+    const ctx = canvas.getContext('2d');
     new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: labelsMeses,
-            datasets: [{
-                label: 'Alertas em Atenção',
-                data: [3, 5, 4, 7, 4, 5], 
-                tension: 0.4,
-                fill: false,
-                borderWidth: 3,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                pointRadius: 4,
-                pointHoverRadius: 6
-            }]
-        },
+        data: { labels, datasets: [{
+            label: 'Alertas em Atenção',
+            data: dados,
+            tension: 0.4,
+            fill: false,
+            borderWidth: 3,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }]},
         options: criarOpcoesBase('Qtd de Alertas em Atenção')
     });
 }
-
 // ================== GRÁFICO 3 – Pizza: Comparação de Alertas (API) ==================
 
 async function criarGraficoPizzaAlertas() {
@@ -264,7 +296,7 @@ async function carregarKpisAlertas() {
 
         if (kpiCompMais) {
            
-            kpiCompMais.textContent = `${nomeComponenteMaisCritico} Alertas :(${qtdAlertasComponente})`;
+            kpiCompMais.textContent = `${nomeComponenteMaisCritico}`;
         }
 
         console.log("KPI Componente mais crítico atualizada:", {
@@ -275,5 +307,45 @@ async function carregarKpisAlertas() {
     } catch (erro) {
         console.error("Erro ao carregar componente mais crítico:", erro);
         if (kpiCompMais) kpiCompMais.textContent = "Sem dados";
+    }
+}
+async function carregarKpiMesMaisCritico() {
+    const kpiMesCritico = document.getElementById("kpiMesMaisCritico");
+    if (!kpiMesCritico) {
+        console.warn("Elemento #kpiMesMaisCritico não encontrado no HTML.");
+        return;
+    }
+
+    try {
+        const resposta = await fetch("/api/joao/alertas/mes-mais-critico");
+
+        if (!resposta.ok) {
+            throw new Error("Resposta HTTP não OK: " + resposta.status);
+        }
+
+        const dados = await resposta.json();
+        console.log("JSON /alertas/mes-mais-critico:", dados);
+
+        if (!dados || !dados.mes) {
+            kpiMesCritico.textContent = "Sem dados";
+            return;
+        }
+
+      
+        const [ano, mesNumero] = dados.mes.split("-");
+        const nomesMes = [
+            "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+            "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+        ];
+        const mesIndex = Number(mesNumero) - 1;
+        const mesNome = nomesMes[mesIndex] || dados.mes;
+
+        const total = dados.totalAlertasCriticos || 0;
+
+        kpiMesCritico.textContent = `${mesNome}/${ano} (${total} alertas)`;
+
+    } catch (erro) {
+        console.error("Erro ao carregar KPI de mês mais crítico:", erro);
+        kpiMesCritico.textContent = "Erro";
     }
 }

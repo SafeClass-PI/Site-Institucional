@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <div class="overlay" id="telaOverlay"></div>
 
@@ -122,7 +124,7 @@
                     <div class="kpi" id="desempenho-maquina">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi" id="iconeStatusMaquina">
-                                <i class="fa-solid fa-circle-check"></i>
+                                <i class="fa-solid fa-circle-exclamation"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -138,7 +140,7 @@
                     <div class="kpi" id="kpi-taxa-uptime">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-circle-up"></i>
+                                <i class="fa-solid fa-circle-exclamation"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -154,7 +156,7 @@
                     <div class="kpi" id="kpi-alerta-critica">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-microchip"></i>
+                                <i class="fa-solid fa-computer"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
@@ -170,12 +172,12 @@
                     <div class="kpi" id="kpi-qtd-alertas-hoje">
                         <div class="espaco-icone-kpi">
                             <div class="icone-kpi">
-                                <i class="fa-solid fa-bell"></i>
+                                <i class="fa-regular fa-calendar-days"></i>
                             </div>
                         </div>
                         <div class="infos-kpi">
                             <div class="dado-kpi">
-                                <p id="kpiQtdAlertasMaquinaSala"></p>
+                                <p id="kpiMesMaisCritico"></p>
                             </div>
                             <div class="titulo-kpi">
                                 <p>Mês mais Crítico</p>
@@ -217,10 +219,11 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-            </div> 
+                </div>
+            </div>
         </div>
-    </div> 
+    </div>
     <script src="./Joao.js"></script>
 </body>
+
 </html>

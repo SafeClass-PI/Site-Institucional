@@ -5,7 +5,6 @@ function buscarTotalAlertasCriticos(req, res) {
         .then(resultado => {
             console.log("Resultado bruto - buscarTotalAlertasCriticos:", resultado);
 
-            // resultado deve ser algo como [ { totalCriticos: 2 } ]
             const linha = resultado[0] || { totalCriticos: 0 };
             console.log("Linha enviada para o front (criticos):", linha);
 
@@ -73,9 +72,43 @@ function buscarComponenteMaisCritico(req, res) {
         });
 }
 
+// >>> NOVO <<<
+function buscarMesMaisCritico(req, res) {
+    joaoModel.buscarMesMaisCritico()
+        .then((resultado) => {
+            console.log("Resultado bruto - buscarMesMaisCritico:", resultado);
+
+            if (resultado.length > 0) {
+                console.log("Linha enviada para o front (mes mais crítico):", resultado[0]);
+                res.status(200).json(resultado[0]); // { mes: '2025-09', totalAlertasCriticos: 12 }
+            } else {
+                console.log("Nenhum mês crítico encontrado.");
+                res.status(204).send(); // sem conteúdo
+            }
+        })
+        .catch((erro) => {
+            console.error("Erro ao buscar mês mais crítico:", erro);
+            res.status(500).json({ erro: erro.sqlMessage || erro });
+        });
+}
+function buscarAlertasCriticosMensais(req, res) {
+    joaoModel.buscarAlertasCriticosMensais()
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => res.status(500).json({ erro: erro.sqlMessage }));
+}
+
+function buscarAlertasModeradosMensais(req, res) {
+    joaoModel.buscarAlertasModeradosMensais()
+        .then(resultado => res.status(200).json(resultado))
+        .catch(erro => res.status(500).json({ erro: erro.sqlMessage }));
+}
+
 module.exports = {
     buscarTotalAlertasCriticos,
     buscarTotalAlertasModerados,
     buscarComparacaoAlertas,
-    buscarComponenteMaisCritico
+    buscarComponenteMaisCritico,
+    buscarMesMaisCritico ,
+    buscarAlertasCriticosMensais,
+    buscarAlertasModeradosMensais
 };

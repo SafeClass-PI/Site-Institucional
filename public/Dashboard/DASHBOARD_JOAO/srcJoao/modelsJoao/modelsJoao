@@ -64,11 +64,62 @@ function buscarComparacaoAlertas() {
     console.log("Executando buscarMaquinaMaisCritica:\n", instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function buscarMesMaisCritico() {
+    var instrucaoSql = `
+        SELECT 
+            DATE_FORMAT(c.dtCaptura, '%Y-%m') AS mes,
+            COUNT(a.idAlerta) AS totalAlertasCriticos
+        FROM Alerta a
+        JOIN Parametro p 
+            ON a.fkParametro = p.idParametro
+        JOIN Captura c
+            ON a.fkCaptura = c.idCaptura
+        WHERE 
+            p.nivel = 'Crítico'
+        GROUP BY 
+            DATE_FORMAT(c.dtCaptura, '%Y-%m')
+        ORDER BY 
+            totalAlertasCriticos DESC
+        LIMIT 1;
+    `;
+    console.log("Executando buscarMesMaisCritico:\n", instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+function buscarAlertasCriticosMensais() {
+    var instrucaoSql = `
+        SELECT DATE_FORMAT(c.dtCaptura, '%Y-%m') AS mes,
+               COUNT(a.idAlerta) AS total
+        FROM Alerta a
+        JOIN Parametro p ON a.fkParametro = p.idParametro
+        JOIN Captura c ON a.fkCaptura = c.idCaptura
+        WHERE p.nivel = 'Crítico'
+        GROUP BY DATE_FORMAT(c.dtCaptura, '%Y-%m')
+        ORDER BY mes;
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function buscarAlertasModeradosMensais() {
+    var instrucaoSql = `
+        SELECT DATE_FORMAT(c.dtCaptura, '%Y-%m') AS mes,
+               COUNT(a.idAlerta) AS total
+        FROM Alerta a
+        JOIN Parametro p ON a.fkParametro = p.idParametro
+        JOIN Captura c ON a.fkCaptura = c.idCaptura
+        WHERE p.nivel = 'Atenção'
+        GROUP BY DATE_FORMAT(c.dtCaptura, '%Y-%m')
+        ORDER BY mes;
+    `;
+    return database.executar(instrucaoSql);
+}
 
 
 module.exports = {
     buscarTotalAlertasCriticos,
     buscarTotalAlertasModerados,
     buscarComparacaoAlertas,
-    buscarComponenteMaisCritico
+    buscarComponenteMaisCritico,
+    buscarMesMaisCritico,
+    buscarAlertasCriticosMensais,
+    buscarAlertasModeradosMensais
 };
