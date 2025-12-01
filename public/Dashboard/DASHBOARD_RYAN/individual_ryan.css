@@ -1600,11 +1600,11 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    top: 51%;
+    top: 49%;
     left: 32%;
     transform: translate(-50%, -50%);
-    width: 23%;
-    height: 25%;
+    width: 20%;
+    height: 20%;
     background-color: var(--cor-branco);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);

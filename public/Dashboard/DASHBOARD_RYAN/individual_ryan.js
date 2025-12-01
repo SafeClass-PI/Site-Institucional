@@ -270,8 +270,6 @@ function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
     alerta.classList.add("show");
 }
 
-// ---------------------- GRÁFICOS ---------------------------------------
-
 let proximaAtualizacao = null;
 let myChart = null;
 
@@ -589,7 +587,7 @@ async function listarMaquinasEstados(idSala) {
     }
 }
 
-// ---------------------- IRRELEVANTES ----------------------------------
+// ---------------------- CAPRICHOS DA PÁGINA ----------------------------------
 
 function sairDaPagina() {
     modalLogout.style.display = 'flex';
