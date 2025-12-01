@@ -385,7 +385,7 @@
 
     if (!idMaquina) return alert("Selecione uma máquina para desligar!");
 
-    fetch("http://localhost:5000/desligar", {  // <-- PORTA CORRETA AQUI!
+    fetch("http://54.204.112.127:5000/desligar", {  // <-- PORTA CORRETA AQUI!
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idMaquina: idMaquina })
