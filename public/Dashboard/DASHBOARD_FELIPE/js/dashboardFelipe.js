@@ -362,7 +362,7 @@ async function carregarMaquinasPorSala(salaId) {
 
     selectMaquina.disabled = false;
 
-    a
+    
     maquinas.forEach(m => {
       const option = document.createElement('option');
       option.value = m.idMaquina;
