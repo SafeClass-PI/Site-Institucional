@@ -385,7 +385,7 @@
 
             if (!idMaquina) return alert("Selecione uma máquina para desligar!");
 
-            fetch("http://54.204.112.127:5000/desligar", {  // <-- PORTA CORRETA AQUI!
+            fetch("http://54.204.112.127:5000/desligar", {  
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ idMaquina: idMaquina })
@@ -396,16 +396,16 @@
                 })
                 .then(json => {
                     alert(json.mensagem);
-                    carregarMaquinas(); // Atualiza o status na tela
+                    carregarMaquinas(); 
                 })
                 .catch(err => {
                     console.error(err);
                     alert("Erro ao desligar a máquina.");
                 });
         }
-        
+
         function abrirModalDesligarMaquinas() {
-            carregarMaquinas(); // carrega as máquinas no select
+            carregarMaquinas(); 
             document.getElementById("modalDesligarMaquinas").style.display = "block";
         }
 
