@@ -379,30 +379,31 @@
                 });
         }
 
-        function desligarMaquinaSelecionada() {
-            const select = document.getElementById("selectMaquina");
-            const idMaquina = select.value;
+      function desligarMaquinaSelecionada() {
+    const select = document.getElementById("selectMaquina");
+    const idMaquina = select.value;
 
-            if (!idMaquina) return alert("Selecione uma máquina para desligar!");
+    if (!idMaquina) return alert("Selecione uma máquina para desligar!");
 
-            fetch("http://localhost:5000/desligar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ idMaquina: idMaquina })
-            })
-                .then(res => {
-                    if (!res.ok) throw "Erro ao desligar!";
-                    return res.json();
-                })
-                .then(json => {
-                    alert(json.mensagem);
-                    carregarMaquinas();
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Erro ao desligar a máquina.");
-                });
-        }
+    fetch("http://54.204.112.127:5000/desligar", {  // <-- PORTA CORRETA AQUI!
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idMaquina: idMaquina })
+    })
+        .then(res => {
+            if (!res.ok) throw "Erro ao desligar!";
+            return res.json();
+        })
+        .then(json => {
+            alert(json.mensagem);
+            carregarMaquinas(); // Atualiza o status na tela
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Erro ao desligar a máquina.");
+        });
+}
+
 
         function abrirModalDesligarMaquinas() {
             carregarMaquinas(); // carrega as máquinas no select
