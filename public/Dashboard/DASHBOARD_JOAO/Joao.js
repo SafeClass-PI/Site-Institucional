@@ -19,7 +19,7 @@ if (imgPerfil) {
     if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
         imgPerfil.src = `../../../uploads/${sessionStorage.IMAGEM_USUARIO}`;
     } else {
-        imgPerfil.src = '../../imgs/profile-default.webp';
+        imgPerfil.src = '../imgs/profile-default.webp';
     }
 }
 
