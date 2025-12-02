@@ -34,11 +34,40 @@ async function graficoUptime() {
       data: {
         labels,
         datasets: [
-          { label: 'Uptime', data: uptime, backgroundColor: '#3b82f6', stack: 'stack' },
-          { label: 'Downtime', data: downtime, backgroundColor: '#ef4444', stack: 'stack' }
+          {
+            label: 'Uptime',
+            data: uptime,
+            backgroundColor: 'rgba(34, 197, 94, 0.8)',
+            borderColor: 'rgba(22, 163, 74, 1)',
+            borderWidth: 1,
+            borderRadius: 6,
+            stack: 'stack'
+          },
+          {
+            label: 'Downtime',
+            data: downtime,
+            backgroundColor: 'rgba(239, 68, 68, 0.8)',
+            borderColor: 'rgba(220, 38, 38, 1)',
+            borderWidth: 1,
+            borderRadius: 6,
+            stack: 'stack'
+          }
         ]
       },
-      options: { scales: { y: { beginAtZero: true, max: 100, stacked: true }, x: { stacked: true } } }
+      options: {
+        scales:
+        { y:
+          {
+            beginAtZero: true,
+            max: 100,
+            stacked: true
+          },
+          x:
+          {
+            stacked: true
+          }
+        }
+      }
     });
   } catch (e) {}
 }
@@ -48,12 +77,44 @@ async function graficoAlertasMes() {
     const dados = await fetchJSON('/api/matheus/alertasPorMesSemestral');
     const labels = mesesLabel(dados, 'mes');
     const valores = dados.map(d => d.qtdAlertas);
+    const max = Math.max(0, ...valores);
+    const suggestedMax = max < 10 ? 10 : Math.ceil(max / 10) * 10;
     const ctx = document.getElementById('chart-alertas').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: { labels, datasets: [{ label: 'Alertas', data: valores, backgroundColor: '#6b7280' }] },
-      options: { scales: { y: { beginAtZero: true } } }
-    });
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Alertas',
+          data: valores,
+          backgroundColor: 'rgba(255, 122, 0, 0.8)',
+          borderColor: 'rgba(211, 84, 0, 1)',
+          borderWidth: 1,
+          borderRadius: 6,
+          maxBarThickness: 36
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax,
+          ticks: { stepSize: 1, callback: v => v, color: '#383838' },
+          grid: { color: 'rgba(0,0,0,0.06)' }
+        },
+        x: {
+          ticks: { color: '#6b7280' },
+          grid: { display: false }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${Math.round(c.parsed.y)}` } }
+      }
+    }
+  });
   } catch (e) {}
 }
 
@@ -62,12 +123,49 @@ async function graficoSalasMaisAlertas() {
     const dados = await fetchJSON('/api/matheus/salasMaisAlertasSemestral');
     const labels = dados.map(d => d.sala);
     const valores = dados.map(d => d.qtdAlertas);
+    const max = Math.max(0, ...valores);
+    const suggestedMax = max < 10 ? 10 : Math.ceil(max / 10) * 10;
     const ctx = document.getElementById('chart-salas').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: { labels, datasets: [{ label: 'Alertas', data: valores, backgroundColor: '#1f2937' }] },
-      options: { scales: { y: { beginAtZero: true } } }
-    });
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Alertas',
+          data: valores,
+          backgroundColor: 'rgba(75, 192, 192, 0.8)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          borderRadius: 6,
+          barThickness: 52,
+          maxBarThickness: 72,
+          categoryPercentage: 0.95,
+          barPercentage: 1.0
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          beginAtZero: true,
+          suggestedMax,
+          ticks: { stepSize: 1, callback: v => v, color: '#383838' },
+          grid: { color: 'rgba(0,0,0,0.06)' }
+        },
+        y: {
+          ticks: { autoSkip: false, color: '#6b7280' },
+          grid: { display: false }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${Math.round(c.parsed.x)}` } }
+      }
+    }
+  });
   } catch (e) {}
 }
 
