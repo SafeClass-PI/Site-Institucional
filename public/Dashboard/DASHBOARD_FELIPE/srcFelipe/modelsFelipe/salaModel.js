@@ -38,8 +38,10 @@ async function buscarMaquinaCritica(idSala) {
     JOIN componente c ON m.idMaquina = c.fkMaquina
     JOIN captura cap ON c.idComponente = cap.fkComponente
     JOIN alerta a ON a.fkCaptura = cap.idCaptura
+    JOIN parametro p ON a.fkParametro = p.idParametro
     WHERE m.fkSala = ${idSala}
       AND c.nome = 'CPU'
+      AND p.nivel = 'Crítico'
     GROUP BY m.idMaquina
     ORDER BY totalFalhas DESC
     LIMIT 1;
@@ -47,6 +49,7 @@ async function buscarMaquinaCritica(idSala) {
   const resultado = await database.executar(sql);
   return resultado.length > 0 ? resultado[0] : { idMaquina: null, totalFalhas: 0 };
 }
+
 
 async function buscarEvolucaoCPU(idSala, idMaquina) {
   const sql = `
@@ -63,18 +66,21 @@ async function buscarEvolucaoCPU(idSala, idMaquina) {
 
 async function buscarRankingPorSala(idSala) {
   const sql = `
-    SELECT m.idMaquina AS maquina, COUNT(a.idAlerta) AS falhas
-    FROM maquina m
-    JOIN componente c ON m.idMaquina = c.fkMaquina
-    JOIN captura cap ON c.idComponente = cap.fkComponente
-    JOIN alerta a ON a.fkCaptura = cap.idCaptura
-    WHERE m.fkSala = ${idSala}
-      AND c.nome = 'CPU'
-    GROUP BY m.idMaquina
-    ORDER BY falhas DESC;
+    select m.idmaquina as maquina, count(a.idalerta) as falhas
+    from maquina m
+    join componente c on m.idmaquina = c.fkmaquina
+    join captura cap on c.idcomponente = cap.fkcomponente
+    join alerta a on a.fkcaptura = cap.idcaptura
+    join parametro p on a.fkparametro = p.idparametro
+    where m.fksala = ${idSala}
+      and c.nome = 'cpu'
+      and p.nivel = 'crítico'
+    group by m.idmaquina
+    order by falhas desc;
   `;
   return await database.executar(sql);
 }
+
 
 async function obterDadosSala(salaId, data) {
   const maquinaCritica = await buscarMaquinaCritica(salaId);

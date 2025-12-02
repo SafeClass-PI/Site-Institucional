@@ -313,7 +313,7 @@ const icone = alerta.nivel === 'Crítico' ? 'fa-solid fa-circle-exclamation' : '
 card.innerHTML = `
   <div style="display: flex; flex-direction: column; gap: 2px; font-size: 12px; padding: 4px;">
     <div style="display: flex; align-items: center; gap: 4px; margin-top: -2px; margin-bottom: 0;">
-      <i class="${icone}" style="color: red; font-size: 13px; margin-top: -2px;"></i>
+      <i class="${icone}" style="color: orange; font-size: 13px; margin-top: -2px;"></i>
       <strong style="font-size: 12px; margin-top: -2px;">${alerta.nivel}</strong>
     </div>
     <span><b>Máquina:</b> ${alerta.maquina} <b>Sala:</b> ${alerta.sala}</span>
@@ -321,17 +321,6 @@ card.innerHTML = `
     <span><b>CPU no momento:</b> ${alerta.cpu !== undefined ? alerta.cpu + '%' : '—'}</span>
   </div>
 `;
-
-
-
-
-
-
-
-
-
-
-
 
       container.appendChild(card);
     });
