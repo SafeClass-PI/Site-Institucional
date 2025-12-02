@@ -191,10 +191,13 @@ function previsionar() {
 
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                    const horarioDigitado = document.querySelector("#kpi-qtd-alertas-hoje input").value;
+                    let horarioDigitado = document.querySelector("#kpi-qtd-alertas-hoje input").value;
 
-                    if (!horarioDigitado.match(/^\d{2}:\d{2}:\d{2}$/)) {
-                        alert("Digite no formato HH:MM:SS");
+                    if (/^\d{2}:\d{2}$/.test(horarioDigitado)) {
+                        horarioDigitado += ":00";
+                    }
+                     else if (!/^\d{2}:\d{2}:\d{2}$/.test(horarioDigitado)) {
+                        alert("Digite no formato HH:MM ou HH:MM:SS");
                         return;
                     }
 

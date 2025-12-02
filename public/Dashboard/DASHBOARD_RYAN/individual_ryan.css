@@ -898,14 +898,16 @@ body {
     border-radius: 10px;
     border: none;
     width: 164px;
-    height: 25px;
+    height: 21px;
     cursor: pointer;
     background-color: #a626a6;
     border: 2.3px solid #920092;
     color: var(--cor-branco);
     text-transform: uppercase;
     transition: 0.2s ease-in-out all;
-    margin-top: 5px;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 #kpi-qtd-alertas-hoje .titulo-kpi button:hover {
@@ -1619,4 +1621,14 @@ body {
 
 #kpiHoraMelhorAcesso {
     margin-top: 6%;
+}
+
+#tituloPrevisao {
+    width: 88%;
+    text-transform: uppercase;
+    height: 10%;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 650;
+    color: #262626;
 }
