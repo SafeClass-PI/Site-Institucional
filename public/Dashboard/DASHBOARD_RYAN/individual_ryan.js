@@ -192,8 +192,7 @@ function previsionar() {
                         return;
                     }
 
-                    const valorPrevisto = preverPing(horarioDigitado, resposta);
-                    valorPrevisto = Math.max(valorPrevisto, 0);
+                    let valorPrevisto = preverPing(horarioDigitado, resposta);
 
                     let estado = "Estável";
                     if (valorPrevisto >= 350) {
@@ -214,32 +213,25 @@ function previsionar() {
 }
 
 function preverPing(horarioDigitado, dados) {
-    const { a, b } = calcularRegressao(dados);
+    const pontos = dados.map(d => [
+        horaParaSegundos(d.horaCaptura),
+        d.medianaPing
+    ]);
+
+    const regressao = regression.polynomial(pontos, { order: 2 });
 
     const xNovo = horaParaSegundos(horarioDigitado);
 
-    return a + b * xNovo;
-}
+    let valorPrevisto = regressao.predict(xNovo)[1];
+    if (valorPrevisto < 0) valorPrevisto = 0;
 
-function calcularRegressao(dados) {
-    const n = dados.length;
+    const maxReal = Math.max(...dados.map(d => d.medianaPing));
+    const minReal = Math.min(...dados.map(d => d.medianaPing));
 
-    let somaX = 0, somaY = 0, somaXY = 0, somaX2 = 0;
+    if (valorPrevisto > maxReal) valorPrevisto = maxReal;
+    if (valorPrevisto < minReal) valorPrevisto = minReal;
 
-    dados.forEach(d => {
-        const x = horaParaSegundos(d.horaCaptura);
-        const y = d.medianaPing;
-
-        somaX += x;
-        somaY += y;
-        somaXY += x * y;
-        somaX2 += x * x;
-    });
-
-    const b = (n * somaXY - somaX * somaY) / (n * somaX2 - somaX * somaX);
-    const a = (somaY - b * somaX) / n;
-
-    return { a, b };
+    return valorPrevisto;
 }
 
 function horaParaSegundos(hora) {

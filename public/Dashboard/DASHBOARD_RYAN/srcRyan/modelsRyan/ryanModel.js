@@ -63,36 +63,38 @@ function kpiHoraMelhorAcesso(idSala) {
 
 function listarMaquinasEstados(idSala) {
     var instrucaoSql = `
-        	SELECT 
-            CONCAT('Máquina ', m.idMaquina) AS identificacao,
-            CONCAT('Ping: ', COALESCE(ca.registro, '100'), 'ms') AS dadoPing,
-            CASE
-                WHEN ca.registro >= 350 THEN 'Instável'
-                WHEN ca.registro >= 250 THEN 'Lento'
-                WHEN ca.registro IS NULL THEN 'Estável'
-                ELSE 'Estável'
-            END AS estadoMaquina
-            FROM maquina m
-            LEFT JOIN componente c
-            ON c.fkMaquina = m.idMaquina 
-            AND c.nome = 'Ping'
-            LEFT JOIN (
-                SELECT fkComponente, registro, dtCaptura
+        SELECT CONCAT('Máquina ', m.idMaquina) AS identificacao, CONCAT('Ping: ', COALESCE(ca.registro, '100'), 'ms') AS dadoPing,
+        CASE
+            WHEN ca.registro >= 350 THEN 'Instável'
+            WHEN ca.registro >= 250 THEN 'Lento'
+            WHEN ca.registro IS NULL THEN 'Estável'
+        ELSE 'Estável'
+        END AS estadoMaquina
+        FROM maquina m
+        LEFT JOIN componente c
+        ON c.fkMaquina = m.idMaquina 
+        AND c.nome = 'Ping'
+        LEFT JOIN (
+            SELECT fkComponente, registro, dtCaptura
+            FROM (
+                SELECT 
+                    fkComponente,
+                    registro,
+                    dtCaptura,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY fkComponente ORDER BY dtCaptura DESC
+                    ) AS rn
                 FROM captura
-                WHERE dtCaptura = (
-                    SELECT MAX(dtCaptura)
-                    FROM captura c2
-                    WHERE c2.fkComponente = captura.fkComponente
-                )
-            ) ca
-            ON ca.fkComponente = c.idComponente
-            WHERE m.fkSala = ${idSala}
-            ORDER BY
-            CASE
-                WHEN ca.registro >= 350 THEN 1
-                WHEN ca.registro >= 250 THEN 2
-                ELSE 3
-            END;
+            ) x
+            WHERE x.rn = 1
+        ) ca ON ca.fkComponente = c.idComponente
+        WHERE m.fkSala = 1
+        ORDER BY
+        CASE
+            WHEN ca.registro >= 350 THEN 1
+            WHEN ca.registro >= 250 THEN 2
+            ELSE 3
+        END;
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
