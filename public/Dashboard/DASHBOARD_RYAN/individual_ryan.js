@@ -32,11 +32,13 @@ function carregarSalas() {
             select.value = "1";
 
             atualizarDashboard();
+            obterDadosGraficoPing(1);
 
             select.onchange = () => {
                 if (select.value) {
                     idSala = select.value;
                     atualizarDashboard();
+                    obterDadosGraficoPing(idSala);
                 }
             };
         })
@@ -51,7 +53,7 @@ function atualizarDashboard() {
     horaMelhorAcesso(idSala);
     graficoSemana(idSala);
     listarMaquinasEstados(idSala);
-    obterDadosGraficoPing(idSala);
+
 }
 
 setInterval(atualizarDashboard, 30000);
@@ -133,6 +135,10 @@ function qtdMaquinasInstaveis(idSala) {
                     icone.className = 'fa-solid fa-circle-check';
                     icone.style.color = '#00AB03'
                 }
+                else {
+                    icone.className = 'fa-solid fa-circle-exclamation';
+                    icone.style.color = '#ea0303';
+                }
 
             });
         } else {
@@ -195,6 +201,7 @@ function previsionar() {
                     let valorPrevisto = preverPing(horarioDigitado, resposta);
 
                     let estado = "Estável";
+
                     if (valorPrevisto >= 350) {
                         estado = "Instável";
                     } else if (valorPrevisto >= 250) {
@@ -213,30 +220,33 @@ function previsionar() {
 }
 
 function preverPing(horarioDigitado, dados) {
-    const pontos = dados.map(d => [
-        horaParaSegundos(d.horaCaptura),
-        d.medianaPing
-    ]);
-
-    const regressao = regression.polynomial(pontos, { order: 2 });
-
+    const { a, b } = calcularRegressao(dados);
     const xNovo = horaParaSegundos(horarioDigitado);
-
-    let valorPrevisto = regressao.predict(xNovo)[1];
-    if (valorPrevisto < 0) valorPrevisto = 0;
-
-    const maxReal = Math.max(...dados.map(d => d.medianaPing));
-    const minReal = Math.min(...dados.map(d => d.medianaPing));
-
-    if (valorPrevisto > maxReal) valorPrevisto = maxReal;
-    if (valorPrevisto < minReal) valorPrevisto = minReal;
-
-    return valorPrevisto;
+    return a + b * xNovo;
 }
 
 function horaParaSegundos(hora) {
     const [h, m, s] = hora.split(":").map(Number);
     return h * 3600 + m * 60 + s;
+}
+
+function calcularRegressao(dados) {
+    const n = dados.length;
+
+    let somaX = 0, somaY = 0, somaXY = 0, somaX2 = 0;
+
+    dados.forEach(d => {
+        const x = horaParaSegundos(d.horaCaptura);
+        const y = d.medianaPing; somaX += x;
+        somaY += y;
+        somaXY += x * y;
+        somaX2 += x * x;
+    });
+
+    const b = (n * somaXY - somaX * somaY) / (n * somaX2 - somaX * somaX);
+    const a = (somaY - b * somaX) / n;
+
+    return { a, b };
 }
 
 function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
@@ -461,15 +471,11 @@ function plotarGraficoSemana(resposta) {
         }
 
         labels.push(registro.diaSemana);
-        dadosValores.push(Number(registro.qtdAcima250)); // força número
+        dadosValores.push(Number(registro.qtdAcima250));
     }
 
     const maxValor = Math.max(...dadosValores);
     const maxIndex = dadosValores.indexOf(maxValor);
-
-    const valoresOrdenados = [...dadosValores].sort((a, b) => b - a);
-    const segundoMaior = valoresOrdenados[1];
-    const segundoIndex = dadosValores.indexOf(segundoMaior);
 
     let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.25)');
     let borderColors = dadosValores.map(() => 'orange');
@@ -515,7 +521,6 @@ function plotarGraficoSemana(resposta) {
         }
     };
 
-    console.log(backgroundColors);
 
     if (chartSemana != null) {
         chartSemana.destroy();
@@ -527,56 +532,50 @@ function plotarGraficoSemana(resposta) {
     );
 }
 
-async function listarMaquinasEstados(idSala) {
-    try {
-        const resposta = await fetch(`/api/ryan/listarMaquinasEstados/${idSala}`, { cache: "no-store" });
-        const maquinas = await resposta.json();
+function listarMaquinasEstados(idSala) {
+    fetch(`/api/ryan/listarMaquinasEstados/${idSala}`, { cache: "no-store" })
+        .then(resposta => resposta.json())
+        .then(maquinas => {
+            const painel = document.getElementById("alertasMaquina");
+            painel.innerHTML = "";
+            console.log(maquinas);
 
-        const painel = document.getElementById("alertasMaquina");
-        painel.innerHTML = "";
+            maquinas.forEach(m => {
+                const estadoClass =
+                    m.estadoMaquina === "Instável" ? "status-instavel" :
+                        m.estadoMaquina === "Lento" ? "status-lento" :
+                            "status-estavel";
 
-        maquinas.forEach(m => {
+                const estadoClass2 =
+                    m.estadoMaquina === "Instável" ? "status-maquina-instavel" :
+                        m.estadoMaquina === "Lento" ? "status-maquina-lento" :
+                            "status-maquina-estavel";
 
-            const estadoClass =
-                m.estadoMaquina === "Instável" ? "status-instavel" :
-                    m.estadoMaquina === "Lento" ? "status-lento" :
-                        "status-estavel";
+                const card = document.createElement("div");
+                card.classList.add("maquina-sala");
 
-            const estadoClass2 =
-                m.estadoMaquina === "Instável" ? "status-maquina-instavel" :
-                    m.estadoMaquina === "Lento" ? "status-maquina-lento" :
-                        "status-maquina-estavel";
-
-            const card = document.createElement("div");
-            card.classList.add("maquina-sala");
-
-            card.innerHTML = `
-                <div class="icone-maquina-sala">
-                    <div class="corpo-icone ${estadoClass}">
-                        <i class="fa-solid fa-laptop"></i>
-                    </div>
-                </div>
-
-                <div class="infos-maquina-sala">
-                    <div class="id-ping-maquina">
-                        <p>${m.identificacao}</p>
-                        <p>${m.dadoPing}</p>
-                    </div>
-
-                    <div class="estado-maquina-sala">
-                        <div class="${estadoClass2}">
-                            <p>${m.estadoMaquina}</p>
+                card.innerHTML = `
+                    <div class="icone-maquina-sala">
+                        <div class="corpo-icone ${estadoClass}">
+                            <i class="fa-solid fa-laptop"></i>
                         </div>
                     </div>
-                </div>
-            `;
-
-            painel.appendChild(card);
-        });
-
-    } catch (erro) {
-        console.error("Erro ao listar máquinas:", erro);
-    }
+                    <div class="infos-maquina-sala">
+                        <div class="id-ping-maquina">
+                            <p>${m.identificacao}</p>
+                            <p>${m.dadoPing}</p>
+                        </div>
+                        <div class="estado-maquina-sala">
+                            <div class="${estadoClass2}">
+                                <p>${m.estadoMaquina}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                painel.appendChild(card);
+            });
+        })
+        .catch(erro => console.error("Erro ao listar máquinas:", erro));
 }
 
 // ---------------------- CAPRICHOS DA PÁGINA ----------------------------------

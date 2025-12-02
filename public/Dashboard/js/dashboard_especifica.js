@@ -512,7 +512,6 @@ function plotarGrafico(resposta) {
 }
 
 function atualizarGrafico(dados, myChart) {
-
     fetch(`/api/dashboard/monitoramentoComponenteTempoReal/${idComponente}/${idMaquinaSelecionada}`, { cache: 'no-store' })
         .then(response => response.json())
         .then(novoRegistro => {
@@ -566,8 +565,8 @@ function plotarGraficoRede(resposta) {
             borderColor: 'orange',
             backgroundColor: 'rgba(255,165,0,0.2)',
             fill: true,
-            tension: 0.4, // suaviza as curvas
-            pointBackgroundColor: 'white', // cor do ponto
+            tension: 0.4, 
+            pointBackgroundColor: 'white',
             pointBorderColor: 'orange',
             pointHoverRadius: 7,
             pointRadius: 5
@@ -631,7 +630,6 @@ function plotarGraficoRede(resposta) {
         }
     };
 
-    // destruir gráfico anterior antes de criar outro
     if (myChartRede != null) myChartRede.destroy();
 
     myChartRede = new Chart(

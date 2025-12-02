@@ -88,7 +88,7 @@ function listarMaquinasEstados(idSala) {
             ) x
             WHERE x.rn = 1
         ) ca ON ca.fkComponente = c.idComponente
-        WHERE m.fkSala = 1
+        WHERE m.fkSala = ${idSala}
         ORDER BY
         CASE
             WHEN ca.registro >= 350 THEN 1
