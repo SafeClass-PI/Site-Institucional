@@ -4,8 +4,8 @@ function buscarTotalAlertasCriticos() {
     var instrucaoSql = `
         SELECT 
             COUNT(*) AS totalCriticos
-        FROM Alerta a
-        JOIN Parametro p 
+        FROM alerta a
+        JOIN parametro p 
             ON a.fkParametro = p.idParametro
         WHERE 
             p.nivel = 'Crítico'
@@ -19,8 +19,8 @@ function buscarTotalAlertasModerados() {
     var instrucaoSql = `
         SELECT 
             COUNT(*) AS totalModerados
-        FROM Alerta a
-        JOIN Parametro p 
+        FROM alerta a
+        JOIN parametro p 
             ON a.fkParametro = p.idParametro
         WHERE 
             p.nivel = 'Atenção'
@@ -35,8 +35,8 @@ function buscarComparacaoAlertas() {
         SELECT
             SUM(CASE WHEN p.nivel = 'Crítico' THEN 1 ELSE 0 END) AS totalCriticos,
             SUM(CASE WHEN p.nivel = 'Atenção' THEN 1 ELSE 0 END) AS totalModerados
-        FROM Alerta a
-        JOIN Parametro p 
+        FROM alerta a
+        JOIN parametro p 
             ON a.fkParametro = p.idParametro
         WHERE
             a.dataHora >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
@@ -51,10 +51,10 @@ function buscarComponenteMaisCritico() {
             comp.idComponente,
             comp.nome AS nomeComponente,
             COUNT(*) AS totalAlertasCriticos
-        FROM Alerta a
-        JOIN Parametro p
+        FROM alerta a
+        JOIN parametro p
             ON a.fkParametro = p.idParametro
-        JOIN Componente comp
+        JOIN componente comp
             ON p.fkComponente = comp.idComponente
         WHERE 
             p.nivel = 'Crítico'
@@ -74,10 +74,10 @@ function buscarMesMaisCritico() {
         SELECT 
             DATE_FORMAT(c.dtCaptura, '%Y-%m') AS mes,
             COUNT(a.idAlerta) AS totalAlertasCriticos
-        FROM Alerta a
-        JOIN Parametro p 
+        FROM alerta a
+        JOIN parametro p 
             ON a.fkParametro = p.idParametro
-        JOIN Captura c
+        JOIN captura c
             ON a.fkCaptura = c.idCaptura
         WHERE 
             p.nivel = 'Crítico'
@@ -96,9 +96,9 @@ function buscarAlertasCriticosMensais() {
     var instrucaoSql = `
         SELECT DATE_FORMAT(c.dtCaptura, '%Y-%m') AS mes,
                COUNT(a.idAlerta) AS total
-        FROM Alerta a
-        JOIN Parametro p ON a.fkParametro = p.idParametro
-        JOIN Captura c ON a.fkCaptura = c.idCaptura
+        FROM alerta a
+        JOIN parametro p ON a.fkParametro = p.idParametro
+        JOIN captura c ON a.fkCaptura = c.idCaptura
         WHERE 
             p.nivel = 'Crítico'
             AND c.dtCaptura >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
@@ -112,9 +112,9 @@ function buscarAlertasModeradosMensais() {
     var instrucaoSql = `
         SELECT DATE_FORMAT(c.dtCaptura, '%Y-%m') AS mes,
                COUNT(a.idAlerta) AS total
-        FROM Alerta a
-        JOIN Parametro p ON a.fkParametro = p.idParametro
-        JOIN Captura c ON a.fkCaptura = c.idCaptura
+        FROM alerta a
+        JOIN parametro p ON a.fkParametro = p.idParametro
+        JOIN captura c ON a.fkCaptura = c.idCaptura
         WHERE 
             p.nivel = 'Atenção'
             AND c.dtCaptura >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
