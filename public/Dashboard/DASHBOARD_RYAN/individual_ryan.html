@@ -18,18 +18,13 @@
     </div>
     <div class="alert-previsao" id="alertaDePrevisao">
         <div class="titulo-alerta">
-            <p>Previsão para <span id="horaPrevisao"></span> </p>
             <button onclick="fecharAlerta()">
-                <i class="fa-solid fa-circle-xmark"></i>
+                <i class="fa-solid fa-circle-xmark" id="fecharAlertaPrevisao"></i>
             </button>
         </div>
         <div class="ping-info">
-            <p>Ping: <span id="pingPrevisao">800ms</span></p>
-        </div>
-        <div class="estado-previsao">
-            <div class="corpo-estado-previsao">
-                <p id="estadoPrevisao">Instável</p>
-            </div>
+            <p id="mensagemPingPrevisao">A conexão provavelmente estará ruim nesse horário.</p>
+            <p id="infoPingPrevisionado">Ping: <span id="pingPrevisao">800ms</span> às <span id="horarioPrevisao">10:00:00</span></p>
         </div>
     </div>
     <div class="dashboard">
@@ -203,12 +198,7 @@
                     <div class="painel-graficos">
                         <div class="monitoramento-componentes">
                             <div class="titulo-monitoramento-dia">
-                                <p>Monitorament da Qualidade da Internet</p>
-                                <div class="cardExplicacaoPing">
-                                    <p>O ping é o tempo que um pacote de dados leva para sair do seu computador, viajar
-                                        até outro computador ou servidor na internet e voltar. Ele é medido em
-                                        milissegundos (ms).</p>
-                                </div>
+                                <p>Monitoramento da Qualidade da Internet</p>
                                 <div class="parametros">
                                     <div class="param">
                                         <div class="quadrado-verde"></div>
@@ -225,7 +215,8 @@
                                     </div>
                                 </div>
 
-                                <i class="fa-solid fa-circle-info" id="explicacaoMetricas"></i>
+                                <i onclick="abrirModalExplicacaoMetricas()" class="fa-solid fa-circle-info"
+                                    id="explicacaoMetricas"></i>
 
                                 <div id="modalExplicacaoMetricas">
                                     <table>
@@ -249,6 +240,14 @@
                                             </td>
                                         </tr>
                                     </table>
+
+                                    <div class="explicacaoPing">
+                                        <p>Ping é o tempo que um pacote de dados leva para ir de um dispositivo até um
+                                            servidor e retornar, medido em milissegundos (ms). Quanto menor o ping, mais
+                                            rápida e responsiva é a conexão.</p>
+                                    </div>
+                                    <i onclick="fecharModalMetricas()" id="fecharModalMetricas"
+                                        class="fa-solid fa-circle-xmark"></i>
                                 </div>
                             </div>
                             <div class="grafico-monitoramento">

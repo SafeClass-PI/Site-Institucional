@@ -1316,13 +1316,13 @@ body {
 }
 
 .alert-previsao {
-    opacity: 0;
+    opacity: 0; 
     pointer-events: none;
     position: absolute;
     top: 17%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
-    width: 20%;
+    width: 25%;
     height: 20%;
     background-color: var(--cor-branco);
     border-radius: 10px;
@@ -1349,36 +1349,34 @@ body {
 
 .titulo-alerta {
     width: 100%;
-    height: 33%;
+    height: 20%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-.titulo-alerta p {
-    width: 100%;
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    margin-left: 67px;
-    color: #262626;
+    justify-content: end;
 }
 
 .titulo-alerta button {
     border: none;
     cursor: pointer;
-    margin-right: 4%;
     background: transparent;
     transition: 0.2s ease-in-out all;
+    margin-right: 3%;
+    margin-top: 3%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 3%;
+    height: 40%;
+    justify-content: center;
+    background-color: white;
 }
 
 .titulo-alerta button:hover {
     transform: scale(1.06);
 }
 
-
 .titulo-alerta button i {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--cor-critico);
 }
 
@@ -1388,10 +1386,21 @@ body {
 
 .ping-info {
     width: 100%;
-    height: 25%;
+    height: 80%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.ping-info p:nth-of-type(1) {
+    font-size: 24px;
+    text-align: center;
+}
+
+.ping-info p:nth-of-type(2) {
+    font-size: 12px;
+    margin-left: 30px;
 }
 
 .estado-previsao {
@@ -1500,13 +1509,14 @@ body {
 #modalExplicacaoMetricas {
     position: absolute;
     top: 51%;
-    left: 70%;
+    left: 50%;
     transform: translate(-50%, -50%);
     width: 23%;
-    height: 25%;
+    height: 40%;
     background-color: var(--cor-branco);
     border-radius: 10px;
     display: none;
+    flex-direction: column;
     padding: 0;
     justify-content: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
@@ -1515,11 +1525,10 @@ body {
 
 #modalExplicacaoMetricas table {
     width: 100%;
-    height: 100%;
+    height: 70%;
     border-collapse: separate;
     border-spacing: 0;
     text-align: center;
-    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -1570,6 +1579,21 @@ body {
     background-color: var(--cor-critico);
     color: var(--cor-branco);
     font-weight: 500;
+}
+
+#modalExplicacaoMetricas .explicacaoPing {
+    border-top: 2px solid rgb(214, 214, 214);
+    height: 30%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.explicacaoPing p {
+    font-size: 12px;
+    margin: 8px;
 }
 
 #tirarModalMetricas {
@@ -1631,4 +1655,19 @@ body {
     text-align: center;
     font-weight: 650;
     color: #262626;
+}
+
+#fecharModalMetricas {
+    position: absolute;
+    color: #ea0303;
+    font-size: 18px;
+    margin-bottom: 71%;
+    margin-left: 90%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out all;
+}
+
+#fecharModalMetricas:hover {
+    transform: scale(1.1);
+    color: #ff1818;
 }

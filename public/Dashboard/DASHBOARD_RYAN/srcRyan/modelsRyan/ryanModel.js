@@ -123,30 +123,30 @@ function obterDadosGraficoPing(idSala) {
             JOIN sala s ON s.idSala = m.fkSala
             WHERE co.nome = 'PING'
             AND s.idSala = ${idSala}
-        )
-        SELECT 
-            idSala,
-            horaCaptura,
-            ROUND(
-                CASE 
-                    WHEN total % 2 = 1 THEN 
-                        (SELECT ping 
-                        FROM dados d2 
-                        WHERE d2.idSala = d1.idSala
-                        AND d2.horaCaptura = d1.horaCaptura
-                        AND d2.rn = (d1.total + 1) / 2)
-                    ELSE 
-                        (SELECT AVG(ping)
-                        FROM dados d2 
-                        WHERE d2.idSala = d1.idSala
-                        AND d2.horaCaptura = d1.horaCaptura
-                        AND d2.rn IN (d1.total / 2, d1.total / 2 + 1))
-                END
-            , 2) AS medianaPing
-        FROM dados d1
-        GROUP BY idSala, horaCaptura
-        ORDER BY MAX(dtCaptura) DESC
-        LIMIT 8;
+            )
+            SELECT 
+                idSala,
+                horaCaptura,
+                ROUND(
+                    CASE 
+                        WHEN total % 2 = 1 THEN 
+                            (SELECT ping 
+                            FROM dados d2 
+                            WHERE d2.idSala = d1.idSala
+                            AND d2.horaCaptura = d1.horaCaptura
+                            AND d2.rn = (d1.total + 1) / 2)
+                        ELSE 
+                            (SELECT AVG(ping)
+                            FROM dados d2 
+                            WHERE d2.idSala = d1.idSala
+                            AND d2.horaCaptura = d1.horaCaptura
+                            AND d2.rn IN (d1.total / 2, d1.total / 2 + 1))
+                    END
+                , 2) AS medianaPing
+            FROM dados d1
+            GROUP BY idSala, horaCaptura
+            ORDER BY MAX(dtCaptura) DESC
+            LIMIT 8;
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

@@ -11,6 +11,7 @@ function carregarInfos() {
             imgPerfil.src = '../imgs/profile-default.webp';
         }
     }
+    dropDownsSideBar();
     carregarSalas();
 }
 
@@ -196,7 +197,7 @@ function previsionar() {
                     if (/^\d{2}:\d{2}$/.test(horarioDigitado)) {
                         horarioDigitado += ":00";
                     }
-                     else if (!/^\d{2}:\d{2}:\d{2}$/.test(horarioDigitado)) {
+                    else if (!/^\d{2}:\d{2}:\d{2}$/.test(horarioDigitado)) {
                         alert("Digite no formato HH:MM ou HH:MM:SS");
                         return;
                     }
@@ -255,21 +256,40 @@ function calcularRegressao(dados) {
 function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
     const alerta = document.getElementById("alertaDePrevisao");
     const pingSpan = document.getElementById("pingPrevisao");
-    const estadoP = document.getElementById("estadoPrevisao");
-    const corpo = document.querySelector(".corpo-estado-previsao");
-    const hora = document.getElementById("horaPrevisao");
+    const horario = document.getElementById("horarioPrevisao");
+    const espacoMensagem = document.getElementById("mensagemPingPrevisao");
+    const botao = document.querySelector(".titulo-alerta button");
 
-    hora.textContent = horarioDigitado;
-    pingSpan.textContent = valorPing.toFixed(2) + "ms";
-    estadoP.textContent = estado;
+    let mensagem = "";
 
     if (estado.toLowerCase() === "instável") {
-        corpo.style.backgroundColor = "#ea0303";
-    } else if (estado.toLowerCase() === "lento") {
-        corpo.style.backgroundColor = "#f5a623";
-    } else {
-        corpo.style.backgroundColor = "#28a745";
+        mensagem = "A conexão provavelmente estará ruim nesse horário.";
+        alertaDePrevisao.style.backgroundColor = "#ea0303"
+        espacoMensagem.style.color = "#ffffff";
+        infoPingPrevisionado.style.color = "#ffffff";
+        fecharAlertaPrevisao.style.color = "white";
+        botao.style.backgroundColor = "red";
     }
+    else if (estado.toLowerCase() === "lento") {
+        mensagem = "A conexão pode apresentar instabilidade nesse horário.";
+        alertaDePrevisao.style.backgroundColor = "#ffd630"
+        espacoMensagem.style.color = "#1a1a1aff";
+        infoPingPrevisionado.style.color = "#1a1a1aff";
+        fecharAlertaPrevisao.style.color = "red";
+        botao.style.backgroundColor = "white";
+    }
+    else {
+        mensagem = "A conexão deve estar boa nesse horário.";
+        alertaDePrevisao.style.backgroundColor = "#00AB03"
+        espacoMensagem.style.color = "#ffffff";
+        infoPingPrevisionado.style.color = "#ffffff";
+        fecharAlertaPrevisao.style.color = "red";
+        botao.style.backgroundColor = "white";
+    }
+
+    horario.textContent = horarioDigitado;
+    pingSpan.textContent = valorPing.toFixed(2) + "ms";
+    espacoMensagem.innerText = mensagem;
 
     alerta.classList.remove("hide");
     alerta.classList.add("show");
@@ -597,21 +617,22 @@ function confirmarSairDaPagina() {
     window.location.href = '../../index.html'
 }
 
-const dropdowns = document.querySelectorAll('.dropdown-container');
+function dropDownsSideBar() {
+    const dropdowns = document.querySelectorAll('.dropdown-container');
 
-dropdowns.forEach(drop => {
-    const btn = drop.querySelector('.dropbtn');
+    dropdowns.forEach(drop => {
+        const btn = drop.querySelector('.dropbtn');
 
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        drop.classList.toggle('active');
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            drop.classList.toggle('active');
+        });
     });
-});
 
-window.addEventListener('click', () => {
-    dropdowns.forEach(drop => drop.classList.remove('active'));
-});
-
+    window.addEventListener('click', () => {
+        dropdowns.forEach(drop => drop.classList.remove('active'));
+    });
+}
 
 function fecharAlerta() {
     const alerta = document.getElementById("alertaDePrevisao");
@@ -643,27 +664,10 @@ function removerCardExplicacao() {
     divExplicarPrevisao.style.display = 'none';
 }
 
-const spanPing = document.getElementById('explicacaoPing');
-const card = document.querySelector('.cardExplicacaoPing');
+function abrirModalExplicacaoMetricas() {
+    modalExplicacaoMetricas.style.display = 'flex';
+}
 
-spanPing.addEventListener('mouseenter', () => {
-    const rect = spanPing.getBoundingClientRect();
-    card.style.display = 'flex';
-});
-
-spanPing.addEventListener('mouseleave', () => {
-    card.style.display = 'none';
-});
-
-
-const duvidaMetrica = document.getElementById('explicacaoMetricas');
-const cardExplicacaoMetrica = document.getElementById('modalExplicacaoMetricas');
-
-duvidaMetrica.addEventListener('mouseenter', () => {
-    const rect = duvidaMetrica.getBoundingClientRect();
-    cardExplicacaoMetrica.style.display = 'flex';
-});
-
-duvidaMetrica.addEventListener('mouseleave', () => {
-    cardExplicacaoMetrica.style.display = 'none';
-});
+function fecharModalMetricas() {
+    modalExplicacaoMetricas.style.display = 'none';
+}
