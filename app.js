@@ -36,7 +36,7 @@ const salaRouter = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/bu
 
 // Isso define que o endpoint completo será: /salas/listar
 var ryanRouter = require("./public/Dashboard/DASHBOARD_REDE/srcRyan/routesRyan/ryan");
-var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
+var biaRouter = require("./public/Dashboard/DASHBOARD_ACESSOS/srcBeatriz/routesBeatriz/bia");
 var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
 var joaoRouter = require("./public/Dashboard/DASHBOARD_JOAO/srcJoao/routesJoao/rotasJoao");
 
