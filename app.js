@@ -21,8 +21,8 @@ var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
 var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/cpuMaxRoutes");
-const RelatorioController = require('./public/Dashboard_CPU/DASHBOARD_CPU/srcCPU/conTrollersCPU/relatorioController');
-const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_/srcCPU/routesCPU/salaRoutes');
+const RelatorioController = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/controllersCPU/relatorioController');
+const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/salaRoutes');
 const maquinaRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/maquinaRoutes');
 const rankingRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/rankingRoutes');
 
