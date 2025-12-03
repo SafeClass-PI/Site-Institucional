@@ -16,7 +16,7 @@ function carregarInfos() {
 }
 
 
-function carregarSalas() {
+function carregarSalas() { // Carrega todas as salas da escola, usuário escolhe conforme escolha
     fetch("/api/ryan/carregarSalas")
         .then(res => res.json())
         .then(salas => {
@@ -46,7 +46,7 @@ function carregarSalas() {
         .catch(erro => console.error("Erro ao carregar salas:", erro));
 }
 
-function atualizarDashboard() {
+function atualizarDashboard() { // Função para atualizar as informações a ca 30 segundos 
     if (!idSala) return;
 
     estadoDaRedeAtual(idSala);
@@ -76,13 +76,13 @@ function estadoDaRedeAtual(idSala) {
                     return;
                 }
 
-                const valores = resposta.map(item => item.registro).sort((a, b) => a - b);
-                const meio = Math.floor(valores.length / 2);
+                const valores = resposta.map(item => item.registro).sort((a, b) => a - b); // Cria um novo array com os registros ordenados de forma crescente
+                const meio = Math.floor(valores.length / 2); // Cálculo o indice central do array, arredondando para baixo (5,2 -> 5) 
                 let mediana;
 
-                if (valores.length % 2 === 1) {
+                if (valores.length % 2 === 1) { // Se a mediana é impar -> valor do meio
                     mediana = valores[meio];
-                } else {
+                } else { // Se é par -> média dos dois valores centrais
                     mediana = (valores[meio - 1] + valores[meio]) / 2;
                 }
 
@@ -122,7 +122,7 @@ function qtdMaquinasInstaveis(idSala) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                if (!resposta || resposta.length === 0) {
+                if (!resposta || resposta.length === 0) { // Caso não haja dados
                     kpiQtdMaquinasInstaveis.innerText = "Sem dado";
                 }
 
@@ -132,6 +132,7 @@ function qtdMaquinasInstaveis(idSala) {
 
                 var icone = document.querySelector('#iconeQtdMaquinasInstaveis i');
 
+                // Muda o icone (i class) conforme o resultado, criticidade.
                 if (resposta[0].maquinasInstaveis == 0) {
                     icone.className = 'fa-solid fa-circle-check';
                     icone.style.color = '#00AB03'
@@ -194,10 +195,9 @@ function previsionar() {
 
                     let horarioDigitado = document.querySelector("#kpi-qtd-alertas-hoje input").value;
 
-                    if (/^\d{2}:\d{2}$/.test(horarioDigitado)) {
-                        horarioDigitado += ":00";
+                    if (/^\d{2}:\d{2}$/.test(horarioDigitado)) { // Acrescento um default caso o usuário não digite os segundos                       horarioDigitado += ":00";
                     }
-                    else if (!/^\d{2}:\d{2}:\d{2}$/.test(horarioDigitado)) {
+                    else if (!/^\d{2}:\d{2}:\d{2}$/.test(horarioDigitado)) { // Verifico se o valor bate com o formato timestamp
                         alert("Digite no formato HH:MM ou HH:MM:SS");
                         return;
                     }
@@ -224,23 +224,29 @@ function previsionar() {
 }
 
 function preverPing(horarioDigitado, dados) {
-    const { a, b } = calcularRegressao(dados);
-    const xNovo = horaParaSegundos(horarioDigitado);
-    return a + b * xNovo;
+    const { a, b } = calcularRegressao(dados); // Cálculo do intercepto e do coeficiente angular
+    const xNovo = horaParaSegundos(horarioDigitado); // Transformo o horário digita em segundos
+    const valorPrevisto = a + b * xNovo; // Equação da regressão 
+
+    if (valorPrevisto < 0) { // Não traz valores negativo, já é estável.
+        return 0;
+    } else {
+        return valorPrevisto;
+    }
 }
 
 function horaParaSegundos(hora) {
-    const [h, m, s] = hora.split(":").map(Number);
-    return h * 3600 + m * 60 + s;
+    const [h, m, s] = hora.split(":").map(Number); // Divide a hora e converte para number
+    return h * 3600 + m * 60 + s; // Multiplicamos com os devidos segundos
 }
 
-function calcularRegressao(dados) {
+function calcularRegressao(dados) { // Fórmula da regressão
     const n = dados.length;
 
     let somaX = 0, somaY = 0, somaXY = 0, somaX2 = 0;
 
     dados.forEach(d => {
-        const x = horaParaSegundos(d.horaCaptura);
+        const x = horaParaSegundos(d.horaCaptura); // Retorno o timestamp do banco para segundos para facilitar o cálculo 
         const y = d.medianaPing; somaX += x;
         somaY += y;
         somaXY += x * y;
@@ -250,7 +256,7 @@ function calcularRegressao(dados) {
     const b = (n * somaXY - somaX * somaY) / (n * somaX2 - somaX * somaX);
     const a = (somaY - b * somaX) / n;
 
-    return { a, b };
+    return { a, b }; // Manda para a funcao preverPing()
 }
 
 function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
@@ -291,6 +297,7 @@ function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
     pingSpan.textContent = valorPing.toFixed(2) + "ms";
     espacoMensagem.innerText = mensagem;
 
+    // Plota animação
     alerta.classList.remove("hide");
     alerta.classList.add("show");
 }
@@ -477,7 +484,7 @@ function plotarGraficoSemana(resposta) {
     for (let i = 0; i < resposta.length; i++) {
         let registro = resposta[i];
 
-        if (registro.diaSemana == "2") {
+        if (registro.diaSemana == "2") {  // Retorno o dia da semana conforme o número
             registro.diaSemana = "Segunda"
         }
         else if (registro.diaSemana == "3") {
@@ -493,16 +500,17 @@ function plotarGraficoSemana(resposta) {
             registro.diaSemana = "Sexta"
         }
 
-        labels.push(registro.diaSemana);
-        dadosValores.push(Number(registro.qtdAcima250));
+        labels.push(registro.diaSemana); // Trago o "nome do dia" para o gráfico
+        dadosValores.push(Number(registro.qtdAcima250)); // Trago a qtd em formato númérico no gráfico de barras
     }
 
-    const maxValor = Math.max(...dadosValores);
-    const maxIndex = dadosValores.indexOf(maxValor);
+    const maxValor = Math.max(...dadosValores); // Spread (espalha os valores) e retorna o maior valor do array
+    const maxIndex = dadosValores.indexOf(maxValor); // Retorna o indice do maior valor capturado
 
-    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.25)');
-    let borderColors = dadosValores.map(() => 'orange');
+    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.25)'); // Retorna um array, com
+    //  o mesmo tamanho dos dadosValores, com a cor de background dos gráficos.
 
+    let borderColors = dadosValores.map(() => 'orange'); // 
 
     if (maxIndex !== -1) {
         backgroundColors[maxIndex] = '#eb0000c9';
@@ -564,15 +572,26 @@ function listarMaquinasEstados(idSala) {
             console.log(maquinas);
 
             maquinas.forEach(m => {
-                const estadoClass =
-                    m.estadoMaquina === "Instável" ? "status-instavel" :
-                        m.estadoMaquina === "Lento" ? "status-lento" :
-                            "status-estavel";
 
-                const estadoClass2 =
-                    m.estadoMaquina === "Instável" ? "status-maquina-instavel" :
-                        m.estadoMaquina === "Lento" ? "status-maquina-lento" :
-                            "status-maquina-estavel";
+                let estadoClass = null; // Retorno a estilização do icone "computer" para cada caso de estado
+
+                if (m.estadoMaquina === "Instável") {
+                    estadoClass = "status-instavel";
+                } else if (m.estadoMaquina === "Lento") {
+                    estadoClass = "status-lento";
+                } else {
+                    estadoClass = "status-estavel";
+                }
+
+                let estadoClass2 = null; // Retorno a estilização da div "estado" para cada caso de estado
+
+                if (m.estadoMaquina === "Instável") {
+                    estadoClass2 = "status-maquina-instavel";
+                } else if (m.estadoMaquina === "Lento") {
+                    estadoClass2 = "status-maquina-lento";
+                } else {
+                    estadoClass2 = "status-maquina-estavel";
+                }
 
                 const card = document.createElement("div");
                 card.classList.add("maquina-sala");

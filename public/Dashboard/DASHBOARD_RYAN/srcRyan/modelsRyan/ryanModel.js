@@ -26,15 +26,15 @@ function kpiStatusRede(idSala) {
 
 function kpiQtdMaquinasInstaveis(idSala) {
     var instrucaoSql = `
-        	SELECT (
-            SELECT COUNT(DISTINCT co.fkMaquina)
-            FROM captura ca
-            JOIN componente co ON co.idComponente = ca.fkComponente
-            JOIN maquina AS m
-            ON m.idMaquina = co.fkMaquina
-            WHERE m.fkSala = ${idSala} AND co.nome = 'Ping' AND ca.registro >= 350 AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND) AS maquinasInstaveis, 
-            (SELECT COUNT(idMaquina) FROM maquina
-            WHERE fkSala = ${idSala}) AS totalMaquinas; 
+        SELECT (
+        SELECT COUNT(DISTINCT co.fkMaquina)
+        FROM captura ca
+        JOIN componente co ON co.idComponente = ca.fkComponente
+        JOIN maquina AS m
+        ON m.idMaquina = co.fkMaquina
+        WHERE m.fkSala = ${idSala} AND co.nome = 'Ping' AND ca.registro >= 350 AND ca.dtCaptura >= NOW() - INTERVAL 30 SECOND) AS maquinasInstaveis, 
+        (SELECT COUNT(idMaquina) FROM maquina
+        WHERE fkSala = ${idSala}) AS totalMaquinas; 	
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -43,18 +43,18 @@ function kpiQtdMaquinasInstaveis(idSala) {
 
 function kpiHoraMelhorAcesso(idSala) {
     var instrucaoSql = `
-        	SELECT CONCAT(HOUR(c.dtCaptura), ':00') AS horaRecomendada, COUNT(*) AS capturasPositivas
-            FROM captura c
-            JOIN componente comp 
-            ON comp.idComponente = c.fkComponente
-            JOIN maquina m
-            ON m.idMaquina = comp.fkMaquina
-            WHERE m.fkSala = ${idSala} AND comp.nome = 'Ping'
-            AND c.registro < 250
-            AND c.dtCaptura >= NOW() - INTERVAL 7 DAY
-            GROUP BY horaRecomendada
-            ORDER BY capturasPositivas DESC
-            LIMIT 1;
+        SELECT CONCAT(HOUR(c.dtCaptura), ':00') AS horaRecomendada, COUNT(*) AS capturasPositivas
+        FROM captura c
+        JOIN componente comp 
+        ON comp.idComponente = c.fkComponente
+        JOIN maquina m
+        ON m.idMaquina = comp.fkMaquina
+        WHERE m.fkSala = ${idSala} AND comp.nome = 'Ping'
+        AND c.registro < 250
+        AND c.dtCaptura >= NOW() - INTERVAL 7 DAY
+        GROUP BY horaRecomendada
+        ORDER BY capturasPositivas DESC
+        LIMIT 1;
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -104,45 +104,44 @@ function listarMaquinasEstados(idSala) {
 
 function obterDadosGraficoPing(idSala) {
     var instrucaoSql = `
-        	WITH dados AS (
-            SELECT
-                s.idSala,
-                ca.dtCaptura,
-                TIME(ca.dtCaptura) AS horaCaptura,
-                ca.registro AS ping,
-                ROW_NUMBER() OVER (
-                    PARTITION BY s.idSala, TIME(ca.dtCaptura)
-                    ORDER BY ca.registro
-                ) AS rn,
-                COUNT(*) OVER (
-                    PARTITION BY s.idSala, TIME(ca.dtCaptura)
-                ) AS total
-            FROM captura ca
-            JOIN componente co ON co.idcomponente = ca.fkcomponente
-            JOIN maquina m ON m.idMaquina = co.fkMaquina
-            JOIN sala s ON s.idSala = m.fkSala
-            WHERE co.nome = 'PING'
-            AND s.idSala = ${idSala}
-            )
-            SELECT 
-                idSala,
-                horaCaptura,
-                ROUND(
-                    CASE 
-                        WHEN total % 2 = 1 THEN 
-                            (SELECT ping 
-                            FROM dados d2 
-                            WHERE d2.idSala = d1.idSala
-                            AND d2.horaCaptura = d1.horaCaptura
-                            AND d2.rn = (d1.total + 1) / 2)
-                        ELSE 
-                            (SELECT AVG(ping)
-                            FROM dados d2 
-                            WHERE d2.idSala = d1.idSala
-                            AND d2.horaCaptura = d1.horaCaptura
-                            AND d2.rn IN (d1.total / 2, d1.total / 2 + 1))
-                    END
-                , 2) AS medianaPing
+        WITH dados AS (
+        SELECT
+            s.idSala,
+            ca.dtCaptura,
+            TIME(ca.dtCaptura) AS horaCaptura,
+            ca.registro AS ping,
+            ROW_NUMBER() OVER (
+                PARTITION BY s.idSala, TIME(ca.dtCaptura)
+                ORDER BY ca.registro
+            ) AS rn,
+            COUNT(*) OVER (
+                PARTITION BY s.idSala, TIME(ca.dtCaptura)
+            ) AS total
+        FROM captura ca
+        JOIN componente co ON co.idcomponente = ca.fkcomponente
+        JOIN maquina m ON m.idMaquina = co.fkMaquina
+        JOIN sala s ON s.idSala = m.fkSala
+        WHERE co.nome = 'PING'
+        AND s.idSala = ${idSala}
+        )
+        SELECT 
+            idSala,
+            horaCaptura,
+            ROUND(
+                CASE 
+                    WHEN total % 2 = 1 THEN 
+                        (SELECT ping 
+                        FROM dados d2 
+                        WHERE d2.idSala = d1.idSala
+                        AND d2.horaCaptura = d1.horaCaptura
+                        AND d2.rn = (d1.total + 1) / 2)
+                    ELSE 
+                        (SELECT AVG(ping)
+                        FROM dados d2 
+                        WHERE d2.idSala = d1.idSala
+                        AND d2.horaCaptura = d1.horaCaptura
+                        AND d2.rn IN (d1.total / 2, d1.total / 2 + 1))
+                END, 2) AS medianaPing
             FROM dados d1
             GROUP BY idSala, horaCaptura
             ORDER BY MAX(dtCaptura) DESC
@@ -156,19 +155,19 @@ function obterDadosGraficoPing(idSala) {
 
 function obterDadosGraficoPingUltimo(idSala) {
     var instrucaoSql = `
-        	WITH dados AS (
-            SELECT
-                s.idSala,
-                ca.dtCaptura,
-                TIME(ca.dtCaptura) AS horaCaptura,
-                ca.registro AS ping,
-                ROW_NUMBER() OVER (
-                    PARTITION BY s.idSala, TIME(ca.dtCaptura)
-                    ORDER BY ca.registro
-                ) AS rn,
-                COUNT(*) OVER (
-                    PARTITION BY s.idSala, TIME(ca.dtCaptura)
-                ) AS total
+        WITH dados AS (
+        SELECT
+            s.idSala,
+            ca.dtCaptura,
+            TIME(ca.dtCaptura) AS horaCaptura,
+            ca.registro AS ping,
+            ROW_NUMBER() OVER (
+                PARTITION BY s.idSala, TIME(ca.dtCaptura)
+                ORDER BY ca.registro
+            ) AS rn,
+            COUNT(*) OVER (
+                PARTITION BY s.idSala, TIME(ca.dtCaptura)
+            ) AS total
             FROM captura ca
             JOIN componente co ON co.idcomponente = ca.fkcomponente
             JOIN maquina m ON m.idMaquina = co.fkMaquina
@@ -207,19 +206,19 @@ function obterDadosGraficoPingUltimo(idSala) {
 
 function graficoSemana(idSala) {
     var instrucaoSql = `
-        	SELECT 
-            DAYOFWEEK(ca.dtCaptura) AS diaSemana,
-            SUM(CASE WHEN ca.registro > 250 THEN 1 ELSE 0 END) AS qtdAcima250
-            FROM captura ca
-            JOIN componente co ON co.idcomponente = ca.fkcomponente
-            JOIN maquina m ON m.idMaquina = co.fkMaquina
-            WHERE co.nome LIKE 'Ping'
-            AND m.fkSala = ${idSala}
-            AND ca.dtCaptura >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) 
-            AND ca.dtCaptura < DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)     
-            AND DAYOFWEEK(ca.dtCaptura) BETWEEN 2 AND 6
-            GROUP BY diaSemana
-            ORDER BY diaSemana;
+        SELECT 
+        DAYOFWEEK(ca.dtCaptura) AS diaSemana,
+        SUM(CASE WHEN ca.registro > 250 THEN 1 ELSE 0 END) AS qtdAcima250
+        FROM captura ca
+        JOIN componente co ON co.idcomponente = ca.fkcomponente
+        JOIN maquina m ON m.idMaquina = co.fkMaquina
+        WHERE co.nome LIKE 'Ping'
+        AND m.fkSala = ${idSala}
+        AND ca.dtCaptura >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) 
+        AND ca.dtCaptura < DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)     
+        AND DAYOFWEEK(ca.dtCaptura) BETWEEN 2 AND 6
+        GROUP BY diaSemana
+        ORDER BY diaSemana;
      `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
