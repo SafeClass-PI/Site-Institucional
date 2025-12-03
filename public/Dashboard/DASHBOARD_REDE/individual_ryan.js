@@ -195,7 +195,8 @@ function previsionar() {
 
                     let horarioDigitado = document.querySelector("#kpi-qtd-alertas-hoje input").value;
 
-                    if (/^\d{2}:\d{2}$/.test(horarioDigitado)) { // Acrescento um default caso o usuário não digite os segundos                       horarioDigitado += ":00";
+                    if (/^\d{2}:\d{2}$/.test(horarioDigitado)) { // Acrescento um default caso o usuário não digite os segundos                     
+                        horarioDigitado += ":00";
                     }
                     else if (!/^\d{2}:\d{2}:\d{2}$/.test(horarioDigitado)) { // Verifico se o valor bate com o formato timestamp
                         alert("Digite no formato HH:MM ou HH:MM:SS");
