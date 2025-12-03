@@ -1,5 +1,5 @@
 
-const cpuMaxModel = require("../modelsFelipe/cpuMaxModels");
+const cpuMaxModel = require("../modelsCPU/cpuMaxModels");
 
 function getMaquinaCritica(req, res) {
     const idSala = req.params.idSala; 

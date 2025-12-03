@@ -1,4 +1,4 @@
-const database = require('../databasesFelipe/config'); 
+const database = require('../databasesCPU/config'); 
 const MaquinaModel = require('./maquinaModel');
 
 async function obterTotalAlertasCPU(idSala) {

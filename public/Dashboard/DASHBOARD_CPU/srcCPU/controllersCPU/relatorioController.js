@@ -1,4 +1,4 @@
-const SalaModel = require('../modelsFelipe/salaModel');
+const SalaModel = require('../modelsCPU/salaModel');
 const IaService = require('../services/IaService');
 const PdfService = require('../services/PdfService');
 

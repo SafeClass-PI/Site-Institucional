@@ -1,4 +1,4 @@
-const db = require('../databasesFelipe/config');
+const db = require('../databasesCPU/config');
 
 module.exports = {
   async getCapturasCpu(maquinaId, salaId) {

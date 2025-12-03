@@ -1,4 +1,4 @@
-const MaquinaModel = require('../modelsFelipe/maquinaModel');
+const MaquinaModel = require('../modelsCPU/maquinaModel');
 
 async function filtrarPorSala(req, res) {
   const { salaId } = req.query;

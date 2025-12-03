@@ -1,5 +1,5 @@
 
-const database = require('../databasesFelipe/config'); 
+const database = require('../databasesCPU/config'); 
 
 function listar() {
     console.log("Executando instrução SQL: listar salas");

@@ -1,4 +1,4 @@
-const rankingModel = require('../modelsFelipe/rankingModel');
+const rankingModel = require('../modelsCPU/rankingModel');
 
 async function listarRanking(req, res) {
   const { salaId } = req.query;

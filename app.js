@@ -20,15 +20,15 @@ var dashboardRouter = require("./src/routes/dashboard");
 var salaRoutes = require("./src/routes/salas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
-var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/cpuMaxRoutes");
-const RelatorioController = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/controllersFelipe/relatorioController');
-const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/salaRoutes');
-const maquinaRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/maquinaRoutes');
-const rankingRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/rankingRoutes');
+var cpuMaxRoutes = require(".//public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/cpuMaxRoutes");
+const RelatorioController = require('./public/Dashboard_CPU/DASHBOARD_CPU/srcCPU/conTrollersCPU/relatorioController');
+const salaFelipeRoutes = require('./public/Dashboard/DASHBOARD_/srcCPU/routesCPU/salaRoutes');
+const maquinaRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/maquinaRoutes');
+const rankingRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/rankingRoutes');
 
 // rota de alertas do Felipe
-const alertasFelipeRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/alertasRoutes');
-const cpuUsoRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/cpuUsoRoutes')
+const alertasFelipeRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/alertasRoutes');
+const cpuUsoRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/cpuUsoRoutes')
 
 
 
@@ -36,7 +36,7 @@ const cpuUsoRoutes = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/rout
 
 // Exemplo no app.js/index.js
 
-const salaRouter = require('./public/Dashboard/DASHBOARD_FELIPE/srcFelipe/routesFelipe/buscarSala');
+const salaRouter = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/buscarSala');
 
 
 

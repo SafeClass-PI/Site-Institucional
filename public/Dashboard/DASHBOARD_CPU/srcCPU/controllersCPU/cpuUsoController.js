@@ -1,4 +1,4 @@
-const { getCapturasCpu } = require('../modelsFelipe/cpuUsoModel');
+const { getCapturasCpu } = require('../modelsCPU/cpuUsoModel');
 
 async function listarCapturasCpu(req, res) {
   const { maquinaId, salaId } = req.query;

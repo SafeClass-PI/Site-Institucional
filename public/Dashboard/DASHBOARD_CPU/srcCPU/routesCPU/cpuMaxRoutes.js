@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const cpuMaxController = require("../controllersFelipe/cpuMaxController");
+const cpuMaxController = require("../controllersCPU/cpuMaxController");
 
 
 router.get("/maquina-critica/:idSala", cpuMaxController.getMaquinaCritica);

@@ -1,4 +1,4 @@
-const db = require('../databasesFelipe/config');
+const db = require('../databasesCPU/config');
 
 async function buscarRankingPorSala(salaId) {
   try {

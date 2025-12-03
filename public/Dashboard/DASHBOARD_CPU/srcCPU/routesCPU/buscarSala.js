@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const salaController = require('../controllersFelipe/buscarSalaController');
+const salaController = require('../controllersCPU/buscarSalaController');
 
 
 router.get('/listar', salaController.listar);

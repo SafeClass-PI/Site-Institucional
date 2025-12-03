@@ -1,5 +1,5 @@
 
-const salaModel = require('../modelsFelipe/buscarSalaModels');
+const salaModel = require('../modelsCPU/buscarSalaModels');
 
 function listar(req, res) {
     

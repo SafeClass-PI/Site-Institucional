@@ -1,5 +1,5 @@
 
-const database = require('../databasesFelipe/config');
+const database = require('../databasesCPU/config');
 
 function buscarMaquinaCriticaPorSala(idSala) {
     console.log("Executando instrução SQL para máquina crítica na Sala ID:", idSala);

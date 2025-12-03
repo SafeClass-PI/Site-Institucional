@@ -1,4 +1,4 @@
-const database = require('../databasesFelipe/config');
+const database = require('../databasesCPU/config');
 
 async function buscarMaquinasPorSala(idSala) {
   const instrucao = `

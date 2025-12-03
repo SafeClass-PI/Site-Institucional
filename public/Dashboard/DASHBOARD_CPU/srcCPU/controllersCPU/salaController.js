@@ -1,4 +1,4 @@
-const SalaModel = require('../modelsFelipe/salaModel');
+const SalaModel = require('../modelsCPU/salaModel');
 
 async function getMedianaCPU(req, res) {
   try {
