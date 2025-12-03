@@ -1,217 +1,220 @@
-async function fetchJSON(url) {
-  const res = await fetch(url, { cache: 'no-store' });
-  if (!res.ok) throw new Error('Falha na API');
-  return res.json();
+// Configurações e Constantes Globais
+const CORES = {
+    verde: 'rgba(34, 197, 94, 0.8)',
+    verdeBorda: 'rgba(22, 163, 74, 1)',
+    vermelho: 'rgba(239, 68, 68, 0.8)',
+    vermelhoBorda: 'rgba(220, 38, 38, 1)',
+    laranja: 'rgba(255, 122, 0, 0.8)',
+    laranjaBorda: 'rgba(211, 84, 0, 1)',
+    azul: 'rgba(75, 192, 192, 0.8)',
+    azulBorda: 'rgba(75, 192, 192, 1)',
+    vermelhoAlerta: 'rgba(255, 0, 0, 0.8)',
+    vermelhoAlertaBorda: 'rgba(255, 0, 0, 1)'
+};
+
+const MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+// Funções Utilitárias
+async function buscarDados(url) {
+    try {
+        const resposta = await fetch(url, { cache: 'no-store' });
+        if (!resposta.ok) throw new Error('Erro na requisição');
+        return await resposta.json();
+    } catch (erro) {
+        console.error(`Erro ao buscar ${url}:`, erro);
+        return null;
+    }
 }
 
+function formatarLabelsMeses(dados, chaveMes = 'mes') {
+    return dados.map(dado => {
+        const mesNumero = parseInt(dado[chaveMes].split('-')[1]);
+        return MESES[mesNumero - 1];
+    });
+}
+
+// Funções de Carregamento de Dados
 async function carregarKpis() {
-  try {
-    const kpis = await fetchJSON('/api/matheus/kpisSemestrais');
-    const uptime = kpis.uptime || 0;
-    document.getElementById('kpi-uptime').textContent = `${uptime}%`;
-    document.getElementById('kpi-sala').textContent = kpis.salaMaisAlertas || '—';
-    document.getElementById('kpi-alertas').textContent = kpis.totalAlertas || 0;
-  } catch (e) {}
+    const dados = await buscarDados('/api/matheus/kpisSemestrais');
+    if (!dados) return;
+
+    document.getElementById('kpi-uptime').textContent = `${dados.uptime || 0}%`;
+    document.getElementById('kpi-sala').textContent = dados.salaMaisAlertas || '—';
+    document.getElementById('kpi-alertas').textContent = dados.totalAlertas || 0;
 }
 
-function mesesLabel(items, campo) {
-  return items.map(i => i[campo]).map(m => {
-    const [y, mo] = m.split('-');
-    const nomes = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-    return nomes[parseInt(mo,10)-1];
-  });
-}
+async function carregarGraficoUptime() {
+    const dados = await buscarDados('/api/matheus/uptimeDowntimeSemestral');
+    if (!dados) return;
 
-async function graficoUptime() {
-  try {
-    const dados = await fetchJSON('/api/matheus/uptimeDowntimeSemestral');
-    const labels = mesesLabel(dados, 'mes');
+    const labels = formatarLabelsMeses(dados);
     const uptime = dados.map(d => d.uptime);
     const downtime = dados.map(d => d.downtime);
-    const ctx = document.getElementById('chart-uptime').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: 'Uptime',
-            data: uptime,
-            backgroundColor: 'rgba(34, 197, 94, 0.8)',
-            borderColor: 'rgba(22, 163, 74, 1)',
-            borderWidth: 1,
-            borderRadius: 6,
-            stack: 'stack'
-          },
-          {
-            label: 'Downtime',
-            data: downtime,
-            backgroundColor: 'rgba(239, 68, 68, 0.8)',
-            borderColor: 'rgba(220, 38, 38, 1)',
-            borderWidth: 1,
-            borderRadius: 6,
-            stack: 'stack'
-          }
-        ]
-      },
-      options: {
-        scales:
-        { y:
-          {
-            beginAtZero: true,
-            max: 100,
-            stacked: true
-          },
-          x:
-          {
-            stacked: true
-          }
-        }
-      }
-    });
-  } catch (e) {}
-}
 
-async function graficoAlertasMes() {
-  try {
-    const dados = await fetchJSON('/api/matheus/alertasPorMesSemestral');
-    const labels = mesesLabel(dados, 'mes');
-    const valores = dados.map(d => d.qtdAlertas);
-    const max = Math.max(0, ...valores);
-    const suggestedMax = max < 10 ? 10 : Math.ceil(max / 10) * 10;
-    const ctx = document.getElementById('chart-alertas').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Alertas',
-          data: valores,
-          backgroundColor: 'rgba(255, 122, 0, 0.8)',
-          borderColor: 'rgba(211, 84, 0, 1)',
-          borderWidth: 1,
-          borderRadius: 6,
-          maxBarThickness: 36
-        }
-      ]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          suggestedMax,
-          ticks: { stepSize: 1, callback: v => v, color: '#383838' },
-          grid: { color: 'rgba(0,0,0,0.06)' }
+    new Chart(document.getElementById('chart-uptime'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Uptime',
+                    data: uptime,
+                    backgroundColor: CORES.verde,
+                    borderColor: CORES.verdeBorda,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    stack: 'total'
+                },
+                {
+                    label: 'Downtime',
+                    data: downtime,
+                    backgroundColor: CORES.vermelho,
+                    borderColor: CORES.vermelhoBorda,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    stack: 'total'
+                }
+            ]
         },
-        x: {
-          ticks: { color: '#6b7280' },
-          grid: { display: false }
+        options: {
+            scales: {
+                y: { beginAtZero: true, max: 100, stacked: true },
+                x: { stacked: true }
+            }
         }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${Math.round(c.parsed.y)}` } }
-      }
-    }
-  });
-  } catch (e) {}
+    });
 }
 
-async function graficoSalasMaisAlertas() {
-  try {
-    const dados = await fetchJSON('/api/matheus/salasMaisAlertasSemestral');
+async function carregarGraficoAlertas() {
+    const dados = await buscarDados('/api/matheus/alertasPorMesSemestral');
+    if (!dados) return;
+
+    const labels = formatarLabelsMeses(dados);
+    const valores = dados.map(d => d.qtdAlertas);
+    const maiorValor = Math.max(0, ...valores);
+
+    // Destaque em vermelho para o mês com mais alertas
+    const coresFundo = valores.map(v => v === maiorValor ? CORES.vermelhoAlerta : CORES.laranja);
+    const coresBorda = valores.map(v => v === maiorValor ? CORES.vermelhoAlertaBorda : CORES.laranjaBorda);
+
+    new Chart(document.getElementById('chart-alertas'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Alertas',
+                data: valores,
+                backgroundColor: coresFundo,
+                borderColor: coresBorda,
+                borderWidth: 1,
+                borderRadius: 6,
+                maxBarThickness: 36
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' } },
+                x: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+
+async function carregarGraficoSalas() {
+    const dados = await buscarDados('/api/matheus/salasMaisAlertasSemestral');
+    if (!dados) return;
+
     const labels = dados.map(d => d.sala);
     const valores = dados.map(d => d.qtdAlertas);
-    const max = Math.max(0, ...valores);
-    const suggestedMax = max < 10 ? 10 : Math.ceil(max / 10) * 10;
-    const ctx = document.getElementById('chart-salas').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Alertas',
-          data: valores,
-          backgroundColor: 'rgba(75, 192, 192, 0.8)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-          borderRadius: 6,
-          barThickness: 52,
-          maxBarThickness: 72,
-          categoryPercentage: 0.95,
-          barPercentage: 1.0
-        }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          beginAtZero: true,
-          suggestedMax,
-          ticks: { stepSize: 1, callback: v => v, color: '#383838' },
-          grid: { color: 'rgba(0,0,0,0.06)' }
+
+    new Chart(document.getElementById('chart-salas'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Alertas',
+                data: valores,
+                backgroundColor: CORES.azul,
+                borderColor: CORES.azulBorda,
+                borderWidth: 1,
+                borderRadius: 6,
+                barThickness: 52,
+                maxBarThickness: 72
+            }]
         },
-        y: {
-          ticks: { autoSkip: false, color: '#6b7280' },
-          grid: { display: false }
+        options: {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            scales: {
+                x: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' } },
+                y: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } }
         }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${Math.round(c.parsed.x)}` } }
-      }
-    }
-  });
-  } catch (e) {}
-}
-
-(async function init() {
-  await carregarKpis();
-  await graficoUptime();
-  await graficoAlertasMes();
-  await graficoSalasMaisAlertas();
-})();
-(function uiBase() {
-  const dropdowns = document.querySelectorAll('.dropdown-container');
-  dropdowns.forEach(drop => {
-    const btn = drop.querySelector('.dropbtn');
-    btn && btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      drop.classList.toggle('active');
     });
-  });
-  window.addEventListener('click', () => {
-    dropdowns.forEach(drop => drop.classList.remove('active'));
-  });
-})();
-
-function carregarInfos() {
-  var usuario = document.getElementById('nome-usuario-pagina');
-  if (usuario) usuario.innerText = sessionStorage.NOME_USUARIO;
-  var imgPerfil = document.getElementById('imgPerfil');
-  if (imgPerfil) {
-    if (sessionStorage.IMAGEM_USUARIO && sessionStorage.IMAGEM_USUARIO.trim() !== "") {
-      imgPerfil.src = `/uploads/${sessionStorage.IMAGEM_USUARIO}`;
-    } else {
-      imgPerfil.src = '../imgs/profile-default.webp';
-    }
-  }
 }
+
+// Funções de Interface (UI)
+function configurarDropdowns() {
+    const dropdowns = document.querySelectorAll('.dropdown-container');
+
+    dropdowns.forEach(drop => {
+        const btn = drop.querySelector('.dropbtn');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                drop.classList.toggle('active');
+            });
+        }
+    });
+
+    window.addEventListener('click', () => {
+        dropdowns.forEach(drop => drop.classList.remove('active'));
+    });
+}
+
+function carregarInfoUsuario() {
+    const nomeUsuario = sessionStorage.NOME_USUARIO;
+    const imgUsuario = sessionStorage.IMAGEM_USUARIO;
+
+    const elNome = document.getElementById('nome-usuario-pagina');
+    const elImg = document.getElementById('imgPerfil');
+
+    if (elNome) elNome.innerText = nomeUsuario || 'Usuário';
+
+    if (elImg) {
+        elImg.src = (imgUsuario && imgUsuario.trim())
+            ? `/uploads/${imgUsuario}`
+            : '../imgs/profile-default.webp';
+    }
+}
+
+// Controle do Modal de Logout
+const modalLogout = document.getElementById('modalLogout');
+const overlay = document.getElementById('telaOverlay');
 
 function sairDaPagina() {
-  modalLogout.style.display = 'flex';
-  telaOverlay.style.display = 'block';
+    if (modalLogout) modalLogout.style.display = 'flex';
+    if (overlay) overlay.style.display = 'block';
 }
 
 function cancelarSairDaPagina() {
-  modalLogout.style.display = 'none';
-  telaOverlay.style.display = 'none';
+    if (modalLogout) modalLogout.style.display = 'none';
+    if (overlay) overlay.style.display = 'none';
 }
 
 function confirmarSairDaPagina() {
-  window.location.href = '../index.html'
+    window.location.href = '../index.html';
 }
+
+// Inicialização Principal
+window.onload = async () => {
+    carregarInfoUsuario();
+    configurarDropdowns();
+
+    await carregarKpis();
+    await carregarGraficoUptime();
+    await carregarGraficoAlertas();
+    await carregarGraficoSalas();
+};

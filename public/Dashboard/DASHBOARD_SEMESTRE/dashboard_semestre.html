@@ -1,176 +1,176 @@
 <!DOCTYPE html>
 <html lang="pt">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Análise Semestral</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="matheus.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>Análise Semestral</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="matheus.css">
+    </head>
 
-<body onload="carregarInfos()">
-    <div class="overlay" id="telaOverlay"></div>
-    <div class="dashboard">
-        <div class="side-bar">
-            <div class="logo">
-                <a href="../index.html"><img src="../imgs/logo.png"></a>
-            </div>
-            <div class="links">
-                <a href="../dashboard_geral.html" class="icone-links">
-                    <i class="fa-solid fa-chart-simple"></i>
-                    <p>Painel Geral</p>
-                </a>
-                <div class="icone-links dropdown-container">
-                    <div class="dropbtn">
-                        <i class="fa-solid fa-filter"></i>
-                        <p>Semestre</p>
-                        <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
-                    </div>
-                    <div class="dropdown-content">
-                        <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
-                        <a href="../DASHBOARD_REDE/dashboard_rede.html">Monitoramento Rede</a>
-                        <a href="../DASHBOARD_ACESSOS/dashboard_acessos.html">Acessos Usuários</a>
-                        <a href="../DASHBOARD_ALERTAS/dashboard_alertas.html">Visão Alertas</a>
-                        <a href="../DASHBOARD_CPU/dashboardCPU.html">Desempenho CPU</a>
-                    </div>
+    <body onload="carregarInfos()">
+        <div class="overlay" id="telaOverlay"></div>
+        <div class="dashboard">
+            <div class="side-bar">
+                <div class="logo">
+                    <a href="../index.html"><img src="../imgs/logo.png"></a>
                 </div>
-                <a href="../alertas.html" class="icone-links">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <p>Alertas</p>
-                </a>
-                <a href="../usuarios.html" class="icone-links">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Usuários</p>
-                </a>
-                <a href="../maquinas.html" class="icone-links">
-                    <i class="fa-solid fa-computer"></i>
-                    <p>Máquinas</p>
-                </a>
-                <a href="../perfil.html" class="icone-links">
-                    <i class="fa-solid fa-user"></i>
-                    <p>Perfil</p>
-                </a>
-                <a href="https://safeclasssuporte.atlassian.net/servicedesk/customer/portal/2  " class="icone-links"
-                    target="_blank">
-                    <i class="fa-solid fa-question"></i>
-                    <p>Suporte</p>
-                </a>
-                <button onclick="sairDaPagina()" class="icone-links">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <p>Sair</p>
-                </button>
-                <div class="modal-logout" id="modalLogout">
-                    <div class="icone-logout">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </div>
-                    <div class="mensagem-logout">
-                        <p>Sair da Página</p>
-                        <p>Deseja realmente encerrar sua sessão??</p>
-                    </div>
-                    <div class="btns-logout-modal">
-                        <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
-                            <p>Cancelar</p>
-                        </button>
-                        <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
-                            <p>Sim, sair!</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="perfil-notificacao">
-                <div class="profile-icone">
-                    <a href="../perfil.html">
-                        <div class="profile-img">
-                            <img id="imgPerfil" src="../imgs/profile-default.webp">
-                        </div>
-                        <p id="nome-usuario-pagina"></p>
+                <div class="links">
+                    <a href="../dashboard_geral.html" class="icone-links">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <p>Painel Geral</p>
                     </a>
+                    <div class="icone-links dropdown-container">
+                        <div class="dropbtn">
+                            <i class="fa-solid fa-filter"></i>
+                            <p>Semestre</p>
+                            <i class="fa-solid fa-chevron-down" style="margin-right: 20px;"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="../dashboard_especifica.html">Desempenho Máqs.</a>
+                            <a href="../DASHBOARD_REDE/dashboard_rede.html">Monitoramento Rede</a>
+                            <a href="../DASHBOARD_ACESSOS/dashboard_acessos.html">Acessos Usuários</a>
+                            <a href="../DASHBOARD_ALERTAS/dashboard_alertas.html">Visão Alertas</a>
+                            <a href="../DASHBOARD_CPU/dashboardCPU.html">Desempenho CPU</a>
+                        </div>
+                    </div>
+                    <a href="../alertas.html" class="icone-links">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>Alertas</p>
+                    </a>
+                    <a href="../usuarios.html" class="icone-links">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Usuários</p>
+                    </a>
+                    <a href="../maquinas.html" class="icone-links">
+                        <i class="fa-solid fa-computer"></i>
+                        <p>Máquinas</p>
+                    </a>
+                    <a href="../perfil.html" class="icone-links">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Perfil</p>
+                    </a>
+                    <a href="https://safeclasssuporte.atlassian.net/servicedesk/customer/portal/2  " class="icone-links"
+                        target="_blank">
+                        <i class="fa-solid fa-question"></i>
+                        <p>Suporte</p>
+                    </a>
+                    <button onclick="sairDaPagina()" class="icone-links">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <p>Sair</p>
+                    </button>
+                    <div class="modal-logout" id="modalLogout">
+                        <div class="icone-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </div>
+                        <div class="mensagem-logout">
+                            <p>Sair da Página</p>
+                            <p>Deseja realmente encerrar sua sessão??</p>
+                        </div>
+                        <div class="btns-logout-modal">
+                            <button id="cancelar-logout" onclick="cancelarSairDaPagina()">
+                                <p>Cancelar</p>
+                            </button>
+                            <button id="confirmar-logout" onclick="confirmarSairDaPagina()">
+                                <p>Sim, sair!</p>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="dashboard-content">
-                <div class="titulo-dashboard-geral">
-                    <div class="texto-titulo-nome-empresa">
-                        <p>Escola Joaquim 3°</p>
-                    </div>
-                    <div class="texto-titulo-dashboard-geral">
-                        <p>Desempenho Semestral</p>
-                    </div>
-                </div>
-                <div class="area-kpis">
-                    <div class="kpi" id="kpi-taxa-uptime">
-                        <div class="espaco-icone-kpi">
-                            <div class="icone-kpi">
-                                <i class="fa-solid fa-circle-up" style="color: #0101B8;"></i>
+            <div class="main-content">
+                <div class="perfil-notificacao">
+                    <div class="profile-icone">
+                        <a href="../perfil.html">
+                            <div class="profile-img">
+                                <img id="imgPerfil" src="../imgs/profile-default.webp">
                             </div>
-                        </div>
-                        <div class="infos-kpi">
-                            <div class="dado-kpi">
-                                <p id="kpi-uptime">--%</p>
-                            </div>
-                            <div class="titulo-kpi">
-                                <p>Uptime Semestral</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kpi" id="kpi-sala-mais-alertas">
-                        <div class="espaco-icone-kpi">
-                            <div class="icone-kpi"><i class="fa-solid fa-circle-exclamation"
-                                    style="color: #FFD43B;"></i></div>
-                        </div>
-                        <div class="infos-kpi">
-                            <div class="dado-kpi">
-                                <p id="kpi-sala">--</p>
-                            </div>
-                            <div class="titulo-kpi">
-                                <p>Sala com mais alertas</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kpi" id="kpi-qtd-alertas">
-                        <div class="espaco-icone-kpi">
-                            <div class="icone-kpi">
-                                <i class="fa-solid fa-calendar-days" style="color: #ff822e;"></i>
-                            </div>
-                        </div>
-                        <div class="infos-kpi">
-                            <div class="dado-kpi">
-                                <p id="kpi-alertas">--</p>
-                            </div>
-                            <div class="titulo-kpi">
-                                <p>Alertas no semestre</p>
-                            </div>
-                        </div>
+                            <p id="nome-usuario-pagina"></p>
+                        </a>
                     </div>
                 </div>
-                <div class="conteudo-semestral">
-                    <div class="charts-layout">
-                        <div class="charts-left">
-                            <div class="chart-card">
-                                <p class="titulo-secao">Uptime x Downtime</p>
-                                <canvas id="chart-uptime"></canvas>
+                <div class="dashboard-content">
+                    <div class="titulo-dashboard-geral">
+                        <div class="texto-titulo-nome-empresa">
+                            <p>Escola Joaquim 3°</p>
+                        </div>
+                        <div class="texto-titulo-dashboard-geral">
+                            <p>Desempenho Semestral</p>
+                        </div>
+                    </div>
+                    <div class="area-kpis">
+                        <div class="kpi" id="kpi-taxa-uptime">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi">
+                                    <i class="fa-solid fa-circle-up" style="color: #0101B8;"></i>
+                                </div>
                             </div>
-                            <div class="chart-card">
-                                <p class="titulo-secao">Alertas por mês</p>
-                                <canvas id="chart-alertas"></canvas>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p id="kpi-uptime">--%</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Disponibilidade Semestral</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="chart-card charts-right">
-                            <p class="titulo-secao">Salas com mais alertas</p>
-                            <canvas id="chart-salas"></canvas>
+                        <div class="kpi" id="kpi-sala-mais-alertas">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi"><i class="fa-solid fa-circle-exclamation"
+                                        style="color: #FFD43B;"></i></div>
+                            </div>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p id="kpi-sala">--</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Sala com mais alertas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kpi" id="kpi-qtd-alertas">
+                            <div class="espaco-icone-kpi">
+                                <div class="icone-kpi">
+                                    <i class="fa-solid fa-calendar-days" style="color: #ff822e;"></i>
+                                </div>
+                            </div>
+                            <div class="infos-kpi">
+                                <div class="dado-kpi">
+                                    <p id="kpi-alertas">--</p>
+                                </div>
+                                <div class="titulo-kpi">
+                                    <p>Alertas no semestre</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conteudo-semestral">
+                        <div class="charts-layout">
+                            <div class="charts-left">
+                                <div class="chart-card">
+                                    <p class="titulo-secao">Disponibilidade x Indisponibilidade</p>
+                                    <canvas id="chart-uptime"></canvas>
+                                </div>
+                                <div class="chart-card">
+                                    <p class="titulo-secao">Alertas por mês</p>
+                                    <canvas id="chart-alertas"></canvas>
+                                </div>
+                            </div>
+                            <div class="chart-card charts-right">
+                                <p class="titulo-secao">Salas com mais alertas</p>
+                                <canvas id="chart-salas"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="matheus.js"></script>
-</body>
+        <script src="matheus.js"></script>
+    </body>
 
 </html>
