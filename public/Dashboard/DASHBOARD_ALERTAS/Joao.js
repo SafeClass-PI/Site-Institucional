@@ -46,8 +46,6 @@ function criarOpcoesBase(tituloY) {
             },
             y: {
                 beginAtZero: true,
-                min: 0,
-                max: 8,
                 ticks: {
                     stepSize: 1
                 },
