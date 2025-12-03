@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     criarGraficoPizzaAlertas();
     carregarKpisAlertas();
     carregarKpiMesMaisCritico();
+    dropDownsSideBar();
 });
 
 // PERFIL
@@ -54,8 +55,8 @@ async function criarGraficoAlertasCriticos() {
 
         resultados.forEach(item => {
             const [ano, mes] = item.mes.split("-");
-            const nomesMes = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-            labels.push(`${nomesMes[Number(mes)-1]}/${ano}`);
+            const nomesMes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            labels.push(`${nomesMes[Number(mes) - 1]}/${ano}`);
             dados.push(item.total);
         });
 
@@ -97,8 +98,8 @@ async function criarGraficoAlertasModerados() {
 
         resultados.forEach(item => {
             const [ano, mes] = item.mes.split("-");
-            const nomesMes = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-            labels.push(`${nomesMes[Number(mes)-1]}/${ano}`);
+            const nomesMes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            labels.push(`${nomesMes[Number(mes) - 1]}/${ano}`);
             dados.push(item.total);
         });
 
@@ -171,9 +172,9 @@ async function criarGraficoPizzaAlertas() {
 
 // ============ KPIs ==================
 async function carregarKpisAlertas() {
-    const kpiCriticos  = document.getElementById("kpiAelrtasCriticos");
+    const kpiCriticos = document.getElementById("kpiAelrtasCriticos");
     const kpiModerados = document.getElementById("kpiUptimeMaquinaSala");
-    const kpiCompMais  = document.getElementById("kpiTaxaMaisCriticaMaquina");
+    const kpiCompMais = document.getElementById("kpiTaxaMaisCriticaMaquina");
 
     try {
         const respCriticos = await fetch("/api/joao/alertas/criticos");
@@ -185,7 +186,7 @@ async function carregarKpisAlertas() {
         if (kpiModerados) kpiModerados.textContent = dadosModerados.totalModerados || 0;
 
     } catch {
-        if (kpiCriticos)  kpiCriticos.textContent  = "-";
+        if (kpiCriticos) kpiCriticos.textContent = "-";
         if (kpiModerados) kpiModerados.textContent = "-";
     }
 
@@ -212,12 +213,35 @@ async function carregarKpiMesMaisCritico() {
         }
 
         const [ano, mesNumero] = dados.mes.split("-");
-        const nomesMes = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-        const mesNome = nomesMes[Number(mesNumero)-1] || dados.mes;
+        const nomesMes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+        const mesNome = nomesMes[Number(mesNumero) - 1] || dados.mes;
 
         kpiMesCritico.textContent = `${mesNome}/${ano} (${dados.totalAlertasCriticos || 0} alertas)`;
 
     } catch {
         kpiMesCritico.textContent = "Erro";
     }
+}
+
+function dropDownsSideBar() {
+    const dropdowns = document.querySelectorAll('.dropdown-container');
+
+    dropdowns.forEach(drop => {
+        const btn = drop.querySelector('.dropbtn');
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            drop.classList.toggle('active');
+        });
+    });
+
+    window.addEventListener('click', () => {
+        dropdowns.forEach(drop => drop.classList.remove('active'));
+    });
+}
+
+function fecharAlerta() {
+    const alerta = document.getElementById("alertaDePrevisao");
+    alerta.classList.remove("show");
+    alerta.classList.add("hide");
 }
