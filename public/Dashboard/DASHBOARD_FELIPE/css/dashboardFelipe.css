@@ -1501,7 +1501,7 @@ body {
 
 .alertas-e-falhas {
     width: 24%;
-    height: 99%;
+    height: 102%;
     display: flex;
     flex-direction: column;
     gap: 2%;
@@ -1524,9 +1524,8 @@ body {
     flex-direction: column;
     overflow-y: hidden;
     height: 40rem;
-    margin-top: -50%;
+    margin-top: -43%;
     margin-left: -35px;
-
 }
 
 .titulo-alertas-maquina {
