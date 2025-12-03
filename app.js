@@ -28,20 +28,14 @@ const rankingRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU
 
 // rota de alertas do Felipe
 const alertasFelipeRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/alertasRoutes');
-const cpuUsoRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/cpuUsoRoutes')
-
-
-
-;
+const cpuUsoRoutes = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/cpuUsoRoutes');
 
 // Exemplo no app.js/index.js
-
 const salaRouter = require('./public/Dashboard/DASHBOARD_CPU/srcCPU/routesCPU/buscarSala');
 
 
-
 // Isso define que o endpoint completo será: /salas/listar
-var ryanRouter = require("./public/Dashboard/DASHBOARD_RYAN/srcRyan/routesRyan/ryan");
+var ryanRouter = require("./public/Dashboard/DASHBOARD_REDE/srcRyan/routesRyan/ryan");
 var biaRouter = require("./public/Dashboard/DASHBOARD_BEATRIZ/srcBeatriz/routesBeatriz/bia");
 var matheusRouter = require("./public/Dashboard/DASHBOARD_MATHEUS/srcMatheus/routesMatheus/matheus");
 var joaoRouter = require("./public/Dashboard/DASHBOARD_JOAO/srcJoao/routesJoao/rotasJoao");
