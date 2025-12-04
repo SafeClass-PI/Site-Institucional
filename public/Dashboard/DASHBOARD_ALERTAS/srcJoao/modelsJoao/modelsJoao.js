@@ -2,14 +2,16 @@ var database = require("../../../../../src/databases/config.js");
 
 function buscarTotalAlertasCriticos() {
     var instrucaoSql = `
-        SELECT 
-            COUNT(*) AS totalCriticos
-        FROM alerta a
-        JOIN parametro p 
-            ON a.fkParametro = p.idParametro
-        WHERE 
+            SELECT 
+				COUNT(*) AS totalCriticos
+			FROM alerta a
+			JOIN captura c 
+				ON a.fkCaptura = c.idCaptura
+			JOIN parametro AS p
+			ON p.idParametro = a.fkParametro
+			WHERE 
             p.nivel = 'Crítico'
-            AND a.dataHora >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
+            AND c.dtCaptura >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
     `;
     console.log("Executando buscarTotalAlertasCriticos:\n", instrucaoSql);
     return database.executar(instrucaoSql);
@@ -17,14 +19,16 @@ function buscarTotalAlertasCriticos() {
 
 function buscarTotalAlertasModerados() {
     var instrucaoSql = `
-        SELECT 
-            COUNT(*) AS totalModerados
-        FROM alerta a
-        JOIN parametro p 
-            ON a.fkParametro = p.idParametro
-        WHERE 
+             SELECT 
+				COUNT(*) AS totalModerados
+			FROM alerta a
+			JOIN captura c 
+				ON a.fkCaptura = c.idCaptura
+			JOIN parametro AS p
+			ON p.idParametro = a.fkParametro
+			WHERE 
             p.nivel = 'Atenção'
-            AND a.dataHora >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
+            AND c.dtCaptura >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
     `;
     console.log("Executando buscarTotalAlertasModerados:\n", instrucaoSql);
     return database.executar(instrucaoSql);
@@ -32,14 +36,16 @@ function buscarTotalAlertasModerados() {
 
 function buscarComparacaoAlertas() {
     var instrucaoSql = `
-        SELECT
+       SELECT
             SUM(CASE WHEN p.nivel = 'Crítico' THEN 1 ELSE 0 END) AS totalCriticos,
             SUM(CASE WHEN p.nivel = 'Atenção' THEN 1 ELSE 0 END) AS totalModerados
         FROM alerta a
+        JOIN captura c
+        ON c.idCaptura = a.fkCaptura
         JOIN parametro p 
             ON a.fkParametro = p.idParametro
         WHERE
-            a.dataHora >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
+            c.dtCaptura >= DATE_SUB(NOW(), INTERVAL 6 MONTH);
     `;
     console.log("Executando buscarComparacaoAlertas:\n", instrucaoSql);
     return database.executar(instrucaoSql);
@@ -52,13 +58,15 @@ function buscarComponenteMaisCritico() {
             comp.nome AS nomeComponente,
             COUNT(*) AS totalAlertasCriticos
         FROM alerta a
+        JOIN captura c
+        ON c.idCaptura = a.fkCaptura
         JOIN parametro p
             ON a.fkParametro = p.idParametro
         JOIN componente comp
             ON p.fkComponente = comp.idComponente
         WHERE 
             p.nivel = 'Crítico'
-            AND a.dataHora >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+            AND c.dtCaptura >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
         GROUP BY 
             comp.idComponente, comp.nome
         ORDER BY 
