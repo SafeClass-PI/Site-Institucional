@@ -99,27 +99,227 @@
         flex-direction: column;
         align-items: self-start;
         justify-content: start;
-        height: 90vh;
+        height: 40vh;
     }
 
     .overlay {
-        height: 50%;
+        width: 100%;
+        height: 100%;
         background: linear-gradient(to right,
                 rgb(252, 100, 3) 0%,
                 rgb(252, 100, 3) 0%,
                 rgb(255, 100, 3) 10%,
-                rgb(255, 176, 0) 65%,
-                rgba(255, 102, 0, 0) 100%);
+                rgb(255, 176, 0) 65%);
     }
 
     .overlay .Texto_Home h2 {
         margin: 10px;
-        width: 100%;
+        width: 95%;
+        color: white;
+    }
+
+    .Texto_Home p {
+        margin-left: 13px;
+        font-size: 10px;
         color: white;
     }
 
     .estudante-imagem {
-        width: 30%;
-        height: 30%;
+        display: none;
+    }
+
+    .texto-sobre {
+        text-align: center;
+    }
+
+    #texto-sobre {
+        text-align: start;
+        width: 95.5%;
+        font-size: 13px;
+        margin: 10px;
+    }
+
+    #texto-sobre br {
+        display: none;
+    }
+
+    .imagem-sobre {
+        width: 95%;
+        height: 5%;
+    }
+
+    .imagem-quadrado-sobre {
+        width: 100%;
+        height: 100%;
+    }
+
+    .imagem-solucao {
+        display: none;
+    }
+
+    .texto-solucao {
+        margin: 5px;
+    }
+
+    .lista-solucao {
+        margin-top: 10px;
+    }
+
+    .lista-solucao li::marker {
+        color: rgb(252, 100, 3);
+        font-size: 20px;
+    }
+
+    .evitar-titulo {
+        width: 97%;
+    }
+
+    #nome-safe-evitar,
+    #nome-class-evitar,
+    #nome2-safe-evitar {
+        font-size: 23px;
+        margin: 5px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+    }
+
+    .card img {
+        width: 100%;
+        height: 75%;
+    }
+
+    .card p {
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .icon-box {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .texto-quem-e {
+        margin-top: 20px;
+    }
+
+    .titulo-quem {
+        text-align: center;
+    }
+
+    .titulo-quem br {
+        display: none;
+    }
+
+    .texto-quem-e p {
+        margin: 12px;
+    }
+
+    .imagem-quadrado-valores {
+        display: none;
+    }
+
+    .imagem-valores {
+        display: none;
+    }
+
+    .texto-valores {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .valores-bloco p {
+        font-size: 12px;
+        text-align: start;
+    }
+
+    .equipe {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .titulo-equipe {
+        width: 100%;
+        height: 20%;
+        font-size: 22px;
+        font-weight: 650;
+    }
+
+    .retangulo-equipe {
+        margin-top: 15px;
+        width: 100%;
+        height: 80%;
+        text-align: center;
+        display: flex;
+    }
+
+    .card-equipe {
+        width: 500px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.174);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10%;
+    }
+
+    .card-equipe:nth-of-type(5) {
+        margin-left: 90px;
+    }
+
+    .info-equipe h3 {
+        font-size: 11px;
+    }
+
+    #modalFeedback {
+        display: none;
+    }
+
+    .texto-ajuda-titulo h1 {
+        font-size: 25px;
+    }
+
+    .texto-ajuda-contato {
+        font-size: 11px;
+        text-align: start;
+        margin-left: 30px;
+        margin-top: 30px;
+    }
+
+    .formulario-ajuda {
+        padding: 20px;
+    }
+
+    .botao-ajuda button {
+        border-radius: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .footer-final {
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(90deg, rgb(252, 100, 3), rgb(255, 221, 0));
+        gap: 10px;
+        font-size: 15px;
+        color: white;
+    }
+
+    #nome-safe-direitos, #nome-class-direitos {
+        display: none;
     }
 }
