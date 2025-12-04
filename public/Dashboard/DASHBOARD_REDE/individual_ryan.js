@@ -29,7 +29,7 @@ function carregarSalas() { // Carrega todas as salas da escola, usuário escolhe
                 `;
             });
 
-            idSala = "1";
+            idSala = "1"; // Deixo um padrão quando o usuário acessa a página
             select.value = "1";
 
             atualizarDashboard();
@@ -46,7 +46,7 @@ function carregarSalas() { // Carrega todas as salas da escola, usuário escolhe
         .catch(erro => console.error("Erro ao carregar salas:", erro));
 }
 
-function atualizarDashboard() { // Função para atualizar as informações a ca 30 segundos 
+function atualizarDashboard() { // Função para atualizar as informações a cada 30 segundos 
     if (!idSala) return;
 
     estadoDaRedeAtual(idSala);
@@ -80,9 +80,9 @@ function estadoDaRedeAtual(idSala) {
                 const meio = Math.floor(valores.length / 2); // Cálculo o indice central do array, arredondando para baixo (5,2 -> 5) 
                 let mediana;
 
-                if (valores.length % 2 === 1) { // Se a mediana é impar -> valor do meio
+                if (valores.length % 2 === 1) { // Se a mediana é impar iremos achar o valor do meio
                     mediana = valores[meio];
-                } else { // Se é par -> média dos dois valores centrais
+                } else { // Se é par irá ser calculado a média dos dois valores centrais
                     mediana = (valores[meio - 1] + valores[meio]) / 2;
                 }
 
@@ -203,7 +203,7 @@ function previsionar() {
                         return;
                     }
 
-                    let valorPrevisto = preverPing(horarioDigitado, resposta);
+                    let valorPrevisto = preverPing(horarioDigitado, resposta); // Chamo a função criada para prever
 
                     let estado = "Estável";
 
@@ -229,9 +229,12 @@ function preverPing(horarioDigitado, dados) {
     const xNovo = horaParaSegundos(horarioDigitado); // Transformo o horário digita em segundos
     const valorPrevisto = a + b * xNovo; // Equação da regressão 
 
-    if (valorPrevisto < 0) { // Não traz valores negativo, já é estável.
+    if (valorPrevisto < 0) { // Não traz valores negativo, pois já é estável.
         return 0;
-    } else {
+    } else if (valorPrevisto > 450) { // Estabeleço um limite caso o cálculo entregue um valor muito alto
+        return 450;
+    } 
+    else {
         return valorPrevisto;
     }
 }
@@ -244,11 +247,15 @@ function horaParaSegundos(hora) {
 function calcularRegressao(dados) { // Fórmula da regressão
     const n = dados.length;
 
-    let somaX = 0, somaY = 0, somaXY = 0, somaX2 = 0;
+    let somaX = 0 
+    let somaY = 0
+    let somaXY = 0
+    let somaX2 = 0;
 
     dados.forEach(d => {
         const x = horaParaSegundos(d.horaCaptura); // Retorno o timestamp do banco para segundos para facilitar o cálculo 
-        const y = d.medianaPing; somaX += x;
+        const y = d.medianaPing; 
+        somaX += x;
         somaY += y;
         somaXY += x * y;
         somaX2 += x * x;
@@ -257,7 +264,7 @@ function calcularRegressao(dados) { // Fórmula da regressão
     const b = (n * somaXY - somaX * somaY) / (n * somaX2 - somaX * somaX);
     const a = (somaY - b * somaX) / n;
 
-    return { a, b }; // Manda para a funcao preverPing()
+    return {a, b}; // Manda para a funcao preverPing()
 }
 
 function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
@@ -269,7 +276,7 @@ function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
 
     let mensagem = "";
 
-    if (estado.toLowerCase() === "instável") {
+    if (estado.toLowerCase() === "instável") { // Estilizo o alerta de previsão com base a resposta
         mensagem = "A conexão provavelmente estará ruim nesse horário.";
         alertaDePrevisao.style.backgroundColor = "#ea0303"
         espacoMensagem.style.color = "#ffffff";
@@ -298,7 +305,7 @@ function mostrarAlertaPrevisao(valorPing, estado, horarioDigitado) {
     pingSpan.textContent = valorPing.toFixed(2) + "ms";
     espacoMensagem.innerText = mensagem;
 
-    // Plota animação
+    // Ploto a animação que criei, usando as classes do css
     alerta.classList.remove("hide");
     alerta.classList.add("show");
 }
@@ -435,7 +442,7 @@ function plotarGraficoMonitoramentoPing(resposta) {
     proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 30000);
 }
 
-function atualizarGrafico(dados, myChart) {
+function atualizarGrafico(dados, myChart) { // Função do Web Data Viz para atualizar o gráfico
     if (proximaAtualizacao) clearTimeout(proximaAtualizacao);
     fetch(`/api/ryan/obterDadosGraficoPingUltimo/${idSala}`, { cache: 'no-store' })
         .then(response => response.json())
@@ -508,12 +515,12 @@ function plotarGraficoSemana(resposta) {
     const maxValor = Math.max(...dadosValores); // Spread (espalha os valores) e retorna o maior valor do array
     const maxIndex = dadosValores.indexOf(maxValor); // Retorna o indice do maior valor capturado
 
-    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.25)'); // Retorna um array, com
-    //  o mesmo tamanho dos dadosValores, com a cor de background dos gráficos.
+    let backgroundColors = dadosValores.map(() => 'rgba(255,165,0,0.25)'); // Crio um array com
+    //  o length de dadosValores, com a cor que será de background para as barras do gráfico.
 
-    let borderColors = dadosValores.map(() => 'orange'); // 
+    let borderColors = dadosValores.map(() => 'orange'); // O mesmo mas para a borda
 
-    if (maxIndex !== -1) {
+    if (maxIndex !== -1) { // Se o maior valor existir...
         backgroundColors[maxIndex] = '#eb0000c9';
         borderColors[maxIndex] = '#ea0303';
     }
@@ -523,7 +530,7 @@ function plotarGraficoSemana(resposta) {
         datasets: [{
             label: 'Qtd de Instabilidade',
             data: dadosValores,
-            backgroundColor: backgroundColors,
+            backgroundColor: backgroundColors, // Atribuo as estilizações
             borderColor: borderColors,
             borderWidth: 3,
             borderRadius: 7
